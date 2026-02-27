@@ -71,6 +71,18 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Search: Exact Match & Advanced Filters</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added "Exact match" checkbox: requires words to appear precisely as typed and in order (e.g., "Rabbi Abba" will no longer match "R' Ḥiyya bar Abba")</li>
+                <li>Added "Advanced filters" panel with two inputs: "Exclude if preceded by" and "Exclude if followed by" — removes results where another phrase appears before or after your search term in the passage</li>
+                <li>Type filter (All / Talmud / Bible) is now persisted in the URL as <code>?type=talmud</code> or <code>?type=bible</code></li>
+                <li>All search options are URL-addressable: <code>?exact=true</code>, <code>?exclude_before=</code>, <code>?exclude_after=</code> — shareable links preserve all active filters</li>
+                <li>Advanced filters panel auto-expands when the URL contains exclude parameters</li>
+                <li>Results header shows an "exact" badge when exact match is active, and a count of how many results were filtered by context on the current page</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Search Autosuggest Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed autosuggest dropdown appearing on search results pages when opened via URL (e.g., /search?q=rabbinic)</li>
