@@ -1294,7 +1294,7 @@ When answering questions:
   // Text Search endpoint - uses Sefaria ElasticSearch API
   app.get("/api/search/text", async (req, res) => {
     try {
-      const { query, page, pageSize, type } = textSearchRequestSchema.parse(req.query);
+      const { query, page, pageSize, type, exact } = textSearchRequestSchema.parse(req.query);
       
       // Request extra results to account for deduplication (Hebrew/English duplicates)
       const fetchSize = pageSize * 2;
@@ -1322,7 +1322,7 @@ When answering questions:
               match_phrase: {
                 exact: {
                   query: query,
-                  slop: 3
+                  slop: exact ? 0 : 3
                 }
               }
             },
@@ -1368,7 +1368,7 @@ When answering questions:
         ]
       };
 
-      console.log(`Searching Sefaria for: "${query}" (type: ${type}, page ${page}, size ${pageSize})`);
+      console.log(`Searching Sefaria for: "${query}" (type: ${type}, exact: ${exact}, page ${page}, size ${pageSize})`);
       
       const response = await fetch("https://www.sefaria.org/api/search/text/_search", {
         method: "POST",
