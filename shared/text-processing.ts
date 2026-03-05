@@ -76,8 +76,8 @@ const MISHNA_MARKER_PATTERN = /מתני['׳](?!\w)/g;
 const GEMARA_MARKER_PATTERN = /גמ['׳](?!\w)/g;
 const GEMARA_ALT_MARKER_PATTERN = /גמר['׳](?!\w)/g;
 const IRONY_PUNCT_PATTERN = /\?\!/g;
-const QUESTION_NOT_EXCLAIM_PATTERN = /\?(?!\!)/g;
-const EXCLAIM_NOT_QUESTION_PATTERN = /(?<!\?)\!/g;
+const QUESTION_NOT_EXCLAIM_PATTERN = /\?(?![\!״])/g;
+const EXCLAIM_NOT_QUESTION_PATTERN = /(?<!\?)\!(?!״)/g;
 
 // English processing patterns
 const RABBI_VOCATIVE_PATTERN = /\bRabbi,/g;
