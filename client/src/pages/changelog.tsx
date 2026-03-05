@@ -71,6 +71,15 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Section & Verse Navigation</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added a "Jump to section:" / "Jump to verse:" row of numbered buttons at the top of every Talmud and Bible page — click any number to scroll directly to that section or verse</li>
+                <li>Added a copy-link icon next to each section and verse header — clicking it copies a direct URL (e.g., <code>/talmud/berakhot/2a#section-5</code>) to the clipboard, with a brief "Copied!" confirmation</li>
+                <li>Vertical dividers now separate the copy icon, Sefaria link, and Al HaTorah link in each section/verse header for visual clarity</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Improved Social Sharing Previews (WhatsApp, etc.)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Page-specific titles and descriptions now appear correctly when sharing links in WhatsApp, iMessage, and other messaging apps — previously all pages showed the same generic homepage preview</li>
