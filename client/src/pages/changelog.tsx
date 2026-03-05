@@ -63,6 +63,23 @@ export default function Changelog() {
       {/* Changelog Content */}
       <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6 max-w-4xl">
         
+        {/* March 2026 */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+            March 2026
+          </h2>
+
+          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">GitHub Repo & Structured Data Updates</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Updated footer GitHub link to reflect renamed repository (<code>EzraBrand/chavrutai</code>)</li>
+                <li>Updated Organization schema markup <code>sameAs</code> to include the GitHub repository and ezrabrand.com</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* February 2026 */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
