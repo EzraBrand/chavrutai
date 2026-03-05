@@ -448,6 +448,20 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                     <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
                       section {index + 1}
                     </span>
+                    <button
+                      onClick={() => copySectionUrl(index + 1)}
+                      className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
+                      title={`Copy link to section ${index + 1}`}
+                    >
+                      {copiedSection === index + 1 ? (
+                        <>
+                          <Check className="w-3 h-3 text-green-500" />
+                          <span className="text-green-500 text-xs">Copied!</span>
+                        </>
+                      ) : (
+                        <LinkIcon className="w-3 h-3" />
+                      )}
+                    </button>
                     <a 
                       href={sefariaUrl}
                       target="_blank"
@@ -470,20 +484,6 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                       Al HaTorah
                       <ExternalLinkIcon className="w-3 h-3" />
                     </a>
-                    <button
-                      onClick={() => copySectionUrl(index + 1)}
-                      className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
-                      title={`Copy link to section ${index + 1}`}
-                    >
-                      {copiedSection === index + 1 ? (
-                        <>
-                          <Check className="w-3 h-3 text-green-500" />
-                          <span className="text-green-500 text-xs">Copied!</span>
-                        </>
-                      ) : (
-                        <LinkIcon className="w-3 h-3" />
-                      )}
-                    </button>
                   </div>
                 );
               })()}

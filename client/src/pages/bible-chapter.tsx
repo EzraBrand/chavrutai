@@ -216,6 +216,21 @@ export default function BibleChapterPage() {
         {/* Bible Text */}
         {text && !isLoading && (
           <div className="space-y-6">
+            {/* Verse numeral links */}
+            {text.verses && text.verses.length > 1 && (
+              <div className="flex flex-wrap gap-1.5 justify-center py-2">
+                {text.verses.map((verse) => (
+                  <a
+                    key={verse.verseNumber}
+                    href={`#verse-${verse.verseNumber}`}
+                    className="inline-flex items-center justify-center w-7 h-7 rounded text-xs font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
+                    title={`Go to verse ${verse.verseNumber}`}
+                  >
+                    {verse.verseNumber}
+                  </a>
+                ))}
+              </div>
+            )}
             <BibleTextDisplay text={text} />
           </div>
         )}

@@ -290,20 +290,6 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                     <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
                       verse {verse.verseNumber}
                     </span>
-                    {verseLinks.map((link) => (
-                      <a
-                        key={link.name}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
-                        data-testid={`link-${link.name.toLowerCase().replace(/\s+/g, '-')}-verse-${verse.verseNumber}`}
-                        title={link.description}
-                      >
-                        {link.name}
-                        <ExternalLinkIcon className="w-3 h-3" />
-                      </a>
-                    ))}
                     <button
                       onClick={() => copyVerseUrl(verse.verseNumber)}
                       className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
@@ -318,6 +304,20 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                         <LinkIcon className="w-3 h-3" />
                       )}
                     </button>
+                    {verseLinks.map((link) => (
+                      <a
+                        key={link.name}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
+                        data-testid={`link-${link.name.toLowerCase().replace(/\s+/g, '-')}-verse-${verse.verseNumber}`}
+                        title={link.description}
+                      >
+                        {link.name}
+                        <ExternalLinkIcon className="w-3 h-3" />
+                      </a>
+                    ))}
                   </div>
                 );
               })()}

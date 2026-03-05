@@ -186,6 +186,27 @@ export default function TractateView() {
         {/* Text Content */}
         {text && !isLoading && (
           <div className="space-y-6">
+            {/* Section numeral links */}
+            {(() => {
+              const totalSections = Math.max(
+                (text.hebrewSections || [text.hebrewText]).length,
+                (text.englishSections || [text.englishText]).length
+              );
+              return totalSections > 1 ? (
+                <div className="flex flex-wrap gap-1.5 justify-center py-2">
+                  {Array.from({ length: totalSections }, (_, i) => (
+                    <a
+                      key={i + 1}
+                      href={`#section-${i + 1}`}
+                      className="inline-flex items-center justify-center w-7 h-7 rounded text-xs font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
+                      title={`Go to section ${i + 1}`}
+                    >
+                      {i + 1}
+                    </a>
+                  ))}
+                </div>
+              ) : null;
+            })()}
             <SectionedBilingualDisplay 
               text={text} 
               onSectionVisible={handleSectionVisible}
