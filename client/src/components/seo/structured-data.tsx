@@ -33,7 +33,8 @@ export const structuredDataGenerators = {
     "logo": `${window.location.origin}/favicon-192x192.png`,
     "foundingDate": "2025",
     "sameAs": [
-      "https://www.ezrabrand.com/p/designing-chavrutai-building-a-customized"
+      "https://github.com/EzraBrand/chavrutai",
+      "https://www.ezrabrand.com/"
     ]
   }),
 

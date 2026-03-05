@@ -180,7 +180,7 @@ export function Footer() {
                 Changelog
               </Link>
               <a 
-                href="https://github.com/EzraBrand/replit-chavrutai-2"
+                href="https://github.com/EzraBrand/chavrutai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1"
