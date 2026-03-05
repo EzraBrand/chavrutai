@@ -31,6 +31,16 @@ const tractateListSchema = z.object({
   work: z.string()
 });
 
+// Escape special HTML characters so they are safe inside attribute values
+function escapeHtmlAttr(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 // Generate SEO meta tags based on URL route
 function generateServerSideMetaTags(url: string): { title: string; description: string; ogTitle: string; ogDescription: string; canonical: string; robots: string } {
   const baseUrl = process.env.NODE_ENV === 'production' ? 'https://chavrutai.com' : 'http://localhost:5000';
@@ -190,6 +200,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     const urlObj = new URL(url, baseUrl);
     const query = urlObj.searchParams.get('q') || '';
     const type = urlObj.searchParams.get('type') || '';
+    const safeQuery = escapeHtmlAttr(query);
 
     let title: string;
     let description: string;
@@ -197,11 +208,11 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     let ogDescription: string;
 
     if (query) {
-      const typeLabel = type === 'bible' ? 'Bible' : type === 'talmud' ? 'Talmud' : 'Talmud & Bible';
-      title = `Search results for "${query}" in ${typeLabel} | ChavrutAI`;
-      ogTitle = `Search: "${query}" – ${typeLabel} | ChavrutAI`;
-      description = `Search results for "${query}" in the ${typeLabel}. Find passages, explore Hebrew and English text, and study with ChavrutAI.`;
-      ogDescription = `Search results for "${query}" in the ${typeLabel} on ChavrutAI.`;
+      const typeLabel = type === 'bible' ? 'Bible' : type === 'talmud' ? 'Talmud' : 'Talmud &amp; Bible';
+      title = `Search results for &quot;${safeQuery}&quot; in ${typeLabel} | ChavrutAI`;
+      ogTitle = `Search: &quot;${safeQuery}&quot; \u2013 ${typeLabel} | ChavrutAI`;
+      description = `Search results for &quot;${safeQuery}&quot; in the ${typeLabel}. Find passages, explore Hebrew and English text, and study with ChavrutAI.`;
+      ogDescription = `Search results for &quot;${safeQuery}&quot; in the ${typeLabel} on ChavrutAI.`;
     } else {
       title = "Search the Talmud & Bible – Hebrew & English | ChavrutAI";
       ogTitle = "Search Talmud & Bible | ChavrutAI";
