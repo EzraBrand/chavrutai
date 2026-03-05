@@ -71,6 +71,15 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Improved Social Sharing Previews (WhatsApp, etc.)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Page-specific titles and descriptions now appear correctly when sharing links in WhatsApp, iMessage, and other messaging apps — previously all pages showed the same generic homepage preview</li>
+                <li>Search page now shows "Search the Talmud & Bible" as the preview title; when sharing a search with a query (e.g., <code>/search?q=Asa&type=talmud</code>), the preview reflects the specific search term and content type</li>
+                <li>All major footer pages now have proper previews: Sitemap, Contact, Changelog, Dictionary, Blog Posts, Bible-Talmud Index, Bible, Sugya Viewer, and Mishnah-Talmud Mapping</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">GitHub Repo & Structured Data Updates</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Updated footer GitHub link to reflect renamed repository (<code>EzraBrand/chavrutai</code>)</li>
