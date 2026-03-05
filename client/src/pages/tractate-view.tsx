@@ -193,6 +193,8 @@ export default function TractateView() {
                 (text.englishSections || [text.englishText]).length
               );
               return totalSections > 1 ? (
+                <>
+                <p className="text-center text-xs text-muted-foreground mb-1">Jump to section:</p>
                 <div className="flex flex-wrap gap-2 justify-center py-3">
                   {Array.from({ length: totalSections }, (_, i) => (
                     <a
@@ -205,6 +207,7 @@ export default function TractateView() {
                     </a>
                   ))}
                 </div>
+                </>
               ) : null;
             })()}
             <SectionedBilingualDisplay 

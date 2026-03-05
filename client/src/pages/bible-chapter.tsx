@@ -218,6 +218,8 @@ export default function BibleChapterPage() {
           <div className="space-y-6">
             {/* Verse numeral links */}
             {text.verses && text.verses.length > 1 && (
+              <>
+              <p className="text-center text-xs text-muted-foreground mb-1">Jump to verse:</p>
               <div className="flex flex-wrap gap-2 justify-center py-3">
                 {text.verses.map((verse) => (
                   <a
@@ -230,6 +232,7 @@ export default function BibleChapterPage() {
                   </a>
                 ))}
               </div>
+              </>
             )}
             <BibleTextDisplay text={text} />
           </div>
