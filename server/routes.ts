@@ -87,9 +87,9 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     };
   } else if (url === '/dictionary') {
     seoData = {
-      title: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic | ChavrutAI",
+      title: "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic | ChavrutAI",
       description: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.",
-      ogTitle: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic",
+      ogTitle: "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic",
       ogDescription: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic with modernized presentation and enhanced readability.",
       canonical: `${baseUrl}/dictionary`,
       robots: "index, follow"
