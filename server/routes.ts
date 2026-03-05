@@ -103,6 +103,24 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/bible`,
       robots: "index, follow"
     };
+  } else if (url === '/sugya-viewer') {
+    seoData = {
+      title: "Sugya Viewer - Custom Talmud Range | ChavrutAI",
+      description: "Read any continuous passage (sugya) across the Babylonian Talmud by selecting a custom range of folios. Ideal for in-depth study of extended discussions.",
+      ogTitle: "Sugya Viewer - Custom Talmud Range | ChavrutAI",
+      ogDescription: "Read any continuous Talmud passage by selecting a custom range of folios on ChavrutAI.",
+      canonical: `${baseUrl}/sugya-viewer`,
+      robots: "index, follow"
+    };
+  } else if (url === '/mishnah-map') {
+    seoData = {
+      title: "Mishnah-Talmud Mapping | ChavrutAI",
+      description: "Explore the relationship between Mishnah sections and their corresponding Talmudic discussions. Navigate from any Mishnah passage directly to the Gemara that analyzes it.",
+      ogTitle: "Mishnah-Talmud Mapping | ChavrutAI",
+      ogDescription: "Navigate from any Mishnah passage directly to the Gemara that analyzes it on ChavrutAI.",
+      canonical: `${baseUrl}/mishnah-map`,
+      robots: "index, follow"
+    };
   } else if (url === '/sitemap') {
     seoData = {
       title: "Site Map - ChavrutAI Talmud Navigation Guide",
@@ -398,6 +416,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/suggested-pages', servePageWithMeta);
   app.get('/privacy', servePageWithMeta);
   app.get('/search', servePageWithMeta);
+  app.get('/sitemap', servePageWithMeta);
+  app.get('/contact', servePageWithMeta);
+  app.get('/changelog', servePageWithMeta);
+  app.get('/dictionary', servePageWithMeta);
+  app.get('/blog-posts', servePageWithMeta);
+  app.get('/biblical-index', servePageWithMeta);
+  app.get('/bible', servePageWithMeta);
+  app.get('/sugya-viewer', servePageWithMeta);
+  app.get('/mishnah-map', servePageWithMeta);
   app.get('/talmud/:tractate', servePageWithMeta);
   app.get('/talmud/:tractate/:folio', servePageWithMeta);
   
