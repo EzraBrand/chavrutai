@@ -462,6 +462,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                         <LinkIcon className="w-3 h-3" />
                       )}
                     </button>
+                    <span className="w-px h-4 bg-border" />
                     <a 
                       href={sefariaUrl}
                       target="_blank"
@@ -473,6 +474,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                       Sefaria
                       <ExternalLinkIcon className="w-3 h-3" />
                     </a>
+                    <span className="w-px h-4 bg-border" />
                     <a 
                       href={alHaTorahUrl}
                       target="_blank"

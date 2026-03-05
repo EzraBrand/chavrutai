@@ -305,18 +305,20 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                       )}
                     </button>
                     {verseLinks.map((link) => (
-                      <a
-                        key={link.name}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
-                        data-testid={`link-${link.name.toLowerCase().replace(/\s+/g, '-')}-verse-${verse.verseNumber}`}
-                        title={link.description}
-                      >
-                        {link.name}
-                        <ExternalLinkIcon className="w-3 h-3" />
-                      </a>
+                      <span key={link.name} className="contents">
+                        <span className="w-px h-4 bg-border" />
+                        <a
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
+                          data-testid={`link-${link.name.toLowerCase().replace(/\s+/g, '-')}-verse-${verse.verseNumber}`}
+                          title={link.description}
+                        >
+                          {link.name}
+                          <ExternalLinkIcon className="w-3 h-3" />
+                        </a>
+                      </span>
                     ))}
                   </div>
                 );
