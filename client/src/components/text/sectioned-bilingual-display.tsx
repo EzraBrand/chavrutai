@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useCallback, useState, useTransition } from "react";
-import { ExternalLink as ExternalLinkIcon } from "lucide-react";
+import { ExternalLink as ExternalLinkIcon, Link as LinkIcon, Check } from "lucide-react";
 import { formatEnglishText, processHebrewText, processEnglishText } from "@/lib/text-processing";
 import { usePreferences } from "@/context/preferences-context";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
@@ -41,8 +41,17 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     return new TextHighlighter(gazetteerData);
   }, [gazetteerData, enabledCategories]);
 
+  const [copiedSection, setCopiedSection] = useState<number | null>(null);
   const [, startTransition] = useTransition();
   const [deferredCategories, setDeferredCategories] = useState<HighlightCategory[]>([]);
+
+  const copySectionUrl = (sectionNumber: number) => {
+    const url = `${window.location.origin}${window.location.pathname}#section-${sectionNumber}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedSection(sectionNumber);
+      setTimeout(() => setCopiedSection(null), 2000);
+    });
+  };
 
   useEffect(() => {
     if (enabledCategories.length === 0) {
@@ -461,6 +470,20 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                       Al HaTorah
                       <ExternalLinkIcon className="w-3 h-3" />
                     </a>
+                    <button
+                      onClick={() => copySectionUrl(index + 1)}
+                      className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
+                      title={`Copy link to section ${index + 1}`}
+                    >
+                      {copiedSection === index + 1 ? (
+                        <>
+                          <Check className="w-3 h-3 text-green-500" />
+                          <span className="text-green-500 text-xs">Copied!</span>
+                        </>
+                      ) : (
+                        <LinkIcon className="w-3 h-3" />
+                      )}
+                    </button>
                   </div>
                 );
               })()}

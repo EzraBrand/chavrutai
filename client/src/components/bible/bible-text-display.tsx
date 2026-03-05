@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { ExternalLink as ExternalLinkIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ExternalLink as ExternalLinkIcon, Link as LinkIcon, Check } from "lucide-react";
 import { usePreferences } from "@/context/preferences-context";
 import { processBibleHebrewText, processBibleEnglishText, formatEnglishText } from "@/lib/text-processing";
 import { getBibleVerseLinks, type BibleReference } from "@/lib/bible-external-links";
@@ -11,6 +11,15 @@ interface BibleTextDisplayProps {
 
 export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
   const { preferences } = usePreferences();
+  const [copiedVerse, setCopiedVerse] = useState<number | null>(null);
+
+  const copyVerseUrl = (verseNumber: number) => {
+    const url = `${window.location.origin}${window.location.pathname}#verse-${verseNumber}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedVerse(verseNumber);
+      setTimeout(() => setCopiedVerse(null), 2000);
+    });
+  };
 
   // Get font classes based on selected fonts
   const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
@@ -295,6 +304,20 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                         <ExternalLinkIcon className="w-3 h-3" />
                       </a>
                     ))}
+                    <button
+                      onClick={() => copyVerseUrl(verse.verseNumber)}
+                      className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
+                      title={`Copy link to verse ${verse.verseNumber}`}
+                    >
+                      {copiedVerse === verse.verseNumber ? (
+                        <>
+                          <Check className="w-3 h-3 text-green-500" />
+                          <span className="text-green-500 text-xs">Copied!</span>
+                        </>
+                      ) : (
+                        <LinkIcon className="w-3 h-3" />
+                      )}
+                    </button>
                   </div>
                 );
               })()}
