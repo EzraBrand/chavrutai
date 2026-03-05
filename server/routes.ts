@@ -167,6 +167,38 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/talmud/${tractate}/${folio}`,
       robots: "index, follow"
     };
+  } else if (url.startsWith('/search')) {
+    // Parse query params for richer titles
+    const urlObj = new URL(url, baseUrl);
+    const query = urlObj.searchParams.get('q') || '';
+    const type = urlObj.searchParams.get('type') || '';
+
+    let title: string;
+    let description: string;
+    let ogTitle: string;
+    let ogDescription: string;
+
+    if (query) {
+      const typeLabel = type === 'bible' ? 'Bible' : type === 'talmud' ? 'Talmud' : 'Talmud & Bible';
+      title = `Search results for "${query}" in ${typeLabel} | ChavrutAI`;
+      ogTitle = `Search: "${query}" – ${typeLabel} | ChavrutAI`;
+      description = `Search results for "${query}" in the ${typeLabel}. Find passages, explore Hebrew and English text, and study with ChavrutAI.`;
+      ogDescription = `Search results for "${query}" in the ${typeLabel} on ChavrutAI.`;
+    } else {
+      title = "Search the Talmud & Bible – Hebrew & English | ChavrutAI";
+      ogTitle = "Search Talmud & Bible | ChavrutAI";
+      description = "Search through the Babylonian Talmud and Hebrew Bible in Hebrew and English. Find any passage, word, or topic across thousands of pages.";
+      ogDescription = "Search through the Babylonian Talmud and Hebrew Bible in Hebrew and English on ChavrutAI.";
+    }
+
+    seoData = {
+      title,
+      description,
+      ogTitle,
+      ogDescription,
+      canonical: `${baseUrl}/search`,
+      robots: "index, follow"
+    };
   }
   
   return seoData;
@@ -365,6 +397,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/talmud', servePageWithMeta);
   app.get('/suggested-pages', servePageWithMeta);
   app.get('/privacy', servePageWithMeta);
+  app.get('/search', servePageWithMeta);
   app.get('/talmud/:tractate', servePageWithMeta);
   app.get('/talmud/:tractate/:folio', servePageWithMeta);
   
