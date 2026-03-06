@@ -1,3 +1,5 @@
+import type { TalmudSectionSegmentation } from "@shared/schema";
+
 export interface TalmudLocation {
   work: string;
   tractate: string;
@@ -22,6 +24,7 @@ export interface TalmudText {
   englishText: string;
   hebrewSections?: string[] | null;
   englishSections?: string[] | null;
+  sectionSegmentations?: TalmudSectionSegmentation[] | null;
   sefariaRef?: string;
   nextPageFirstSection?: { hebrew: string; english: string } | null;
 }

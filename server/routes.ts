@@ -12,6 +12,7 @@ import { z } from "zod";
 import OpenAI from "openai";
 import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
+import { buildTalmudPageSegmentationScaffolds } from "./lib/talmud-segmentation";
 
 // Import text processing utilities from shared library
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
@@ -29,6 +30,11 @@ const textQuerySchema = z.object({
 
 const tractateListSchema = z.object({
   work: z.string()
+});
+
+const segmentationDatasetSchema = z.enum(["goldset", "eval"]);
+const sefariaRawQuerySchema = z.object({
+  url: z.string().url(),
 });
 
 // Escape special HTML characters so they are safe inside attribute values
@@ -435,6 +441,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/biblical-index', servePageWithMeta);
   app.get('/bible', servePageWithMeta);
   app.get('/sugya-viewer', servePageWithMeta);
+  app.get('/segmentation-review', servePageWithMeta);
   app.get('/mishnah-map', servePageWithMeta);
   app.get('/talmud/:tractate', servePageWithMeta);
   app.get('/talmud/:tractate/:folio', servePageWithMeta);
@@ -479,6 +486,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
             // Process each section individually
             const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
             const processedEnglishSections = englishSections.map((section: string) => processEnglishText(section || ''));
+            const sectionSegmentations = buildTalmudPageSegmentationScaffolds(
+              sefariaRef,
+              hebrewSections,
+              englishSections,
+            );
             
             // Also create combined text for backward compatibility
             const hebrewText = processedHebrewSections.join('\n\n');
@@ -519,6 +531,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               englishText,
               hebrewSections: processedHebrewSections,
               englishSections: processedEnglishSections,
+              sectionSegmentations,
               sefariaRef,
               nextPageFirstSection
             };
@@ -552,6 +565,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ tractates: TRACTATE_LISTS[work as keyof typeof TRACTATE_LISTS] || [] });
     } catch (error) {
       res.status(400).json({ message: "Invalid work parameter" });
+    }
+  });
+
+  app.get("/api/segmentation-review/:dataset", async (req, res) => {
+    try {
+      const dataset = segmentationDatasetSchema.parse(req.params.dataset);
+      const filename = dataset === "goldset"
+        ? "blogpost-goldset.json"
+        : "blogpost-segmentation-eval.json";
+      const jsonPath = path.join(process.cwd(), "tmp", "blogpost-goldset", filename);
+
+      if (!fs.existsSync(jsonPath)) {
+        res.status(404).json({
+          message: `Dataset not found: ${filename}`,
+          expectedPath: jsonPath,
+        });
+        return;
+      }
+
+      const raw = await fs.promises.readFile(jsonPath, "utf8");
+      res.type("application/json").send(raw);
+    } catch (error) {
+      console.error("Error in /api/segmentation-review/:dataset:", error);
+      res.status(400).json({ message: "Invalid dataset request" });
     }
   });
 
@@ -763,6 +800,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Process each section individually with the same text processing as the rest of the app
       const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
       const processedEnglishSections = englishSections.map((section: string) => processEnglishText(section || ''));
+      const pageRefForSegmentation = `${normalizeSefariaTractateName(parsedTractate)}.${parsedPage}`;
+      const sectionSegmentations = buildTalmudPageSegmentationScaffolds(
+        pageRefForSegmentation,
+        hebrewSections,
+        englishSections,
+      );
 
       // Calculate span based on the actual range fetched
       let span: string;
@@ -795,11 +838,150 @@ export async function registerRoutes(app: Express): Promise<Server> {
         section: parsedSection,
         hebrewSections: processedHebrewSections,
         englishSections: processedEnglishSections,
+        sectionSegmentations,
         span
       });
     } catch (error) {
       console.error('Error in /api/sefaria-fetch:', error);
       res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+  app.get("/api/sefaria-raw", async (req, res) => {
+    try {
+      const { url } = sefariaRawQuerySchema.parse(req.query);
+      const cleanUrl = url.split('?')[0];
+      const urlParts = cleanUrl.split('/');
+      const reference = urlParts[urlParts.length - 1];
+
+      if (!reference) {
+        res.status(400).json({ error: 'Invalid URL format' });
+        return;
+      }
+
+      let parsedTractate = '';
+      let parsedPage = '';
+
+      const crossPageMatch = reference.match(/^([^.]+)\.(\d+[ab])\.(\d+)-(\d+[ab])\.(\d+)$/);
+      if (crossPageMatch) {
+        parsedTractate = crossPageMatch[1];
+        parsedPage = crossPageMatch[2];
+      } else {
+        const singlePageMatch = reference.match(/^([^.]+)\.(\d+[ab])(?:\.(\d+(?:-\d+)?))?$/);
+        if (!singlePageMatch) {
+          res.status(400).json({ error: 'Invalid reference format' });
+          return;
+        }
+        parsedTractate = singlePageMatch[1];
+        parsedPage = singlePageMatch[2];
+      }
+
+      const normalizedTractate = normalizeSefariaTractateName(parsedTractate);
+      const crossPageRangeMatch = reference.match(/^([^.]+)\.(\d+[ab])\.(\d+)-(\d+[ab])\.(\d+)$/);
+
+      let hebrewSections: string[] = [];
+      let englishSections: string[] = [];
+
+      if (crossPageRangeMatch) {
+        const startPage = crossPageRangeMatch[2];
+        const startSection = parseInt(crossPageRangeMatch[3]);
+        const endPage = crossPageRangeMatch[4];
+        const endSection = parseInt(crossPageRangeMatch[5]);
+        const pagesToFetch: string[] = [];
+        const startPageNum = parseInt(startPage.slice(0, -1));
+        const startPageSide = startPage.slice(-1);
+        const endPageNum = parseInt(endPage.slice(0, -1));
+        const endPageSide = endPage.slice(-1);
+
+        if (startPageNum === endPageNum) {
+          if (startPageSide === 'a') {
+            pagesToFetch.push(`${startPageNum}a`);
+            if (endPageSide === 'b') {
+              pagesToFetch.push(`${startPageNum}b`);
+            }
+          } else {
+            pagesToFetch.push(`${startPageNum}b`);
+          }
+        } else {
+          for (let folio = startPageNum; folio <= endPageNum; folio += 1) {
+            if (folio === startPageNum) {
+              if (startPageSide === 'a') {
+                pagesToFetch.push(`${folio}a`, `${folio}b`);
+              } else {
+                pagesToFetch.push(`${folio}b`);
+              }
+            } else if (folio === endPageNum) {
+              pagesToFetch.push(`${folio}a`);
+              if (endPageSide === 'b') {
+                pagesToFetch.push(`${folio}b`);
+              }
+            } else {
+              pagesToFetch.push(`${folio}a`, `${folio}b`);
+            }
+          }
+        }
+
+        for (const pageRef of pagesToFetch) {
+          const sefariaRef = `${normalizedTractate}.${pageRef}`;
+          const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0`);
+          if (!response.ok) {
+            res.status(response.status).json({ error: 'Failed to fetch raw text from Sefaria' });
+            return;
+          }
+
+          const sefariaData = await response.json();
+          const pageHebrew = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
+          const pageEnglish = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+
+          if (pageRef === startPage) {
+            hebrewSections.push(...pageHebrew.slice(startSection - 1));
+            englishSections.push(...pageEnglish.slice(startSection - 1));
+          } else if (pageRef === endPage) {
+            hebrewSections.push(...pageHebrew.slice(0, endSection));
+            englishSections.push(...pageEnglish.slice(0, endSection));
+          } else {
+            hebrewSections.push(...pageHebrew);
+            englishSections.push(...pageEnglish);
+          }
+        }
+      } else {
+        const sefariaRef = `${normalizedTractate}.${parsedPage}`;
+        const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0`);
+        if (!response.ok) {
+          res.status(response.status).json({ error: 'Failed to fetch raw text from Sefaria' });
+          return;
+        }
+
+        const sefariaData = await response.json();
+        hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
+        englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+
+        const rangeMatch = reference.match(/^([^.]+)\.(\d+[ab])\.(\d+)-(\d+)$/);
+        const singleSectionMatch = reference.match(/^([^.]+)\.(\d+[ab])\.(\d+)$/);
+
+        if (rangeMatch) {
+          const startIdx = parseInt(rangeMatch[3]) - 1;
+          const endIdx = parseInt(rangeMatch[4]);
+          hebrewSections = hebrewSections.slice(startIdx, endIdx);
+          englishSections = englishSections.slice(startIdx, endIdx);
+        } else if (singleSectionMatch) {
+          const sectionIdx = parseInt(singleSectionMatch[3]) - 1;
+          hebrewSections = sectionIdx >= 0 && sectionIdx < hebrewSections.length ? [hebrewSections[sectionIdx]] : [];
+          englishSections = sectionIdx >= 0 && sectionIdx < englishSections.length ? [englishSections[sectionIdx]] : [];
+        }
+      }
+
+      res.json({
+        ref: reference,
+        tractate: parsedTractate,
+        page: parsedPage,
+        url,
+        hebrewSections,
+        englishSections,
+      });
+    } catch (error) {
+      console.error('Error in /api/sefaria-raw:', error);
+      res.status(400).json({ message: 'Invalid Sefaria raw request' });
     }
   });
 

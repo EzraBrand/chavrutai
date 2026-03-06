@@ -72,12 +72,16 @@ export class MemStorage implements IStorage {
 
   async createText(insertText: InsertText): Promise<Text> {
     const id = randomUUID();
+    const sectionSegmentations = insertText.sectionSegmentations
+      ? JSON.parse(JSON.stringify(insertText.sectionSegmentations)) as Text["sectionSegmentations"]
+      : null;
     const text: Text = { 
       ...insertText, 
       id,
       sefariaRef: insertText.sefariaRef || null,
       hebrewSections: insertText.hebrewSections ? [...insertText.hebrewSections] : null,
       englishSections: insertText.englishSections ? [...insertText.englishSections] : null,
+      sectionSegmentations,
       nextPageFirstSection: (insertText.nextPageFirstSection && 
         typeof insertText.nextPageFirstSection === 'object' &&
         'hebrew' in insertText.nextPageFirstSection &&

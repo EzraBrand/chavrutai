@@ -49,6 +49,7 @@ __pycache__/
 # Additional cache and system directories
 .cache/
 .local/state/
+.tools/
 **/archive-v0/
 **/dist-info/
 .config/configstore/
@@ -74,6 +75,8 @@ replit
 # All other markdown files (except public README.md)
 *.md
 !README.md
+!docs/
+!docs/*.md
 
 # Temporary and backup files
 *.tmp
