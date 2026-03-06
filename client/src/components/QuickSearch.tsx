@@ -15,7 +15,14 @@ export function QuickSearch({ className = "" }: QuickSearchProps) {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      // Strip leading/trailing punctuation and collapse whitespace
+      const sanitized = searchQuery
+        .trim()
+        .replace(/^[,;:.!?]+|[,;:.!?]+$/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (!sanitized) return;
+      navigate(`/search?q=${encodeURIComponent(sanitized)}`);
     }
   };
 
