@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { ExternalLink, Moon, Sun, FileText, Contrast } from "lucide-react";
+import { SiX } from "react-icons/si";
 import { usePreferences, type Theme } from "@/context/preferences-context";
 import { trackEvent } from "@/lib/analytics";
 
@@ -188,6 +189,16 @@ export function Footer() {
               >
                 GitHub
                 <ExternalLink size={14} />
+              </a>
+              <a
+                href="https://x.com/ChavrutAI"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1.5"
+                data-testid="footer-link-twitter"
+              >
+                <SiX size={13} />
+                Follow on X
               </a>
             </nav>
           </div>

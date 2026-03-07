@@ -71,6 +71,15 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">X/Twitter Account & Footer Link</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Launched the official <a href="https://x.com/ChavrutAI" target="_blank" rel="noopener noreferrer" className="underline hover:text-sepia-900 dark:hover:text-sepia-100">@ChavrutAI</a> X/Twitter account</li>
+                <li>Added a "Follow on X" link with the X logo to the footer</li>
+                <li>Added the X/Twitter profile to the site's structured data (SEO <code>sameAs</code>)</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Section & Verse Navigation</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added a "Jump to section:" / "Jump to verse:" row of numbered buttons at the top of every Talmud and Bible page — click any number to scroll directly to that section or verse</li>
