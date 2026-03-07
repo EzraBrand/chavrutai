@@ -37,6 +37,7 @@ const Dictionary = lazy(() => import("@/pages/dictionary"));
 const SugyaViewerPage = lazy(() => import("@/pages/sugya-viewer"));
 const ExternalLinksPage = lazy(() => import("@/pages/external-links"));
 const SearchPage = lazy(() => import("@/pages/search"));
+const SegmentationReviewPage = lazy(() => import("@/pages/segmentation-review"));
 const Home = lazy(() => import("@/pages/home"));
 const BlogReader = lazy(() => import("@/pages/blog-reader"));
 const NotFound = lazy(() => import("@/pages/not-found"));
@@ -65,6 +66,7 @@ function Router() {
       <Route path="/sugya-viewer" component={SugyaViewerPage} />
       <Route path="/external-links" component={ExternalLinksPage} />
       <Route path="/search" component={SearchPage} />
+      <Route path="/segmentation-review" component={SegmentationReviewPage} />
       <Route path="/talmud" component={Contents} />
       <Route path="/talmud/:tractate" component={TractateContents} />
       <Route path="/talmud/:tractate/:folio" component={TractateView} />

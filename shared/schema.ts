@@ -82,6 +82,69 @@ export type BiblicalCitation = z.infer<typeof BiblicalCitationSchema>;
 export type BiblicalChapter = z.infer<typeof BiblicalChapterSchema>;
 export type BiblicalBook = z.infer<typeof BiblicalBookSchema>;
 
+// Talmud Segmentation Schema
+export const TalmudSegmentationStatusSchema = z.enum([
+  "rules_only",
+  "llm_pending",
+  "llm_completed",
+  "validation_failed",
+]);
+
+export const TalmudSegmentationStrategySchema = z.enum([
+  "rules_v1",
+  "llm_boundary_selection_v1",
+  "hybrid_v1",
+]);
+
+export const TalmudBoundaryCandidateSchema = z.object({
+  index: z.number().int().nonnegative(),
+  text: z.string(),
+  startChar: z.number().int().nonnegative(),
+  endChar: z.number().int().nonnegative(),
+  reason: z.string(),
+});
+
+export const TalmudEnglishAnchorSchema = z.object({
+  index: z.number().int().nonnegative(),
+  html: z.string(),
+  text: z.string(),
+  startChar: z.number().int().nonnegative(),
+  endChar: z.number().int().nonnegative(),
+  isBold: z.boolean(),
+});
+
+export const TalmudAlignedSegmentSchema = z.object({
+  index: z.number().int().nonnegative(),
+  hebrew: z.string(),
+  english: z.string(),
+  hebrewCandidateIndexes: z.array(z.number().int().nonnegative()).default([]),
+  englishCandidateIndexes: z.array(z.number().int().nonnegative()).default([]),
+  confidence: z.number().min(0).max(1).nullable().optional(),
+});
+
+export const TalmudSectionSegmentationSchema = z.object({
+  sectionIndex: z.number().int().nonnegative(),
+  ref: z.string(),
+  status: TalmudSegmentationStatusSchema,
+  strategy: TalmudSegmentationStrategySchema,
+  version: z.string(),
+  normalizedHebrew: z.string(),
+  normalizedEnglish: z.string(),
+  englishAnchors: z.array(TalmudEnglishAnchorSchema),
+  hebrewCandidates: z.array(TalmudBoundaryCandidateSchema),
+  englishCandidates: z.array(TalmudBoundaryCandidateSchema),
+  alignedSegments: z.array(TalmudAlignedSegmentSchema),
+  confidence: z.number().min(0).max(1).nullable().optional(),
+  notes: z.array(z.string()).default([]),
+});
+
+export type TalmudSegmentationStatus = z.infer<typeof TalmudSegmentationStatusSchema>;
+export type TalmudSegmentationStrategy = z.infer<typeof TalmudSegmentationStrategySchema>;
+export type TalmudBoundaryCandidate = z.infer<typeof TalmudBoundaryCandidateSchema>;
+export type TalmudEnglishAnchor = z.infer<typeof TalmudEnglishAnchorSchema>;
+export type TalmudAlignedSegment = z.infer<typeof TalmudAlignedSegmentSchema>;
+export type TalmudSectionSegmentation = z.infer<typeof TalmudSectionSegmentationSchema>;
+
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
@@ -99,6 +162,7 @@ export const texts = pgTable("texts", {
   englishText: text("english_text").notNull(),
   hebrewSections: json("hebrew_sections").$type<string[]>(), // Array of Hebrew text sections
   englishSections: json("english_sections").$type<string[]>(), // Array of English text sections
+  sectionSegmentations: json("section_segmentations").$type<TalmudSectionSegmentation[]>(), // Optional segmentation metadata per section
   sefariaRef: text("sefaria_ref"),
   nextPageFirstSection: json("next_page_first_section").$type<{ hebrew: string; english: string } | null>(), // First section of next page for continuation
 });
