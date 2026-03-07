@@ -224,6 +224,11 @@ export function splitHebrewText(text: string): string {
   // This combined punctuation should not split between ? and !
   processedText = processedText.replace(IRONY_PUNCT_PATTERN, '?!\n');
   
+  // STEP 5b: Remove dash that immediately follows a question mark (? — or ? –)
+  // In Talmudic text this cluster marks a rhetorical question+answer separator;
+  // the dash carries no additional split value once the ? already splits the line.
+  processedText = processedText.replace(/\?\s*[–—]/g, '?');
+
   // STEP 6: Split on individual punctuation marks
   // Each mark gets a newline after it to create paragraph breaks
   // Hebrew-specific: ׃ (sof pasuq)
