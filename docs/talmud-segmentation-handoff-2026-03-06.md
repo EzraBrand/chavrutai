@@ -1,16 +1,23 @@
 # Talmud Segmentation Handoff
 
-Date: 2026-03-06
+Date: 2026-03-07
 
 ## Scope
 
-This document summarizes the work completed so far on the Talmud segmentation effort in `chavrutai`, the main implementation decisions, the challenges encountered, the current state of the codebase, and the next work needed.
+This document summarizes the current state of the Talmud segmentation work in `chavrutai`, including what was completed, what was verified locally, the environment constraints that matter for resuming work, and the most important next implementation steps.
+
+## Branch / Repo State
+
+- Main working branch: `feature/talmud-segmentation`
+- PR `#122` was retargeted from `main` to `feature/talmud-segmentation` and merged on 2026-03-07.
+- Subsequent follow-up work was pushed directly to `feature/talmud-segmentation`.
+- Latest known branch head at handoff time: `c68cabbdcf4c81226e7daab877f86454333b60b0`
 
 ## Work Completed
 
 ### 1. Segmentation scaffold
 
-Implemented an initial server-side scaffold for Talmud segmentation focused on section-local processing.
+Implemented the initial section-local segmentation scaffold.
 
 Files:
 
@@ -20,35 +27,34 @@ Files:
 - `server/routes.ts`
 - `server/storage.ts`
 
-What was added:
+What exists:
 
-- Shared schemas for Talmud segmentation data, including aligned segments, anchors, boundary candidates, and per-section segmentation payloads.
-- Server-side helpers to:
-  - normalize Hebrew and English section text
-  - extract bold English anchors from Sefaria HTML
-  - generate deterministic boundary candidates
-  - produce an LLM-ready payload shape for later alignment work
-- Route wiring so Talmud page fetch flows can include segmentation metadata without replacing the existing text-processing behavior.
+- shared schemas for anchors, candidate boundaries, aligned segments, and section-level segmentation
+- deterministic normalization of Hebrew and English section text
+- English bold-anchor extraction from Sefaria HTML
+- rules-based candidate generation for both languages
+- prompt-payload shape for future LLM selection
+- route/storage wiring so segmentation metadata can travel with fetched text
 
 ### 2. Technical spec
 
-Created documentation for the intended segmentation pipeline.
+Created the segmentation design spec.
 
-Files:
+File:
 
 - `docs/talmud-segmentation-spec.md`
 
-The spec currently describes:
+The spec describes:
 
-- section-local processing only
+- section-local processing
 - deterministic preprocessing before any LLM step
-- use of English bold spans as semantic alignment anchors
-- deterministic validation around any future LLM output
-- offline evaluation before production use
+- use of English bold spans as alignment anchors
+- deterministic validation expectations
+- offline evaluation before production rollout
 
 ### 3. Gold-set extraction from blogposts
 
-Built an extraction pipeline using the local archive of blogposts as a source of hand-labeled aligned Hebrew/English passage units.
+Built the gold-set extraction pipeline from the archived blogpost corpus.
 
 Files:
 
@@ -56,20 +62,21 @@ Files:
 - `server/lib/blogpost-goldset-eval.ts`
 - `server/generate-blogpost-goldset.ts`
 
-What it does:
+What it now does:
 
 - loads the mapping CSV and archive metadata
 - matches blogposts by daf/page range
-- extracts the “The Passage” HTML blocks
+- extracts the blogpost passage HTML blocks
 - pairs Hebrew and English units
-- preserves both raw HTML and normalized text
+- preserves raw HTML and normalized plain text
+- enriches each extracted unit with stored section-level `sourceProvenance`
 - emits:
   - `tmp/blogpost-goldset/blogpost-goldset.json`
   - `tmp/blogpost-goldset/blogpost-segmentation-eval.json`
 
-### 4. QA / review page
+### 4. Review / QA page
 
-Built a local browser page for reviewing extracted gold-set data and future segmentation payloads.
+Built and refined the local review UI at `/segmentation-review`.
 
 Files:
 
@@ -77,174 +84,160 @@ Files:
 - `client/src/App.tsx`
 - `server/routes.ts`
 
-What it currently supports:
+What it now supports:
 
-- loading local generated gold-set JSON
-- loading local generated eval JSON
+- loading local gold-set JSON
+- loading local eval JSON
+- loading uploaded future segmentation JSON
 - filtering/searching records
-- showing structured Hebrew/English content side by side
-- showing a derived text/debug view
-- showing uploaded future segmentation payloads
+- structured side-by-side English/Hebrew rendering
+- derived text/debug rendering
+- exact section-ref badges from stored provenance
+- raw Sefaria fetch narrowed to the closest section
 
-### 5. Raw Sefaria fetch integration
+### 5. Raw Sefaria source integration
 
-Added a backend endpoint and UI support for pulling raw Sefaria source text for the selected record.
+Added a backend route and UI support for fetching raw Sefaria source text for review.
 
 Files:
 
 - `server/routes.ts`
+- `server/lib/talmud-source-provenance.ts`
+- `server/lib/talmud-sefaria-source.ts`
 - `client/src/pages/segmentation-review.tsx`
 
-What it currently does:
+What it now does:
 
 - accepts a Sefaria URL/ref
 - fetches raw Hebrew and English sections from Sefaria
-- displays them in the review page as an additional reference layer
+- strips nikud from displayed raw Hebrew in the review UI
+- narrows the fetch to a stored exact section when provenance is available
+- otherwise falls back to heuristic section matching
 
-## Challenges Encountered
+### 6. Offline scorer
 
-### 1. Windows / local dev environment issues
+Built the first offline scorer over the eval set.
 
-Problems encountered:
+Files:
 
-- `npm run dev` used Unix-style `NODE_ENV=development`, which does not work directly in PowerShell / standard Windows shells.
-- Node was not installed on the machine in a way the project could rely on.
-- The working folder was under `Downloads`, which is not a stable long-term location.
+- `server/lib/blogpost-segmentation-scorer.ts`
+- `server/evaluate-blogpost-segmentation.ts`
+- `tests/blogpost-segmentation-scorer.test.ts`
 
-What was done:
+What it currently does:
 
-- downloaded a portable Node distribution locally into `.tools/`
-- added `.tools/` to `.gitignore`
-- used Windows-safe startup commands when needed
+- groups eval examples by exact `sourceProvenance.sectionRef`
+- fetches each unique source section from Sefaria
+- builds the current rules-based scaffold for that section
+- scores baseline candidate coverage and boundary metrics
+- writes:
+  - `tmp/blogpost-goldset/blogpost-segmentation-score.json`
 
-### 2. Rendering quality in the QA page
+## Environment / Operational Notes
 
-Initial issues:
+### 1. Windows / PowerShell / portable Node
 
-- plain-text derivation from HTML over-collapsed whitespace
-- inline HTML stripping caused joined words such as `said thatR'`
-- the top display was initially less trustworthy than the original structure
+Important facts:
 
-What was done:
+- This repo is being run on Windows / PowerShell.
+- Portable Node lives in `.tools/node-v24.13.1-win-x64/`.
+- `npm`, `npx`, and `node` may not be on `PATH` by default.
+- `npm run dev` is not a reliable default path because the repo's `dev` script is Unix-style.
 
-- improved HTML-to-readable extraction
-- made the structured rendering the primary review surface
-- demoted derived/plain text to a secondary debug view
+Verified working local launch sequence:
 
-### 3. Matching blogposts to source material
+1. `Set-Location "C:\Users\ezrab\Ezra Brandt\chavrutai"`
+2. `$env:PATH = ".\.tools\node-v24.13.1-win-x64;" + $env:PATH`
+3. `$env:NODE_ENV = "development"`
+4. `$env:OPENAI_API_KEY = "dummy-local-key"` (or a real key)
+5. `$env:HOST = "127.0.0.1"`
+6. `$env:PORT = "5000"`
+7. `$env:REUSE_PORT = "false"`
+8. `.\.tools\node-v24.13.1-win-x64\node.exe .\node_modules\tsx\dist\cli.mjs server\index.ts`
 
-Problems encountered:
+Related files:
 
-- the archive titles and mapping CSV titles do not always match directly
-- exact-title matching was too brittle
+- `AGENTS.md`
+- `.vscode/tasks.json`
+- `package.json`
 
-What was done:
+### 2. OpenAI startup quirk
 
-- used daf/page-range matching as the primary link strategy
+Important fact:
 
-### 4. Repo-level TypeScript noise outside this work
+- `server/routes.ts` instantiates `OpenAI` during startup.
+- The server will not boot at all unless `OPENAI_API_KEY` is set, even for non-chat pages.
+- For local non-LLM UI work, a dummy value is enough.
 
-There are pre-existing unrelated TypeScript issues elsewhere in the repo which interfere with a clean full-project typecheck.
+### 3. Asset locations moved out of Downloads
+
+The relevant local assets are now under `C:\Users\ezrab\Ezra Brandt\...`, not `Downloads`.
+
+Verified current paths:
+
+- archive root:
+  - `C:\Users\ezrab\Ezra Brandt\blogpost_archive_tmp2`
+- mapping CSV:
+  - `C:\Users\ezrab\Ezra Brandt\talmud-blogpost-dafyomi-grid\blogpost_dafyomi_db.csv`
+
+When regenerating local artifacts, set:
+
+- `BLOGPOST_ARCHIVE_ROOT`
+- `BLOGPOST_MAPPING_CSV`
+
+accordingly.
+
+### 4. TypeScript noise outside this work
+
+There are still unrelated repo-level TypeScript failures that block a clean full-project typecheck.
 
 Known unrelated problem files:
 
 - `client/src/hooks/use-seo.ts`
 - `client/src/lib/html-sanitizer.ts`
 
+No new known typecheck failures from the Talmud segmentation work remained at handoff time.
+
 ## Current Status
 
 ### What is working
 
-- A segmentation schema/scaffold exists.
-- Blogpost extraction and eval dataset generation exist.
+- Segmentation schema/scaffold exists.
+- Gold-set extraction exists.
+- Gold-set and eval artifacts now include stored section-level provenance.
 - A local QA page exists at `/segmentation-review`.
-- Raw Sefaria data can be fetched and shown in the review page.
-- The core extraction and segmentation tests added for this work are in place.
+- Review-page layout is flipped to English left / Hebrew right.
+- Top Hebrew rendering is RTL.
+- Raw Sefaria fetch now works in the review page and can use stored exact provenance.
+- An offline rules-based scorer exists and produces a JSON report.
+- Focused extraction / provenance / segmentation tests are in place.
 
-### What is not yet complete
+### What is still incomplete
 
-- No actual LLM boundary-selection execution pipeline has been added yet.
-- No scorer yet compares model output directly against the eval set.
-- The QA page is useful for review, but still needs refinement to better match the intended workflow.
-- The Sefaria reference shown in the QA page is still too broad in some cases.
+- No actual LLM boundary-selection runner exists yet.
+- No deterministic validator yet consumes LLM-selected aligned segments.
+- No comparison report yet exists between rules-only and LLM-selected output.
+- The review page still lacks annotation controls and a full three-way comparison workflow.
 
-## Current Challenges
+## Actual Baseline Metrics
 
-### 1. Review-page layout direction
+The scorer was run locally against the current eval set and produced:
 
-Current issue:
+- sections scored: `33`
+- examples scored: `433`
+- average gold segments per section: `5.79`
+- exact candidate-count match rate: `0`
+- Hebrew coverage: `0.508`
+- English coverage: `0.195`
+- bilingual coverage: `0.119`
+- Hebrew boundary F1: `0.0019`
+- English boundary F1: `0`
 
-- In `/segmentation-review`, Hebrew is on the left and English is on the right.
+Interpretation:
 
-Needed change:
-
-- This should be flipped so English is on the left and Hebrew is on the right.
-
-### 2. Raw Sefaria fetch scope is too broad
-
-Current issue:
-
-- The Sefaria text currently being pulled for a selected blogpost record is for the full blogpost range.
-
-Needed change:
-
-- Limit the Sefaria fetch to the specific section/unit relevant to the selected gold-set record, not the entire blogpost range.
-
-Implication:
-
-- The extraction pipeline needs a stronger mapping from each extracted passage unit back to the exact source section index / local source span.
-
-### 3. Hebrew display normalization for raw Sefaria text
-
-Current issue:
-
-- Raw Sefaria Hebrew still shows nikud.
-
-Needed change:
-
-- Strip nikud from the displayed Hebrew.
-- Preserve only the visible punctuation needed for review, such as commas, periods, colons, semicolons, etc.
-
-### 4. Persistence / preservation
-
-Current issue:
-
-- The work has been happening under `Downloads`, which is not a reliable long-term location.
-
-Needed change:
-
-- Move the repo and relevant supporting local assets into a more stable local folder named `Ezra Brandt`.
-
-## Future Work Needed
-
-### Immediate next steps
-
-1. Flip the review layout so English is on the left and Hebrew is on the right.
-2. Tighten Sefaria mapping so the review page fetches the exact corresponding source section instead of the full blogpost range.
-3. Strip nikud from raw Sefaria Hebrew in the review UI and retain punctuation-only display.
-4. Add a better section-level provenance model to the extracted gold-set format.
-
-### Segmentation pipeline next steps
-
-1. Implement an offline LLM boundary-selection runner using the existing payload scaffold.
-2. Add deterministic validation of returned alignments.
-3. Add a scorer against `blogpost-segmentation-eval.json`.
-4. Compare baseline rules-based segmentation vs. future LLM-enhanced segmentation.
-
-### QA workflow next steps
-
-1. Add a three-way comparison view:
-   - raw Sefaria
-   - blogpost gold set
-   - future segmentation output
-2. Add annotation controls such as:
-   - accept
-   - flag
-   - note
-3. Add better provenance display:
-   - exact source ref
-   - section index
-   - extracted unit index
+- the current deterministic rules layer is useful as a candidate generator
+- it is not close to acceptable as a final segmenter
+- the strongest next milestone is the offline LLM boundary-selection stage, scored against the same eval set
 
 ## Relevant Files
 
@@ -252,40 +245,47 @@ Core implementation:
 
 - `shared/schema.ts`
 - `client/src/types/talmud.ts`
+- `client/src/pages/segmentation-review.tsx`
 - `server/lib/talmud-segmentation.ts`
+- `server/lib/talmud-source-provenance.ts`
+- `server/lib/talmud-sefaria-source.ts`
 - `server/lib/blogpost-goldset.ts`
 - `server/lib/blogpost-goldset-eval.ts`
+- `server/lib/blogpost-segmentation-scorer.ts`
 - `server/generate-blogpost-goldset.ts`
+- `server/evaluate-blogpost-segmentation.ts`
 - `server/routes.ts`
 - `server/storage.ts`
-- `client/src/App.tsx`
-- `client/src/pages/segmentation-review.tsx`
 
-Documentation:
+Documentation / operating notes:
 
 - `docs/talmud-segmentation-spec.md`
 - `docs/talmud-segmentation-handoff-2026-03-06.md`
+- `AGENTS.md`
 
 Generated local artifacts:
 
 - `tmp/blogpost-goldset/blogpost-goldset.json`
 - `tmp/blogpost-goldset/blogpost-segmentation-eval.json`
+- `tmp/blogpost-goldset/blogpost-segmentation-score.json`
 
-Local supporting assets used during this phase:
+## Best Next Step
 
-- blogpost archive zip
-- extracted blogpost archive folder
-- blogpost mapping CSV
+Implement the offline LLM boundary-selection runner.
 
-## Notes for Resuming Work
+Concretely:
 
-If work resumes later, the best next implementation task is:
+1. consume `TalmudSegmentationPromptPayload`
+2. call the selected LLM offline over section-local inputs
+3. return structured aligned segment indexes only
+4. validate those indexes deterministically
+5. write the validated aligned segments back into section-level segmentation artifacts
+6. score that output against `blogpost-segmentation-eval.json`
+7. compare it directly to the current rules baseline
 
-- improve source provenance so each gold-set record can resolve back to an exact Sefaria section and section-local text slice.
+## Notes for the Next Agent
 
-That will unlock:
-
-- cleaner raw-source QA
-- better evaluation
-- future human correction workflows
-- stronger section-level model prompting
+- Do not start by re-solving the review UI issues; the English/Hebrew layout, RTL top Hebrew rendering, and raw-source narrowing are already working.
+- Do not assume the local assets are still in `Downloads`; use the moved `C:\Users\ezrab\Ezra Brandt\...` paths or read the relevant env vars.
+- The generated JSON in `tmp/` is local and gitignored; code changes were pushed, but regenerated artifacts are not committed.
+- If continuing with the scorer or LLM runner, prefer keeping the same evaluation/report path under `tmp/blogpost-goldset/`.
