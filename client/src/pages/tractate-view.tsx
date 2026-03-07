@@ -9,7 +9,6 @@ import { PageNavigation } from "@/components/navigation/page-navigation";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { CenteredBreadcrumbNav } from "@/components/navigation/centered-breadcrumb-nav";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
-import { SectionNavigation } from "@/components/navigation/section-navigation";
 import { Footer } from "@/components/footer";
 import { ExternalLinksFooter } from "@/components/external-links-footer";
 import { usePreferences } from "@/context/preferences-context";
@@ -235,18 +234,6 @@ export default function TractateView() {
         {/* Footer */}
         <Footer />
       </main>
-
-      {/* Section Navigation */}
-      {text && (
-        <SectionNavigation 
-          totalSections={Math.max(
-            (text.hebrewSections || [text.hebrewText]).length,
-            (text.englishSections || [text.englishText]).length
-          )}
-          currentSection={currentSection}
-          onSectionChange={handleSectionChange}
-        />
-      )}
     </div>
   );
 }
