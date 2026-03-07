@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
+    "dev:windows": "set PATH=.\\.tools\\node-v24.13.1-win-x64;%PATH% && set NODE_ENV=development && set OPENAI_API_KEY=dummy-local-key && set HOST=127.0.0.1 && set PORT=5000 && set REUSE_PORT=false && .\\.tools\\node-v24.13.1-win-x64\\node.exe .\\node_modules\\tsx\\dist\\cli.mjs server\\index.ts",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc",

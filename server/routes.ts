@@ -34,8 +34,10 @@ const tractateListSchema = z.object({
 });
 
 const segmentationDatasetSchema = z.enum(["goldset", "eval"]);
-const sefariaRawQuerySchema = z.object({
+const sefariaRawRequestSchema = z.object({
   url: z.string().url(),
+  dataset: segmentationDatasetSchema.optional(),
+  recordId: z.string().optional(),
   hebrew: z.string().optional(),
   english: z.string().optional(),
 });
@@ -48,6 +50,62 @@ type RawSefariaSource = {
   englishSections: string[];
   sectionRefs: string[];
 };
+
+function getSegmentationDatasetPath(dataset: "goldset" | "eval"): string {
+  const filename = dataset === "goldset"
+    ? "blogpost-goldset.json"
+    : "blogpost-segmentation-eval.json";
+  return path.join(process.cwd(), "tmp", "blogpost-goldset", filename);
+}
+
+async function loadSegmentationReviewRecordText(
+  dataset: "goldset" | "eval",
+  recordId: string,
+): Promise<{ hebrew: string; english: string } | null> {
+  const jsonPath = getSegmentationDatasetPath(dataset);
+  if (!fs.existsSync(jsonPath)) {
+    return null;
+  }
+
+  const raw = await fs.promises.readFile(jsonPath, "utf8");
+  const parsed = JSON.parse(raw) as unknown;
+
+  if (dataset === "goldset") {
+    const goldset = parsed as {
+      posts?: Array<{
+        postId: string;
+        units: Array<{ index: number; hebrewText: string; englishText: string }>;
+      }>;
+    };
+
+    for (const post of goldset.posts || []) {
+      for (const unit of post.units || []) {
+        if (`${post.postId}::${unit.index}` === recordId) {
+          return {
+            hebrew: unit.hebrewText || "",
+            english: unit.englishText || "",
+          };
+        }
+      }
+    }
+  }
+
+  if (dataset === "eval") {
+    const evalDataset = parsed as {
+      examples?: Array<{ exampleId: string; hebrew: string; english: string }>;
+    };
+
+    const match = (evalDataset.examples || []).find((example) => example.exampleId === recordId);
+    if (match) {
+      return {
+        hebrew: match.hebrew || "",
+        english: match.english || "",
+      };
+    }
+  }
+
+  return null;
+}
 
 async function fetchSefariaRawSource(reference: string): Promise<RawSefariaSource> {
   let parsedTractate = "";
@@ -717,14 +775,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/segmentation-review/:dataset", async (req, res) => {
     try {
       const dataset = segmentationDatasetSchema.parse(req.params.dataset);
-      const filename = dataset === "goldset"
-        ? "blogpost-goldset.json"
-        : "blogpost-segmentation-eval.json";
-      const jsonPath = path.join(process.cwd(), "tmp", "blogpost-goldset", filename);
+      const jsonPath = getSegmentationDatasetPath(dataset);
 
       if (!fs.existsSync(jsonPath)) {
         res.status(404).json({
-          message: `Dataset not found: ${filename}`,
+          message: `Dataset not found for ${dataset}`,
           expectedPath: jsonPath,
         });
         return;
@@ -993,9 +1048,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/sefaria-raw", async (req, res) => {
+  const handleSefariaRawRequest = async (payload: unknown, res: express.Response) => {
     try {
-      const { url, hebrew, english } = sefariaRawQuerySchema.parse(req.query);
+      const { url, dataset, recordId, hebrew, english } = sefariaRawRequestSchema.parse(payload);
       const reference = extractSefariaReferenceFromUrl(url);
 
       if (!reference) {
@@ -1003,10 +1058,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return;
       }
 
+      const recordText = dataset && recordId
+        ? await loadSegmentationReviewRecordText(dataset, recordId)
+        : null;
+      const sourceHebrew = recordText?.hebrew || hebrew;
+      const sourceEnglish = recordText?.english || english;
+
       const rawSource = await fetchSefariaRawSource(reference);
       const provenance = locateTalmudSourceProvenance({
-        hebrewText: hebrew,
-        englishText: english,
+        hebrewText: sourceHebrew,
+        englishText: sourceEnglish,
         hebrewSections: rawSource.hebrewSections,
         englishSections: rawSource.englishSections,
         sectionRefs: rawSource.sectionRefs,
@@ -1042,6 +1103,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error('Error in /api/sefaria-raw:', error);
       res.status(400).json({ message: 'Invalid Sefaria raw request' });
     }
+  };
+
+  app.get("/api/sefaria-raw", async (req, res) => {
+    await handleSefariaRawRequest(req.query, res);
+  });
+
+  app.post("/api/sefaria-raw", async (req, res) => {
+    await handleSefariaRawRequest(req.body, res);
   });
 
   // Get sitemap data for human-readable HTML sitemap page

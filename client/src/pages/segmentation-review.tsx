@@ -289,12 +289,13 @@ function buildGroupOptions(records: ReviewRecord[]) {
   return Array.from(groups.values()).sort((a, b) => a.label.localeCompare(b.label));
 }
 
-function DetailHtml({ html }: { html?: string }) {
+function DetailHtml({ html, className, dir }: { html?: string; className?: string; dir?: "ltr" | "rtl" }) {
   if (!html) return null;
   const cleanedHtml = html.replace(/<a[^>]*class="footnote-anchor"[^>]*>[\s\S]*?<\/a>/gi, "");
   return (
     <div
-      className="space-y-3 text-sm leading-7 [&_blockquote]:border-l-2 [&_blockquote]:pl-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5"
+      dir={dir}
+      className={`space-y-3 text-sm leading-7 [&_blockquote]:border-l-2 [&_blockquote]:pl-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 ${className || ""}`}
       dangerouslySetInnerHTML={{ __html: cleanedHtml }}
     />
   );
@@ -362,21 +363,29 @@ export default function SegmentationReviewPage() {
 
   const selectedIndex = filteredRecords.findIndex((record) => record.id === selectedRecordId);
   const selectedRecord = selectedIndex >= 0 ? filteredRecords[selectedIndex] : null;
+  const rawSefariaDataset = sourceMode === "goldset" || sourceMode === "eval" ? sourceMode : null;
   const rawSefariaQuery = useQuery<RawSefariaResponse>({
     queryKey: [
       "/api/sefaria-raw",
       selectedRecord?.sefariaUrl || "",
-      selectedRecord?.hebrewText || "",
-      selectedRecord?.englishText || "",
+      rawSefariaDataset || "",
+      selectedRecord?.id || "",
     ],
     enabled: Boolean(selectedRecord?.sefariaUrl),
     queryFn: async () => {
-      const params = new URLSearchParams({
-        url: selectedRecord?.sefariaUrl || "",
-        hebrew: selectedRecord?.hebrewText || "",
-        english: selectedRecord?.englishText || "",
+      const response = await fetch("/api/sefaria-raw", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: selectedRecord?.sefariaUrl || "",
+          dataset: rawSefariaDataset,
+          recordId: selectedRecord?.id || "",
+          hebrew: rawSefariaDataset ? undefined : selectedRecord?.hebrewText || "",
+          english: rawSefariaDataset ? undefined : selectedRecord?.englishText || "",
+        }),
       });
-      const response = await fetch(`/api/sefaria-raw?${params.toString()}`);
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText || "Could not load raw Sefaria data.");
@@ -625,7 +634,7 @@ export default function SegmentationReviewPage() {
                       <Card>
                         <CardHeader><CardTitle className="text-base">Hebrew</CardTitle></CardHeader>
                         <CardContent className="space-y-4">
-                          <DetailHtml html={selectedRecord.hebrewHtml} />
+                          <DetailHtml html={selectedRecord.hebrewHtml} dir="rtl" className="text-right" />
                         </CardContent>
                       </Card>
                     </div>
@@ -701,6 +710,9 @@ export default function SegmentationReviewPage() {
                             {rawSefariaQuery.error instanceof Error
                               ? rawSefariaQuery.error.message
                               : "Could not load raw Sefaria data."}
+                            {rawSefariaQuery.error instanceof Error && rawSefariaQuery.error.message === "Failed to fetch"
+                              ? " Restart the local dev server and retry."
+                              : ""}
                           </AlertDescription>
                         </Alert>
                       ) : rawSefariaQuery.data ? (
