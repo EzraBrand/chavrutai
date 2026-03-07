@@ -6,6 +6,16 @@ A comprehensive web application for studying the Babylonian Talmud, featuring bi
 
 ChavrutAI is a full-featured digital platform providing access to all 37 tractates of the Babylonian Talmud with bilingual (Hebrew/English) text display, integrated reference tools, and customizable study preferences. Built with modern web technologies, it combines traditional Talmudic scholarship with contemporary user experience design.
 
+## Recognition
+
+ChavrutAI is featured in the official [Sefaria Powered-By directory](https://developers.sefaria.org/docs/powered-by-sefaria), a curated list of projects and applications built using the Sefaria API and text data.
+
+## Screenshot
+
+![ChavrutAI Talmud page showing Berakhot 2a with bilingual Hebrew/English text, section navigation, and links to Sefaria and Al HaTorah](docs/talmud-page-screenshot.png)
+
+*The Talmud reading page displaying Berakhot 2a — the opening folio of the entire Talmud. Hebrew and English text appear side by side, with numbered section navigation, direct links to Sefaria and Al HaTorah, and folio navigation controls.*
+
 ## Major Features
 
 ### Complete Text Library
@@ -138,14 +148,4 @@ shared/
 - `GET /api/dictionary/autosuggest` — autocomplete suggestions
 - `GET /api/rss-feed` — blog feed (titles only)
 - `GET /api/rss-feed-full` — blog feed (full content)
-
-## Recognition
-
-ChavrutAI is featured in the official [Sefaria Powered-By directory](https://developers.sefaria.org/docs/powered-by-sefaria), a curated list of projects and applications built using the Sefaria API and text data.
-
-## Screenshot
-
-![ChavrutAI Talmud page showing Berakhot 2a with bilingual Hebrew/English text, section navigation, and links to Sefaria and Al HaTorah](docs/talmud-page-screenshot.png)
-
-*The Talmud reading page displaying Berakhot 2a — the opening folio of the entire Talmud. Hebrew and English text appear side by side, with numbered section navigation, direct links to Sefaria and Al HaTorah, and folio navigation controls.*
 
