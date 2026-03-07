@@ -3,7 +3,9 @@ import {
   buildBlogpostGoldsetDataset,
   type BlogpostGoldsetBuildOptions,
   type BlogpostGoldsetDataset,
+  enrichBlogpostGoldsetDatasetWithProvenance,
 } from "./blogpost-goldset";
+import { type TalmudSourceProvenance } from "./talmud-source-provenance";
 
 export interface TalmudSegmentationEvalExample {
   exampleId: string;
@@ -21,6 +23,7 @@ export interface TalmudSegmentationEvalExample {
   english: string;
   hebrewHtml: string;
   englishHtml: string;
+  sourceProvenance?: TalmudSourceProvenance | null;
 }
 
 export interface TalmudSegmentationEvalDataset {
@@ -74,6 +77,7 @@ export function convertBlogpostGoldsetToEvalDataset(
         english,
         hebrewHtml: unit.hebrewHtml,
         englishHtml: unit.englishHtml,
+        sourceProvenance: unit.sourceProvenance ?? null,
       });
     });
   });
@@ -103,6 +107,19 @@ export function writeBlogpostSegmentationEvalDataset(
   options: BlogpostGoldsetBuildOptions,
 ): TalmudSegmentationEvalDataset {
   const dataset = buildBlogpostSegmentationEvalDataset(options);
+  fs.writeFileSync(outputPath, `${JSON.stringify(dataset, null, 2)}\n`, "utf8");
+  return dataset;
+}
+
+export async function writeEnrichedBlogpostSegmentationEvalDataset(
+  outputPath: string,
+  options: BlogpostGoldsetBuildOptions,
+): Promise<TalmudSegmentationEvalDataset> {
+  const dataset = convertBlogpostGoldsetToEvalDataset(
+    await enrichBlogpostGoldsetDatasetWithProvenance(
+      buildBlogpostGoldsetDataset(options),
+    ),
+  );
   fs.writeFileSync(outputPath, `${JSON.stringify(dataset, null, 2)}\n`, "utf8");
   return dataset;
 }

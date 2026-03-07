@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
 import {
-  writeBlogpostGoldsetDataset,
+  writeEnrichedBlogpostGoldsetDataset,
 } from "./lib/blogpost-goldset";
 import {
-  writeBlogpostSegmentationEvalDataset,
+  writeEnrichedBlogpostSegmentationEvalDataset,
 } from "./lib/blogpost-goldset-eval";
 
 const archiveRoot = process.env.BLOGPOST_ARCHIVE_ROOT
@@ -32,8 +32,15 @@ const options = {
   limit,
 };
 
-const goldset = writeBlogpostGoldsetDataset(goldsetPath, options);
-const evalDataset = writeBlogpostSegmentationEvalDataset(evalPath, options);
+async function main() {
+  const goldset = await writeEnrichedBlogpostGoldsetDataset(goldsetPath, options);
+  const evalDataset = await writeEnrichedBlogpostSegmentationEvalDataset(evalPath, options);
 
-console.log(`Wrote ${goldset.posts.length} posts to ${goldsetPath}`);
-console.log(`Wrote ${evalDataset.exampleCount} eval examples to ${evalPath}`);
+  console.log(`Wrote ${goldset.posts.length} posts to ${goldsetPath} (${goldset.provenanceStatus})`);
+  console.log(`Wrote ${evalDataset.exampleCount} eval examples to ${evalPath}`);
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

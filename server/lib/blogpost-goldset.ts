@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import { type TalmudSourceProvenance, extractSefariaReferenceFromUrl, locateTalmudSourceProvenance } from "./talmud-source-provenance";
+import { fetchSefariaRawSource } from "./talmud-sefaria-source";
 
 export interface BlogpostGoldsetBuildOptions {
   archiveRoot: string;
@@ -27,12 +29,14 @@ export interface BlogpostGoldsetUnit {
   hebrewText: string;
   englishText: string;
   sourceKind: "block" | "subblock";
+  sourceProvenance?: TalmudSourceProvenance | null;
 }
 
 export interface BlogpostGoldsetDataset {
   generatedAt: string;
   archiveRoot: string;
   mappingCsvPath: string;
+  provenanceStatus?: "not_enriched" | "section_level";
   posts: BlogpostGoldsetPost[];
 }
 
@@ -484,7 +488,54 @@ export function buildBlogpostGoldsetDataset(
     generatedAt: new Date().toISOString(),
     archiveRoot: options.archiveRoot,
     mappingCsvPath: options.mappingCsvPath,
+    provenanceStatus: "not_enriched",
     posts: limitedPosts,
+  };
+}
+
+export async function enrichBlogpostGoldsetDatasetWithProvenance(
+  dataset: BlogpostGoldsetDataset,
+): Promise<BlogpostGoldsetDataset> {
+  const posts = await Promise.all(
+    dataset.posts.map(async (post) => {
+      const reference = extractSefariaReferenceFromUrl(post.sefariaUrl || "");
+      if (!reference) {
+        return post;
+      }
+
+      try {
+        const rawSource = await fetchSefariaRawSource(reference);
+        const units = post.units.map((unit) => ({
+          ...unit,
+          sourceProvenance: locateTalmudSourceProvenance({
+            hebrewText: unit.hebrewText,
+            englishText: unit.englishText,
+            hebrewSections: rawSource.hebrewSections,
+            englishSections: rawSource.englishSections,
+            sectionRefs: rawSource.sectionRefs,
+          }),
+        }));
+
+        return {
+          ...post,
+          units,
+        };
+      } catch {
+        return {
+          ...post,
+          units: post.units.map((unit) => ({
+            ...unit,
+            sourceProvenance: null,
+          })),
+        };
+      }
+    }),
+  );
+
+  return {
+    ...dataset,
+    provenanceStatus: "section_level",
+    posts,
   };
 }
 
@@ -493,6 +544,17 @@ export function writeBlogpostGoldsetDataset(
   options: BlogpostGoldsetBuildOptions,
 ): BlogpostGoldsetDataset {
   const dataset = buildBlogpostGoldsetDataset(options);
+  fs.writeFileSync(outputPath, `${JSON.stringify(dataset, null, 2)}\n`, "utf8");
+  return dataset;
+}
+
+export async function writeEnrichedBlogpostGoldsetDataset(
+  outputPath: string,
+  options: BlogpostGoldsetBuildOptions,
+): Promise<BlogpostGoldsetDataset> {
+  const dataset = await enrichBlogpostGoldsetDatasetWithProvenance(
+    buildBlogpostGoldsetDataset(options),
+  );
   fs.writeFileSync(outputPath, `${JSON.stringify(dataset, null, 2)}\n`, "utf8");
   return dataset;
 }

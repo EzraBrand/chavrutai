@@ -20,6 +20,7 @@ type SourceMode = "goldset" | "eval" | "upload";
 
 type GoldsetDataset = {
   generatedAt: string;
+  provenanceStatus?: string;
   posts: Array<{
     postId: string;
     postDate: string;
@@ -37,6 +38,11 @@ type GoldsetDataset = {
       hebrewText: string;
       englishText: string;
       sourceKind: "block" | "subblock";
+      sourceProvenance?: {
+        sectionIndex: number;
+        sectionNumber: number;
+        sectionRef: string;
+      } | null;
     }>;
   }>;
 };
@@ -61,6 +67,11 @@ type EvalDataset = {
     english: string;
     hebrewHtml: string;
     englishHtml: string;
+    sourceProvenance?: {
+      sectionIndex: number;
+      sectionNumber: number;
+      sectionRef: string;
+    } | null;
   }>;
 };
 
@@ -99,6 +110,11 @@ type ReviewRecord = {
   englishHtml?: string;
   segments: Array<{ index: number; hebrew: string; english: string; confidence?: number | null }>;
   notes: string[];
+  sourceProvenance?: {
+    sectionIndex: number;
+    sectionNumber: number;
+    sectionRef: string;
+  } | null;
   englishAnchors?: SegmentationSection["englishAnchors"];
   hebrewCandidates?: SegmentationSection["hebrewCandidates"];
   englishCandidates?: SegmentationSection["englishCandidates"];
@@ -210,6 +226,7 @@ function normalizeGoldsetDataset(dataset: GoldsetDataset): ReviewRecord[] {
       englishHtml: unit.englishHtml,
       segments: [{ index: 0, hebrew: unit.hebrewText, english: unit.englishText }],
       notes: [],
+      sourceProvenance: unit.sourceProvenance || null,
     })),
   );
 }
@@ -234,6 +251,7 @@ function normalizeEvalDataset(dataset: EvalDataset): ReviewRecord[] {
     englishHtml: example.englishHtml,
     segments: [{ index: 0, hebrew: example.hebrew, english: example.english }],
     notes: [],
+    sourceProvenance: example.sourceProvenance || null,
   }));
 }
 
@@ -588,6 +606,9 @@ export default function SegmentationReviewPage() {
                         <div className="flex flex-wrap gap-2">
                           {selectedRecord.pageRange ? <Badge variant="secondary">{selectedRecord.pageRange}</Badge> : null}
                           {selectedRecord.postDate ? <Badge variant="outline">{formatDate(selectedRecord.postDate)}</Badge> : null}
+                          {selectedRecord.sourceProvenance?.sectionRef ? (
+                            <Badge variant="outline">{selectedRecord.sourceProvenance.sectionRef}</Badge>
+                          ) : null}
                           {selectedRecord.status ? <Badge variant="outline">{selectedRecord.status}</Badge> : null}
                           {selectedRecord.strategy ? <Badge variant="outline">{selectedRecord.strategy}</Badge> : null}
                           {selectedRecord.version ? <Badge variant="outline">{selectedRecord.version}</Badge> : null}
