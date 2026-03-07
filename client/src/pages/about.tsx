@@ -508,7 +508,7 @@ export default function About() {
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-4">
-                Featured Articles at 'Talmud & Tech' Blog About ChavrutAI
+                Featured Articles from My 'Talmud & Tech' Blog About Building ChavrutAI
               </h2>
               <div className="space-y-3">
                 <a
