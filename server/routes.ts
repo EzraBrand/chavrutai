@@ -43,8 +43,7 @@ function escapeHtmlAttr(str: string): string {
 
 // The canonical profiles ChavrutAI owns — used for sameAs entity linking
 const CHAVRUTAI_SAME_AS = [
-  "https://github.com/EzraBrand/chavrutai-platform",
-  "https://github.com/EzraBrand/replit-chavrutai-2",
+  "https://github.com/EzraBrand/chavrutai",
   "https://www.ezrabrand.com/",
   "https://x.com/ChavrutAI",
 ];

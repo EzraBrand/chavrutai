@@ -274,8 +274,7 @@ export const generateSEOData = {
             url: `${window.location.origin}/favicon-192x192.png`,
           },
           sameAs: [
-            "https://github.com/EzraBrand/chavrutai-platform",
-            "https://github.com/EzraBrand/replit-chavrutai-2",
+            "https://github.com/EzraBrand/chavrutai",
             "https://www.ezrabrand.com/",
             "https://x.com/ChavrutAI",
           ],
