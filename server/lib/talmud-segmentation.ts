@@ -56,11 +56,11 @@ function htmlToPlainText(html: string): string {
   return normalizeWhitespace(decodeHtmlEntities(withoutTags));
 }
 
-function normalizeHebrewText(text: string): string {
+export function normalizeTalmudHebrewText(text: string): string {
   return normalizeWhitespace(removeNikud(htmlToPlainText(text)));
 }
 
-function normalizeEnglishText(text: string): string {
+export function normalizeTalmudEnglishText(text: string): string {
   return htmlToPlainText(text);
 }
 
@@ -215,8 +215,8 @@ function buildInitialNotes(
 export function buildTalmudSectionSegmentationScaffold(
   input: TalmudSectionInput,
 ): TalmudSectionSegmentation {
-  const normalizedHebrew = normalizeHebrewText(input.hebrew);
-  const normalizedEnglish = normalizeEnglishText(input.english);
+  const normalizedHebrew = normalizeTalmudHebrewText(input.hebrew);
+  const normalizedEnglish = normalizeTalmudEnglishText(input.english);
   const englishAnchors = extractEnglishAnchors(input.english);
   const hebrewCandidates = buildHebrewCandidates(normalizedHebrew);
   const englishCandidates = buildEnglishCandidates(normalizedEnglish, englishAnchors);
