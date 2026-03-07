@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { removeNikud } from "@/lib/text-processing";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -113,6 +114,14 @@ type RawSefariaResponse = {
   url: string;
   hebrewSections: string[];
   englishSections: string[];
+  sectionRefs?: string[];
+  matchedSectionIndex?: number | null;
+  matchedSectionNumber?: number | null;
+  matchedSectionRef?: string | null;
+  matchStrategy?: string | null;
+  matchConfidence?: number | null;
+  matchStartChar?: number | null;
+  matchEndChar?: number | null;
 };
 
 function summarizeText(text: string, maxLength = 90): string {
@@ -171,6 +180,13 @@ function formatDate(dateString?: string): string {
   const date = new Date(dateString);
   if (Number.isNaN(date.getTime())) return dateString;
   return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
+
+function normalizeRawHebrewForReview(text: string): string {
+  return removeNikud(text)
+    .replace(/[^\u05D0-\u05EA\u05BE\u05F3\u05F4\s.,;:!?'"()\-[\]]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function normalizeGoldsetDataset(dataset: GoldsetDataset): ReviewRecord[] {
@@ -347,10 +363,20 @@ export default function SegmentationReviewPage() {
   const selectedIndex = filteredRecords.findIndex((record) => record.id === selectedRecordId);
   const selectedRecord = selectedIndex >= 0 ? filteredRecords[selectedIndex] : null;
   const rawSefariaQuery = useQuery<RawSefariaResponse>({
-    queryKey: ["/api/sefaria-raw", selectedRecord?.sefariaUrl || ""],
+    queryKey: [
+      "/api/sefaria-raw",
+      selectedRecord?.sefariaUrl || "",
+      selectedRecord?.hebrewText || "",
+      selectedRecord?.englishText || "",
+    ],
     enabled: Boolean(selectedRecord?.sefariaUrl),
     queryFn: async () => {
-      const response = await fetch(`/api/sefaria-raw?url=${encodeURIComponent(selectedRecord?.sefariaUrl || "")}`);
+      const params = new URLSearchParams({
+        url: selectedRecord?.sefariaUrl || "",
+        hebrew: selectedRecord?.hebrewText || "",
+        english: selectedRecord?.englishText || "",
+      });
+      const response = await fetch(`/api/sefaria-raw?${params.toString()}`);
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText || "Could not load raw Sefaria data.");
@@ -591,15 +617,15 @@ export default function SegmentationReviewPage() {
                     ) : null}
                     <div className="grid gap-4 lg:grid-cols-2">
                       <Card>
-                        <CardHeader><CardTitle className="text-base">Hebrew</CardTitle></CardHeader>
-                        <CardContent className="space-y-4">
-                          <DetailHtml html={selectedRecord.hebrewHtml} />
-                        </CardContent>
-                      </Card>
-                      <Card>
                         <CardHeader><CardTitle className="text-base">English</CardTitle></CardHeader>
                         <CardContent className="space-y-4">
                           <DetailHtml html={selectedRecord.englishHtml} />
+                        </CardContent>
+                      </Card>
+                      <Card>
+                        <CardHeader><CardTitle className="text-base">Hebrew</CardTitle></CardHeader>
+                        <CardContent className="space-y-4">
+                          <DetailHtml html={selectedRecord.hebrewHtml} />
                         </CardContent>
                       </Card>
                     </div>
@@ -608,15 +634,15 @@ export default function SegmentationReviewPage() {
 
                     <div className="grid gap-4 lg:grid-cols-2">
                       <div className="space-y-2">
-                        <div className="text-sm font-medium text-muted-foreground">Derived Hebrew text</div>
-                        <div dir="rtl" className="rounded-md bg-muted/40 p-3 text-sm leading-8 whitespace-pre-wrap">
-                          {htmlToReadableText(selectedRecord.hebrewHtml, selectedRecord.hebrewText)}
-                        </div>
-                      </div>
-                      <div className="space-y-2">
                         <div className="text-sm font-medium text-muted-foreground">Derived English text</div>
                         <div className="rounded-md bg-muted/40 p-3 text-sm leading-7 whitespace-pre-wrap">
                           {htmlToReadableText(selectedRecord.englishHtml, selectedRecord.englishText)}
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="text-sm font-medium text-muted-foreground">Derived Hebrew text</div>
+                        <div dir="rtl" className="rounded-md bg-muted/40 p-3 text-sm leading-8 whitespace-pre-wrap">
+                          {htmlToReadableText(selectedRecord.hebrewHtml, selectedRecord.hebrewText)}
                         </div>
                       </div>
                     </div>
@@ -640,11 +666,11 @@ export default function SegmentationReviewPage() {
                               ) : null}
                             </div>
                             <div className="grid gap-4 lg:grid-cols-2">
-                              <div dir="rtl" className="rounded-md bg-muted/40 p-3 text-lg leading-9">
-                                {segment.hebrew}
-                              </div>
                               <div className="rounded-md bg-muted/40 p-3 text-base leading-8">
                                 {segment.english}
+                              </div>
+                              <div dir="rtl" className="rounded-md bg-muted/40 p-3 text-lg leading-9">
+                                {segment.hebrew}
                               </div>
                             </div>
                           </div>
@@ -662,7 +688,7 @@ export default function SegmentationReviewPage() {
                   <CardHeader>
                     <CardTitle>Raw Sefaria Source</CardTitle>
                     <CardDescription>
-                      Unprocessed Hebrew and English sections fetched directly from Sefaria for this passage reference.
+                      Raw source text fetched directly from Sefaria and narrowed to the closest matching section when possible.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -678,36 +704,55 @@ export default function SegmentationReviewPage() {
                           </AlertDescription>
                         </Alert>
                       ) : rawSefariaQuery.data ? (
-                        <div className="grid gap-4 lg:grid-cols-2">
-                          <Card>
-                            <CardHeader>
-                              <CardTitle className="text-base">Raw Hebrew sections</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-3">
-                              {rawSefariaQuery.data.hebrewSections.map((section, index) => (
-                                <div key={`raw-he-${index}`} className="rounded-md bg-muted/40 p-3">
-                                  <div className="text-xs text-muted-foreground mb-2">Section {index + 1}</div>
-                                  <div dir="rtl" className="text-base leading-8 whitespace-pre-wrap">{section}</div>
-                                </div>
-                              ))}
-                            </CardContent>
-                          </Card>
-                          <Card>
-                            <CardHeader>
-                              <CardTitle className="text-base">Raw English sections</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-3">
-                              {rawSefariaQuery.data.englishSections.map((section, index) => (
-                                <div key={`raw-en-${index}`} className="rounded-md bg-muted/40 p-3">
-                                  <div className="text-xs text-muted-foreground mb-2">Section {index + 1}</div>
-                                  <div
-                                    className="text-base leading-8 [&_b]:font-semibold [&_i]:italic"
-                                    dangerouslySetInnerHTML={{ __html: section }}
-                                  />
-                                </div>
-                              ))}
-                            </CardContent>
-                          </Card>
+                        <div className="space-y-4">
+                          {rawSefariaQuery.data.matchedSectionRef ? (
+                            <div className="flex flex-wrap gap-2">
+                              <Badge variant="secondary">{rawSefariaQuery.data.matchedSectionRef}</Badge>
+                              {rawSefariaQuery.data.matchStrategy ? (
+                                <Badge variant="outline">{rawSefariaQuery.data.matchStrategy}</Badge>
+                              ) : null}
+                              {rawSefariaQuery.data.matchConfidence !== null && rawSefariaQuery.data.matchConfidence !== undefined ? (
+                                <Badge variant="outline">match {rawSefariaQuery.data.matchConfidence}</Badge>
+                              ) : null}
+                            </div>
+                          ) : null}
+                          <div className="grid gap-4 lg:grid-cols-2">
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="text-base">Raw English sections</CardTitle>
+                              </CardHeader>
+                              <CardContent className="space-y-3">
+                                {rawSefariaQuery.data.englishSections.map((section, index) => (
+                                  <div key={`raw-en-${index}`} className="rounded-md bg-muted/40 p-3">
+                                    <div className="text-xs text-muted-foreground mb-2">
+                                      {rawSefariaQuery.data.sectionRefs?.[index] || `Section ${index + 1}`}
+                                    </div>
+                                    <div
+                                      className="text-base leading-8 [&_b]:font-semibold [&_i]:italic"
+                                      dangerouslySetInnerHTML={{ __html: section }}
+                                    />
+                                  </div>
+                                ))}
+                              </CardContent>
+                            </Card>
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="text-base">Raw Hebrew sections</CardTitle>
+                              </CardHeader>
+                              <CardContent className="space-y-3">
+                                {rawSefariaQuery.data.hebrewSections.map((section, index) => (
+                                  <div key={`raw-he-${index}`} className="rounded-md bg-muted/40 p-3">
+                                    <div className="text-xs text-muted-foreground mb-2">
+                                      {rawSefariaQuery.data.sectionRefs?.[index] || `Section ${index + 1}`}
+                                    </div>
+                                    <div dir="rtl" className="text-base leading-8 whitespace-pre-wrap">
+                                      {normalizeRawHebrewForReview(section)}
+                                    </div>
+                                  </div>
+                                ))}
+                              </CardContent>
+                            </Card>
+                          </div>
                         </div>
                       ) : (
                         <div className="text-sm text-muted-foreground">No raw Sefaria data available.</div>
