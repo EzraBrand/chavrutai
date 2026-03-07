@@ -50,7 +50,7 @@ export default function Home() {
                 All 37 tractates with over 5,400 pages. Navigate by Seder, tractate, chapter, or individual page.
               </p>
               <Link href="/talmud">
-                <Button variant="default" className="w-full bg-[#0891b2] hover:bg-[#0779a0] text-white" data-testid="button-browse-talmud">
+                <Button variant="default" className="w-full" data-testid="button-browse-talmud">
                   Browse Talmud
                 </Button>
               </Link>
@@ -64,7 +64,7 @@ export default function Home() {
                 Torah, Prophets, and Writings. Each book includes Hebrew text with English translation.
               </p>
               <Link href="/bible">
-                <Button variant="default" className="w-full bg-[#0891b2] hover:bg-[#0779a0] text-white" data-testid="button-browse-tanakh">
+                <Button variant="default" className="w-full" data-testid="button-browse-tanakh">
                   Browse Tanakh
                 </Button>
               </Link>
