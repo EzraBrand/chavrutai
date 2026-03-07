@@ -23,6 +23,7 @@ interface SEOData {
   ogTitle?: string;
   ogDescription?: string;
   ogUrl?: string;
+  ogType?: string;
   keywords?: string;
   structuredData?: object;
   robots?: string;
@@ -140,7 +141,7 @@ export function useSEO(seoData: SEOData) {
       seoData.ogDescription || seoData.description,
       "property",
     );
-    updateMeta("og:type", "article", "property");
+    updateMeta("og:type", seoData.ogType || "website", "property");
     updateMeta("og:site_name", "ChavrutAI", "property");
     updateMeta("og:locale", "en_US", "property");
     updateMeta("og:locale:alternate", "he_IL", "property");
@@ -187,6 +188,7 @@ export const generateSEOData = {
     description: `Study ${tractate} ${folio}${side} - Babylonian Talmud with bilingual Hebrew-English text, navigation, and study tools. Free on ChavrutAI.`,
     keywords: `Talmud, ${tractate}, folio ${folio}${side}, Jewish texts, Hebrew, Aramaic, study, ChavrutAI, Babylonian Talmud`,
     canonical: `${window.location.origin}/talmud/${getTractateSlug(tractate)}/${folio}${side}`,
+    ogType: "article",
     ogTitle: `${tractate} ${folio}${side} - Study Talmud Bavli`,
     ogDescription: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with Hebrew-English bilingual text on ChavrutAI.`,
     ogUrl: `${window.location.origin}/talmud/${getTractateSlug(tractate)}/${folio}${side}`,
@@ -266,10 +268,17 @@ export const generateSEOData = {
           "@id": `${window.location.origin}/#organization`,
           name: "ChavrutAI",
           url: window.location.origin,
+          foundingDate: "2025",
           logo: {
             "@type": "ImageObject",
             url: `${window.location.origin}/favicon-192x192.png`,
           },
+          sameAs: [
+            "https://github.com/EzraBrand/chavrutai-platform",
+            "https://github.com/EzraBrand/replit-chavrutai-2",
+            "https://www.ezrabrand.com/",
+            "https://x.com/ChavrutAI",
+          ],
         },
         {
           "@type": "SiteNavigationElement",

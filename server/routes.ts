@@ -41,6 +41,124 @@ function escapeHtmlAttr(str: string): string {
     .replace(/>/g, '&gt;');
 }
 
+// The canonical profiles ChavrutAI owns — used for sameAs entity linking
+const CHAVRUTAI_SAME_AS = [
+  "https://github.com/EzraBrand/chavrutai-platform",
+  "https://github.com/EzraBrand/replit-chavrutai-2",
+  "https://www.ezrabrand.com/",
+  "https://x.com/ChavrutAI",
+];
+
+// Generate JSON-LD structured data for a given route (injected server-side for crawlers)
+function generateServerSideStructuredData(url: string, baseUrl: string): object | null {
+  const origin = baseUrl;
+
+  const organizationNode = {
+    "@type": "Organization",
+    "@id": `${origin}/#organization`,
+    name: "ChavrutAI",
+    url: origin,
+    foundingDate: "2025",
+    description: "Free digital platform for studying the Babylonian Talmud with Hebrew-English bilingual text and modern study tools.",
+    logo: {
+      "@type": "ImageObject",
+      url: `${origin}/favicon-192x192.png`,
+    },
+    sameAs: CHAVRUTAI_SAME_AS,
+  };
+
+  if (url === '/' || url === '') {
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": `${origin}/#website`,
+          name: "ChavrutAI",
+          description: "Free digital platform for studying the Babylonian Talmud with Hebrew-English bilingual text and modern study tools.",
+          url: origin,
+          potentialAction: {
+            "@type": "SearchAction",
+            target: `${origin}/talmud/{search_term}`,
+            "query-input": "required name=search_term",
+          },
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        organizationNode,
+      ],
+    };
+  }
+
+  if (url === '/about') {
+    return {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      name: "About ChavrutAI",
+      description: "Information about ChavrutAI digital Talmud study platform",
+      url: `${origin}/about`,
+      mainEntity: {
+        ...organizationNode,
+        "@id": undefined,
+      },
+    };
+  }
+
+  if (url === '/talmud') {
+    return {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Talmud Bavli — All Tractates",
+      description: "Complete table of contents for the Babylonian Talmud. All 37 tractates with Hebrew-English text.",
+      url: `${origin}/talmud`,
+      publisher: { "@id": `${origin}/#organization` },
+    };
+  }
+
+  const tractateMatch = url.match(/^\/talmud\/([^/]+)$/);
+  if (tractateMatch) {
+    const tractate = tractateMatch[1];
+    const tractateTitle = normalizeDisplayTractateName(tractate);
+    return {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: `${tractateTitle} — Babylonian Talmud`,
+      description: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text on ChavrutAI.`,
+      url: `${origin}/talmud/${tractate}`,
+      isPartOf: {
+        "@type": "WebSite",
+        "@id": `${origin}/#website`,
+      },
+      publisher: { "@id": `${origin}/#organization` },
+    };
+  }
+
+  const folioMatch = url.match(/^\/talmud\/([^/]+)\/(\d+[ab])$/i);
+  if (folioMatch) {
+    const tractate = folioMatch[1];
+    const folio = folioMatch[2].toUpperCase();
+    const tractateTitle = normalizeDisplayTractateName(tractate);
+    return {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: `${tractateTitle} ${folio} — Talmud Bavli`,
+      description: `Study ${tractateTitle} folio ${folio} from the Babylonian Talmud with parallel Hebrew-English text on ChavrutAI.`,
+      url: `${origin}/talmud/${tractate}/${folio.toLowerCase()}`,
+      author: { "@id": `${origin}/#organization` },
+      publisher: { "@id": `${origin}/#organization` },
+      isPartOf: {
+        "@type": "Book",
+        name: `${tractateTitle} — Babylonian Talmud`,
+        isPartOf: {
+          "@type": "BookSeries",
+          name: "Babylonian Talmud",
+        },
+      },
+    };
+  }
+
+  return null;
+}
+
 // Generate SEO meta tags based on URL route
 function generateServerSideMetaTags(url: string): { title: string; description: string; ogTitle: string; ogDescription: string; canonical: string; robots: string } {
   const baseUrl = process.env.NODE_ENV === 'production' ? 'https://chavrutai.com' : 'http://localhost:5000';
@@ -48,9 +166,9 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
   // Default fallback (current static meta)
   let seoData = {
     title: "Study Talmud Online - Free Digital Platform | ChavrutAI",
-    description: "Access all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools. Start learning today - completely free.",
-    ogTitle: "Study Talmud Online Free - Digital Platform",
-    ogDescription: "Access all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools. Start learning today - completely free.",
+    description: "ChavrutAI \u2014 study the Babylonian Talmud online, free. All 37 tractates with Hebrew-English text, chapter navigation, and modern study tools.",
+    ogTitle: "ChavrutAI - Study Talmud Online Free",
+    ogDescription: "ChavrutAI \u2014 study the Babylonian Talmud online, free. All 37 tractates with Hebrew-English text, chapter navigation, and modern study tools.",
     canonical: `${baseUrl}/`,
     robots: "index, follow"
   };
@@ -313,12 +431,33 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
         `<meta name="robots" content="${seoData.robots}"`
       );
     
-    // Add canonical tag if not present
-    if (!template.includes('<link rel="canonical"')) {
+    // Update or add canonical tag
+    if (template.includes('<link rel="canonical"')) {
+      template = template.replace(
+        /<link rel="canonical" href=".*?" \/>/,
+        `<link rel="canonical" href="${seoData.canonical}" />`
+      );
+    } else {
       template = template.replace(
         '</head>',
         `  <link rel="canonical" href="${seoData.canonical}" />\n  </head>`
       );
+    }
+
+    // Inject JSON-LD structured data for crawlers
+    const baseUrl = process.env.NODE_ENV === 'production' ? 'https://chavrutai.com' : 'http://localhost:5000';
+    const structuredData = generateServerSideStructuredData(req.path, baseUrl);
+    if (structuredData) {
+      const jsonLdScript = `  <script type="application/ld+json">\n${JSON.stringify(structuredData, null, 2)}\n  </script>\n  </head>`;
+      // Replace any existing JSON-LD injected by this function, or append before </head>
+      if (template.includes('application/ld+json')) {
+        template = template.replace(
+          /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+          `<script type="application/ld+json">\n${JSON.stringify(structuredData, null, 2)}\n  </script>`
+        );
+      } else {
+        template = template.replace('</head>', jsonLdScript);
+      }
     }
     
     res.status(200).set({ "Content-Type": "text/html" }).end(template);
