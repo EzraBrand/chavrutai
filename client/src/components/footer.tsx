@@ -1,6 +1,6 @@
 import { Link } from "wouter";
-import { ExternalLink, Moon, Sun, FileText, Contrast } from "lucide-react";
-import { SiX } from "react-icons/si";
+import { ExternalLink, Moon, Sun, FileText, Contrast, Globe } from "lucide-react";
+import { SiX, SiGithub } from "react-icons/si";
 import { usePreferences, type Theme } from "@/context/preferences-context";
 import { trackEvent } from "@/lib/analytics";
 
@@ -184,11 +184,12 @@ export function Footer() {
                 href="https://github.com/EzraBrand/chavrutai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1.5"
                 data-testid="footer-link-github"
               >
+                <SiGithub size={13} />
                 GitHub
-                <ExternalLink size={14} />
+                <ExternalLink size={13} />
               </a>
               <a
                 href="https://x.com/ChavrutAI"
@@ -199,6 +200,18 @@ export function Footer() {
               >
                 <SiX size={13} />
                 Follow on X
+                <ExternalLink size={13} />
+              </a>
+              <a
+                href="https://www.ezrabrand.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1.5"
+                data-testid="footer-link-talmud-tech-nav"
+              >
+                <Globe size={13} />
+                Talmud & Tech
+                <ExternalLink size={13} />
               </a>
             </nav>
           </div>
