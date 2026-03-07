@@ -139,3 +139,13 @@ shared/
 - `GET /api/rss-feed` — blog feed (titles only)
 - `GET /api/rss-feed-full` — blog feed (full content)
 
+## Recognition
+
+ChavrutAI is featured in the official [Sefaria Powered-By directory](https://developers.sefaria.org/docs/powered-by-sefaria), a curated list of projects and applications built using the Sefaria API and text data.
+
+## Screenshot
+
+![ChavrutAI Talmud page showing Berakhot 2a with bilingual Hebrew/English text, section navigation, and links to Sefaria and Al HaTorah](docs/talmud-page-screenshot.png)
+
+*The Talmud reading page displaying Berakhot 2a — the opening folio of the entire Talmud. Hebrew and English text appear side by side, with numbered section navigation, direct links to Sefaria and Al HaTorah, and folio navigation controls.*
+
