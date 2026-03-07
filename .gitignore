@@ -85,6 +85,7 @@ test-*
 screenshot-*
 image_*.png
 *.png
+!client/public/talmud-page-screenshot.png
 temp-*
 
 # Development scripts folder
