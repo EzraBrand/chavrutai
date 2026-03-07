@@ -440,7 +440,9 @@ export const generateSEOData = {
         url: window.location.origin,
         foundingDate: "2025",
         sameAs: [
-          "https://www.ezrabrand.com/p/designing-chavrutai-building-a-customized",
+          "https://github.com/EzraBrand/chavrutai",
+          "https://www.ezrabrand.com/",
+          "https://x.com/ChavrutAI",
         ],
       },
     },
