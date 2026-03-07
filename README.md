@@ -18,6 +18,14 @@ ChavrutAI is featured in the official [Sefaria Powered-By directory](https://dev
 
 *The Talmud reading page displaying Berakhot 2a — the opening folio of the entire Talmud. Hebrew and English text appear side by side, with numbered section navigation, direct links to Sefaria and Al HaTorah, and folio navigation controls.*
 
+## Featured Articles
+
+From the [Talmud & Tech](https://www.ezrabrand.com/) blog:
+
+- [ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms](https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review) *(Aug 2025)*
+- [ChavrutAI's New Homepage: A Fresh Entry Point for the Study of Classical Jewish Texts](https://www.ezrabrand.com/p/chavrutais-new-homepage-a-fresh-entry) *(Dec 2025)*
+- [ChavrutAI's Talmud Translation Processing Approach](https://www.ezrabrand.com/p/chavrutais-talmud-translation-processing) *(Dec 2025)*
+
 ## Major Features
 
 ### Complete Text Library
