@@ -1,5 +1,7 @@
 # ChavrutAI - Modern Talmud Study Platform
 
+**[https://chavrutai.com](https://chavrutai.com)**
+
 A comprehensive web application for studying the Babylonian Talmud, featuring bilingual text access, advanced study tools, and an intuitive interface designed for learners of all levels.
 
 ## Overview
