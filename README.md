@@ -20,7 +20,7 @@ ChavrutAI is featured in the official [Sefaria Powered-By directory](https://dev
 
 ## Featured Articles
 
-From the [Talmud & Tech](https://www.ezrabrand.com/) blog:
+From my [Talmud & Tech](https://www.ezrabrand.com/) blog, where I write about building and developing ChavrutAI:
 
 - [ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms](https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review) *(Aug 2025)*
 - [ChavrutAI's New Homepage: A Fresh Entry Point for the Study of Classical Jewish Texts](https://www.ezrabrand.com/p/chavrutais-new-homepage-a-fresh-entry) *(Dec 2025)*
