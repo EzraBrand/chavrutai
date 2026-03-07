@@ -12,7 +12,7 @@ ChavrutAI is featured in the official [Sefaria Powered-By directory](https://dev
 
 ## Screenshot
 
-![ChavrutAI Talmud page showing Berakhot 2a with bilingual Hebrew/English text, section navigation, and links to Sefaria and Al HaTorah](docs/talmud-page-screenshot.png)
+![ChavrutAI Talmud page showing Berakhot 2a with bilingual Hebrew/English text, section navigation, and links to Sefaria and Al HaTorah](client/public/talmud-page-screenshot.png)
 
 *The Talmud reading page displaying Berakhot 2a — the opening folio of the entire Talmud. Hebrew and English text appear side by side, with numbered section navigation, direct links to Sefaria and Al HaTorah, and folio navigation controls.*
 
