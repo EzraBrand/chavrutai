@@ -7,6 +7,7 @@ import { AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { BibleTextDisplay } from "@/components/bible/bible-text-display";
 import { BibleExternalLinksFooter } from "@/components/bible/bible-external-links-footer";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
+import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
@@ -185,6 +186,9 @@ export default function BibleChapterPage() {
 
       {/* Main Content */}
       <main className={`max-w-3xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont} layout-${preferences.layout}`}>
+
+        {/* Breadcrumb: Home > Bible > Book > Chapter N */}
+        <BreadcrumbNavigation items={breadcrumbHelpers.bibleChapter(bookTitle, book || 'genesis', parsedChapter)} />
 
         {/* Error State */}
         {error && (

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { bibleAPI } from "@/lib/bible-api";
 import { getBaseUrl } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
@@ -93,6 +94,9 @@ export default function BibleBookPage() {
       </header>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Breadcrumb: Home > Bible > Book */}
+        <BreadcrumbNavigation items={breadcrumbHelpers.bibleBook(bookTitle, book)} />
+
         {/* Book Header */}
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-primary mb-2" data-testid="text-book-title">

@@ -1,4 +1,3 @@
-import { Home } from "lucide-react";
 import { Link } from "wouter";
 import {
   Breadcrumb,
@@ -26,10 +25,7 @@ export function BreadcrumbNavigation({ items }: BreadcrumbNavigationProps) {
         {/* Home link */}
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/" className="flex items-center">
-              <Home className="h-4 w-4" />
-              <span className="sr-only">Contents</span>
-            </Link>
+            <Link href="/">Home</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         
@@ -114,5 +110,18 @@ export const breadcrumbHelpers = {
   // Sitemap page breadcrumbs
   sitemap: (): BreadcrumbNavigationItem[] => [
     { label: "Sitemap" }
-  ]
+  ],
+
+  // Bible book page breadcrumbs (e.g. Home > Bible > Genesis)
+  bibleBook: (bookTitle: string, bookSlug: string): BreadcrumbNavigationItem[] => [
+    { label: "Bible", href: "/bible" },
+    { label: bookTitle },
+  ],
+
+  // Bible chapter page breadcrumbs (e.g. Home > Bible > Genesis > Chapter 1)
+  bibleChapter: (bookTitle: string, bookSlug: string, chapter: number): BreadcrumbNavigationItem[] => [
+    { label: "Bible", href: "/bible" },
+    { label: bookTitle, href: `/bible/${bookSlug}` },
+    { label: `Chapter ${chapter}` },
+  ],
 };

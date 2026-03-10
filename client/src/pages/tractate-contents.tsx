@@ -71,19 +71,6 @@ export default function TractateContents() {
         {/* Breadcrumb: Home > Talmud > Tractate */}
         <BreadcrumbNavigation items={breadcrumbHelpers.tractateContents(tractateDisplayName)} />
 
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <Link href="/talmud">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex items-center gap-2"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Back to Contents
-            </Button>
-          </Link>
-        </div>
 
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-primary mb-2">
