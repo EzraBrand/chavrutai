@@ -71,6 +71,17 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO: Structured Data & Breadcrumb Navigation</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed JSON-LD structured data on Talmud folio and tractate pages — the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">@graph</code> was present but empty; all nodes (Article, Organization, BreadcrumbList) are now correctly populated</li>
+                <li>Upgraded all inner-page JSON-LD to use the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">@graph</code> format so that <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">author</code> and <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">publisher</code> references resolve within the same document (previously they pointed to an Organization node defined only on the homepage)</li>
+                <li>Added <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">BreadcrumbList</code> schema to JSON-LD on folio pages (Home &gt; Talmud &gt; Tractate &gt; Folio) and tractate pages (Home &gt; Talmud &gt; Tractate) — enables rich breadcrumb snippets in Google search results</li>
+                <li>Added visible breadcrumb navigation to Talmud folio pages, tractate contents pages, Bible book pages, and Bible chapter pages</li>
+                <li>Removed redundant "Back to Contents" button from tractate pages — the "Talmud" breadcrumb link serves the same purpose</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Shorter Section Anchor URLs</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Section anchors in Talmud page URLs are now shorter: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#5</code> instead of <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#section-5</code></li>
