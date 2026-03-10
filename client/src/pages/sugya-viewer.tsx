@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Search, Copy, FileText, Code } from "lucide-react";
+import { Search, Copy, FileText, Code, ExternalLink } from "lucide-react";
 import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
 import { TRACTATE_LISTS } from "@shared/tractates";
 import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
@@ -701,6 +701,21 @@ ${cleanHtml}
                     Export .html
                   </Button>
                 </div>
+
+                {inputMethod === "url" && data && !data.error && (
+                  <div className="text-sm text-sepia-700">
+                    <span className="font-medium">Open in ChavrutAI: </span>
+                    <a
+                      href={`/talmud/${encodeURIComponent(data.tractate.toLowerCase())}/${data.page}${data.section ? `#section-${data.section}` : ''}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-primary underline hover:opacity-80"
+                    >
+                      {data.tractate} {data.page}{data.section ? `:${data.section}` : ''}
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                )}
                 
                 <div 
                   id="text-display-container"
