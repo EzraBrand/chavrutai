@@ -91,25 +91,41 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
   if (url === '/about') {
     return {
       "@context": "https://schema.org",
-      "@type": "AboutPage",
-      name: "About ChavrutAI",
-      description: "Information about ChavrutAI digital Talmud study platform",
-      url: `${origin}/about`,
-      mainEntity: {
-        ...organizationNode,
-        "@id": undefined,
-      },
+      "@graph": [
+        {
+          "@type": "AboutPage",
+          "@id": `${origin}/about`,
+          name: "About ChavrutAI",
+          description: "Information about ChavrutAI digital Talmud study platform",
+          url: `${origin}/about`,
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        organizationNode,
+      ],
     };
   }
 
   if (url === '/talmud') {
     return {
       "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      name: "Talmud Bavli — All Tractates",
-      description: "Complete table of contents for the Babylonian Talmud. All 37 tractates with Hebrew-English text.",
-      url: `${origin}/talmud`,
-      publisher: { "@id": `${origin}/#organization` },
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": `${origin}/talmud`,
+          name: "Talmud Bavli — All Tractates",
+          description: "Complete table of contents for the Babylonian Talmud. All 37 tractates with Hebrew-English text.",
+          url: `${origin}/talmud`,
+          breadcrumb: {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+              { "@type": "ListItem", position: 2, name: "Talmud", item: `${origin}/talmud` },
+            ],
+          },
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        organizationNode,
+      ],
     };
   }
 
@@ -119,39 +135,63 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
     const tractateTitle = normalizeDisplayTractateName(tractate);
     return {
       "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      name: `${tractateTitle} — Babylonian Talmud`,
-      description: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text on ChavrutAI.`,
-      url: `${origin}/talmud/${tractate}`,
-      isPartOf: {
-        "@type": "WebSite",
-        "@id": `${origin}/#website`,
-      },
-      publisher: { "@id": `${origin}/#organization` },
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": `${origin}/talmud/${tractate}`,
+          name: `${tractateTitle} — Babylonian Talmud`,
+          description: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text on ChavrutAI.`,
+          url: `${origin}/talmud/${tractate}`,
+          breadcrumb: {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", position: 1, name: "Home",   item: `${origin}/` },
+              { "@type": "ListItem", position: 2, name: "Talmud", item: `${origin}/talmud` },
+              { "@type": "ListItem", position: 3, name: tractateTitle, item: `${origin}/talmud/${tractate}` },
+            ],
+          },
+          isPartOf: { "@type": "WebSite", "@id": `${origin}/#website` },
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        organizationNode,
+      ],
     };
   }
 
   const folioMatch = url.match(/^\/talmud\/([^/]+)\/(\d+[ab])$/i);
   if (folioMatch) {
     const tractate = folioMatch[1];
-    const folio = folioMatch[2].toUpperCase();
+    const folio = folioMatch[2].toLowerCase();
+    const folioDisplay = folio.toUpperCase();
     const tractateTitle = normalizeDisplayTractateName(tractate);
     return {
       "@context": "https://schema.org",
-      "@type": "Article",
-      headline: `${tractateTitle} ${folio} — Talmud Bavli`,
-      description: `Study ${tractateTitle} folio ${folio} from the Babylonian Talmud with parallel Hebrew-English text on ChavrutAI.`,
-      url: `${origin}/talmud/${tractate}/${folio.toLowerCase()}`,
-      author: { "@id": `${origin}/#organization` },
-      publisher: { "@id": `${origin}/#organization` },
-      isPartOf: {
-        "@type": "Book",
-        name: `${tractateTitle} — Babylonian Talmud`,
-        isPartOf: {
-          "@type": "BookSeries",
-          name: "Babylonian Talmud",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": `${origin}/talmud/${tractate}/${folio}`,
+          headline: `${tractateTitle} ${folioDisplay} — Talmud Bavli`,
+          description: `Study ${tractateTitle} folio ${folioDisplay} from the Babylonian Talmud with parallel Hebrew-English text on ChavrutAI.`,
+          url: `${origin}/talmud/${tractate}/${folio}`,
+          author: { "@id": `${origin}/#organization` },
+          publisher: { "@id": `${origin}/#organization` },
+          isPartOf: {
+            "@type": "Book",
+            name: `${tractateTitle} — Babylonian Talmud`,
+            isPartOf: { "@type": "BookSeries", name: "Babylonian Talmud" },
+          },
         },
-      },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", position: 1, name: "Home",         item: `${origin}/` },
+            { "@type": "ListItem", position: 2, name: "Talmud",       item: `${origin}/talmud` },
+            { "@type": "ListItem", position: 3, name: tractateTitle,  item: `${origin}/talmud/${tractate}` },
+            { "@type": "ListItem", position: 4, name: `${tractateTitle} ${folioDisplay}`, item: `${origin}/talmud/${tractate}/${folio}` },
+          ],
+        },
+        organizationNode,
+      ],
     };
   }
 
