@@ -71,10 +71,19 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Shorter Section Anchor URLs</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Section anchors in Talmud page URLs are now shorter: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#5</code> instead of <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#section-5</code></li>
+                <li>The copy-link button and "Jump to section" links now generate the new shorter format</li>
+                <li>Old-style URLs (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/nedarim/37b#section-5</code>) automatically redirect to the new format in the browser without breaking navigation</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Link to ChavrutAI Talmud Reader</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>When viewing results in the <a href="/sugya-viewer" className="underline hover:text-sepia-900 dark:hover:text-sepia-100">Sugya Viewer</a> via "Dropdown Selection" or "Sefaria URL" input methods, a link now appears to open the corresponding page directly in the ChavrutAI Talmud reader</li>
-                <li>The link points to the starting tractate and page (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/berakhot/16b#section-5</code>), scrolling to the exact section if one was specified</li>
+                <li>The link points to the starting tractate and page (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/berakhot/16b#5</code>), scrolling to the exact section if one was specified</li>
               </ul>
             </div>
 
@@ -91,7 +100,7 @@ export default function Changelog() {
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Section & Verse Navigation</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added a "Jump to section:" / "Jump to verse:" row of numbered buttons at the top of every Talmud and Bible page — click any number to scroll directly to that section or verse</li>
-                <li>Added a copy-link icon next to each section and verse header — clicking it copies a direct URL (e.g., <code>/talmud/berakhot/2a#section-5</code>) to the clipboard, with a brief "Copied!" confirmation</li>
+                <li>Added a copy-link icon next to each section and verse header — clicking it copies a direct URL (e.g., <code>/talmud/berakhot/2a#5</code>) to the clipboard, with a brief "Copied!" confirmation</li>
                 <li>Vertical dividers now separate the copy icon, Sefaria link, and Al HaTorah link in each section/verse header for visual clarity</li>
               </ul>
             </div>
