@@ -46,7 +46,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
   const [deferredCategories, setDeferredCategories] = useState<HighlightCategory[]>([]);
 
   const copySectionUrl = (sectionNumber: number) => {
-    const url = `${window.location.origin}${window.location.pathname}#section-${sectionNumber}`;
+    const url = `${window.location.origin}${window.location.pathname}#${sectionNumber}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopiedSection(sectionNumber);
       setTimeout(() => setCopiedSection(null), 2000);
@@ -92,10 +92,17 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     });
   }, [maxSections, hebrewSections, englishSections, applyHighlighting]);
 
-  // Parse and validate section number from hash
+  // Parse and validate section number from hash (supports both #5 and legacy #section-5)
   const parseSectionFromHash = (hash: string): number | null => {
-    if (!hash || !hash.startsWith('#section-')) return null;
-    const sectionNumber = parseInt(hash.replace('#section-', ''), 10);
+    if (!hash) return null;
+    let sectionNumber: number;
+    if (hash.startsWith('#section-')) {
+      sectionNumber = parseInt(hash.replace('#section-', ''), 10);
+    } else if (/^#\d+$/.test(hash)) {
+      sectionNumber = parseInt(hash.slice(1), 10);
+    } else {
+      return null;
+    }
     if (Number.isNaN(sectionNumber) || sectionNumber < 1 || sectionNumber > maxSections) {
       return null;
     }
@@ -104,11 +111,16 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
 
   // Handle hash navigation for sections
   useEffect(() => {
-    const sectionNumber = parseSectionFromHash(window.location.hash);
+    const currentHash = window.location.hash;
+    const sectionNumber = parseSectionFromHash(currentHash);
     if (sectionNumber !== null) {
+      // Normalize legacy #section-N to #N
+      if (currentHash.startsWith('#section-')) {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${sectionNumber}`);
+      }
       // Small delay to ensure DOM is ready
       setTimeout(() => {
-        const sectionElement = document.getElementById(`section-${sectionNumber}`);
+        const sectionElement = document.getElementById(`${sectionNumber}`);
         if (sectionElement) {
           // Use scrollIntoView with block: 'start' - works with scroll-mt-24 CSS class
           sectionElement.scrollIntoView({ 
@@ -126,9 +138,14 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
   // Track hash changes for direct navigation
   useEffect(() => {
     const handleHashChange = () => {
-      const sectionNumber = parseSectionFromHash(window.location.hash);
+      const newHash = window.location.hash;
+      const sectionNumber = parseSectionFromHash(newHash);
       if (sectionNumber !== null) {
-        const sectionElement = document.getElementById(`section-${sectionNumber}`);
+        // Normalize legacy #section-N to #N
+        if (newHash.startsWith('#section-')) {
+          window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${sectionNumber}`);
+        }
+        const sectionElement = document.getElementById(`${sectionNumber}`);
         if (sectionElement) {
           sectionElement.scrollIntoView({ 
             behavior: 'smooth', 
@@ -168,7 +185,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
       scrollTimeout = setTimeout(() => {
         // If user scrolled manually while there was a hash, clear the hash
         const currentHash = window.location.hash;
-        if (currentHash && currentHash.startsWith('#section-') && isUserScrolling) {
+        if (currentHash && /^#\d+$/.test(currentHash) && isUserScrolling) {
           // Clear hash without affecting history
           const newUrl = window.location.pathname + window.location.search;
           window.history.replaceState(null, '', newUrl);
@@ -182,7 +199,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
         let closestDistance = Infinity;
         
         for (let i = 1; i <= maxSections; i++) {
-          const element = document.getElementById(`section-${i}`);
+          const element = document.getElementById(`${i}`);
           if (element) {
             const rect = element.getBoundingClientRect();
             const elementCenterY = window.scrollY + rect.top + rect.height / 2;
@@ -429,7 +446,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
           return (
             <div 
               key={index} 
-              id={`section-${index + 1}`}
+              id={`${index + 1}`}
               className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
             >
               {/* Section Header - Links to Sefaria and Al HaTorah */}
