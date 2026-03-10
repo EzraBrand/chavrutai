@@ -155,6 +155,9 @@ export default function TractateView() {
 
         <h1 className="sr-only">{talmudLocation.tractate} {talmudLocation.folio}{talmudLocation.side} - Talmud Bavli</h1>
 
+        {/* Breadcrumb: Home > Talmud > Tractate > Chapter > Folio */}
+        <BreadcrumbNavigation items={breadcrumbHelpers.tractateView(talmudLocation.tractate, talmudLocation.folio, talmudLocation.side)} />
+
         {/* Error State */}
         {error && (
           <Alert className="mb-6 border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive">

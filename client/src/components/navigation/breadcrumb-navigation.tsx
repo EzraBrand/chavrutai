@@ -67,6 +67,7 @@ export const breadcrumbHelpers = {
   // Tractate view breadcrumbs (main text page)
   tractateView: (tractate: string, folio: number, side: 'a' | 'b'): BreadcrumbNavigationItem[] => {
     const items: BreadcrumbNavigationItem[] = [
+      { label: "Talmud", href: "/talmud" },
       { label: tractate, href: `/talmud/${encodeURIComponent(tractate.toLowerCase())}` }
     ];
     
@@ -96,7 +97,8 @@ export const breadcrumbHelpers = {
 
   // Tractate contents page breadcrumbs  
   tractateContents: (tractate: string): BreadcrumbNavigationItem[] => [
-    { label: tractate }
+    { label: "Talmud", href: "/talmud" },
+    { label: tractate },
   ],
 
   // About page breadcrumbs

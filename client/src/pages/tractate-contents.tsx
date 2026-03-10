@@ -6,6 +6,7 @@ import { useChapterData } from "@/lib/chapter-data";
 import { generateFolioButtons } from "@/lib/folio-utils";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
+import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import {
   TRACTATE_HEBREW_NAMES,
   normalizeDisplayTractateName,
@@ -67,6 +68,9 @@ export default function TractateContents() {
       </header>
 
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Breadcrumb: Home > Talmud > Tractate */}
+        <BreadcrumbNavigation items={breadcrumbHelpers.tractateContents(tractateDisplayName)} />
+
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Link href="/talmud">
