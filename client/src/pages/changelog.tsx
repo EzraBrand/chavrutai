@@ -78,6 +78,8 @@ export default function Changelog() {
                 <li>Added <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">BreadcrumbList</code> schema to JSON-LD on folio pages (Home &gt; Talmud &gt; Tractate &gt; Folio) and tractate pages (Home &gt; Talmud &gt; Tractate) — enables rich breadcrumb snippets in Google search results</li>
                 <li>Added visible breadcrumb navigation to Talmud folio pages, tractate contents pages, Bible book pages, and Bible chapter pages</li>
                 <li>Removed redundant "Back to Contents" button from tractate pages — the "Talmud" breadcrumb link serves the same purpose</li>
+                <li>Added <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">H1</code> heading to the Dictionary page (previously missing, hurting topical relevance for that page)</li>
+                <li>Added <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">rel="nofollow"</code> to all Sefaria and Al HaTorah external links on folio pages — prevents outbound link equity from flowing to third-party sites</li>
               </ul>
             </div>
 

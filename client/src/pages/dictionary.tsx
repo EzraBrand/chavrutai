@@ -505,6 +505,8 @@ export default function Dictionary() {
       </header>
 
       <main className="max-w-4xl mx-auto p-6">
+        <h1 className="text-3xl font-bold text-primary mb-6">Jastrow Talmudic Dictionary</h1>
+
         {/* Search */}
         <div className="mb-8">
           <div className="flex gap-3 mb-6">

@@ -483,7 +483,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                     <a 
                       href={sefariaUrl}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="nofollow noopener noreferrer"
                       className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
                       data-testid={`link-sefaria-section-${index + 1}`}
                       title={`View section ${index + 1} on Sefaria`}
@@ -495,7 +495,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                     <a 
                       href={alHaTorahUrl}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="nofollow noopener noreferrer"
                       className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
                       data-testid={`link-alhatorah-section-${index + 1}`}
                       title={`View section ${index + 1} on Al HaTorah`}

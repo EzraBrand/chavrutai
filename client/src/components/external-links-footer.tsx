@@ -20,7 +20,7 @@ export function ExternalLinksFooter({ tractate, folio, side }: ExternalLinksFoot
             key={link.name}
             href={link.url}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="nofollow noopener noreferrer"
             className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
             data-testid={`link-external-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
             title={link.description}
