@@ -702,7 +702,7 @@ ${cleanHtml}
                   </Button>
                 </div>
 
-                {inputMethod === "url" && data && !data.error && (
+                {(inputMethod === "url" || inputMethod === "dropdown") && data && !data.error && (
                   <div className="text-sm text-sepia-700">
                     <span className="font-medium">Open in ChavrutAI: </span>
                     <a
