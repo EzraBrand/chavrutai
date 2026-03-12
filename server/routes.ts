@@ -5,6 +5,7 @@ import path from "path";
 import { storage } from "./storage";
 import { insertTextSchema, searchRequestSchema, browseRequestSchema, autosuggestRequestSchema, textSearchRequestSchema, type SearchResult, type TextSearchResponse } from "@shared/schema";
 import { normalizeSefariaTractateName, normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
+import { getBookBySlug } from "@shared/bible-books";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
@@ -268,6 +269,34 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       ogTitle: "Bible (Tanach) - Hebrew & English",
       ogDescription: "Read the complete Hebrew Bible with JPS 1985 translation.",
       canonical: `${baseUrl}/bible`,
+      robots: "index, follow"
+    };
+  } else if (url.match(/^\/bible\/[^/]+\/\d+$/)) {
+    // Individual Bible chapter pages like /bible/II_Kings/11
+    const urlParts = url.split('/');
+    const bookSlug = urlParts[2];
+    const chapter = urlParts[3];
+    const book = getBookBySlug(bookSlug);
+    const bookTitle = book ? book.name : bookSlug.replace(/_/g, ' ');
+    seoData = {
+      title: `${bookTitle} Chapter ${chapter} - Hebrew & English Bible | ChavrutAI`,
+      description: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the JPS 1985 translation. Free online Bible study on ChavrutAI.`,
+      ogTitle: `${bookTitle} ${chapter} - Hebrew & English Bible`,
+      ogDescription: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the JPS 1985 translation on ChavrutAI.`,
+      canonical: `${baseUrl}/bible/${bookSlug}/${chapter}`,
+      robots: "index, follow"
+    };
+  } else if (url.match(/^\/bible\/[^/]+$/)) {
+    // Bible book index pages like /bible/Genesis
+    const bookSlug = url.split('/')[2];
+    const book = getBookBySlug(bookSlug);
+    const bookTitle = book ? book.name : bookSlug.replace(/_/g, ' ');
+    seoData = {
+      title: `${bookTitle} - Hebrew & English Bible | ChavrutAI`,
+      description: `Read all chapters of ${bookTitle} with parallel Hebrew-English text and the JPS 1985 translation. Free online Bible study on ChavrutAI.`,
+      ogTitle: `${bookTitle} - Hebrew & English Bible`,
+      ogDescription: `Read ${bookTitle} with parallel Hebrew-English text and the JPS 1985 translation on ChavrutAI.`,
+      canonical: `${baseUrl}/bible/${bookSlug}`,
       robots: "index, follow"
     };
   } else if (url === '/sugya-viewer') {
@@ -612,6 +641,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/blog-posts', servePageWithMeta);
   app.get('/biblical-index', servePageWithMeta);
   app.get('/bible', servePageWithMeta);
+  app.get('/bible/:book', servePageWithMeta);
+  app.get('/bible/:book/:chapter', servePageWithMeta);
   app.get('/sugya-viewer', servePageWithMeta);
   app.get('/mishnah-map', servePageWithMeta);
   app.get('/talmud/:tractate', servePageWithMeta);
