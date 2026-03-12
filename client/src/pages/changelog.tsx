@@ -71,6 +71,15 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Cleaner URLs for Talmud & Bible Pages</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Talmud and Bible URLs now use proper casing and underscores instead of lowercase with hyphens — e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/Rosh_Hashanah/2a</code> and <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/Song_of_Songs/1</code></li>
+                <li>Old-format URLs (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/rosh-hashanah/2a</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/ii-samuel</code>) automatically redirect to the new format</li>
+                <li>URL-encoded spaces (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">rosh%20hashanah</code>) also redirect correctly</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO: Structured Data & Breadcrumb Navigation</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed JSON-LD structured data on Talmud folio and tractate pages — the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">@graph</code> was present but empty; all nodes (Article, Organization, BreadcrumbList) are now correctly populated</li>
