@@ -62,7 +62,7 @@ function notifySubscribers() {
 }
 
 function normalizeTractateKey(tractate: string): string {
-  return tractate.toLowerCase().replace(/\s+/g, ' ');
+  return decodeURIComponent(tractate).toLowerCase().replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 async function loadChapterData(tractateKey: string): Promise<ChapterInfo[]> {

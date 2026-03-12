@@ -25,7 +25,7 @@ export default function TractateContents() {
   // Set up SEO
   useSEO(generateSEOData.tractatePage(tractateDisplayName));
 
-  const tractateChapters = useChapterData(tractate.toLowerCase().replace(/\s+/g, ' '));
+  const tractateChapters = useChapterData(tractate);
 
   if (!match) {
     return <div>Tractate not found</div>;
