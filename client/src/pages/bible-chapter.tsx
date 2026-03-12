@@ -16,6 +16,7 @@ import type { TalmudLocation } from "@/types/talmud";
 import { bibleAPI } from "@/lib/bible-api";
 import { getBaseUrl } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
+import { getTractateSlug } from "@shared/tractates";
 
 export default function BibleChapterPage() {
   const { book, chapter } = useParams<{ book: string; chapter: string }>();
@@ -128,7 +129,7 @@ export default function BibleChapterPage() {
   // Handler for hamburger menu navigation (Bible doesn't use same navigation structure as Talmud)
   const handleLocationChange = (newLocation: TalmudLocation) => {
     // Navigate to Talmud tractate
-    const tractateSlug = newLocation.tractate.toLowerCase().replace(/\s+/g, '-');
+    const tractateSlug = getTractateSlug(newLocation.tractate);
     const folioSlug = `${newLocation.folio}${newLocation.side}`;
     window.location.href = `/talmud/${tractateSlug}/${folioSlug}`;
   };

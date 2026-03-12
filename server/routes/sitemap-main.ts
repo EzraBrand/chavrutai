@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { TRACTATE_LISTS } from '../../shared/tractates';
+import { TRACTATE_LISTS, getTractateSlug } from '../../shared/tractates';
 
 export function generateMainSitemap(req: Request, res: Response) {
   // Use production URL for deployed site
@@ -65,7 +65,7 @@ export function generateMainSitemap(req: Request, res: Response) {
 
   // Add all tractate contents pages
   TRACTATE_LISTS["Talmud Bavli"].forEach((tractate: string) => {
-    const tractateSlug = tractate.toLowerCase().replace(/\s+/g, '-');
+    const tractateSlug = getTractateSlug(tractate);
     sitemap += `
   <url>
     <loc>${baseUrl}/talmud/${tractateSlug}</loc>

@@ -11,6 +11,8 @@ import { useSEO } from "@/hooks/use-seo";
 import { SEARCH_SUGGESTIONS } from "@/data/search-suggestions";
 import { removeNikud, containsHebrew } from "@/lib/text-processing";
 import type { TextSearchResponse, SearchResult } from "@shared/schema";
+import { getTractateSlug } from "@shared/tractates";
+import { getBookBySlug } from "@shared/bible-books";
 
 function getUrlParams() {
   const p = new URLSearchParams(window.location.search);
@@ -206,7 +208,7 @@ export default function SearchPage() {
     if (result.type === "talmud") {
       const match = ref.match(/^([A-Za-z\s]+)\s+(\d+)([ab])(?::(\d+)(?:-\d+)?)?$/);
       if (match) {
-        const tractate = match[1].trim().toLowerCase().replace(/\s+/g, "-");
+        const tractate = getTractateSlug(match[1].trim());
         const folio = match[2];
         const side = match[3];
         const section = match[4];
@@ -216,7 +218,8 @@ export default function SearchPage() {
     } else if (result.type === "bible") {
       const match = ref.match(/^([A-Za-z\s]+)\s+(\d+)(?::(\d+)(?:-\d+)?)?$/);
       if (match) {
-        const book = match[1].trim().toLowerCase().replace(/\s+/g, "-");
+        const bookInfo = getBookBySlug(match[1].trim());
+        const book = bookInfo ? bookInfo.slug : match[1].trim().replace(/\s+/g, "_");
         const chapter = match[2];
         const verse = match[3];
         const verseAnchor = verse ? `#verse-${verse}` : "";

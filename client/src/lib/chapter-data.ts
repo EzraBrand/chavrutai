@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getTractateSlug } from "@shared/tractates";
 
 export interface ChapterInfo {
   number: number;
@@ -244,7 +245,7 @@ export function findChapterForFolio(
 }
 
 export function getChapterFirstPageUrl(tractate: string, chapter: ChapterInfo): string {
-  const tractateSlug = encodeURIComponent(tractate.toLowerCase());
+  const tractateSlug = getTractateSlug(tractate);
   const folioSlug = `${chapter.startFolio}${chapter.startSide}`;
   return `/talmud/${tractateSlug}/${folioSlug}`;
 }

@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
-import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, isValidTractate } from "@shared/tractates";
+import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
 import { getMaxFolio, getStartFolio, getStartSide } from "@shared/talmud-navigation";
 import { 
   getAllExternalLinks, 
@@ -299,11 +299,11 @@ function ExternalLinksPage() {
                     </div>
                     <div className="text-sm text-muted-foreground">ChavrutAI Talmud Reader - section anchor</div>
                     <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
-                      /talmud/{tractate.toLowerCase().replace(/ /g, '-')}/{folio}{side}#section-{section}
+                      /talmud/{getTractateSlug(tractate)}/{folio}{side}#section-{section}
                     </div>
                   </div>
                   <a
-                    href={`/talmud/${tractate.toLowerCase().replace(/ /g, '-')}/${folio}${side}#section-${section}`}
+                    href={`/talmud/${getTractateSlug(tractate)}/${folio}${side}#section-${section}`}
                     className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
                     data-testid="link-section-chavrutai"
                   >
@@ -361,11 +361,11 @@ function ExternalLinksPage() {
                   </div>
                   <div className="text-sm text-muted-foreground">ChavrutAI Talmud Reader</div>
                   <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
-                    /talmud/{tractate.toLowerCase().replace(/ /g, '-')}/{folio}{side}
+                    /talmud/{getTractateSlug(tractate)}/{folio}{side}
                   </div>
                 </div>
                 <a
-                  href={`/talmud/${tractate.toLowerCase().replace(/ /g, '-')}/${folio}${side}`}
+                  href={`/talmud/${getTractateSlug(tractate)}/${folio}${side}`}
                   className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
                   data-testid="link-page-chavrutai"
                 >

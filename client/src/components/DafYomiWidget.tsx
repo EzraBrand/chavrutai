@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { getTractateSlug } from "@shared/tractates";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ interface DafYomiWidgetProps {
 function parseDafYomiRef(ref: string): { tractate: string; folio: string } | null {
   const match = ref.match(/^([A-Za-z\s]+)\s+(\d+)([ab])?$/);
   if (match) {
-    const tractate = match[1].trim().toLowerCase().replace(/\s+/g, '-');
+    const tractate = getTractateSlug(match[1].trim());
     const folioNum = match[2];
     const side = match[3] || 'a';
     return { tractate, folio: `${folioNum}${side}` };

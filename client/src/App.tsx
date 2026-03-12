@@ -9,14 +9,10 @@ import { PageLoading } from "@/components/page-loading";
 import { initAnalytics, isOptedOut } from "@/lib/analytics";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { preloadChapterData } from "@/lib/chapter-data";
-
-function TractateRedirect() {
-  const { tractate, folio } = useParams<{ tractate: string; folio: string }>();
-  return <Redirect to={`/talmud/${tractate}/${folio}${window.location.hash}`} />;
-}
+import { getTractateSlug, isValidTractate } from "@shared/tractates";
+import { getBookBySlug } from "@shared/bible-books";
 
 const Contents = lazy(() => import("@/pages/contents"));
-
 const About = lazy(() => import("@/pages/about"));
 const TractateContents = lazy(() => import("@/pages/tractate-contents"));
 const TractateView = lazy(() => import("./pages/tractate-view"));
@@ -41,6 +37,47 @@ const Home = lazy(() => import("@/pages/home"));
 const BlogReader = lazy(() => import("@/pages/blog-reader"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
+function TractateRedirect() {
+  const { tractate, folio } = useParams<{ tractate: string; folio: string }>();
+  return <Redirect to={`/talmud/${tractate}/${folio}${window.location.hash}`} />;
+}
+
+function TractateContentsRoute() {
+  const { tractate } = useParams<{ tractate: string }>();
+  const canonical = getTractateSlug(tractate || '');
+  if (tractate && tractate !== canonical && isValidTractate(tractate)) {
+    return <Redirect to={`/talmud/${canonical}`} />;
+  }
+  return <TractateContents />;
+}
+
+function TractateViewRoute() {
+  const { tractate, folio } = useParams<{ tractate: string; folio: string }>();
+  const canonical = getTractateSlug(tractate || '');
+  if (tractate && tractate !== canonical && isValidTractate(tractate)) {
+    return <Redirect to={`/talmud/${canonical}/${folio}${window.location.hash}`} />;
+  }
+  return <TractateView />;
+}
+
+function BibleBookRoute() {
+  const { book } = useParams<{ book: string }>();
+  const bookInfo = book ? getBookBySlug(book) : undefined;
+  if (bookInfo && book !== bookInfo.slug) {
+    return <Redirect to={`/bible/${bookInfo.slug}`} />;
+  }
+  return <BibleBookPage />;
+}
+
+function BibleChapterRoute() {
+  const { book, chapter } = useParams<{ book: string; chapter: string }>();
+  const bookInfo = book ? getBookBySlug(book) : undefined;
+  if (bookInfo && book !== bookInfo.slug) {
+    return <Redirect to={`/bible/${bookInfo.slug}/${chapter}`} />;
+  }
+  return <BibleChapterPage />;
+}
+
 function Router() {
   useAnalytics();
   
@@ -53,8 +90,8 @@ function Router() {
       <Route path="/biblical-index" component={BiblicalIndexPage} />
       <Route path="/biblical-index/book/:bookName" component={BiblicalBookPage} />
       <Route path="/bible" component={BibleContents} />
-      <Route path="/bible/:book" component={BibleBookPage} />
-      <Route path="/bible/:book/:chapter" component={BibleChapterPage} />
+      <Route path="/bible/:book" component={BibleBookRoute} />
+      <Route path="/bible/:book/:chapter" component={BibleChapterRoute} />
       <Route path="/suggested-pages" component={SuggestedPages} />
       <Route path="/sitemap" component={Sitemap} />
       <Route path="/changelog" component={Changelog} />
@@ -66,8 +103,8 @@ function Router() {
       <Route path="/external-links" component={ExternalLinksPage} />
       <Route path="/search" component={SearchPage} />
       <Route path="/talmud" component={Contents} />
-      <Route path="/talmud/:tractate" component={TractateContents} />
-      <Route path="/talmud/:tractate/:folio" component={TractateView} />
+      <Route path="/talmud/:tractate" component={TractateContentsRoute} />
+      <Route path="/talmud/:tractate/:folio" component={TractateViewRoute} />
       <Route path="/tractate/:tractate/:folio" component={TractateRedirect} />
       <Route path="/outline/:tractate/:chapter" component={TractateOutlinePage} />
       <Route component={NotFound} />

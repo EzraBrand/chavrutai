@@ -1020,7 +1020,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             lastSide: t.lastSide,
             startFolio: (t as any).startFolio ?? 2,
             startSide: (t as any).startSide ?? 'a',
-            slug: t.name.toLowerCase().replace(/\s+/g, '-'),
+            slug: getTractateSlug(t.name),
             pages: getPageCount(t)
           })),
           totalTractates: tractates.length,

@@ -138,21 +138,32 @@ export const URL_TO_SEFARIA_TRACTATE_MAP: Record<string, string> = {
   "niddah": "Niddah"
 };
 
+// Internal helper: normalize any tractate URL input to the lowercase-hyphen key used in URL_TO_SEFARIA_TRACTATE_MAP
+// Accepts old format (berakhot, rosh-hashanah) and new format (Berakhot, Rosh_Hashanah)
+function normalizeTractateKey(urlTractate: string): string {
+  return decodeURIComponent(urlTractate)
+    .toLowerCase()
+    .replace(/['\u2019]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 // Helper function to normalize tractate names for Sefaria API calls
 export function normalizeSefariaTractateName(urlTractate: string): string {
-  const normalized = URL_TO_SEFARIA_TRACTATE_MAP[urlTractate.toLowerCase()];
+  const normalized = URL_TO_SEFARIA_TRACTATE_MAP[normalizeTractateKey(urlTractate)];
   return normalized || urlTractate;
 }
 
 // Helper function to convert URL tractate names to proper case for display
 export function normalizeDisplayTractateName(urlTractate: string): string {
-  const normalized = URL_TO_SEFARIA_TRACTATE_MAP[urlTractate.toLowerCase()];
+  const normalized = URL_TO_SEFARIA_TRACTATE_MAP[normalizeTractateKey(urlTractate)];
   return normalized || urlTractate;
 }
 
 // Helper function to check if a tractate name is valid
 export function isValidTractate(urlTractate: string): boolean {
-  return !!URL_TO_SEFARIA_TRACTATE_MAP[urlTractate.toLowerCase()];
+  return !!URL_TO_SEFARIA_TRACTATE_MAP[normalizeTractateKey(urlTractate)];
 }
 
 // Tractate data organized by Seder with folio counts
@@ -276,23 +287,19 @@ export function isValidPage(tractate: string, folio: number, side: 'a' | 'b'): b
 }
 
 /**
- * Convert tractate name to URL-safe slug (lowercase with hyphens)
+ * Convert tractate name to canonical URL slug (ProperCase with underscores)
  * This is the canonical URL format for all tractate URLs
- * Handles various input formats: display names, URL-encoded strings, already-slugified inputs
- * @param tractate - The tractate name (any case, spaces, hyphens, or URL-encoded)
- * @returns URL-safe slug (e.g., "Moed Katan" -> "moed-katan", "bava%20metzia" -> "bava-metzia")
+ * Handles various input formats: display names, URL-encoded strings, old-format slugs
+ * @param tractate - The tractate name (any case, spaces, hyphens, underscores, or URL-encoded)
+ * @returns Canonical URL slug (e.g., "Moed Katan" -> "Moed_Katan", "bava-metzia" -> "Bava_Metzia")
  */
 export function getTractateSlug(tractate: string): string {
-  // First decode any URL encoding (e.g., %20 -> space)
-  const decoded = decodeURIComponent(tractate);
-  
-  // Convert to lowercase, replace spaces/underscores with hyphens, remove apostrophes and other punctuation
-  // Then collapse multiple hyphens into one and trim
-  return decoded
-    .toLowerCase()
-    .replace(/['\u2019]/g, '') // Remove apostrophes (both straight and curly)
-    .replace(/[^\w\s-]/g, '') // Remove special characters except word chars, spaces, and hyphens
-    .replace(/[\s_]+/g, '-') // Replace spaces and underscores with hyphens
-    .replace(/-+/g, '-') // Collapse multiple hyphens
-    .replace(/^-|-$/g, ''); // Trim hyphens from start/end
+  const key = normalizeTractateKey(tractate);
+  const sefariaName = URL_TO_SEFARIA_TRACTATE_MAP[key];
+  if (sefariaName) {
+    // Convert Sefaria name spaces to underscores: "Rosh Hashanah" -> "Rosh_Hashanah"
+    return sefariaName.replace(/\s+/g, '_');
+  }
+  // Fallback: return decoded input unchanged
+  return decodeURIComponent(tractate);
 }
