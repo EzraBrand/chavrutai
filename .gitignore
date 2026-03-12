@@ -90,3 +90,6 @@ temp-*
 
 # Development scripts folder
 scripts/
+
+# Mockup and prototype artifacts
+artifacts/
