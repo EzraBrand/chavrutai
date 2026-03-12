@@ -102,6 +102,15 @@ export default function Changelog() {
             </div>
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Shorter Verse Anchor URLs</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Verse anchors in Bible page URLs are now shorter: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#16</code> instead of <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#verse-16</code></li>
+                <li>The copy-link button and "Jump to verse" links now generate the new shorter format</li>
+                <li>Old-style URLs (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/leviticus/6#verse-16</code>) automatically redirect to the new format in the browser without breaking navigation</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Link to ChavrutAI Talmud Reader</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>When viewing results in the <a href="/sugya-viewer" className="underline hover:text-sepia-900 dark:hover:text-sepia-100">Sugya Viewer</a> via "Dropdown Selection" or "Sefaria URL" input methods, a link now appears to open the corresponding page directly in the ChavrutAI Talmud reader</li>
