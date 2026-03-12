@@ -34,7 +34,7 @@ export default function BibleChapterPage() {
   // Set up SEO - Format book title with proper title case
   const formatBookTitle = (slug: string): string => {
     if (!slug) return 'Genesis';
-    const words = slug.split('-');
+    const words = slug.split(/[-_]/);
     return words
       .map((word, index) => {
         const lowerWord = word.toLowerCase();
