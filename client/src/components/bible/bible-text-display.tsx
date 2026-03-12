@@ -14,7 +14,7 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
   const [copiedVerse, setCopiedVerse] = useState<number | null>(null);
 
   const copyVerseUrl = (verseNumber: number) => {
-    const url = `${window.location.origin}${window.location.pathname}#verse-${verseNumber}`;
+    const url = `${window.location.origin}${window.location.pathname}#${verseNumber}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopiedVerse(verseNumber);
       setTimeout(() => setCopiedVerse(null), 2000);
@@ -25,18 +25,33 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
   const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
   const getEnglishFontClass = () => `english-font-${preferences.englishFont}`;
 
-  // Handle verse hash navigation (e.g., #verse-5 scrolls to verse 5)
+  // Handle verse hash navigation (e.g., #5 or legacy #verse-5 scrolls to verse 5)
   useEffect(() => {
+    const parseVerseFromHash = (hash: string): number | null => {
+      if (!hash) return null;
+      let verseNumber: number | null = null;
+      if (hash.startsWith('#verse-')) {
+        verseNumber = parseInt(hash.replace('#verse-', ''), 10);
+      } else if (/^#\d+$/.test(hash)) {
+        verseNumber = parseInt(hash.slice(1), 10);
+      }
+      if (verseNumber === null || isNaN(verseNumber) || verseNumber < 1) return null;
+      return verseNumber;
+    };
+
     const scrollToVerse = () => {
       const hash = window.location.hash;
-      if (!hash || !hash.startsWith('#verse-')) return;
-      
-      const verseNumber = parseInt(hash.replace('#verse-', ''), 10);
-      if (isNaN(verseNumber) || verseNumber < 1) return;
+      const verseNumber = parseVerseFromHash(hash);
+      if (verseNumber === null) return;
+
+      // Redirect legacy #verse-N to short #N format
+      if (hash.startsWith('#verse-')) {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${verseNumber}`);
+      }
 
       // Small delay to ensure DOM is ready
       setTimeout(() => {
-        const verseElement = document.getElementById(`verse-${verseNumber}`);
+        const verseElement = document.getElementById(`${verseNumber}`);
         if (verseElement) {
           verseElement.scrollIntoView({ 
             behavior: 'smooth', 
@@ -278,7 +293,7 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
           return (
             <div
               key={verse.verseNumber}
-              id={`verse-${verse.verseNumber}`}
+              id={`${verse.verseNumber}`}
               className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
             >
               {/* Verse Header - External Links */}

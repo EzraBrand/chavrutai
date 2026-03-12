@@ -222,7 +222,7 @@ export default function SearchPage() {
         const book = bookInfo ? bookInfo.slug : match[1].trim().replace(/\s+/g, "_");
         const chapter = match[2];
         const verse = match[3];
-        const verseAnchor = verse ? `#verse-${verse}` : "";
+        const verseAnchor = verse ? `#${verse}` : "";
         return `/bible/${book}/${chapter}${verseAnchor}`;
       }
     }

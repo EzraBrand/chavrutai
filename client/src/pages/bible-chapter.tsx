@@ -229,7 +229,7 @@ export default function BibleChapterPage() {
                 {text.verses.map((verse) => (
                   <a
                     key={verse.verseNumber}
-                    href={`#verse-${verse.verseNumber}`}
+                    href={`#${verse.verseNumber}`}
                     className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
                     title={`Go to verse ${verse.verseNumber}`}
                   >
