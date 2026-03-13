@@ -34,7 +34,7 @@ export default function BibleBookPage() {
   const baseUrl = getBaseUrl();
   useSEO({
     title: `${bookTitle} - Hebrew & English Bible | ChavrutAI`,
-    description: `Read all ${chapters?.length || ''} chapters of ${bookTitle} with Hebrew and English text from JPS 1985 translation. Free access to the Bible online.`,
+    description: `Read all ${chapters?.length || ''} chapters of ${bookTitle} with Hebrew and English text from the Koren Jerusalem Bible. Free access to the Bible online.`,
     ogTitle: `${bookTitle} - Bible Study`,
     ogDescription: `Read all chapters of ${bookTitle} with parallel Hebrew-English text.`,
     ogUrl: `${baseUrl}/bible/${book}`,
@@ -44,7 +44,7 @@ export default function BibleBookPage() {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: `${bookTitle} - Hebrew Bible`,
-      description: `All chapters of ${bookTitle} with Hebrew and English text from JPS 1985 translation`,
+      description: `All chapters of ${bookTitle} with Hebrew and English text from the Koren Jerusalem Bible`,
       url: `${baseUrl}/bible/${book}`,
       publisher: {
         "@type": "Organization",

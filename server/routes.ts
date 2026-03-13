@@ -265,9 +265,9 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
   } else if (url === '/bible') {
     seoData = {
       title: "Bible (Tanach) - Hebrew & English | ChavrutAI",
-      description: "Read the complete Hebrew Bible (Tanach) with JPS 1985 English translation. Access all 24 books of the Torah, Nevi'im, and Ketuvim with parallel Hebrew-English text.",
+      description: "Read the complete Hebrew Bible (Tanach) with Koren Jerusalem Bible English translation. Access all 24 books of the Torah, Nevi'im, and Ketuvim with parallel Hebrew-English text.",
       ogTitle: "Bible (Tanach) - Hebrew & English",
-      ogDescription: "Read the complete Hebrew Bible with JPS 1985 translation.",
+      ogDescription: "Read the complete Hebrew Bible with Koren Jerusalem Bible translation.",
       canonical: `${baseUrl}/bible`,
       robots: "index, follow"
     };
@@ -280,9 +280,9 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     const bookTitle = book ? book.name : bookSlug.replace(/_/g, ' ');
     seoData = {
       title: `${bookTitle} Chapter ${chapter} - Hebrew & English Bible | ChavrutAI`,
-      description: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the JPS 1985 translation. Free online Bible study on ChavrutAI.`,
+      description: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the Koren Jerusalem Bible translation. Free online Bible study on ChavrutAI.`,
       ogTitle: `${bookTitle} ${chapter} - Hebrew & English Bible`,
-      ogDescription: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the JPS 1985 translation on ChavrutAI.`,
+      ogDescription: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the Koren Jerusalem Bible translation on ChavrutAI.`,
       canonical: `${baseUrl}/bible/${bookSlug}/${chapter}`,
       robots: "index, follow"
     };
@@ -293,9 +293,9 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     const bookTitle = book ? book.name : bookSlug.replace(/_/g, ' ');
     seoData = {
       title: `${bookTitle} - Hebrew & English Bible | ChavrutAI`,
-      description: `Read all chapters of ${bookTitle} with parallel Hebrew-English text and the JPS 1985 translation. Free online Bible study on ChavrutAI.`,
+      description: `Read all chapters of ${bookTitle} with parallel Hebrew-English text and the Koren Jerusalem Bible translation. Free online Bible study on ChavrutAI.`,
       ogTitle: `${bookTitle} - Hebrew & English Bible`,
-      ogDescription: `Read ${bookTitle} with parallel Hebrew-English text and the JPS 1985 translation on ChavrutAI.`,
+      ogDescription: `Read ${bookTitle} with parallel Hebrew-English text and the Koren Jerusalem Bible translation on ChavrutAI.`,
       canonical: `${baseUrl}/bible/${bookSlug}`,
       robots: "index, follow"
     };
@@ -1134,8 +1134,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const hebrewData = await hebrewResponse.json();
       
-      // Fetch English version (JPS 1985)
-      const englishUrl = `https://www.sefaria.org/api/v3/texts/${encodeURIComponent(sefariaRef)}?version=english&versionTitle=JPS%201985%20Tanakh`;
+      // Fetch English version (Koren Jerusalem Bible) via v1 API which correctly respects ven parameter
+      const englishUrl = `https://www.sefaria.org/api/texts/${encodeURIComponent(sefariaRef)}?lang=en&ven=${encodeURIComponent('The Koren Jerusalem Bible')}&context=0`;
       console.log(`Fetching English Bible text from Sefaria: ${englishUrl}`);
       const englishResponse = await fetch(englishUrl);
       
@@ -1149,7 +1149,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Extract Hebrew and English verses from their respective responses
       const hebrewVerses = Array.isArray(hebrewData.versions[0]?.text) ? hebrewData.versions[0].text : [];
-      const englishVerses = Array.isArray(englishData.versions[0]?.text) ? englishData.versions[0].text : [];
+      // v1 API returns text directly (not nested in versions array)
+      const englishVerses = Array.isArray(englishData.text) ? englishData.text : [];
       
       // Process each verse
       const verses = hebrewVerses.map((hebrewVerse: string, index: number) => {
@@ -1644,7 +1645,7 @@ When answering questions:
             should: [
               // Whitelist: Only show these specific English versions
               { match_phrase: { version: "William Davidson Edition - English" } },
-              { match_phrase: { version: "Tanakh: The Holy Scriptures, published by JPS" } },
+              { match_phrase: { version: "The Koren Jerusalem Bible" } },
               // Also include Hebrew text
               { term: { lang: "he" } }
             ],

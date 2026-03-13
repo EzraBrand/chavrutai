@@ -14,9 +14,9 @@ export default function BibleContents() {
   // Set up SEO
   useSEO({
     title: "Bible (Tanach) - Hebrew & English | ChavrutAI",
-    description: "Read the complete Hebrew Bible (Tanach) with JPS 1985 English translation. Access all 24 books of the Torah, Nevi'im, and Ketuvim with parallel Hebrew-English text.",
+    description: "Read the complete Hebrew Bible (Tanach) with Koren Jerusalem Bible English translation. Access all 24 books of the Torah, Nevi'im, and Ketuvim with parallel Hebrew-English text.",
     ogTitle: "Bible (Tanach) - Hebrew & English",
-    ogDescription: "Read the complete Hebrew Bible with JPS 1985 translation.",
+    ogDescription: "Read the complete Hebrew Bible with Koren Jerusalem Bible translation.",
     ogUrl: `${baseUrl}/bible`,
     canonical: `${baseUrl}/bible`,
     robots: "index, follow",
@@ -24,7 +24,7 @@ export default function BibleContents() {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: "Hebrew Bible (Tanach)",
-      description: "Complete Hebrew Bible with JPS 1985 English translation - Torah, Nevi'im, and Ketuvim",
+      description: "Complete Hebrew Bible with Koren Jerusalem Bible English translation - Torah, Nevi'im, and Ketuvim",
       url: `${baseUrl}/bible`,
       publisher: {
         "@type": "Organization",
@@ -132,7 +132,7 @@ export default function BibleContents() {
           Bible (Tanach)
         </h1>
         <p className="text-muted-foreground">
-          Hebrew Bible with JPS 1985 English Translation
+          Hebrew Bible with Koren Jerusalem Bible English Translation
         </p>
       </div>
 
