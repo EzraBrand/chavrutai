@@ -669,8 +669,10 @@ ${cleanHtml}
             {inputMethod === "blogpost" && (
               <BlogPostSelector
                 onSelectPost={(location, blogUrl) => {
-                  setUrl(locationToSefariaUrl(location));
+                  const sefariaUrl = locationToSefariaUrl(location);
+                  setUrl(sefariaUrl);
                   setInputMethod("url");
+                  pushUrlParams("url", tractate, page, section, sefariaUrl);
                   setTimeout(() => {
                     handleFetch();
                   }, 100);
