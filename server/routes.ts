@@ -851,6 +851,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       let hebrewSections: string[] = [];
       let englishSections: string[] = [];
+      let sectionRefs: { page: string; sectionNum: number }[] = [];
       
       if (crossPageRangeMatch) {
         // Handle cross-page range: Sukkah.52a.4-53a.4
@@ -907,16 +908,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
             const pageHebrew = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
             const pageEnglish = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
             
-            // Filter sections based on start/end
+            // Filter sections based on start/end and track refs
+            let slicedHebrew: string[];
+            let slicedEnglish: string[];
+            let baseNum: number;
             if (pageRef === startPage) {
-              hebrewSections.push(...pageHebrew.slice(startSection - 1));
-              englishSections.push(...pageEnglish.slice(startSection - 1));
+              slicedHebrew = pageHebrew.slice(startSection - 1);
+              slicedEnglish = pageEnglish.slice(startSection - 1);
+              baseNum = startSection;
             } else if (pageRef === endPage) {
-              hebrewSections.push(...pageHebrew.slice(0, endSection));
-              englishSections.push(...pageEnglish.slice(0, endSection));
+              slicedHebrew = pageHebrew.slice(0, endSection);
+              slicedEnglish = pageEnglish.slice(0, endSection);
+              baseNum = 1;
             } else {
-              hebrewSections.push(...pageHebrew);
-              englishSections.push(...pageEnglish);
+              slicedHebrew = pageHebrew;
+              slicedEnglish = pageEnglish;
+              baseNum = 1;
+            }
+            hebrewSections.push(...slicedHebrew);
+            englishSections.push(...slicedEnglish);
+            for (let j = 0; j < slicedHebrew.length; j++) {
+              sectionRefs.push({ page: pageRef, sectionNum: baseNum + j });
             }
           }
         }
@@ -952,6 +964,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             if (startIdx >= 0 && startIdx < hebrewSections.length) {
               hebrewSections = hebrewSections.slice(startIdx, endIdx);
               englishSections = englishSections.slice(startIdx, endIdx);
+              sectionRefs = hebrewSections.map((_, j) => ({ page: parsedPage, sectionNum: startSection + j }));
             } else {
               hebrewSections = [];
               englishSections = [];
@@ -961,11 +974,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
             if (sectionIdx >= 0 && sectionIdx < hebrewSections.length) {
               hebrewSections = [hebrewSections[sectionIdx]];
               englishSections = [englishSections[sectionIdx]];
+              sectionRefs = [{ page: parsedPage, sectionNum: parsedSection }];
             } else {
               hebrewSections = [];
               englishSections = [];
             }
           }
+        } else {
+          // All sections on a single page
+          sectionRefs = hebrewSections.map((_, j) => ({ page: parsedPage, sectionNum: j + 1 }));
         }
       }
 
@@ -1004,6 +1021,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         section: parsedSection,
         hebrewSections: processedHebrewSections,
         englishSections: processedEnglishSections,
+        sectionRefs,
         span
       });
     } catch (error) {

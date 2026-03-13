@@ -29,6 +29,7 @@ interface SefariaResponse {
   section?: number;
   hebrewSections: string[];
   englishSections: string[];
+  sectionRefs?: { page: string; sectionNum: number }[];
   span: string;
   error?: string;
 }
@@ -481,8 +482,12 @@ ${cleanHtml}
           const formattedEnglish = formatEnglishText(englishText);
           const englishParagraphs = formattedEnglish.split('\n\n').filter(p => p.trim());
 
-          const sectionNumber = i + 1;
-          const sectionLabel = data.section ? `${data.page}:${data.section}` : `${data.page}:${sectionNumber}`;
+          const ref = data.sectionRefs?.[i];
+          const sectionLabel = ref
+            ? `${ref.page}:${ref.sectionNum}`
+            : data.section
+              ? `${data.page}:${data.section}`
+              : `${data.page}:${i + 1}`;
 
           return (
             <div key={i} className="space-y-4">
