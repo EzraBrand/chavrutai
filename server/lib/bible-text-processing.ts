@@ -209,7 +209,9 @@ export function processBibleEnglish(text: string): string {
   // IMPORTANT: Process longer phrases FIRST to avoid partial matches
   return noHTML
     .replace(/יהוה/g, "YHWH")  // Replace Hebrew Tetragrammaton
-    // Process "the LORD/Lord" BEFORE standalone "LORD/GOD"
+    // Process multi-word divine name phrases BEFORE standalone "LORD/GOD"
+    .replace(/\bO Lord\b/g, "O YHWH")
+    .replace(/\bO LORD\b/g, "O YHWH")
     .replace(/\bthe LORD\b/g, "YHWH")
     .replace(/\bThe LORD\b/g, "YHWH")
     .replace(/\bthe Lord\b/g, "YHWH")
@@ -225,6 +227,7 @@ export function processBibleEnglish(text: string): string {
     .replace(/\btwenty[- ]five\b/gi, "25")
     .replace(/\btwenty[- ]nine\b/gi, "29")
     // Character transliteration fixes (Koren-specific special characters)
+    .replace(/Ż/g, "Tz")   // Ż (capital z with dot above) => Tz
     .replace(/ż/g, "tz")   // ż (z with dot above) => tz
     .replace(/ĥ/g, "ḥ")   // ĥ (h with circumflex) => ḥ (h with dot below)
     .replace(/᾽/g, "'")   // Greek koronis => plain apostrophe
