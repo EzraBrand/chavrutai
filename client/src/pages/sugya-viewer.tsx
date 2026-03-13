@@ -62,6 +62,47 @@ export default function SefariaFetchPage() {
   const [url, setUrl] = useState<string>("");
   const [shouldFetch, setShouldFetch] = useState(false);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const method = params.get('method');
+
+    if (method === 'dropdown') {
+      const t = params.get('tractate');
+      const p = params.get('page');
+      const s = params.get('section');
+      if (t && tractates.includes(t)) setTractate(t);
+      if (p) setPage(p);
+      if (s) setSection(s); else setSection('all');
+      setInputMethod('dropdown');
+      setShouldFetch(true);
+    } else if (method === 'url') {
+      const ref = params.get('ref');
+      if (ref) {
+        setUrl(`https://www.sefaria.org/${ref}`);
+        setInputMethod('url');
+        setShouldFetch(true);
+      }
+    }
+  }, []);
+
+  const pushUrlParams = (method: "dropdown" | "url", currentTractate: string, currentPage: string, currentSection: string, currentUrl: string) => {
+    const params = new URLSearchParams();
+    if (method === 'dropdown') {
+      params.set('method', 'dropdown');
+      params.set('tractate', currentTractate);
+      params.set('page', currentPage);
+      if (currentSection !== 'all') params.set('section', currentSection);
+    } else if (method === 'url') {
+      params.set('method', 'url');
+      const urlWithoutQuery = currentUrl.split('?')[0];
+      const urlPath = urlWithoutQuery.includes('/') ? urlWithoutQuery.split('/').pop() || urlWithoutQuery : urlWithoutQuery;
+      if (urlPath) params.set('ref', urlPath);
+    }
+    if (params.toString()) {
+      window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`);
+    }
+  };
+
   const { data, isLoading, error, refetch } = useQuery<SefariaResponse>({
     queryKey: ['/api/sefaria-fetch', inputMethod, tractate, page, section, url],
     queryFn: async () => {
@@ -85,6 +126,9 @@ export default function SefariaFetchPage() {
   });
 
   const handleFetch = () => {
+    if (inputMethod !== 'blogpost') {
+      pushUrlParams(inputMethod, tractate, page, section, url);
+    }
     setShouldFetch(true);
     refetch();
   };
