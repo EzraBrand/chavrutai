@@ -484,16 +484,16 @@ ${cleanHtml}
 
           const ref = data.sectionRefs?.[i];
           const sectionLabel = ref
-            ? `${ref.page}:${ref.sectionNum}`
+            ? `${data.tractate} ${ref.page}:${ref.sectionNum}`
             : data.section
-              ? `${data.page}:${data.section}`
-              : `${data.page}:${i + 1}`;
+              ? `${data.tractate} ${data.page}:${data.section}`
+              : `${data.tractate} ${data.page}:${i + 1}`;
 
           return (
             <div key={i} className="space-y-4">
               <div
                 data-no-copy
-                className="text-xs font-mono text-sepia-500 select-none"
+                className="text-xs font-mono text-sepia-500"
                 style={{ marginBottom: '4px' }}
               >
                 {sectionLabel}
