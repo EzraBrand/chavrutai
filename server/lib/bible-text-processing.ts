@@ -228,14 +228,15 @@ export function processBibleEnglish(text: string): string {
     .replace(/ż/g, "tz")   // ż (z with dot above) => tz
     .replace(/ĥ/g, "ḥ")   // ĥ (h with circumflex) => ḥ (h with dot below)
     .replace(/᾽/g, "'")   // Greek koronis => plain apostrophe
-    // ῾ (Greek dasia, U+1FFE): mid-word => apostrophe, end-of-word => remove
+    // ῾ (Greek dasia, U+1FFE): mid-word => apostrophe, beginning-of-word => remove
     .replace(/(?<=[a-zA-Z])῾(?=[a-zA-Z])/g, "'")
-    .replace(/(?<=[a-zA-Z])῾(?![a-zA-Z])/g, "")
-    // Archaic pronoun modernization (case-preserving)
+    .replace(/(?<![a-zA-Z])῾(?=[a-zA-Z])/g, "")
+    // Archaic pronoun/verb modernization (case-preserving)
     .replace(/\b(T|t)hy\b/g, (_, c) => c === 'T' ? 'Your' : 'your')
     .replace(/\b(T|t)hou\b/g, (_, c) => c === 'T' ? 'You' : 'you')
     .replace(/\b(T|t)hee\b/g, (_, c) => c === 'T' ? 'You' : 'you')
-    .replace(/\b(S|s)houldst\b/g, (_, c) => c === 'S' ? 'Should' : 'should');
+    .replace(/\b(S|s)houldst\b/g, (_, c) => c === 'S' ? 'Should' : 'should')
+    .replace(/\b(H|h)ast\b/g, (_, c) => c === 'H' ? 'Have' : 'have');
 }
 
 /**
