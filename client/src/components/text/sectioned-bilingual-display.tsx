@@ -4,6 +4,8 @@ import { formatEnglishText, processHebrewText, processEnglishText } from "@/lib/
 import { usePreferences } from "@/context/preferences-context";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import { getSefariaLink, getAlHaTorahLink, type TalmudReference } from "@/lib/external-links";
+import { useChapterData, type ChapterInfo } from "@/lib/chapter-data";
+import { getMishnahSection } from "@shared/mishnah-map";
 import type { TalmudText } from "@/types/talmud";
 
 interface SectionedBilingualDisplayProps {
@@ -91,6 +93,24 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
       return { englishHtml, hebrewLines };
     });
   }, [maxSections, hebrewSections, englishSections, applyHighlighting]);
+
+  // Load chapter data for the current tractate
+  const chapters = useChapterData(text.tractate);
+
+  // Build a map of { sectionNumber -> ChapterInfo } for chapters that start on this folio
+  const chapterSectionMap = useMemo((): Record<number, ChapterInfo> => {
+    const map: Record<number, ChapterInfo> = {};
+    const folioLabel = `${text.folio}${text.side}`;
+    for (const chapter of chapters) {
+      if (chapter.startFolio === text.folio && chapter.startSide === text.side) {
+        const section = getMishnahSection(text.tractate, chapter.number, folioLabel);
+        if (section !== null) {
+          map[section] = chapter;
+        }
+      }
+    }
+    return map;
+  }, [chapters, text.tractate, text.folio, text.side]);
 
   // Parse and validate section number from hash (supports both #5 and legacy #section-5)
   const parseSectionFromHash = (hash: string): number | null => {
@@ -449,6 +469,26 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               id={`${index + 1}`}
               className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
             >
+              {/* Chapter Header - shown when a new chapter starts at this section */}
+              {chapterSectionMap[index + 1] && (() => {
+                const ch = chapterSectionMap[index + 1];
+                return (
+                  <div className="flex items-center gap-3 mb-5 -mx-6 px-6 py-3 bg-primary/10 border-y border-primary/20">
+                    <div className="flex-1 text-center">
+                      <span className="text-sm font-semibold text-primary uppercase tracking-wide">
+                        Chapter {ch.number}:&nbsp;
+                      </span>
+                      <span className="text-sm font-semibold text-primary italic">
+                        {ch.englishName}
+                      </span>
+                      <span className="text-sm text-primary/70 font-hebrew ml-2">
+                        {ch.hebrewName}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })()}
+
               {/* Section Header - Links to Sefaria and Al HaTorah */}
               {(() => {
                 const sectionRef: TalmudReference = {
