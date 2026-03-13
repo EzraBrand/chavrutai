@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getTractateSlug } from "@shared/tractates";
+import { getMishnahSection } from "@shared/mishnah-map";
 
 export interface ChapterInfo {
   number: number;
@@ -247,5 +248,7 @@ export function findChapterForFolio(
 export function getChapterFirstPageUrl(tractate: string, chapter: ChapterInfo): string {
   const tractateSlug = getTractateSlug(tractate);
   const folioSlug = `${chapter.startFolio}${chapter.startSide}`;
-  return `/talmud/${tractateSlug}/${folioSlug}`;
+  const section = getMishnahSection(tractate, chapter.number, folioSlug);
+  const anchor = section ? `#section-${section}` : '';
+  return `/talmud/${tractateSlug}/${folioSlug}${anchor}`;
 }
