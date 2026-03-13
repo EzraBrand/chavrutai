@@ -169,6 +169,14 @@
     max-width: none !important;
     margin-bottom: 1rem;
   }
+
+  .layout-stacked .text-display .lg\:order-1 {
+    order: 2 !important;
+  }
+
+  .layout-stacked .text-display .lg\:order-2 {
+    order: 1 !important;
+  }
   
   .layout-side-by-side .text-display {
     flex-direction: row;
