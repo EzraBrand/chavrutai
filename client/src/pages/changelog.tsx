@@ -71,6 +71,14 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO: MIT License Added to Structured Data &amp; Footer</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed a Google Search Console warning on the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/biblical-index</code> Dataset — added the missing <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">license</code> field (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">https://opensource.org/licenses/MIT</code>) to both the client-side and server-side JSON-LD structured data</li>
+                <li>Added "MIT License" link to the site footer (About &amp; Legal column), linking to the canonical OSI license page — standard open-source practice</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Bible Translation Switched to Koren Jerusalem Bible</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Replaced JPS 1985 with the <strong>Koren Jerusalem Bible</strong> as the English translation for all Bible chapters</li>
