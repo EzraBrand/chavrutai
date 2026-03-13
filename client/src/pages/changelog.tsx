@@ -71,6 +71,17 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Shareable Range URLs</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Clicking "Fetch Text" in the Sugya Viewer now updates the browser URL with parameters that encode exactly what was fetched — similar to how Sefaria encodes ranges like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">sefaria.org.il/Rosh_Hashanah.2a.7-2b.2</code></li>
+                <li>Dropdown Selection produces URLs like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sugya-viewer?method=dropdown&tractate=Berakhot&page=2a</code> (with an optional <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">&section=3</code> when a specific section is chosen)</li>
+                <li>Sefaria URL input produces URLs like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sugya-viewer?method=url&ref=Rosh_Hashanah.2a.7-2b.2</code></li>
+                <li>Blog Post Selection also updates the URL with the resolved Sefaria reference, so that result is equally shareable</li>
+                <li>Opening a shared link auto-populates the form and immediately fetches the text — no extra clicks needed</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Cleaner URLs for Talmud & Bible Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Talmud and Bible URLs now use proper casing and underscores instead of lowercase with hyphens — e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/Rosh_Hashanah/2a</code> and <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/Song_of_Songs/1</code></li>
