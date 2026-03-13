@@ -159,6 +159,22 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
     };
   }
 
+  if (url === '/biblical-index') {
+    return {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: "Biblical Citations in the Talmud",
+      description: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud",
+      url: `${origin}/biblical-index`,
+      license: "https://opensource.org/licenses/MIT",
+      creator: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: origin,
+      },
+    };
+  }
+
   const folioMatch = url.match(/^\/talmud\/([^/]+)\/(\d+[ab])$/i);
   if (folioMatch) {
     const tractate = folioMatch[1];

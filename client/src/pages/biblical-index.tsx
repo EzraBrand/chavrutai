@@ -26,6 +26,7 @@ export default function BiblicalIndexPage() {
       name: "Biblical Citations in the Talmud",
       description: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud",
       url: `${window.location.origin}/biblical-index`,
+      license: "https://opensource.org/licenses/MIT",
       creator: {
         "@type": "Organization",
         name: "ChavrutAI",
