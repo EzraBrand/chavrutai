@@ -222,6 +222,9 @@ export function splitHebrewText(text: string): string {
   
   // STEP 5: Handle irony punctuation (?!) as a unit
   // This combined punctuation should not split between ? and !
+  // First, remove any dash that immediately follows ?! (?! — or ?! –) before expansion,
+  // mirroring the same rule applied to plain ? below.
+  processedText = processedText.replace(/\?!\s*[–—]/g, '?!');
   processedText = processedText.replace(IRONY_PUNCT_PATTERN, '?!\n');
   
   // STEP 5b: Remove dash that immediately follows a question mark (? — or ? –)
