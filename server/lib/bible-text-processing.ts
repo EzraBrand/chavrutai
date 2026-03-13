@@ -220,7 +220,14 @@ export function processBibleEnglish(text: string): string {
     // Now process standalone forms
     .replace(/\bETERNAL\b/g, "YHWH")  // Replace ETERNAL (from JPS small caps rendering)
     .replace(/\bLORD\b/g, "YHWH")  // Replace standalone LORD
-    .replace(/\bGOD\b/g, "YHWH");  // Replace GOD (from JPS small caps rendering)
+    .replace(/\bGOD\b/g, "YHWH")  // Replace GOD (from JPS small caps rendering)
+    // Number word conversions (with or without hyphen, as Koren uses the unhyphenated form)
+    .replace(/\btwenty[- ]five\b/gi, "25")
+    .replace(/\btwenty[- ]nine\b/gi, "29")
+    // Character transliteration fixes (Koren-specific special characters)
+    .replace(/ż/g, "tz")   // ż (z with dot above) => tz
+    .replace(/ĥ/g, "ḥ")   // ĥ (h with circumflex) => ḥ (h with dot below)
+    .replace(/᾽/g, "'");   // Greek koronis => plain apostrophe
 }
 
 /**

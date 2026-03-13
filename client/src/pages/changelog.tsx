@@ -71,6 +71,18 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Bible Translation Switched to Koren Jerusalem Bible</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Replaced JPS 1985 with the <strong>Koren Jerusalem Bible</strong> as the English translation for all Bible chapters</li>
+                <li>Koren is more literal than JPS 1985 — for example, it renders שבתות שבע as "seven complete sabbaths" (vs. JPS's "seven weeks") in Leviticus 23:15, preserving the Hebrew more closely</li>
+                <li>Fixed a pre-existing bug: the Sefaria v3 API was silently ignoring the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">versionTitle</code> parameter and serving the 2023 Gender-Sensitive JPS instead of JPS 1985 — the app was claiming one translation but displaying another</li>
+                <li>Switched to Sefaria's v1 API with the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ven</code> parameter, which correctly respects the requested version</li>
+                <li>Added Koren-specific text normalization: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ż → tz</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ĥ → ḥ</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">᾽ → '</code>, and number words like "twenty-five → 25"</li>
+                <li>Updated search to index Koren results for Bible passages</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Shareable Range URLs</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Clicking "Fetch Text" in the Sugya Viewer now updates the browser URL with parameters that encode exactly what was fetched — similar to how Sefaria encodes ranges like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">sefaria.org.il/Rosh_Hashanah.2a.7-2b.2</code></li>
