@@ -486,6 +486,13 @@ ${cleanHtml}
 
           return (
             <div key={i} className="space-y-4">
+              <div
+                data-no-copy
+                className="text-xs font-mono text-sepia-500 select-none"
+                style={{ marginBottom: '4px' }}
+              >
+                {sectionLabel}
+              </div>
               {hebrewText && (
                 <div 
                   dir="rtl" 
