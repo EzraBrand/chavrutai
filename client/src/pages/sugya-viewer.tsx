@@ -60,30 +60,15 @@ export default function SefariaFetchPage() {
   const [page, setPage] = useState<string>("2a");
   const [section, setSection] = useState<string>("all");
   const [url, setUrl] = useState<string>("");
-  const [shouldFetch, setShouldFetch] = useState(false);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const method = params.get('method');
-
-    if (method === 'dropdown') {
-      const t = params.get('tractate');
-      const p = params.get('page');
-      const s = params.get('section');
-      if (t && tractates.includes(t)) setTractate(t);
-      if (p) setPage(p);
-      if (s) setSection(s); else setSection('all');
-      setInputMethod('dropdown');
-      setShouldFetch(true);
-    } else if (method === 'url') {
-      const ref = params.get('ref');
-      if (ref) {
-        setUrl(`https://www.sefaria.org/${ref}`);
-        setInputMethod('url');
-        setShouldFetch(true);
-      }
-    }
-  }, []);
+  interface FetchParams {
+    inputMethod: "dropdown" | "url";
+    tractate: string;
+    page: string;
+    section: string;
+    url: string;
+  }
+  const [fetchParams, setFetchParams] = useState<FetchParams | null>(null);
 
   const pushUrlParams = (method: "dropdown" | "url", currentTractate: string, currentPage: string, currentSection: string, currentUrl: string) => {
     const params = new URLSearchParams();
@@ -103,15 +88,41 @@ export default function SefariaFetchPage() {
     }
   };
 
-  const { data, isLoading, error, refetch } = useQuery<SefariaResponse>({
-    queryKey: ['/api/sefaria-fetch', inputMethod, tractate, page, section, url],
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const method = params.get('method');
+
+    if (method === 'dropdown') {
+      const t = params.get('tractate') || tractates[0];
+      const p = params.get('page') || '2a';
+      const s = params.get('section') || 'all';
+      const resolvedTractate = tractates.includes(t) ? t : tractates[0];
+      setTractate(resolvedTractate);
+      setPage(p);
+      setSection(s);
+      setInputMethod('dropdown');
+      setFetchParams({ inputMethod: 'dropdown', tractate: resolvedTractate, page: p, section: s, url: '' });
+    } else if (method === 'url') {
+      const ref = params.get('ref');
+      if (ref) {
+        const sefariaUrl = `https://www.sefaria.org/${ref}`;
+        setUrl(sefariaUrl);
+        setInputMethod('url');
+        setFetchParams({ inputMethod: 'url', tractate: tractates[0], page: '2a', section: 'all', url: sefariaUrl });
+      }
+    }
+  }, []);
+
+  const { data, isLoading, error } = useQuery<SefariaResponse>({
+    queryKey: ['/api/sefaria-fetch', fetchParams],
     queryFn: async () => {
+      if (!fetchParams) throw new Error('No params');
       const params = new URLSearchParams({
-        inputMethod,
-        tractate,
-        page,
-        section,
-        url
+        inputMethod: fetchParams.inputMethod,
+        tractate: fetchParams.tractate,
+        page: fetchParams.page,
+        section: fetchParams.section,
+        url: fetchParams.url
       });
       const response = await fetch(`/api/sefaria-fetch?${params}`);
       if (!response.ok) {
@@ -120,17 +131,19 @@ export default function SefariaFetchPage() {
       }
       return response.json();
     },
-    enabled: shouldFetch,
+    enabled: fetchParams !== null,
     refetchOnWindowFocus: false,
     retry: false
   });
 
   const handleFetch = () => {
-    if (inputMethod !== 'blogpost') {
-      pushUrlParams(inputMethod, tractate, page, section, url);
+    if (inputMethod === 'dropdown') {
+      pushUrlParams('dropdown', tractate, page, section, url);
+      setFetchParams({ inputMethod: 'dropdown', tractate, page, section, url: '' });
+    } else if (inputMethod === 'url') {
+      pushUrlParams('url', tractate, page, section, url);
+      setFetchParams({ inputMethod: 'url', tractate, page, section, url });
     }
-    setShouldFetch(true);
-    refetch();
   };
 
   useEffect(() => {
@@ -673,9 +686,7 @@ ${cleanHtml}
                   setUrl(sefariaUrl);
                   setInputMethod("url");
                   pushUrlParams("url", tractate, page, section, sefariaUrl);
-                  setTimeout(() => {
-                    handleFetch();
-                  }, 100);
+                  setFetchParams({ inputMethod: "url", tractate, page, section, url: sefariaUrl });
                 }}
               />
             )}
