@@ -2,7 +2,7 @@
   {
     "number": 1,
     "englishName": "Me'eimatay",
-    "hebrewName": "פרק א",
+    "hebrewName": "מאימתי",
     "startFolio": 2,
     "startSide": "a",
     "endFolio": 13,
@@ -11,7 +11,7 @@
   {
     "number": 2,
     "englishName": "Hayah Korei",
-    "hebrewName": "פרק ב",
+    "hebrewName": "היה קורא",
     "startFolio": 13,
     "startSide": "a",
     "endFolio": 17,
@@ -20,7 +20,7 @@
   {
     "number": 3,
     "englishName": "Mi She'meto",
-    "hebrewName": "פרק ג",
+    "hebrewName": "מי שמתו",
     "startFolio": 17,
     "startSide": "b",
     "endFolio": 26,
@@ -29,7 +29,7 @@
   {
     "number": 4,
     "englishName": "Tefilat HaShachar",
-    "hebrewName": "פרק ד",
+    "hebrewName": "תפלת השחר",
     "startFolio": 26,
     "startSide": "a",
     "endFolio": 30,
@@ -38,7 +38,7 @@
   {
     "number": 5,
     "englishName": "Ein Omdin",
-    "hebrewName": "פרק ה",
+    "hebrewName": "אין עומדין",
     "startFolio": 30,
     "startSide": "b",
     "endFolio": 34,
@@ -47,7 +47,7 @@
   {
     "number": 6,
     "englishName": "Keytzad Mevarkhim",
-    "hebrewName": "פרק ו",
+    "hebrewName": "כיצד מברכין",
     "startFolio": 35,
     "startSide": "a",
     "endFolio": 45,
@@ -56,7 +56,7 @@
   {
     "number": 7,
     "englishName": "Sheloshah She'achlu",
-    "hebrewName": "פרק ז",
+    "hebrewName": "שלשה שאכלו",
     "startFolio": 45,
     "startSide": "a",
     "endFolio": 51,
@@ -65,7 +65,7 @@
   {
     "number": 8,
     "englishName": "Eilu Devarim",
-    "hebrewName": "פרק ח",
+    "hebrewName": "אלו דברים",
     "startFolio": 51,
     "startSide": "b",
     "endFolio": 53,
@@ -74,7 +74,7 @@
   {
     "number": 9,
     "englishName": "HaRo'eh",
-    "hebrewName": "פרק ט",
+    "hebrewName": "הרואה",
     "startFolio": 54,
     "startSide": "a",
     "endFolio": 64,

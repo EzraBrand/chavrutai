@@ -475,14 +475,14 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                 return (
                   <div className="flex items-center gap-3 mb-5 -mx-6 px-6 py-3 bg-primary/10 border-y border-primary/20">
                     <div className="flex-1 text-center">
-                      <span className="text-sm font-semibold text-primary uppercase tracking-wide">
+                      <span className="text-base font-semibold text-primary uppercase tracking-wide">
                         Chapter {ch.number}:&nbsp;
                       </span>
-                      <span className="text-sm font-semibold text-primary italic">
+                      <span className="text-base font-semibold text-primary italic">
                         {ch.englishName}
                       </span>
-                      <span className="text-sm text-primary/70 font-hebrew ml-2">
-                        {ch.hebrewName}
+                      <span className="text-base text-primary/70 font-hebrew ml-2">
+                        ({ch.hebrewName})
                       </span>
                     </div>
                   </div>
