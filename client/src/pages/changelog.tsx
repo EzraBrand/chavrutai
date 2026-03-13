@@ -70,6 +70,18 @@ export default function Changelog() {
           </h2>
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Chapter Navigation: Deep Links &amp; Inline Chapter Headers</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>The chapter breadcrumb on Talmud folio pages now deep-links directly to the section where the chapter begins — e.g., clicking "Chapter 2: BaMeh Madlikin" navigates to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/Shabbat/20b#section-5</code> rather than just the top of the page</li>
+                <li>Uses the same Mishnah-to-Talmud mapping data already used by the tractate table of contents, ensuring consistency across the app</li>
+                <li>A chapter name header now appears inline in the text, directly above the section where a new chapter begins — e.g., "Chapter 2: BaMeh Madlikin (במה מדליקין)" is displayed as a highlighted banner before the opening Mishnah of that chapter</li>
+                <li>Fixed Berakhot chapter Hebrew names: all nine chapters previously showed generic ordinals (פרק א, פרק ב…) instead of their traditional names; corrected to מאימתי, היה קורא, מי שמתו, תפלת השחר, אין עומדין, כיצד מברכין, שלשה שאכלו, אלו דברים, הרואה</li>
+                <li>The tractate table of contents now displays the correct Hebrew chapter names in parentheses for Berakhot — e.g., "Chapter 1: Me'eimatay (מאימתי)"</li>
+              </ul>
+            </div>
+
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO: MIT License Added to Structured Data &amp; Footer</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
