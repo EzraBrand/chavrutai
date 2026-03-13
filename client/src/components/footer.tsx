@@ -173,6 +173,16 @@ export function Footer() {
               >
                 Privacy
               </Link>
+              <a
+                href="https://opensource.org/licenses/MIT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1.5"
+                data-testid="footer-link-mit-license"
+              >
+                MIT License
+                <ExternalLink size={13} />
+              </a>
               <Link 
                 href="/changelog"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
