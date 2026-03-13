@@ -214,6 +214,9 @@ export function processBibleEnglish(text: string): string {
     .replace(/\bThe LORD\b/g, "YHWH")
     .replace(/\bthe Lord\b/g, "YHWH")
     .replace(/\bThe Lord\b/g, "YHWH")
+    // Process "the ETERNAL" BEFORE standalone "ETERNAL" (JPS rendering)
+    .replace(/\bthe ETERNAL\b/g, "YHWH")
+    .replace(/\bThe ETERNAL\b/g, "YHWH")
     // Now process standalone forms
     .replace(/\bETERNAL\b/g, "YHWH")  // Replace ETERNAL (from JPS small caps rendering)
     .replace(/\bLORD\b/g, "YHWH")  // Replace standalone LORD
