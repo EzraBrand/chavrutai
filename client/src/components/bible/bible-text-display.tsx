@@ -113,15 +113,9 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
 
       // Remove verse headers (e.g., "verse 1", "verse 2", etc.) - targets the verse header container
       const removeVerseHeaders = (element: HTMLElement): void => {
-        const verseHeaderContainers = element.querySelectorAll('[data-testid*="-verse-"]');
-        const removedParents = new Set<Node>();
-        verseHeaderContainers.forEach(link => {
-          const parent = link.parentElement;
-          if (parent && !removedParents.has(parent)) {
-            removedParents.add(parent);
-            parent.remove();
-          }
-        });
+        // Remove entire verse header divs (contains verse label + copy button + external links)
+        const verseHeaders = element.querySelectorAll('[data-testid^="verse-header-"]');
+        verseHeaders.forEach(header => header.remove());
       };
 
       removeVerseHeaders(tempDiv);
@@ -301,7 +295,7 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                 const verseRef: BibleReference = { book: text.book, chapter: text.chapter, verse: verse.verseNumber };
                 const verseLinks = getBibleVerseLinks(verseRef);
                 return (
-                  <div className="flex items-center justify-center gap-2 mb-4 flex-wrap">
+                  <div className="flex items-center justify-center gap-2 mb-4 flex-wrap" data-testid={`verse-header-${verse.verseNumber}`}>
                     <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
                       verse {verse.verseNumber}
                     </span>
