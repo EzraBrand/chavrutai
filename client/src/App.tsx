@@ -36,6 +36,7 @@ const SearchPage = lazy(() => import("@/pages/search"));
 const Home = lazy(() => import("@/pages/home"));
 const BlogReader = lazy(() => import("@/pages/blog-reader"));
 const NotFound = lazy(() => import("@/pages/not-found"));
+const TermIndexPage = lazy(() => import("@/pages/term-index"));
 
 function TractateRedirect() {
   const { tractate, folio } = useParams<{ tractate: string; folio: string }>();
@@ -102,6 +103,7 @@ function Router() {
       <Route path="/sugya-viewer" component={SugyaViewerPage} />
       <Route path="/external-links" component={ExternalLinksPage} />
       <Route path="/search" component={SearchPage} />
+      <Route path="/term-index" component={TermIndexPage} />
       <Route path="/talmud" component={Contents} />
       <Route path="/talmud/:tractate" component={TractateContentsRoute} />
       <Route path="/talmud/:tractate/:folio" component={TractateViewRoute} />
