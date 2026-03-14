@@ -247,15 +247,13 @@ export default function TermIndexPage() {
     switch (key) {
       case "term":
         return row.term ? (
-          <a
-            href={`https://chavrutai.com/search?q=${encodeURIComponent(row.term)}&type=talmud`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-primary hover:underline inline-flex items-center gap-0.5"
+          <Link
+            href={`/search?q=${encodeURIComponent(row.term)}`}
+            className="font-medium text-primary hover:underline"
+            onClick={e => e.stopPropagation()}
           >
             {row.term}
-            <ExternalLink className="w-3 h-3 flex-shrink-0" />
-          </a>
+          </Link>
         ) : <span className="text-muted-foreground/50">—</span>;
       case "categories":
         return <CategoryBadges categories={row.categories} />;
@@ -379,16 +377,25 @@ export default function TermIndexPage() {
             </div>
           ) : (
             <table className="border-collapse text-sm" style={{ minWidth: "2200px", width: "100%", tableLayout: "fixed" }}>
-              <thead className="sticky top-0 z-10">
+              <thead className="sticky top-0 z-20">
                 <tr>
-                  <th className="text-right text-muted-foreground font-medium bg-muted/60 border-b border-border px-2 py-2.5 text-xs w-10">#</th>
-                  {COLUMNS.map(col => (
+                  <th
+                    className="text-right text-muted-foreground font-medium border-b border-border px-2 py-2.5 text-xs w-10"
+                    style={{ position: "sticky", left: 0, zIndex: 30, background: "var(--muted)" }}
+                  >
+                    #
+                  </th>
+                  {COLUMNS.map((col) => (
                     <th
                       key={col.key}
                       onClick={() => handleSort(col.key)}
                       title={col.tooltip}
-                      className="text-left font-semibold bg-muted/60 border-b border-border px-3 py-2.5 cursor-pointer select-none hover:bg-muted transition-colors text-xs whitespace-nowrap"
-                      style={{ minWidth: col.minWidth }}
+                      className="text-left font-semibold border-b border-border px-3 py-2.5 cursor-pointer select-none text-xs whitespace-nowrap transition-colors"
+                      style={{
+                        minWidth: col.minWidth,
+                        background: "var(--muted)",
+                        ...(col.key === "term" ? { position: "sticky", left: "40px", zIndex: 30, boxShadow: "2px 0 4px -2px rgba(0,0,0,0.12)" } : {}),
+                      }}
                     >
                       {col.label}
                       <SortIcon col={col.key} sortKey={sortKey} sortDir={sortDir} />
@@ -424,9 +431,32 @@ export default function TermIndexPage() {
                           : "bg-muted/20 hover:bg-muted/40"
                       }`}
                     >
-                      <td className="text-right text-muted-foreground/60 text-xs px-2 py-2 font-mono">{idx + 1}</td>
+                      <td
+                        className="text-right text-muted-foreground/60 text-xs px-2 py-2 font-mono"
+                        style={{
+                          position: "sticky",
+                          left: 0,
+                          zIndex: 10,
+                          background: selectedRow === idx ? "color-mix(in srgb, var(--primary) 15%, var(--card))" : idx % 2 === 0 ? "var(--card)" : "var(--muted)",
+                        }}
+                      >
+                        {idx + 1}
+                      </td>
                       {COLUMNS.map(col => (
-                        <td key={col.key} className="px-3 py-2 align-top" style={{ minWidth: col.minWidth }}>
+                        <td
+                          key={col.key}
+                          className="px-3 py-2 align-top"
+                          style={{
+                            minWidth: col.minWidth,
+                            ...(col.key === "term" ? {
+                              position: "sticky",
+                              left: "40px",
+                              zIndex: 10,
+                              boxShadow: "2px 0 4px -2px rgba(0,0,0,0.10)",
+                              background: selectedRow === idx ? "color-mix(in srgb, var(--primary) 15%, var(--card))" : idx % 2 === 0 ? "var(--card)" : "var(--muted)",
+                            } : {}),
+                          }}
+                        >
                           {renderCell(row, col.key, idx)}
                         </td>
                       ))}
