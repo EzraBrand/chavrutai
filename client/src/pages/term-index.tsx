@@ -341,7 +341,7 @@ export default function TermIndexPage() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-[1400px] mx-auto w-full px-4 py-6 flex flex-col">
+      <main className="max-w-[1400px] mx-auto w-full px-4 py-6">
         <div className="mb-4">
           <h1 className="text-2xl font-bold text-foreground mb-1">
             Index of Names, Places &amp; Key Terms
@@ -397,8 +397,8 @@ export default function TermIndexPage() {
         {/* Table */}
         <div
           ref={tableWrapRef}
-          className="flex-1 border border-border rounded-lg overflow-auto bg-card shadow-sm"
-          style={{ minHeight: 0, maxHeight: "calc(100vh - 260px)" }}
+          className="border border-border rounded-lg overflow-auto bg-card shadow-sm"
+          style={{ maxHeight: "70vh" }}
         >
           {isLoading ? (
             <div className="flex items-center justify-center h-48 gap-2 text-muted-foreground">
