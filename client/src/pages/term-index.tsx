@@ -119,7 +119,7 @@ function CategoryBadges({ categories }: { categories: string }) {
       {cats.map(c => (
         <span
           key={c}
-          className="inline-block px-1.5 py-0.5 rounded-full text-[10px] bg-primary/10 text-primary font-medium whitespace-nowrap"
+          className="inline-block px-2 py-0.5 rounded-full text-xs bg-primary/10 text-primary font-medium whitespace-nowrap"
         >
           {c}
         </span>
@@ -187,7 +187,7 @@ export default function TermIndexPage() {
           const cats = (r.categories || "").split(";").map(c => c.trim()).filter(Boolean);
           return {
             ...(r as unknown as GlossaryRow),
-            __search: Object.values(r).join(" ").toLowerCase(),
+            __search: [r.term, r.variant_names, r.wikipedia_en].join(" ").toLowerCase(),
             __categories: cats,
           };
         });
@@ -249,7 +249,7 @@ export default function TermIndexPage() {
         return row.term ? (
           <Link
             href={`/search?q=${encodeURIComponent(row.term)}`}
-            className="font-medium text-primary hover:underline"
+            className="font-medium text-blue-600 hover:underline hover:text-blue-800"
             onClick={e => e.stopPropagation()}
           >
             {row.term}
@@ -268,7 +268,7 @@ export default function TermIndexPage() {
                 href={`https://chavrutai.com/search?q=${encodeURIComponent(v)}&type=talmud`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:underline inline-flex items-center gap-0.5 mr-1"
+                className="text-blue-600 hover:underline hover:text-blue-800 inline-flex items-center gap-0.5 mr-1"
               >
                 {v}
                 {i < items.length - 1 && <span className="text-muted-foreground">;</span>}
