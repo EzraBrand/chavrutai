@@ -2,8 +2,8 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { Link } from "wouter";
 import { Search, ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, Loader2, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { useSEO } from "@/hooks/use-seo";
+import { Footer } from "@/components/footer";
 
 const CSV_URL =
   "https://raw.githubusercontent.com/EzraBrand/talmud-nlp-indexer/main/docs/glossary/glossary_initial_v4.csv";
@@ -502,6 +502,7 @@ export default function TermIndexPage() {
           )}
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
