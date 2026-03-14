@@ -72,6 +72,19 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Page: <Link href="/term-index" className="text-blue-600 hover:underline">Talmud Term Index</Link></h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added a new reference page at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/term-index</code> — a sortable, filterable glossary of personal names, place names, and key terms drawn from the Babylonian Talmud</li>
+                <li>Data sourced from the <a href="https://github.com/EzraBrand/talmud-nlp-indexer" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">talmud-nlp-indexer</a> project; see the companion post <a href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Introducing a New Talmudic Glossary</a> (Feb 22, 2026) for background</li>
+                <li>Table columns: Term, Category, Variants, Corpus Count, Wikipedia EN/HE, Hebrew Term, Wikidata ID, and biographical fields (father, teacher, affiliation, students, birth/death dates and places) sourced from Wikidata</li>
+                <li>All columns are sortable by clicking the header; the Term and # columns are frozen (sticky) when scrolling horizontally</li>
+                <li>Search filters across Term, Variants, and Wikipedia EN; a separate category dropdown narrows by term type (names, places, concepts, etc.)</li>
+                <li>Term links navigate internally to the ChavrutAI search; Wikipedia and Wikidata links open externally</li>
+                <li>Page is linked from the site footer (Study Resources), the sitemap, and is fully indexed by search engines with structured data (Schema.org Dataset)</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Chapter Navigation: Deep Links &amp; Inline Chapter Headers</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>The chapter breadcrumb on Talmud folio pages now deep-links directly to the section where the chapter begins — e.g., clicking "Chapter 2: BaMeh Madlikin" navigates to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/Shabbat/20b#section-5</code> rather than just the top of the page</li>
