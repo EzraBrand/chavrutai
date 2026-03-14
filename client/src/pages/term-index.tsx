@@ -157,11 +157,34 @@ const COLUMNS: { key: SortKey; label: string; tooltip?: string; minWidth?: strin
 export default function TermIndexPage() {
   useSEO({
     title: "Talmud Term Index - Names, Places & Key Terms | ChavrutAI",
-    description: "Comprehensive index of personal names, place names, and key terms in the Babylonian Talmud. Includes corpus counts, Wikipedia links, Hebrew terms, and biographical data.",
-    ogTitle: "Talmud Term Index - Names, Places & Key Terms",
-    ogDescription: "Comprehensive index of personal names, place names, and key terms in the Babylonian Talmud with corpus counts and Wikipedia links.",
+    description: "Glossary of personal names, place names, and key terms in the Babylonian Talmud. Includes corpus counts, Wikipedia links, Hebrew terms, and biographical data.",
+    ogTitle: "Talmud Term Index - Names, Places & Key Terms | ChavrutAI",
+    ogDescription: "Glossary of personal names, place names, and key terms in the Babylonian Talmud with corpus counts, Wikipedia links, and biographical data.",
     canonical: `${window.location.origin}/term-index`,
     robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: "Talmud Term Index",
+      description: "Glossary of personal names, place names, and key terms in the Babylonian Talmud with corpus counts and Wikipedia mappings.",
+      url: `${window.location.origin}/term-index`,
+      license: "https://opensource.org/licenses/MIT",
+      creator: {
+        "@type": "Person",
+        name: "Ezra Brand",
+        url: "https://www.ezrabrand.com/",
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+      about: {
+        "@type": "Thing",
+        name: "Babylonian Talmud",
+      },
+      keywords: "Talmud, glossary, rabbinic names, place names, Aramaic, Hebrew, Babylonian Talmud, NLP, corpus",
+    },
   });
 
   const [rawData, setRawData] = useState<GlossaryRow[]>([]);
@@ -324,7 +347,18 @@ export default function TermIndexPage() {
             Index of Names, Places &amp; Key Terms
           </h1>
           <p className="text-sm text-muted-foreground">
-            Canonicalized glossary of Talmudic and Biblical terms with variants, corpus counts, and Wikipedia links.
+            Glossary of Talmudic and Biblical terms with variants, corpus counts, and Wikipedia links.{" "}
+            Read more about this at{" "}
+            <a
+              href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline hover:text-blue-800 inline-flex items-center gap-0.5"
+            >
+              Introducing a New Talmudic Glossary
+              <ExternalLink className="w-3 h-3" />
+            </a>
+            {" "}(Feb 22, 2026).
           </p>
         </div>
 

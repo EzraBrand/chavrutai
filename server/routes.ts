@@ -278,6 +278,15 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/dictionary`,
       robots: "index, follow"
     };
+  } else if (url === '/term-index') {
+    seoData = {
+      title: "Talmud Term Index - Names, Places & Key Terms | ChavrutAI",
+      description: "Glossary of personal names, place names, and key terms in the Babylonian Talmud. Includes corpus counts, Wikipedia links, Hebrew terms, and biographical data.",
+      ogTitle: "Talmud Term Index - Names, Places & Key Terms | ChavrutAI",
+      ogDescription: "Glossary of personal names, place names, and key terms in the Babylonian Talmud with corpus counts, Wikipedia links, and biographical data.",
+      canonical: `${baseUrl}/term-index`,
+      robots: "index, follow"
+    };
   } else if (url === '/bible') {
     seoData = {
       title: "Bible (Tanach) - Hebrew & English | ChavrutAI",
@@ -654,6 +663,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/contact', servePageWithMeta);
   app.get('/changelog', servePageWithMeta);
   app.get('/dictionary', servePageWithMeta);
+  app.get('/term-index', servePageWithMeta);
   app.get('/blog-posts', servePageWithMeta);
   app.get('/biblical-index', servePageWithMeta);
   app.get('/bible', servePageWithMeta);

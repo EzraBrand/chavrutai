@@ -125,6 +125,13 @@ export function Footer() {
                 Jastrow Talmud Dictionary
               </Link>
               <Link 
+                href="/term-index"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-term-index"
+              >
+                Talmud Term Index
+              </Link>
+              <Link 
                 href="/bible"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-bible"
