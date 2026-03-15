@@ -324,7 +324,7 @@ export default function TermIndexPage() {
       case "term":
         return row.term ? (
           <Link
-            href={`/search?q=${encodeURIComponent(row.term)}`}
+            href={`/search?q=${encodeURIComponent(row.term)}&type=talmud`}
             className="font-medium text-blue-600 hover:underline hover:text-blue-800"
             onClick={e => e.stopPropagation()}
           >
