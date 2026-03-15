@@ -43,6 +43,7 @@
     "@radix-ui/react-tooltip": "^1.2.0",
     "@sendgrid/mail": "^8.1.5",
     "@tanstack/react-query": "^5.60.5",
+    "@tanstack/react-virtual": "^3.13.22",
     "@types/dompurify": "^3.0.5",
     "@vitest/ui": "^4.0.8",
     "baseline-browser-mapping": "^2.9.11",

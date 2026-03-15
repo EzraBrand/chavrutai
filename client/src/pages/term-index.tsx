@@ -4,9 +4,12 @@ import { Search, ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, Loader2, Chevron
 import { Input } from "@/components/ui/input";
 import { useSEO } from "@/hooks/use-seo";
 import { Footer } from "@/components/footer";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 const CSV_URL =
   "https://raw.githubusercontent.com/EzraBrand/talmud-nlp-indexer/main/docs/glossary/glossary_initial_v4.csv";
+
+const CSV_CACHE_KEY = "glossary_csv_v4";
 
 interface GlossaryRow {
   term: string;
@@ -30,9 +33,13 @@ interface GlossaryRow {
   place_of_death: string;
   __search: string;
   __categories: string[];
+  __corpusCount: number;
+  __wikiEnTitle: string;
+  __wikiHeTitle: string;
+  __variants: string[];
 }
 
-type SortKey = keyof Omit<GlossaryRow, "__search" | "__categories">;
+type SortKey = keyof Omit<GlossaryRow, "__search" | "__categories" | "__corpusCount" | "__wikiEnTitle" | "__wikiHeTitle" | "__variants">;
 type SortDir = "asc" | "desc";
 
 function parseCsv(text: string): Record<string, string>[] {
@@ -111,12 +118,11 @@ function ExternalLinkCell({ href, label }: { href: string; label: string }) {
   );
 }
 
-function CategoryBadges({ categories }: { categories: string }) {
-  const cats = categories.split(";").map(c => c.trim()).filter(Boolean);
-  if (!cats.length) return <span className="text-muted-foreground/50">—</span>;
+function CategoryBadges({ categories }: { categories: string[] }) {
+  if (!categories.length) return <span className="text-muted-foreground/50">—</span>;
   return (
     <div className="flex flex-wrap gap-1">
-      {cats.map(c => (
+      {categories.map(c => (
         <span
           key={c}
           className="inline-block px-2 py-0.5 rounded-full text-xs bg-primary/10 text-primary font-medium whitespace-nowrap"
@@ -153,6 +159,15 @@ const COLUMNS: { key: SortKey; label: string; tooltip?: string; minWidth?: strin
   { key: "date_of_death", label: "Death Date", tooltip: "Wikidata field: date_of_death.", minWidth: "80px" },
   { key: "place_of_death", label: "Death Place", tooltip: "Wikidata field: place_of_death.", minWidth: "100px" },
 ];
+
+function useDebounce<T>(value: T, delay: number): T {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(t);
+  }, [value, delay]);
+  return debounced;
+}
 
 export default function TermIndexPage() {
   useSEO({
@@ -197,30 +212,55 @@ export default function TermIndexPage() {
   const [selectedRow, setSelectedRow] = useState<number | null>(null);
   const tableWrapRef = useRef<HTMLDivElement>(null);
 
+  const debouncedSearch = useDebounce(searchQuery, 250);
+
   useEffect(() => {
     let cancelled = false;
+
+    function buildRows(text: string): GlossaryRow[] {
+      const parsed = parseCsv(text);
+      return parsed.map(r => {
+        const cats = (r.categories || "").split(";").map(c => c.trim()).filter(Boolean);
+        const variants = (r.variant_names || "").split(";").map(v => v.trim()).filter(Boolean);
+        return {
+          ...(r as unknown as GlossaryRow),
+          __search: [r.term, r.variant_names, r.wikipedia_en].join(" ").toLowerCase(),
+          __categories: cats,
+          __corpusCount: parseInt(r.talmud_corpus_count || "0", 10) || 0,
+          __wikiEnTitle: wikiTitleFromUrl(r.wikipedia_en),
+          __wikiHeTitle: wikiTitleFromUrl(r.wikipedia_he),
+          __variants: variants,
+        };
+      });
+    }
+
     async function load() {
       try {
-        const res = await fetch(CSV_URL, { cache: "no-store" });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const text = await res.text();
-        const parsed = parseCsv(text);
+        const cached = sessionStorage.getItem(CSV_CACHE_KEY);
+        let text: string;
+
+        if (cached) {
+          text = cached;
+        } else {
+          const res = await fetch(CSV_URL, { cache: "default" });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          text = await res.text();
+          try {
+            sessionStorage.setItem(CSV_CACHE_KEY, text);
+          } catch {
+            // sessionStorage quota exceeded — just skip caching
+          }
+        }
+
         if (cancelled) return;
-        const rows: GlossaryRow[] = parsed.map(r => {
-          const cats = (r.categories || "").split(";").map(c => c.trim()).filter(Boolean);
-          return {
-            ...(r as unknown as GlossaryRow),
-            __search: [r.term, r.variant_names, r.wikipedia_en].join(" ").toLowerCase(),
-            __categories: cats,
-          };
-        });
-        setRawData(rows);
+        setRawData(buildRows(text));
       } catch (e: unknown) {
         if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load data");
       } finally {
         if (!cancelled) setIsLoading(false);
       }
     }
+
     load();
     return () => { cancelled = true; };
   }, []);
@@ -232,21 +272,19 @@ export default function TermIndexPage() {
   }, [rawData]);
 
   const filtered = useMemo(() => {
-    const needle = searchQuery.trim().toLowerCase();
+    const needle = debouncedSearch.trim().toLowerCase();
     return rawData.filter(r => {
       const textOk = needle ? r.__search.includes(needle) : true;
       const catOk = categoryFilter ? r.__categories.includes(categoryFilter) : true;
       return textOk && catOk;
     });
-  }, [rawData, searchQuery, categoryFilter]);
+  }, [rawData, debouncedSearch, categoryFilter]);
 
   const sorted = useMemo(() => {
     return filtered.slice().sort((a, b) => {
       const sign = sortDir === "asc" ? 1 : -1;
       if (sortKey === "talmud_corpus_count") {
-        const av = parseInt(a.talmud_corpus_count || "0", 10) || 0;
-        const bv = parseInt(b.talmud_corpus_count || "0", 10) || 0;
-        if (av !== bv) return (av - bv) * sign;
+        if (a.__corpusCount !== b.__corpusCount) return (a.__corpusCount - b.__corpusCount) * sign;
         return a.term.localeCompare(b.term);
       }
       const ax = (a[sortKey] || "").toString().toLowerCase();
@@ -257,6 +295,20 @@ export default function TermIndexPage() {
     });
   }, [filtered, sortKey, sortDir]);
 
+  const virtualizer = useVirtualizer({
+    count: sorted.length,
+    getScrollElement: () => tableWrapRef.current,
+    estimateSize: () => 40,
+    overscan: 15,
+  });
+
+  const virtualItems = virtualizer.getVirtualItems();
+  const totalVirtualSize = virtualizer.getTotalSize();
+  const paddingTop = virtualItems.length > 0 ? virtualItems[0].start : 0;
+  const paddingBottom = virtualItems.length > 0
+    ? totalVirtualSize - virtualItems[virtualItems.length - 1].end
+    : 0;
+
   function handleSort(key: SortKey) {
     if (sortKey === key) {
       setSortDir(d => d === "asc" ? "desc" : "asc");
@@ -264,9 +316,10 @@ export default function TermIndexPage() {
       setSortKey(key);
       setSortDir(key === "talmud_corpus_count" ? "desc" : "asc");
     }
+    setSelectedRow(null);
   }
 
-  function renderCell(row: GlossaryRow, key: SortKey, idx: number): React.ReactNode {
+  function renderCell(row: GlossaryRow, key: SortKey): React.ReactNode {
     switch (key) {
       case "term":
         return row.term ? (
@@ -278,14 +331,15 @@ export default function TermIndexPage() {
             {row.term}
           </Link>
         ) : <span className="text-muted-foreground/50">—</span>;
+
       case "categories":
-        return <CategoryBadges categories={row.categories} />;
+        return <CategoryBadges categories={row.__categories} />;
+
       case "variant_names": {
-        const items = (row.variant_names || "").split(";").map(v => v.trim()).filter(Boolean);
-        if (!items.length) return <span className="text-muted-foreground/50">—</span>;
+        if (!row.__variants.length) return <span className="text-muted-foreground/50">—</span>;
         return (
           <div className="text-xs space-y-0.5">
-            {items.map((v, i) => (
+            {row.__variants.map((v, i) => (
               <a
                 key={i}
                 href={`https://chavrutai.com/search?q=${encodeURIComponent(v)}&type=talmud`}
@@ -294,28 +348,34 @@ export default function TermIndexPage() {
                 className="text-blue-600 hover:underline hover:text-blue-800 inline-flex items-center gap-0.5 mr-1"
               >
                 {v}
-                {i < items.length - 1 && <span className="text-muted-foreground">;</span>}
+                {i < row.__variants.length - 1 && <span className="text-muted-foreground">;</span>}
               </a>
             ))}
           </div>
         );
       }
+
       case "talmud_corpus_count":
-        return (row.talmud_corpus_count === "0" || !row.talmud_corpus_count)
+        return (row.__corpusCount === 0)
           ? <span className="text-muted-foreground/50">—</span>
           : <span className="font-mono text-sm">{row.talmud_corpus_count}</span>;
+
       case "wikipedia_en":
-        return <ExternalLinkCell href={row.wikipedia_en} label={wikiTitleFromUrl(row.wikipedia_en)} />;
+        return <ExternalLinkCell href={row.wikipedia_en} label={row.__wikiEnTitle} />;
+
       case "wikipedia_he":
-        return <ExternalLinkCell href={row.wikipedia_he} label={wikiTitleFromUrl(row.wikipedia_he)} />;
+        return <ExternalLinkCell href={row.wikipedia_he} label={row.__wikiHeTitle} />;
+
       case "hebrew_term":
         return row.hebrew_term
           ? <span dir="rtl" className="font-hebrew text-sm">{row.hebrew_term}</span>
           : <span className="text-muted-foreground/50">—</span>;
+
       case "wikidata_id":
         return row.wikidata_id
           ? <ExternalLinkCell href={`https://www.wikidata.org/wiki/${encodeURIComponent(row.wikidata_id)}`} label={row.wikidata_id} />
           : <span className="text-muted-foreground/50">—</span>;
+
       default: {
         const val = row[key];
         return val ? <span className="text-sm">{val}</span> : <span className="text-muted-foreground/50">—</span>;
@@ -453,49 +513,64 @@ export default function TermIndexPage() {
                     </td>
                   </tr>
                 ) : (
-                  sorted.map((row, idx) => (
-                    <tr
-                      key={`${row.term}-${idx}`}
-                      onClick={() => setSelectedRow(selectedRow === idx ? null : idx)}
-                      className={`cursor-pointer border-b border-border/50 transition-colors ${
-                        selectedRow === idx
-                          ? "bg-primary/15"
-                          : idx % 2 === 0
-                          ? "bg-card hover:bg-muted/40"
-                          : "bg-muted/20 hover:bg-muted/40"
-                      }`}
-                    >
-                      <td
-                        className="text-right text-muted-foreground/60 text-xs px-2 py-2 font-mono"
-                        style={{
-                          position: "sticky",
-                          left: 0,
-                          zIndex: 10,
-                          background: selectedRow === idx ? "color-mix(in srgb, var(--primary) 15%, var(--card))" : idx % 2 === 0 ? "var(--card)" : "var(--muted)",
-                        }}
-                      >
-                        {idx + 1}
-                      </td>
-                      {COLUMNS.map(col => (
-                        <td
-                          key={col.key}
-                          className="px-3 py-2 align-top"
-                          style={{
-                            minWidth: col.minWidth,
-                            ...(col.key === "term" ? {
-                              position: "sticky",
-                              left: "40px",
-                              zIndex: 10,
-                              boxShadow: "2px 0 4px -2px rgba(0,0,0,0.10)",
-                              background: selectedRow === idx ? "color-mix(in srgb, var(--primary) 15%, var(--card))" : idx % 2 === 0 ? "var(--card)" : "var(--muted)",
-                            } : {}),
-                          }}
+                  <>
+                    {paddingTop > 0 && (
+                      <tr><td colSpan={COLUMNS.length + 1} style={{ height: paddingTop, padding: 0, border: 0 }} /></tr>
+                    )}
+                    {virtualItems.map(virtualRow => {
+                      const row = sorted[virtualRow.index];
+                      const idx = virtualRow.index;
+                      const isSelected = selectedRow === idx;
+                      const isEven = idx % 2 === 0;
+
+                      const stickyBg = isSelected
+                        ? "color-mix(in srgb, var(--primary) 15%, var(--card))"
+                        : isEven ? "var(--card)" : "var(--muted)";
+
+                      return (
+                        <tr
+                          key={`${row.term}-${idx}`}
+                          data-index={virtualRow.index}
+                          onClick={() => setSelectedRow(isSelected ? null : idx)}
+                          className={`cursor-pointer border-b border-border/50 transition-colors ${
+                            isSelected
+                              ? "bg-primary/15"
+                              : isEven
+                              ? "bg-card hover:bg-muted/40"
+                              : "bg-muted/20 hover:bg-muted/40"
+                          }`}
                         >
-                          {renderCell(row, col.key, idx)}
-                        </td>
-                      ))}
-                    </tr>
-                  ))
+                          <td
+                            className="text-right text-muted-foreground/60 text-xs px-2 py-2 font-mono"
+                            style={{ position: "sticky", left: 0, zIndex: 10, background: stickyBg }}
+                          >
+                            {idx + 1}
+                          </td>
+                          {COLUMNS.map(col => (
+                            <td
+                              key={col.key}
+                              className="px-3 py-2 align-top"
+                              style={{
+                                minWidth: col.minWidth,
+                                ...(col.key === "term" ? {
+                                  position: "sticky",
+                                  left: "40px",
+                                  zIndex: 10,
+                                  boxShadow: "2px 0 4px -2px rgba(0,0,0,0.10)",
+                                  background: stickyBg,
+                                } : {}),
+                              }}
+                            >
+                              {renderCell(row, col.key)}
+                            </td>
+                          ))}
+                        </tr>
+                      );
+                    })}
+                    {paddingBottom > 0 && (
+                      <tr><td colSpan={COLUMNS.length + 1} style={{ height: paddingBottom, padding: 0, border: 0 }} /></tr>
+                    )}
+                  </>
                 )}
               </tbody>
             </table>
