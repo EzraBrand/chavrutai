@@ -85,6 +85,16 @@ export default function Changelog() {
             </div>
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Term Index: Performance Optimizations</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li><strong>Virtual scrolling</strong> — the table now renders only the rows currently visible in the viewport (using <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">@tanstack/react-virtual</code>), regardless of how many rows match the current filter; scrolling through thousands of entries is now smooth and memory-efficient</li>
+                <li><strong>Search debounce</strong> — filtering and sorting no longer fire on every keystroke; a 250 ms debounce ensures the computation only runs once the user pauses typing, keeping the UI responsive while searching</li>
+                <li><strong>CSV caching</strong> — the glossary CSV is stored in <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">sessionStorage</code> after the first fetch, so revisiting the page within the same browser session loads data instantly with no network round-trip; the HTTP fetch also now respects the browser cache (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">cache: "default"</code>) between sessions</li>
+                <li><strong>Pre-processed cell data</strong> — expensive per-cell operations (splitting variant lists, extracting Wikipedia titles from URLs, parsing corpus count integers) are now computed once at load time and stored on each row, rather than recomputed on every render</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Chapter Navigation: Deep Links &amp; Inline Chapter Headers</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>The chapter breadcrumb on Talmud folio pages now deep-links directly to the section where the chapter begins — e.g., clicking "Chapter 2: BaMeh Madlikin" navigates to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/Shabbat/20b#section-5</code> rather than just the top of the page</li>
