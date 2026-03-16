@@ -72,6 +72,21 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Map: Chapter Numbering Fixes for Menachot, Megillah &amp; Sanhedrin</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li><strong>Menachot chapter data corrected</strong> — Talmud chapter data for Menachot was missing Chapter 2 ("HaKometz et HaMinchah", 13a–17a), causing chapters 2–13 to each display the wrong name and wrong folio range (each appeared one chapter earlier than it should). All 13 chapters now have correct numbers, names, and folio ranges.</li>
+                <li><strong>Mishnah Map now respects Mishnah chapter ordering</strong> — The <Link href="/mishnah-map" className="text-blue-600 hover:underline">Mishnah Map</Link> page previously used Talmud chapter ordering for tractates where Mishnah and Talmud chapter order diverge. Chapters are now always displayed in Mishnah chapter order (1, 2, 3…), which is the expected ordering for a Mishnah reference tool.</li>
+                <li><strong>Inline notes for Talmud order differences</strong> — Where the Talmud reads chapters in a different order than the Mishnah, a brief note appears on the affected chapter card:
+                  <ul className="list-disc list-inside ml-6 mt-1 space-y-1">
+                    <li><em>Menachot Ch 6–10:</em> Mishnah chapter 10 appears as Talmud chapter 6 (at 63b); Mishnah chapters 6–9 each shift one position later in the Talmud.</li>
+                    <li><em>Megillah Ch 3–4:</em> Mishnah chapter 4 opens Talmud chapter 3 (21a); Mishnah chapter 3 follows mid-chapter (25b).</li>
+                    <li><em>Sanhedrin Ch 10–11:</em> The two chapters appear in reverse order in the Talmud.</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah-Talmud Mapping: Display &amp; Documentation Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed repetitive chapter headers on the <Link href="/mishnah-map" className="text-blue-600 hover:underline">/mishnah-map</Link> page — section headers now display simply as "Chapter 1" instead of the redundant "Chapter 1: Chapter 1 (פרק 1)"</li>
