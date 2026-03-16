@@ -72,6 +72,20 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Talmud Chapter Data Audit &amp; Corrections (6 Tractates)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Ran a full audit comparing Talmud chapter boundary data against the Mishnah-to-Talmud mapping, identifying incorrect chapter names and/or folio ranges in 6 tractates:</li>
+                <li><strong>Zevachim</strong> — all 14 chapters were replaced: previous entries had entirely wrong names (מנחות-style names) and incorrect ranges. Corrected with the proper names (כל הזבחים, כל הזבחים שקבלו דמן, כל הפסולין, בית שמאי, איזהו מקומן, קדשי קדשים, חטאת העוף, כל הזבחים, המזבח מקדש, כל התדיר, דם חטאת, טבול יום, השוחט והמעלה, פרת חטאת) and folio boundaries.</li>
+                <li><strong>Bava Kamma</strong> — chapter names for chapters 6–10 were wrong (e.g., "HaChovel Ba'Chaveiro" for Ch 6, which is actually הכונס); folio start points were off for most chapters. Corrected all 10 chapters.</li>
+                <li><strong>Bava Metzia</strong> — chapters 6–7 had wrong names (השוכר את האומנין and השואל את הפרה were missing); folio boundaries were slightly off for chapters 2 and 8. Corrected all 10 chapters.</li>
+                <li><strong>Tamid</strong> — only 3 of 7 chapters were defined. Added chapters 3–7 (אמר להם הממונה, לא היו כופתין, אמר להם הממונה, החלו עולין, בזמן שכהן גדול) with correct folio ranges.</li>
+                <li><strong>Nedarim</strong> — Chapter 2 (ואלו מותרין) was set to start at 16a instead of 13b.</li>
+                <li><strong>Avodah Zarah</strong> — Chapter 2 ended too early (33a instead of 40b); chapters 4 and 5 started too late (52a and 65a instead of 49b and 62a).</li>
+                <li>All 37 tractates now pass the automated chapter boundary audit.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Map: Chapter Numbering Fixes for Menachot, Megillah &amp; Sanhedrin</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li><strong>Menachot chapter data corrected</strong> — Talmud chapter data for Menachot was missing Chapter 2 ("HaKometz et HaMinchah", 13a–17a), causing chapters 2–13 to each display the wrong name and wrong folio range (each appeared one chapter earlier than it should). All 13 chapters now have correct numbers, names, and folio ranges.</li>
