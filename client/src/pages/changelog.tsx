@@ -72,6 +72,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Unified Input &amp; Sefaria-Style URLs</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li><strong>Unified input:</strong> "Dropdown Selection" and "Sefaria URL" are now always visible at the same time. Changing a dropdown (tractate, page, or section) automatically updates the reference field above it.</li>
+                <li><strong>Sefaria-style URL parameters:</strong> The page URL now uses a clean format matching Sefaria (e.g. <code className="text-xs bg-sepia-100 dark:bg-sepia-800 px-1 rounded">/sugya-viewer?Menachot.65a.4-66a.8</code>) instead of the previous verbose format. Old-style links continue to work.</li>
+                <li><strong>"Open in the main Talmud reader"</strong> banner is now a prominent highlighted panel, making it easy to jump to the ChavrutAI reader for the displayed passage.</li>
+                <li><strong>Blog Post Selection</strong> moved to a collapsible section to reduce visual clutter.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Talmud Chapter Data Audit &amp; Corrections (6 Tractates)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Ran a full audit comparing Talmud chapter boundary data against the Mishnah-to-Talmud mapping, identifying incorrect chapter names and/or folio ranges in 6 tractates:</li>
