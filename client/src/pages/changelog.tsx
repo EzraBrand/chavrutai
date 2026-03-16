@@ -72,6 +72,14 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah-Talmud Mapping: Display &amp; Documentation Improvements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed repetitive chapter headers on the <Link href="/mishnah-map" className="text-blue-600 hover:underline">/mishnah-map</Link> page — section headers now display simply as "Chapter 1" instead of the redundant "Chapter 1: Chapter 1 (פרק 1)"</li>
+                <li>Added a note to the "About This Mapping" section documenting known gaps in chapter order between Mishnah and Talmud: Sanhedrin (10 ↔ 11), Megillah (3 ↔ 4), and Menachot (chapter 10 in Mishnah corresponds to chapter 6 in Talmud, with chapters 6–9 in the Talmud each shifting one place later than in the Mishnah)</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Page: <Link href="/term-index" className="text-blue-600 hover:underline">Talmud Term Index</Link></h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added a new reference page at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/term-index</code> — a sortable, filterable glossary of personal names, place names, and key terms drawn from the Babylonian Talmud</li>
