@@ -4,12 +4,11 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Search, Copy, FileText, Code, ExternalLink } from "lucide-react";
+import { Search, Copy, FileText, Code, ExternalLink, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
 import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
 import { TRACTATE_LISTS } from "@shared/tractates";
 import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
@@ -56,11 +55,11 @@ export default function SefariaFetchPage() {
     },
   });
 
-  const [inputMethod, setInputMethod] = useState<"dropdown" | "url" | "blogpost">("dropdown");
   const [tractate, setTractate] = useState<string>(tractates[0]);
   const [page, setPage] = useState<string>("2a");
   const [section, setSection] = useState<string>("all");
   const [url, setUrl] = useState<string>("");
+  const [showBlogPostSelector, setShowBlogPostSelector] = useState<boolean>(false);
 
   interface FetchParams {
     inputMethod: "dropdown" | "url";
@@ -71,46 +70,54 @@ export default function SefariaFetchPage() {
   }
   const [fetchParams, setFetchParams] = useState<FetchParams | null>(null);
 
-  const pushUrlParams = (method: "dropdown" | "url", currentTractate: string, currentPage: string, currentSection: string, currentUrl: string) => {
-    const params = new URLSearchParams();
-    if (method === 'dropdown') {
-      params.set('method', 'dropdown');
-      params.set('tractate', currentTractate);
-      params.set('page', currentPage);
-      if (currentSection !== 'all') params.set('section', currentSection);
-    } else if (method === 'url') {
-      params.set('method', 'url');
-      const urlWithoutQuery = currentUrl.split('?')[0];
-      const urlPath = urlWithoutQuery.includes('/') ? urlWithoutQuery.split('/').pop() || urlWithoutQuery : urlWithoutQuery;
-      if (urlPath) params.set('ref', urlPath);
-    }
-    if (params.toString()) {
-      window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`);
+  const buildRefFromDropdowns = (t: string, p: string, s: string) =>
+    `${t}.${p}${s !== 'all' ? '.' + s : ''}`;
+
+  const extractRef = (rawUrl: string): string => {
+    const stripped = rawUrl
+      .replace(/^https?:\/\/www\.sefaria\.org\.il\//, '')
+      .replace(/^https?:\/\/www\.sefaria\.org\//, '')
+      .split('?')[0];
+    return stripped.includes('/') ? stripped.split('/').pop() || stripped : stripped;
+  };
+
+  const pushUrlParams = (ref: string) => {
+    if (ref) {
+      window.history.pushState({}, '', `${window.location.pathname}?${ref}`);
     }
   };
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const method = params.get('method');
+    const search = window.location.search;
+    if (!search) return;
+    const raw = search.slice(1);
 
-    if (method === 'dropdown') {
-      const t = params.get('tractate') || tractates[0];
-      const p = params.get('page') || '2a';
-      const s = params.get('section') || 'all';
-      const resolvedTractate = tractates.includes(t) ? t : tractates[0];
-      setTractate(resolvedTractate);
-      setPage(p);
-      setSection(s);
-      setInputMethod('dropdown');
-      setFetchParams({ inputMethod: 'dropdown', tractate: resolvedTractate, page: p, section: s, url: '' });
-    } else if (method === 'url') {
-      const ref = params.get('ref');
-      if (ref) {
-        const sefariaUrl = `https://www.sefaria.org/${ref}`;
-        setUrl(sefariaUrl);
-        setInputMethod('url');
-        setFetchParams({ inputMethod: 'url', tractate: tractates[0], page: '2a', section: 'all', url: sefariaUrl });
+    if (raw.startsWith('method=')) {
+      // Backward compat: old format
+      const params = new URLSearchParams(raw);
+      const method = params.get('method');
+      if (method === 'dropdown') {
+        const t = params.get('tractate') || tractates[0];
+        const p = params.get('page') || '2a';
+        const s = params.get('section') || 'all';
+        const resolvedTractate = tractates.includes(t) ? t : tractates[0];
+        setTractate(resolvedTractate);
+        setPage(p);
+        setSection(s);
+        const ref = buildRefFromDropdowns(resolvedTractate, p, s);
+        setUrl(ref);
+        setFetchParams({ inputMethod: 'url', tractate: resolvedTractate, page: p, section: s, url: `https://www.sefaria.org/${ref}` });
+      } else if (method === 'url') {
+        const ref = params.get('ref');
+        if (ref) {
+          setUrl(ref);
+          setFetchParams({ inputMethod: 'url', tractate: tractates[0], page: '2a', section: 'all', url: `https://www.sefaria.org/${ref}` });
+        }
       }
+    } else if (raw && !raw.includes('=')) {
+      // New Sefaria-style format: ?Menachot.65a.4-66a.8
+      setUrl(raw);
+      setFetchParams({ inputMethod: 'url', tractate: tractates[0], page: '2a', section: 'all', url: `https://www.sefaria.org/${raw}` });
     }
   }, []);
 
@@ -138,13 +145,14 @@ export default function SefariaFetchPage() {
   });
 
   const handleFetch = () => {
-    if (inputMethod === 'dropdown') {
-      pushUrlParams('dropdown', tractate, page, section, url);
-      setFetchParams({ inputMethod: 'dropdown', tractate, page, section, url: '' });
-    } else if (inputMethod === 'url') {
-      pushUrlParams('url', tractate, page, section, url);
-      setFetchParams({ inputMethod: 'url', tractate, page, section, url });
+    let ref = url.trim();
+    if (!ref) {
+      ref = buildRefFromDropdowns(tractate, page, section);
+      setUrl(ref);
     }
+    const cleanRef = extractRef(ref);
+    pushUrlParams(cleanRef);
+    setFetchParams({ inputMethod: 'url', tractate, page, section, url: `https://www.sefaria.org/${cleanRef}` });
   };
 
   useEffect(() => {
@@ -603,33 +611,42 @@ ${cleanHtml}
             <CardTitle>Display Talmud Text by Custom Range</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <Label>Input Method</Label>
-              <RadioGroup 
-                value={inputMethod} 
-                onValueChange={(value: "dropdown" | "url" | "blogpost") => setInputMethod(value)}
-                data-testid="radio-input-method"
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="dropdown" id="dropdown" data-testid="radio-dropdown" />
-                  <Label htmlFor="dropdown" className="cursor-pointer">Dropdown Selection</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="url" id="url" data-testid="radio-url" />
-                  <Label htmlFor="url" className="cursor-pointer">Sefaria URL</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="blogpost" id="blogpost" data-testid="radio-blogpost" />
-                  <Label htmlFor="blogpost" className="cursor-pointer">Blog Post Selection</Label>
-                </div>
-              </RadioGroup>
+            {/* URL / Reference input */}
+            <div className="space-y-2">
+              <Label htmlFor="sefaria-url" className="text-sm font-semibold">
+                Sefaria Reference or URL
+              </Label>
+              <Input
+                id="sefaria-url"
+                placeholder="e.g., Menachot.65a.4-66a.8 or https://www.sefaria.org/Sanhedrin.43b.9"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                data-testid="input-sefaria-url"
+                className="text-base"
+              />
+              <p className="text-xs text-muted-foreground">
+                Paste a Sefaria URL or type a reference directly. Ranges spanning multiple pages (e.g. <code className="bg-muted px-1 rounded">Menachot.65a.4-66a.8</code>) are supported.
+              </p>
             </div>
 
-            {inputMethod === "dropdown" && (
+            {/* Dropdowns — always visible, auto-populate the URL field */}
+            <div className="space-y-2">
+              <Label className="text-sm font-semibold">
+                Dropdown Selection
+              </Label>
+              <p className="text-xs text-muted-foreground -mt-1">
+                Choose tractate, page, and optional section — updates the reference above automatically.
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="tractate">Tractate</Label>
-                  <Select value={tractate} onValueChange={setTractate}>
+                  <Label htmlFor="tractate" className="text-xs text-muted-foreground">Tractate</Label>
+                  <Select
+                    value={tractate}
+                    onValueChange={(v) => {
+                      setTractate(v);
+                      setUrl(buildRefFromDropdowns(v, page, section));
+                    }}
+                  >
                     <SelectTrigger id="tractate" data-testid="select-tractate">
                       <SelectValue />
                     </SelectTrigger>
@@ -644,8 +661,14 @@ ${cleanHtml}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="page">Page</Label>
-                  <Select value={page} onValueChange={setPage}>
+                  <Label htmlFor="page" className="text-xs text-muted-foreground">Page</Label>
+                  <Select
+                    value={page}
+                    onValueChange={(v) => {
+                      setPage(v);
+                      setUrl(buildRefFromDropdowns(tractate, v, section));
+                    }}
+                  >
                     <SelectTrigger id="page" data-testid="select-page">
                       <SelectValue />
                     </SelectTrigger>
@@ -660,8 +683,14 @@ ${cleanHtml}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="section">Section (Optional)</Label>
-                  <Select value={section} onValueChange={setSection}>
+                  <Label htmlFor="section" className="text-xs text-muted-foreground">Section (Optional)</Label>
+                  <Select
+                    value={section}
+                    onValueChange={(v) => {
+                      setSection(v);
+                      setUrl(buildRefFromDropdowns(tractate, page, v));
+                    }}
+                  >
                     <SelectTrigger id="section" data-testid="select-section">
                       <SelectValue placeholder="All sections" />
                     </SelectTrigger>
@@ -676,35 +705,37 @@ ${cleanHtml}
                   </Select>
                 </div>
               </div>
-            )}
+            </div>
 
-            {inputMethod === "url" && (
-              <div className="space-y-2">
-                <Label htmlFor="sefaria-url">Sefaria URL</Label>
-                <Input
-                  id="sefaria-url"
-                  placeholder="e.g., https://www.sefaria.org/Sanhedrin.43b.9"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  data-testid="input-sefaria-url"
-                />
-              </div>
-            )}
+            {/* Blog post selector — collapsible */}
+            <div className="border border-border rounded-md">
+              <button
+                type="button"
+                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-muted/50 transition-colors rounded-md"
+                onClick={() => setShowBlogPostSelector((v) => !v)}
+                data-testid="toggle-blogpost"
+              >
+                <span>Blog Post Selection</span>
+                {showBlogPostSelector ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </button>
+              {showBlogPostSelector && (
+                <div className="px-4 pb-4 pt-1">
+                  <BlogPostSelector
+                    onSelectPost={(location, blogUrl) => {
+                      const sefariaUrl = locationToSefariaUrl(location);
+                      const ref = extractRef(sefariaUrl);
+                      setUrl(ref);
+                      setShowBlogPostSelector(false);
+                      pushUrlParams(ref);
+                      setFetchParams({ inputMethod: "url", tractate, page, section, url: sefariaUrl });
+                    }}
+                  />
+                </div>
+              )}
+            </div>
 
-            {inputMethod === "blogpost" && (
-              <BlogPostSelector
-                onSelectPost={(location, blogUrl) => {
-                  const sefariaUrl = locationToSefariaUrl(location);
-                  setUrl(sefariaUrl);
-                  setInputMethod("url");
-                  pushUrlParams("url", tractate, page, section, sefariaUrl);
-                  setFetchParams({ inputMethod: "url", tractate, page, section, url: sefariaUrl });
-                }}
-              />
-            )}
-
-            <Button 
-              onClick={handleFetch} 
+            <Button
+              onClick={handleFetch}
               className="w-full md:w-auto"
               data-testid="button-fetch"
             >
@@ -771,17 +802,21 @@ ${cleanHtml}
                   </Button>
                 </div>
 
-                {(inputMethod === "url" || inputMethod === "dropdown") && data && !data.error && (
-                  <div className="text-sm text-sepia-700">
-                    <span className="font-medium">Open in ChavrutAI: </span>
+                {data && !data.error && (
+                  <div className="flex items-center gap-3 p-4 bg-primary/10 border border-primary/25 rounded-lg">
+                    <BookOpen className="h-5 w-5 text-primary flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-foreground mb-1">Open in ChavrutAI</p>
+                      <p className="text-xs text-muted-foreground">Study this passage with the full ChavrutAI reader</p>
+                    </div>
                     <a
                       href={`/talmud/${encodeURIComponent(data.tractate.toLowerCase())}/${data.page}${data.section ? `#section-${data.section}` : ''}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-primary underline hover:opacity-80"
+                      className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-primary/90 transition-colors flex-shrink-0"
                     >
                       {data.tractate} {data.page}{data.section ? `:${data.section}` : ''}
-                      <ExternalLink className="h-3 w-3" />
+                      <ExternalLink className="h-4 w-4" />
                     </a>
                   </div>
                 )}
