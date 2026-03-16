@@ -476,8 +476,7 @@ export default function MishnahMapPage() {
                             <CardContent className="p-6">
                               <div className="mb-4">
                                 <h3 className="text-xl text-primary mb-2">
-                                  Chapter {chapter.number}: <span className="italic">{chapter.englishName}</span>{' '}
-                                  <span className="font-hebrew">({chapter.hebrewName})</span>
+                                  Chapter {chapter.number}
                                 </h3>
                               </div>
 
