@@ -241,6 +241,20 @@ describe('Text Processing Module', () => {
       expect(result).not.toMatch(/Agra,\s*\n/);
     });
 
+    it('protects "father of" patterns', () => {
+      const text = "Shmuel, the father of R' Yitzchak, said";
+      const result = splitEnglishText(text);
+      expect(result).toContain("the father of R' Yitzchak");
+      expect(result).not.toMatch(/Shmuel,\s*\n/);
+    });
+
+    it('protects "brother of" patterns', () => {
+      const text = "Rav Huna, the brother of R' Yosi, taught";
+      const result = splitEnglishText(text);
+      expect(result).toContain("the brother of R' Yosi");
+      expect(result).not.toMatch(/Rav Huna,\s*\n/);
+    });
+
     it('splits on bolded colons', () => {
       const text = '<b>MISHNA:</b> The text begins';
       const result = splitEnglishText(text);
