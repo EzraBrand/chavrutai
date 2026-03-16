@@ -6,31 +6,31 @@
     "startFolio": 2,
     "startSide": "a",
     "endFolio": 21,
-    "endSide": "b"
+    "endSide": "a"
   },
   {
     "number": 2,
     "englishName": "Eilu Metziot",
     "hebrewName": "אלו מציאות",
     "startFolio": 21,
-    "startSide": "b",
+    "startSide": "a",
     "endFolio": 33,
-    "endSide": "a"
+    "endSide": "b"
   },
   {
     "number": 3,
     "englishName": "HaMafkid",
     "hebrewName": "המפקיד",
     "startFolio": 33,
-    "startSide": "a",
-    "endFolio": 42,
+    "startSide": "b",
+    "endFolio": 44,
     "endSide": "a"
   },
   {
     "number": 4,
     "englishName": "HaZahav",
     "hebrewName": "הזהב",
-    "startFolio": 42,
+    "startFolio": 44,
     "startSide": "a",
     "endFolio": 60,
     "endSide": "b"
@@ -41,51 +41,51 @@
     "hebrewName": "איזהו נשך",
     "startFolio": 60,
     "startSide": "b",
-    "endFolio": 73,
+    "endFolio": 75,
     "endSide": "b"
   },
   {
     "number": 6,
-    "englishName": "HaMaskir",
-    "hebrewName": "המשכיר",
-    "startFolio": 73,
+    "englishName": "HaSokher Et Ha'Omanin",
+    "hebrewName": "השוכר את האומנין",
+    "startFolio": 75,
     "startSide": "b",
     "endFolio": 83,
     "endSide": "a"
   },
   {
     "number": 7,
-    "englishName": "HaMaskir Et HaPo'alim",
-    "hebrewName": "המשכיר את הפועלים",
+    "englishName": "HaSokher Et HaPo'alim",
+    "hebrewName": "השוכר את הפועלים",
     "startFolio": 83,
     "startSide": "a",
     "endFolio": 94,
-    "endSide": "b"
+    "endSide": "a"
   },
   {
     "number": 8,
-    "englishName": "HaMaskir Et HaChamar",
-    "hebrewName": "המשכיר את החמור",
+    "englishName": "HaSho'el Et HaParah",
+    "hebrewName": "השואל את הפרה",
     "startFolio": 94,
-    "startSide": "b",
-    "endFolio": 101,
-    "endSide": "b"
+    "startSide": "a",
+    "endFolio": 103,
+    "endSide": "a"
   },
   {
     "number": 9,
-    "englishName": "HaMaskir Et HaBayit",
-    "hebrewName": "המשכיר את הבית",
-    "startFolio": 101,
-    "startSide": "b",
-    "endFolio": 107,
-    "endSide": "a"
+    "englishName": "HaMekabel Sadeh Mechaveiro",
+    "hebrewName": "המקבל שדה מחבירו",
+    "startFolio": 103,
+    "startSide": "a",
+    "endFolio": 116,
+    "endSide": "b"
   },
   {
     "number": 10,
     "englishName": "HaBayit VeHaAliyah",
-    "hebrewName": "הבית והעליה",
-    "startFolio": 107,
-    "startSide": "a",
+    "hebrewName": "הבית והעלייה",
+    "startFolio": 116,
+    "startSide": "b",
     "endFolio": 119,
     "endSide": "b"
   }

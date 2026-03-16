@@ -5,15 +5,15 @@
     "hebrewName": "כל כנויי",
     "startFolio": 2,
     "startSide": "a",
-    "endFolio": 16,
-    "endSide": "a"
+    "endFolio": 13,
+    "endSide": "b"
   },
   {
     "number": 2,
     "englishName": "V'Eilu Muttarin",
     "hebrewName": "ואלו מותרין",
-    "startFolio": 16,
-    "startSide": "a",
+    "startFolio": 13,
+    "startSide": "b",
     "endFolio": 20,
     "endSide": "b"
   },

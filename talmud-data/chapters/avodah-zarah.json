@@ -14,8 +14,8 @@
     "hebrewName": "אין מעמידין",
     "startFolio": 22,
     "startSide": "a",
-    "endFolio": 33,
-    "endSide": "a"
+    "endFolio": 40,
+    "endSide": "b"
   },
   {
     "number": 3,
@@ -23,23 +23,23 @@
     "hebrewName": "כל הצללים",
     "startFolio": 40,
     "startSide": "b",
-    "endFolio": 52,
-    "endSide": "a"
+    "endFolio": 49,
+    "endSide": "b"
   },
   {
     "number": 4,
     "englishName": "R' Yishmael",
     "hebrewName": "ר' ישמעאל",
-    "startFolio": 52,
-    "startSide": "a",
-    "endFolio": 65,
+    "startFolio": 49,
+    "startSide": "b",
+    "endFolio": 62,
     "endSide": "a"
   },
   {
     "number": 5,
     "englishName": "HaSokher",
     "hebrewName": "השוכר",
-    "startFolio": 65,
+    "startFolio": 62,
     "startSide": "a",
     "endFolio": 76,
     "endSide": "b"

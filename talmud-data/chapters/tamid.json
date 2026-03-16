@@ -10,18 +10,54 @@
   },
   {
     "number": 2,
-    "englishName": "Ra'uhu Achav",
+    "englishName": "Ra'uhu Echav",
     "hebrewName": "ראוהו אחיו",
     "startFolio": 28,
     "startSide": "b",
     "endFolio": 30,
-    "endSide": "b"
+    "endSide": "a"
   },
   {
     "number": 3,
+    "englishName": "Amar Lahem HaMemuneh",
+    "hebrewName": "אמר להם הממונה",
+    "startFolio": 30,
+    "startSide": "a",
+    "endFolio": 30,
+    "endSide": "b"
+  },
+  {
+    "number": 4,
     "englishName": "Lo Hayu Koftin",
     "hebrewName": "לא היו כופתין",
     "startFolio": 30,
+    "startSide": "b",
+    "endFolio": 32,
+    "endSide": "b"
+  },
+  {
+    "number": 5,
+    "englishName": "Amar Lahem HaMemuneh",
+    "hebrewName": "אמר להם הממונה",
+    "startFolio": 32,
+    "startSide": "b",
+    "endFolio": 33,
+    "endSide": "a"
+  },
+  {
+    "number": 6,
+    "englishName": "Hechelu Olin",
+    "hebrewName": "החלו עולין",
+    "startFolio": 33,
+    "startSide": "a",
+    "endFolio": 33,
+    "endSide": "b"
+  },
+  {
+    "number": 7,
+    "englishName": "BiZman SheKohen Gadol",
+    "hebrewName": "בזמן שכהן גדול",
+    "startFolio": 33,
     "startSide": "b",
     "endFolio": 33,
     "endSide": "b"

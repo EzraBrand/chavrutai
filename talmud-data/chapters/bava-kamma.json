@@ -5,39 +5,39 @@
     "hebrewName": "ארבעה אבות",
     "startFolio": 2,
     "startSide": "a",
-    "endFolio": 15,
-    "endSide": "b"
+    "endFolio": 17,
+    "endSide": "a"
   },
   {
     "number": 2,
     "englishName": "Keytzad HaRegel",
     "hebrewName": "כיצד הרגל",
-    "startFolio": 15,
-    "startSide": "b",
-    "endFolio": 28,
+    "startFolio": 17,
+    "startSide": "a",
+    "endFolio": 27,
     "endSide": "a"
   },
   {
     "number": 3,
     "englishName": "HaManiah",
     "hebrewName": "המניח",
-    "startFolio": 28,
+    "startFolio": 27,
     "startSide": "a",
-    "endFolio": 35,
-    "endSide": "b"
+    "endFolio": 36,
+    "endSide": "a"
   },
   {
     "number": 4,
-    "englishName": "Shor She'nagach",
-    "hebrewName": "שור שנגח",
-    "startFolio": 35,
-    "startSide": "b",
+    "englishName": "Shor She'nagach Dalet VaHeh",
+    "hebrewName": "שור שנגח ד' וה'",
+    "startFolio": 36,
+    "startSide": "a",
     "endFolio": 46,
     "endSide": "a"
   },
   {
     "number": 5,
-    "englishName": "Shor She'nagach Et HaPaah",
+    "englishName": "Shor She'nagach Et HaParah",
     "hebrewName": "שור שנגח את הפרה",
     "startFolio": 46,
     "startSide": "a",
@@ -46,45 +46,45 @@
   },
   {
     "number": 6,
-    "englishName": "HaChovel Ba'Chaveiro",
-    "hebrewName": "החובל בחבירו",
+    "englishName": "HaKones",
+    "hebrewName": "הכונס",
     "startFolio": 55,
     "startSide": "b",
-    "endFolio": 63,
-    "endSide": "a"
+    "endFolio": 62,
+    "endSide": "b"
   },
   {
     "number": 7,
     "englishName": "Merubah",
     "hebrewName": "מרובה",
-    "startFolio": 63,
-    "startSide": "a",
-    "endFolio": 79,
-    "endSide": "a"
+    "startFolio": 62,
+    "startSide": "b",
+    "endFolio": 83,
+    "endSide": "b"
   },
   {
     "number": 8,
-    "englishName": "HaGonev",
-    "hebrewName": "הגונב",
-    "startFolio": 79,
-    "startSide": "a",
-    "endFolio": 96,
-    "endSide": "a"
+    "englishName": "HaChabal",
+    "hebrewName": "החובל",
+    "startFolio": 83,
+    "startSide": "b",
+    "endFolio": 93,
+    "endSide": "b"
   },
   {
     "number": 9,
-    "englishName": "HaChovel",
-    "hebrewName": "החובל",
-    "startFolio": 96,
-    "startSide": "a",
-    "endFolio": 97,
+    "englishName": "HaGozeil Etzim",
+    "hebrewName": "הגוזל עצים",
+    "startFolio": 93,
+    "startSide": "b",
+    "endFolio": 111,
     "endSide": "b"
   },
   {
     "number": 10,
-    "englishName": "HaGozeil Etzim",
-    "hebrewName": "הגוזל עצים",
-    "startFolio": 97,
+    "englishName": "HaGozeil UMe'akhil",
+    "hebrewName": "הגוזל ומאכיל",
+    "startFolio": 111,
     "startSide": "b",
     "endFolio": 119,
     "endSide": "b"
