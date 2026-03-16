@@ -234,6 +234,13 @@ describe('Text Processing Module', () => {
       expect(result).toContain('son of Rabbi Hiyya');
     });
 
+    it('protects "father-in-law of" patterns', () => {
+      const text = "Agra, the father-in-law of R' Abba, had";
+      const result = splitEnglishText(text);
+      expect(result).toContain("the father-in-law of R' Abba");
+      expect(result).not.toMatch(/Agra,\s*\n/);
+    });
+
     it('splits on bolded colons', () => {
       const text = '<b>MISHNA:</b> The text begins';
       const result = splitEnglishText(text);
