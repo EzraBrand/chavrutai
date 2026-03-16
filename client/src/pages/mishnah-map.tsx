@@ -380,6 +380,9 @@ export default function MishnahMapPage() {
                 className="underline hover:text-blue-600 dark:hover:text-blue-300 inline-flex items-center gap-0.5"
               >Sefaria's Mishnah viewer<ExternalLink className="h-3 w-3" /></a>.
             </p>
+            <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
+              Note the following gaps in chapter order between Mishnah and Talmud: Sanhedrin: 10 ↔ 11; Megillah: 3 ↔ 4; Menachot: 10 (Mishnah) → 6 (Talmud; thus, 6–9 in Talmud each shift one place later than in Mishnah)
+            </p>
             <p className="text-sm text-blue-800 dark:text-blue-200">
               For more information about this mapping table, see <a 
                 href="https://www.ezrabrand.com/p/introducing-chavrutais-mishnah-talmud" 
