@@ -15,7 +15,7 @@ import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@shared/tractates";
 import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
-import { getMishnahChapterDataByTractate, useChapterDataVersion, type ChapterInfo } from "@/lib/chapter-data";
+import { getMishnahChapterDataByTractate, getMishnahTalmudMapping, useChapterDataVersion, type ChapterInfo } from "@/lib/chapter-data";
 
 const SEDER_ORGANIZATION = {
   "Seder Zeraim": {
@@ -63,6 +63,7 @@ interface MishnahTile {
 
 interface ChapterWithMishnayot extends ChapterInfo {
   mishnahTiles: MishnahTile[];
+  talmudOrderNote?: string;
 }
 
 interface TractateData {
@@ -126,66 +127,70 @@ export default function MishnahMapPage() {
 
         const tractateSlug = tractate.toLowerCase().replace(/\s+/g, ' ');
         const chapters = getMishnahChapterDataByTractate(tractateSlug);
+        const talmudMapping = getMishnahTalmudMapping(tractateSlug);
+
+        // Shared tile builder: given filtered+sorted mappings and the Mishnah chapter number
+        const buildTiles = (chapterMappings: MishnahMapping[], mishnahChNum: number): MishnahTile[] =>
+          chapterMappings.map(mapping => {
+            const mishnahNumber = mapping.startMishnah === mapping.endMishnah
+              ? `${mapping.startMishnah}`
+              : `${mapping.startMishnah}-${mapping.endMishnah}`;
+
+            let talmudRange: string;
+            if (mapping.startDaf === mapping.endDaf && mapping.startLine === mapping.endLine) {
+              talmudRange = `${mapping.startDaf}:${mapping.startLine}`;
+            } else if (mapping.startDaf === mapping.endDaf) {
+              talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endLine}`;
+            } else {
+              const startFolio = mapping.startDaf.slice(0, -1);
+              const endFolio = mapping.endDaf.slice(0, -1);
+              const endSide = mapping.endDaf.slice(-1);
+              if (startFolio === endFolio) {
+                talmudRange = `${mapping.startDaf}:${mapping.startLine}-${endSide}:${mapping.endLine}`;
+              } else {
+                talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endDaf}:${mapping.endLine}`;
+              }
+            }
+
+            const normalizedTractate = TRACTATE_NAME_VARIANTS[mapping.tractate] || normalizeDisplayTractateName(mapping.tractate);
+            const tractateSlugForLink = getTractateSlug(normalizedTractate);
+            const href = `/talmud/${tractateSlugForLink}/${mapping.startDaf}#section-${mapping.startLine}`;
+
+            const sefariaTractateName = tractate.replace(/ /g, '_');
+            const sefariaUrl = `https://www.sefaria.org.il/Mishnah_${sefariaTractateName}.${mishnahChNum}.${mapping.startMishnah}`;
+
+            return { mishnahNumber, talmudRange, href, sefariaUrl };
+          });
 
         // Group Mishnah mappings by chapter
         const chaptersWithMishnayot: ChapterWithMishnayot[] = chapters.length > 0
-          ? chapters.map(chapter => {
-              const chapterMappings = tractateMappings
-                .filter(mapping => mapping.mishnahChapter === chapter.number)
-                .sort((a, b) => a.startMishnah - b.startMishnah);
-
-              const mishnahTiles: MishnahTile[] = chapterMappings.map(mapping => {
-                // Format Mishnah number (just the number or range, not "chapter:number")
-                const mishnahNumber = mapping.startMishnah === mapping.endMishnah
-                  ? `${mapping.startMishnah}`
-                  : `${mapping.startMishnah}-${mapping.endMishnah}`;
-
-                // Format Talmud range
-                let talmudRange: string;
-                if (mapping.startDaf === mapping.endDaf && mapping.startLine === mapping.endLine) {
-                  // Single line
-                  talmudRange = `${mapping.startDaf}:${mapping.startLine}`;
-                } else if (mapping.startDaf === mapping.endDaf) {
-                  // Same page, different lines
-                  talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endLine}`;
-                } else {
-                  // Different pages - check if same folio number
-                  const startFolio = mapping.startDaf.slice(0, -1);
-                  const startSide = mapping.startDaf.slice(-1);
-                  const endFolio = mapping.endDaf.slice(0, -1);
-                  const endSide = mapping.endDaf.slice(-1);
-                  
-                  if (startFolio === endFolio) {
-                    // Same folio number, different sides (e.g., 108a to 108b)
-                    talmudRange = `${mapping.startDaf}:${mapping.startLine}-${endSide}:${mapping.endLine}`;
-                  } else {
-                    // Completely different folios
-                    talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endDaf}:${mapping.endLine}`;
-                  }
-                }
-
-                // Generate link using normalized tractate name for correct slug
-                const normalizedTractate = TRACTATE_NAME_VARIANTS[mapping.tractate] || normalizeDisplayTractateName(mapping.tractate);
-                const tractateSlug = getTractateSlug(normalizedTractate);
-                const href = `/talmud/${tractateSlug}/${mapping.startDaf}#section-${mapping.startLine}`;
-
-                // Generate Sefaria Mishnah URL
-                const sefariaTractateName = tractate.replace(/ /g, '_');
-                const sefariaUrl = `https://www.sefaria.org.il/Mishnah_${sefariaTractateName}.${chapter.number}.${mapping.startMishnah}`;
-
-                return {
-                  mishnahNumber,
-                  talmudRange,
-                  href,
-                  sefariaUrl
-                };
-              });
-
-              return {
-                ...chapter,
-                mishnahTiles
-              };
-            })
+          ? (talmudMapping
+              // Tractates with Mishnah/Talmud chapter numbering divergence:
+              // iterate in Mishnah chapter order, grouping tiles by mishnahChapter
+              // and pulling Talmud chapter folio data via the lookup
+              ? talmudMapping.map(({ mishnahChapter, talmudChapter, talmudOrderNote }) => {
+                  const talmudChData = chapters.find(ch => ch.number === talmudChapter) || {
+                    number: mishnahChapter,
+                    englishName: `Chapter ${mishnahChapter}`,
+                    hebrewName: `פרק ${mishnahChapter}`,
+                    startFolio: 0, startSide: 'a' as const,
+                    endFolio: 0, endSide: 'a' as const,
+                  };
+                  const chapterMappings = tractateMappings
+                    .filter(mapping => mapping.mishnahChapter === mishnahChapter)
+                    .sort((a, b) => a.startMishnah - b.startMishnah);
+                  const mishnahTiles = buildTiles(chapterMappings, mishnahChapter);
+                  return { ...talmudChData, number: mishnahChapter, mishnahTiles, talmudOrderNote };
+                })
+              // Standard tractates: Talmud and Mishnah chapter numbers match
+              : chapters.map(chapter => {
+                  const chapterMappings = tractateMappings
+                    .filter(mapping => mapping.mishnahChapter === chapter.number)
+                    .sort((a, b) => a.startMishnah - b.startMishnah);
+                  const mishnahTiles = buildTiles(chapterMappings, chapter.number);
+                  return { ...chapter, mishnahTiles };
+                })
+            )
           : // Fallback for tractates without chapter data: group by Mishnah chapter
             (() => {
               const chapterNumbers = Array.from(new Set(tractateMappings.map(m => m.mishnahChapter))).sort((a, b) => a - b);
@@ -481,6 +486,11 @@ export default function MishnahMapPage() {
                                 <h3 className="text-xl text-primary mb-2">
                                   Chapter {chapter.number}
                                 </h3>
+                                {chapter.talmudOrderNote && (
+                                  <p className="text-xs text-amber-700 dark:text-amber-400 italic">
+                                    {chapter.talmudOrderNote}
+                                  </p>
+                                )}
                               </div>
 
                               {/* Mishnah tiles */}

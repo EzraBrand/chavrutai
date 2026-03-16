@@ -252,3 +252,51 @@ export function getChapterFirstPageUrl(tractate: string, chapter: ChapterInfo): 
   const anchor = section ? `#section-${section}` : '';
   return `/talmud/${tractateSlug}/${folioSlug}${anchor}`;
 }
+
+export interface MishnahChapterTalmudEntry {
+  mishnahChapter: number;
+  talmudChapter: number;
+  talmudOrderNote?: string;
+}
+
+export const MISHNAH_CHAPTER_TALMUD_MAP: Record<string, MishnahChapterTalmudEntry[]> = {
+  'menachot': [
+    { mishnahChapter: 1,  talmudChapter: 1  },
+    { mishnahChapter: 2,  talmudChapter: 2  },
+    { mishnahChapter: 3,  talmudChapter: 3  },
+    { mishnahChapter: 4,  talmudChapter: 4  },
+    { mishnahChapter: 5,  talmudChapter: 5  },
+    { mishnahChapter: 6,  talmudChapter: 7,  talmudOrderNote: 'In the Talmud, this chapter appears as chapter 7 — after Mishnah chapter 10' },
+    { mishnahChapter: 7,  talmudChapter: 8,  talmudOrderNote: 'In the Talmud, this chapter appears as chapter 8 — after Mishnah chapter 10' },
+    { mishnahChapter: 8,  talmudChapter: 9,  talmudOrderNote: 'In the Talmud, this chapter appears as chapter 9 — after Mishnah chapter 10' },
+    { mishnahChapter: 9,  talmudChapter: 10, talmudOrderNote: 'In the Talmud, this chapter appears as chapter 10 — after Mishnah chapter 10' },
+    { mishnahChapter: 10, talmudChapter: 6,  talmudOrderNote: 'In the Talmud, this chapter appears as chapter 6 — before Mishnah chapters 6–9' },
+    { mishnahChapter: 11, talmudChapter: 11 },
+    { mishnahChapter: 12, talmudChapter: 12 },
+    { mishnahChapter: 13, talmudChapter: 13 },
+  ],
+  'megillah': [
+    { mishnahChapter: 1, talmudChapter: 1 },
+    { mishnahChapter: 2, talmudChapter: 2 },
+    { mishnahChapter: 3, talmudChapter: 3, talmudOrderNote: 'In the Talmud, Mishnah chapters 3 and 4 appear in reverse order (chapter 4 precedes chapter 3)' },
+    { mishnahChapter: 4, talmudChapter: 3, talmudOrderNote: 'In the Talmud, Mishnah chapters 3 and 4 appear in reverse order (chapter 4 precedes chapter 3)' },
+  ],
+  'sanhedrin': [
+    { mishnahChapter: 1,  talmudChapter: 1  },
+    { mishnahChapter: 2,  talmudChapter: 2  },
+    { mishnahChapter: 3,  talmudChapter: 3  },
+    { mishnahChapter: 4,  talmudChapter: 4  },
+    { mishnahChapter: 5,  talmudChapter: 5  },
+    { mishnahChapter: 6,  talmudChapter: 6  },
+    { mishnahChapter: 7,  talmudChapter: 7  },
+    { mishnahChapter: 8,  talmudChapter: 8  },
+    { mishnahChapter: 9,  talmudChapter: 9  },
+    { mishnahChapter: 10, talmudChapter: 11, talmudOrderNote: 'In the Talmud, Mishnah chapters 10 and 11 appear in reverse order (chapter 11 precedes chapter 10)' },
+    { mishnahChapter: 11, talmudChapter: 10, talmudOrderNote: 'In the Talmud, Mishnah chapters 10 and 11 appear in reverse order (chapter 11 precedes chapter 10)' },
+  ],
+};
+
+export function getMishnahTalmudMapping(tractate: string): MishnahChapterTalmudEntry[] | null {
+  const key = normalizeTractateKey(tractate);
+  return MISHNAH_CHAPTER_TALMUD_MAP[key] || null;
+}
