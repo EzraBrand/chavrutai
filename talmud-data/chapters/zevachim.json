@@ -5,124 +5,124 @@
     "hebrewName": "כל הזבחים",
     "startFolio": 2,
     "startSide": "a",
-    "endFolio": 25,
-    "endSide": "a"
+    "endFolio": 15,
+    "endSide": "b"
   },
   {
     "number": 2,
-    "englishName": "Kol HaZevachim She'nitnu",
-    "hebrewName": "כל הזבחים שניתנו",
-    "startFolio": 25,
-    "startSide": "a",
-    "endFolio": 40,
-    "endSide": "a"
+    "englishName": "Kol HaZevachim She'kiblu Daman",
+    "hebrewName": "כל הזבחים שקבלו דמן",
+    "startFolio": 15,
+    "startSide": "b",
+    "endFolio": 31,
+    "endSide": "b"
   },
   {
     "number": 3,
-    "englishName": "Eilu Devarim",
-    "hebrewName": "אלו דברים",
-    "startFolio": 40,
-    "startSide": "a",
-    "endFolio": 47,
+    "englishName": "Kol HaPesulin",
+    "hebrewName": "כל הפסולין",
+    "startFolio": 31,
+    "startSide": "b",
+    "endFolio": 36,
     "endSide": "b"
   },
   {
     "number": 4,
     "englishName": "Beit Shammai",
     "hebrewName": "בית שמאי",
-    "startFolio": 47,
+    "startFolio": 36,
     "startSide": "b",
-    "endFolio": 59,
+    "endFolio": 47,
     "endSide": "a"
   },
   {
     "number": 5,
     "englishName": "Eizehu Mekoman",
     "hebrewName": "איזהו מקומן",
-    "startFolio": 59,
+    "startFolio": 47,
     "startSide": "a",
-    "endFolio": 63,
+    "endFolio": 58,
     "endSide": "a"
   },
   {
     "number": 6,
-    "englishName": "Chatat HaOf",
-    "hebrewName": "חטאת העוף",
-    "startFolio": 63,
+    "englishName": "Kodshei Kodashim",
+    "hebrewName": "קדשי קדשים",
+    "startFolio": 58,
     "startSide": "a",
-    "endFolio": 70,
+    "endFolio": 66,
     "endSide": "a"
   },
   {
     "number": 7,
-    "englishName": "Kol HaTadir",
-    "hebrewName": "כל התדיר",
+    "englishName": "Chatat HaOf",
+    "hebrewName": "חטאת העוף",
+    "startFolio": 66,
+    "startSide": "a",
+    "endFolio": 70,
+    "endSide": "b"
+  },
+  {
+    "number": 8,
+    "englishName": "Kol HaZevachim",
+    "hebrewName": "כל הזבחים",
     "startFolio": 70,
+    "startSide": "b",
+    "endFolio": 83,
+    "endSide": "a"
+  },
+  {
+    "number": 9,
+    "englishName": "HaMizbe'ach Mekadesh",
+    "hebrewName": "המזבח מקדש",
+    "startFolio": 83,
     "startSide": "a",
     "endFolio": 89,
     "endSide": "a"
   },
   {
-    "number": 8,
-    "englishName": "Tevul Yom",
-    "hebrewName": "טבול יום",
+    "number": 10,
+    "englishName": "Kol HaTadir",
+    "hebrewName": "כל התדיר",
     "startFolio": 89,
     "startSide": "a",
-    "endFolio": 96,
-    "endSide": "a"
-  },
-  {
-    "number": 9,
-    "englishName": "Kol HaMinchot",
-    "hebrewName": "כל המנחות",
-    "startFolio": 96,
-    "startSide": "a",
-    "endFolio": 103,
-    "endSide": "a"
-  },
-  {
-    "number": 10,
-    "englishName": "Ha'Omer",
-    "hebrewName": "העומר",
-    "startFolio": 103,
-    "startSide": "a",
-    "endFolio": 111,
+    "endFolio": 92,
     "endSide": "a"
   },
   {
     "number": 11,
-    "englishName": "Shnei Seirei Rosh HaShanah",
-    "hebrewName": "שני שעירי ראש השנה",
-    "startFolio": 111,
+    "englishName": "Dam Chatat",
+    "hebrewName": "דם חטאת",
+    "startFolio": 92,
     "startSide": "a",
-    "endFolio": 113,
-    "endSide": "a"
+    "endFolio": 98,
+    "endSide": "b"
   },
   {
     "number": 12,
-    "englishName": "Shchatat Kodesh",
-    "hebrewName": "שחיטת קודש",
-    "startFolio": 113,
-    "startSide": "a",
-    "endFolio": 116,
-    "endSide": "b"
+    "englishName": "Tevul Yom",
+    "hebrewName": "טבול יום",
+    "startFolio": 98,
+    "startSide": "b",
+    "endFolio": 106,
+    "endSide": "a"
   },
   {
     "number": 13,
-    "englishName": "Parah Adumah",
-    "hebrewName": "פרה אדומה",
-    "startFolio": 116,
-    "startSide": "b",
-    "endFolio": 120,
-    "endSide": "b"
+    "englishName": "HaShochet VeHamaaleh",
+    "hebrewName": "השוחט והמעלה",
+    "startFolio": 106,
+    "startSide": "a",
+    "endFolio": 112,
+    "endSide": "a"
   },
   {
     "number": 14,
-    "englishName": "Kol HaKometz",
-    "hebrewName": "כל הקומץ",
-    "startFolio": 120,
-    "startSide": "b",
-    "endFolio": 122,
+    "englishName": "Kol HaPesulin She'alu",
+    "hebrewName": "כל הפסולין שעלו",
+    "startFolio": 112,
+    "startSide": "a",
+    "endFolio": 120,
     "endSide": "b"
   }
 ]
