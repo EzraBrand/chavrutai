@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Search, Copy, FileText, Code, ExternalLink, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, Copy, FileText, Code, ChevronDown, ChevronUp } from "lucide-react";
 import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
 import { TRACTATE_LISTS } from "@shared/tractates";
 import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
@@ -804,19 +804,15 @@ ${cleanHtml}
 
                 {data && !data.error && (
                   <div className="flex items-center gap-3 p-4 bg-primary/10 border border-primary/25 rounded-lg">
-                    <BookOpen className="h-5 w-5 text-primary flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-foreground mb-1">Open in ChavrutAI</p>
+                      <p className="text-sm font-semibold text-foreground mb-1">Open in the main Talmud reader</p>
                       <p className="text-xs text-muted-foreground">Study this passage with the full ChavrutAI reader</p>
                     </div>
                     <a
                       href={`/talmud/${encodeURIComponent(data.tractate.toLowerCase())}/${data.page}${data.section ? `#section-${data.section}` : ''}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-primary/90 transition-colors flex-shrink-0"
+                      className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-primary/90 transition-colors flex-shrink-0 underline underline-offset-2"
                     >
                       {data.tractate} {data.page}{data.section ? `:${data.section}` : ''}
-                      <ExternalLink className="h-4 w-4" />
                     </a>
                   </div>
                 )}
