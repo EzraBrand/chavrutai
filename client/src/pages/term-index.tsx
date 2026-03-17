@@ -577,7 +577,8 @@ export default function TermIndexPage() {
 
   // Lock body scroll while detail panel is open (prevents double scrollbar)
   useEffect(() => {
-    document.body.style.overflow = selected ? "hidden" : "";
+    const isMobile = window.innerWidth < 768;
+    document.body.style.overflow = selected && isMobile ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [selected]);
 
@@ -665,116 +666,124 @@ export default function TermIndexPage() {
       </header>
 
       {/* ── Page title ── */}
-      <div className="border-b border-border px-6 py-4 flex-shrink-0 bg-card">
-        <h1 className="text-xl font-semibold text-foreground">Index of Names, Places &amp; Key Terms in the Talmud</h1>
-        <button
-          onClick={() => setShowInfo(v => !v)}
-          className="mt-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-        >
-          {showInfo ? "▲" : "▼"} About this index
-        </button>
+      <div className="border-b border-border flex-shrink-0 bg-card">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-4">
+          <h1 className="text-xl font-semibold text-foreground">Index of Names, Places &amp; Key Terms in the Talmud</h1>
+          <button
+            onClick={() => setShowInfo(v => !v)}
+            className="mt-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+          >
+            {showInfo ? "▲" : "▼"} About this index
+          </button>
 
-        {showInfo && (
-          <div className="mt-4 text-sm text-foreground leading-relaxed space-y-3 max-w-3xl border-t border-border/60 pt-4">
-            <p className="text-muted-foreground italic">
-              Note: This page is a work in progress. Data may be incomplete or contain errors.
-            </p>
-            <p>
-              This is a structured glossary of 4,904 terms appearing in the Babylonian Talmud — personal names,
-              place names, Biblical figures, nations, and key concepts. Each entry includes variant spellings,
-              Hebrew/Aramaic text, occurrence counts in the Steinsaltz English Talmud corpus, and links to
-              Wikipedia where available.
-            </p>
-            <p>
-              Biographical data (teachers, students, father, dates, affiliation) is sourced from{" "}
-              <a href="https://www.wikidata.org" target="_blank" rel="noopener noreferrer"
-                className="text-primary hover:underline inline-flex items-center gap-0.5">
-                Wikidata <ExternalLink className="w-3 h-3" />
-              </a>{" "}
-              and is available for entries that have a corresponding Wikidata item (Q-ID). This data is
-              community-maintained and may not be complete or fully accurate for all figures.
-            </p>
-            <p>
-              Corpus occurrence counts reflect how often each term appears in the full Steinsaltz English
-              translation as indexed in the ChavrutAI search corpus.
-            </p>
-            <p>
-              <a
-                href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline inline-flex items-center gap-1 font-medium"
-              >
-                Read a writeup on how an initial version of this glossary was built
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            </p>
-          </div>
-        )}
+          {showInfo && (
+            <div className="mt-4 text-sm text-foreground leading-relaxed space-y-3 max-w-3xl border-t border-border/60 pt-4">
+              <p className="text-muted-foreground italic">
+                Note: This page is a work in progress. Data may be incomplete or contain errors.
+              </p>
+              <p>
+                This is a structured glossary of 4,904 terms appearing in the Babylonian Talmud — personal names,
+                place names, Biblical figures, nations, and key concepts. Each entry includes variant spellings,
+                Hebrew/Aramaic text, occurrence counts in the Steinsaltz English Talmud corpus, and links to
+                Wikipedia where available.
+              </p>
+              <p>
+                Biographical data (teachers, students, father, dates, affiliation) is sourced from{" "}
+                <a href="https://www.wikidata.org" target="_blank" rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center gap-0.5">
+                  Wikidata <ExternalLink className="w-3 h-3" />
+                </a>{" "}
+                and is available for entries that have a corresponding Wikidata item (Q-ID). This data is
+                community-maintained and may not be complete or fully accurate for all figures.
+              </p>
+              <p>
+                Corpus occurrence counts reflect how often each term appears in the full Steinsaltz English
+                translation as indexed in the ChavrutAI search corpus.
+              </p>
+              <p>
+                <a
+                  href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center gap-1 font-medium"
+                >
+                  Read a writeup on how an initial version of this glossary was built
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ── Sticky controls: toolbar + tabs ── */}
       <div className="sticky top-[72px] z-40 flex flex-col flex-shrink-0 bg-background">
 
         {/* Toolbar (search + sort) */}
-        <div className="px-6 py-2.5 border-b border-border/60 bg-muted flex items-center gap-3">
-          <div className="relative flex-1 min-w-0">
-            <input
-              type="search"
-              placeholder="Search terms, Hebrew, variants…"
-              value={search}
-              onChange={e => handleSearch(e.target.value)}
-              className="border border-input rounded-md pl-3 pr-7 py-1.5 text-sm w-full bg-background focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground text-foreground"
-            />
-            {search && (
-              <button
-                onClick={() => handleSearch("")}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors text-base leading-none"
-                aria-label="Clear search"
+        <div className="border-b border-border/60 bg-muted">
+          <div className="max-w-7xl mx-auto px-6 lg:px-10 py-2.5 flex items-center gap-3">
+            <div className="relative flex-1 min-w-0">
+              <input
+                type="search"
+                placeholder="Search terms, Hebrew, variants…"
+                value={search}
+                onChange={e => handleSearch(e.target.value)}
+                className="border border-input rounded-md pl-3 pr-7 py-1.5 text-sm w-full bg-background focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground text-foreground"
+              />
+              {search && (
+                <button
+                  onClick={() => handleSearch("")}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors text-base leading-none"
+                  aria-label="Clear search"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+            <div className="flex-shrink-0">
+              <select
+                value={sort}
+                onChange={e => setSort(e.target.value as SortOption)}
+                className="border border-input rounded-md px-2 py-1.5 text-sm bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
               >
-                ×
-              </button>
-            )}
-          </div>
-          <div className="flex-shrink-0">
-            <select
-              value={sort}
-              onChange={e => setSort(e.target.value as SortOption)}
-              className="border border-input rounded-md px-2 py-1.5 text-sm bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-            >
-              {(Object.keys(SORT_LABELS) as SortOption[]).map(opt => (
-                <option key={opt} value={opt}>{SORT_LABELS[opt]}</option>
-              ))}
-            </select>
+                {(Object.keys(SORT_LABELS) as SortOption[]).map(opt => (
+                  <option key={opt} value={opt}>{SORT_LABELS[opt]}</option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
         {/* Mobile category selector — hidden on md+ */}
-        <div className="md:hidden border-b border-border/60 bg-muted flex items-center gap-2 px-4 py-2">
-          <span className="text-xs text-muted-foreground flex-shrink-0">Category:</span>
-          <select
-            value={activeTab}
-            onChange={e => handleTabChange(e.target.value)}
-            className="flex-1 border border-input rounded-md px-2 py-1.5 text-sm bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-          >
-            {TAB_ORDER.map(cat => (
-              <option key={cat} value={cat}>
-                {CATEGORY_LABELS[cat] ?? cat}{!isLoading ? ` (${(tabCounts[cat] ?? 0).toLocaleString()})` : ""}
-              </option>
-            ))}
-          </select>
+        <div className="md:hidden border-b border-border/60 bg-muted">
+          <div className="max-w-7xl mx-auto px-6 py-2 flex items-center gap-2">
+            <span className="text-xs text-muted-foreground flex-shrink-0">Category:</span>
+            <select
+              value={activeTab}
+              onChange={e => handleTabChange(e.target.value)}
+              className="flex-1 border border-input rounded-md px-2 py-1.5 text-sm bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+            >
+              {TAB_ORDER.map(cat => (
+                <option key={cat} value={cat}>
+                  {CATEGORY_LABELS[cat] ?? cat}{!isLoading ? ` (${(tabCounts[cat] ?? 0).toLocaleString()})` : ""}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         {/* Mobile search result count — hidden on md+ */}
         {!isLoading && debouncedSearch && (
-          <div className="md:hidden px-4 py-1.5 text-xs text-muted-foreground bg-muted border-b border-border/40">
-            {sortedFiltered.length.toLocaleString()} result{sortedFiltered.length !== 1 ? "s" : ""} in {CATEGORY_LABELS[activeTab] ?? activeTab}
+          <div className="md:hidden bg-muted border-b border-border/40">
+            <div className="max-w-7xl mx-auto px-6 py-1.5 text-xs text-muted-foreground">
+              {sortedFiltered.length.toLocaleString()} result{sortedFiltered.length !== 1 ? "s" : ""} in {CATEGORY_LABELS[activeTab] ?? activeTab}
+            </div>
           </div>
         )}
 
       </div>
 
       {/* ── Content area ── */}
-      <div className="flex-1 flex items-start">
+      <div className="flex-1 flex items-start max-w-7xl mx-auto w-full px-4 lg:px-6">
 
         {/* Category sidebar — desktop only, sticky */}
         <aside className="hidden md:flex flex-col flex-shrink-0 w-44 border-r border-border bg-card sticky top-[118px] self-start max-h-[calc(100vh-118px)] overflow-y-auto">
