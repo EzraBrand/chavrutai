@@ -357,20 +357,18 @@ function TermCard({
       }`}
     >
       {/* Term + Hebrew */}
-      <div className="flex items-start justify-between gap-2 mb-1">
-        <div className="min-w-0">
-          <span className="font-medium text-foreground text-sm leading-snug">{row.term}</span>
-          {row.__variants.length > 0 && (
-            <div className="text-xs text-muted-foreground/70 mt-0.5">
-              also: {row.__variants.slice(0, 3).join(", ")}
-              {row.__variants.length > 3 && ` +${row.__variants.length - 3}`}
-            </div>
-          )}
-        </div>
+      <div className="mb-1">
+        <span className="font-medium text-foreground text-sm leading-snug">{row.term}</span>
         {row.hebrew_term && (
-          <span dir="rtl" className="text-base font-semibold text-foreground flex-shrink-0 leading-snug" style={{ fontFamily: "'Assistant', sans-serif" }}>
+          <div dir="rtl" className="text-sm font-semibold text-foreground mt-0.5" style={{ fontFamily: "'Assistant', sans-serif" }}>
             {row.hebrew_term}
-          </span>
+          </div>
+        )}
+        {row.__variants.length > 0 && (
+          <div className="text-xs text-muted-foreground/70 mt-0.5">
+            also: {row.__variants.slice(0, 3).join(", ")}
+            {row.__variants.length > 3 && ` +${row.__variants.length - 3}`}
+          </div>
         )}
       </div>
 
