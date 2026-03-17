@@ -663,7 +663,7 @@ export default function TermIndexPage() {
 
       {/* ── Page title ── */}
       <div className="border-b border-border px-6 py-4 flex-shrink-0 bg-card">
-        <h1 className="text-xl font-semibold text-foreground">Index of Names, Places &amp; Key Terms</h1>
+        <h1 className="text-xl font-semibold text-foreground">Index of Names, Places &amp; Key Terms in the Talmud</h1>
         <button
           onClick={() => setShowInfo(v => !v)}
           className="mt-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
