@@ -774,10 +774,10 @@ export default function TermIndexPage() {
       </div>
 
       {/* ── Content area (flex-1, fills between tabs and footer) ── */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden min-h-0">
 
         {/* Cards column */}
-        <div className="flex-1 overflow-y-auto p-5">
+        <div className="flex-1 overflow-y-auto p-5 min-w-0">
           {isLoading ? (
             <div className="text-sm text-muted-foreground text-center py-20">Loading glossary data…</div>
           ) : loadError ? (
