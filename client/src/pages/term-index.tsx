@@ -455,18 +455,47 @@ export default function TermIndexPage() {
       "@context": "https://schema.org",
       "@type": "Dataset",
       name: "Talmudic Glossary — Names, Places & Key Terms",
-      description: "Structured glossary of 4,904 terms from the Babylonian Talmud: personal names, place names, Biblical figures, nations, and concepts. Includes Hebrew/Aramaic text, variant spellings, corpus occurrence counts, Wikipedia links, and Wikidata identifiers.",
+      alternateName: "Talmud Term Index",
+      description: "Structured glossary of 4,904 terms from the Babylonian Talmud: personal names (Amoraim, Tannaim), place names, Biblical figures, nations, and concepts. Includes Hebrew/Aramaic text, variant spellings, corpus occurrence counts in the Steinsaltz English translation, Wikipedia links, and Wikidata identifiers.",
       url: `${window.location.origin}/term-index`,
       license: "https://opensource.org/licenses/MIT",
-      creator: { "@type": "Person", name: "Ezra Brand", url: "https://www.ezrabrand.com/" },
-      publisher: { "@type": "Organization", name: "ChavrutAI", url: window.location.origin },
-      about: { "@type": "Thing", name: "Babylonian Talmud" },
-      keywords: "Talmud, glossary, rabbinic names, Amoraim, Tannaim, place names, Aramaic, Hebrew, Babylonian Talmud, Wikidata, corpus",
-      distribution: [{
-        "@type": "DataDownload",
-        encodingFormat: "application/json",
-        contentUrl: `${window.location.origin}/api/glossary`,
-      }],
+      isAccessibleForFree: true,
+      inLanguage: ["en", "he"],
+      version: "4",
+      creator: {
+        "@type": "Person",
+        name: "Ezra Brand",
+        url: "https://www.ezrabrand.com/",
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+      about: {
+        "@type": "Thing",
+        name: "Babylonian Talmud",
+        sameAs: "https://en.wikipedia.org/wiki/Talmud",
+      },
+      keywords: [
+        "Talmud", "Babylonian Talmud", "glossary", "rabbinic names",
+        "Amoraim", "Tannaim", "place names", "Aramaic", "Hebrew",
+        "Wikidata", "NLP", "corpus", "Steinsaltz",
+      ],
+      temporalCoverage: "0200/0600",
+      spatialCoverage: {
+        "@type": "Place",
+        name: "Babylonia and the Land of Israel",
+      },
+      distribution: [
+        {
+          "@type": "DataDownload",
+          encodingFormat: "application/json",
+          contentUrl: `${window.location.origin}/api/glossary`,
+          name: "Glossary JSON (columnar format, 4,904 entries)",
+        },
+      ],
+      measurementTechnique: "Natural language processing on the Steinsaltz English Talmud corpus; entity linking via Wikidata",
     },
   });
 
