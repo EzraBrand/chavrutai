@@ -1786,7 +1786,7 @@ When answering questions:
 
   app.get("/api/glossary", (_req, res) => {
     const filePath = path.join(process.cwd(), "shared/data/glossary_v4.json");
-    res.setHeader("Cache-Control", "public, max-age=86400");
+    res.setHeader("Cache-Control", "no-cache");
     res.sendFile(filePath);
   });
 

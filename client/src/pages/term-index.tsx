@@ -523,7 +523,7 @@ export default function TermIndexPage() {
   // Load from shared/data via API
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/glossary")
+    fetch("/api/glossary?v=4")
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then((data: { fields: string[]; rows: string[][] }) => {
         if (cancelled) return;
@@ -612,6 +612,9 @@ export default function TermIndexPage() {
 
         {showInfo && (
           <div className="mt-4 text-sm text-foreground leading-relaxed space-y-3 max-w-3xl border-t border-border/60 pt-4">
+            <p className="text-muted-foreground italic">
+              Note: This page is a work in progress. Data may be incomplete or contain errors.
+            </p>
             <p>
               This is a structured glossary of 4,904 terms appearing in the Babylonian Talmud — personal names,
               place names, Biblical figures, nations, and key concepts. Each entry includes variant spellings,

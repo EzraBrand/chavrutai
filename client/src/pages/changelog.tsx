@@ -72,6 +72,23 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Term Index: Full Redesign — Tabbed Cards Layout</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Completely redesigned the <Link href="/term-index" className="text-blue-600 hover:underline">/term-index</Link> page from a wide, horizontally-scrolling table into a tabbed cards layout with a click-to-expand detail panel</li>
+                <li><strong>Category tabs</strong> — terms are organized into seven tabs: All, Names, Places, Biblical Names, Concepts, Nations, and Biblical Places. Each tab shows a live count; an "X of Y shown" counter appears on the right side of the tab bar.</li>
+                <li><strong>Detail panel</strong> — clicking any card opens a side panel with: Hebrew text, variant names, category badges, biographical data (teacher, student, father, affiliation, birth/death dates and places), Wikipedia EN &amp; HE links, Wikidata link (with Q-ID), and up to 10 live corpus passage excerpts fetched from the search API</li>
+                <li><strong>Corpus passage links</strong> — each passage in the detail panel links directly to the specific folio and section (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/berakhot/3b#section-26</code>), using the same routing logic as the search results page</li>
+                <li><strong>Glossary data moved to JSON</strong> — the CSV was converted to a compact columnar JSON format (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">shared/data/glossary_v4.json</code>, 485 KB) served via a new <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">GET /api/glossary</code> endpoint, replacing the old inline CSV fetch</li>
+                <li><strong>Progressive pagination</strong> — cards are displayed 30 at a time with a "Show 30 more (N remaining)" button, preventing the browser from rendering thousands of DOM nodes at once</li>
+                <li><strong>Search &amp; sort</strong> — search bar with a clear (×) button; sort by count high-to-low, count low-to-high, A–Z, or Z–A; all filter changes (tab, search, sort) reset the display count and are debounced at 250 ms</li>
+                <li><strong>Keyboard support</strong> — pressing Escape closes the detail panel</li>
+                <li><strong>Hebrew text</strong> — uses the same default Hebrew font as the Talmud reader (Assistant), displayed prominently alongside the English term in both cards and the detail panel</li>
+                <li><strong>SEO</strong> — fully custom title, meta description, keywords, Open Graph, canonical URL, and Schema.org Dataset structured data with <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">license: MIT</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">isAccessibleForFree: true</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">inLanguage: ["en","he"]</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">temporalCoverage</code>, and a <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">DataDownload</code> distribution pointing to the JSON endpoint</li>
+                <li>The existing ChavrutAI header (logo + icon) and footer are preserved; the page includes a collapsible "About this index" section with a work-in-progress disclaimer, data source notes, and a link to the methodology writeup</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Search: Accurate Result Count for Small Result Sets</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed a bug where the search result count was displayed as too low (e.g. "1 results" when 2 results were shown). The count is now always accurate for small result sets, rather than using a rough estimate based on halving the raw Elasticsearch hit count.</li>
