@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { Link } from "wouter";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
@@ -63,7 +64,6 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const TAB_ORDER = ["all", "names", "talmudToponyms", "biblicalNames", "concepts", "biblicalNations", "biblicalPlaces"];
-const DISPLAY_LIMIT = 20;
 
 type SortOption = "count-desc" | "count-asc" | "alpha-asc" | "alpha-desc";
 const SORT_LABELS: Record<SortOption, string> = {
@@ -559,10 +559,11 @@ export default function TermIndexPage() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("names");
   const [search, setSearch] = useState("");
-  const [displayCount, setDisplayCount] = useState(DISPLAY_LIMIT);
   const [sort, setSort] = useState<SortOption>("count-desc");
   const [selected, setSelected] = useState<GlossaryRow | null>(null);
   const [showInfo, setShowInfo] = useState(false);
+  const [colCount, setColCount] = useState(1);
+  const cardsRef = useRef<HTMLDivElement>(null);
 
   const debouncedSearch = useDebounce(search, 250);
 
@@ -628,11 +629,43 @@ export default function TermIndexPage() {
     });
   }, [filtered, sort]);
 
-  // Reset display count whenever filter changes
-  useEffect(() => { setDisplayCount(DISPLAY_LIMIT); }, [activeTab, debouncedSearch, sort]);
+  // Track column count via ResizeObserver on the cards container
+  useEffect(() => {
+    const el = cardsRef.current;
+    if (!el) return;
+    const compute = (w: number) => {
+      if (selected) return 1;
+      if (w >= 1280) return 4;
+      if (w >= 1024) return 3;
+      if (w >= 640) return 2;
+      return 1;
+    };
+    const obs = new ResizeObserver(([entry]) => setColCount(compute(entry.contentRect.width)));
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [selected]);
 
-  const displayed = sortedFiltered.slice(0, displayCount);
-  const remaining = sortedFiltered.length - displayCount;
+  // Group sorted items into rows of colCount
+  const rows = useMemo<GlossaryRow[][]>(() => {
+    const out: GlossaryRow[][] = [];
+    for (let i = 0; i < sortedFiltered.length; i += colCount) {
+      out.push(sortedFiltered.slice(i, i + colCount));
+    }
+    return out;
+  }, [sortedFiltered, colCount]);
+
+  // Virtualizer over rows
+  const rowVirtualizer = useVirtualizer({
+    count: rows.length,
+    getScrollElement: () => cardsRef.current,
+    estimateSize: () => 130,
+    overscan: 4,
+  });
+
+  // Scroll to top whenever the result set changes
+  useEffect(() => {
+    cardsRef.current?.scrollTo({ top: 0 });
+  }, [activeTab, debouncedSearch, sort]);
 
   const handleTabChange = useCallback((cat: string) => {
     setActiveTab(cat); setSelected(null);
@@ -643,7 +676,7 @@ export default function TermIndexPage() {
   }, []);
 
   return (
-    <div className="min-h-screen md:h-screen bg-background flex flex-col md:overflow-hidden">
+    <div className="min-h-screen md:h-dvh bg-background flex flex-col md:overflow-hidden">
       {/* ── Header ── */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -781,8 +814,8 @@ export default function TermIndexPage() {
       {/* ── Content area (flex-1, fills between tabs and footer) ── */}
       <div className="flex-1 flex md:overflow-hidden min-h-0">
 
-        {/* Cards column */}
-        <div className="flex-1 overflow-y-auto p-5 min-w-0">
+        {/* Cards column — virtualised */}
+        <div ref={cardsRef} className="flex-1 overflow-y-auto p-5 min-w-0">
           {isLoading ? (
             <div className="text-sm text-muted-foreground text-center py-20">Loading glossary data…</div>
           ) : loadError ? (
@@ -790,35 +823,35 @@ export default function TermIndexPage() {
           ) : sortedFiltered.length === 0 ? (
             <div className="text-sm text-muted-foreground text-center py-20">No terms match your search.</div>
           ) : (
-            <>
-              <div className={`grid gap-2.5 ${selected ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"}`}>
-                {displayed.map(row => (
-                  <TermCard
-                    key={row.term}
-                    row={row}
-                    activeTab={activeTab}
-                    isSelected={selected?.term === row.term}
-                    onClick={() => setSelected(selected?.term === row.term ? null : row)}
-                  />
-                ))}
-              </div>
-
-              {remaining > 0 && (
-                <div className="mt-6 text-center">
-                  <p className="text-xs text-muted-foreground mb-2">
-                    Showing {displayed.length.toLocaleString()} of {sortedFiltered.length.toLocaleString()} terms
-                    {!search && " — use search to narrow down"}.
-                  </p>
-                  <button
-                    onClick={() => setDisplayCount(c => c + 20)}
-                    className="text-sm border border-border rounded-md px-4 py-1.5 text-foreground hover:bg-accent transition-colors"
-                  >
-                    Show 20 more
-                    <span className="text-muted-foreground ml-1.5">({remaining.toLocaleString()} remaining)</span>
-                  </button>
+            <div style={{ height: `${rowVirtualizer.getTotalSize()}px`, position: "relative" }}>
+              {rowVirtualizer.getVirtualItems().map(virtualRow => (
+                <div
+                  key={virtualRow.index}
+                  data-index={virtualRow.index}
+                  ref={rowVirtualizer.measureElement}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    transform: `translateY(${virtualRow.start}px)`,
+                    paddingBottom: "10px",
+                  }}
+                >
+                  <div className={`grid gap-2.5 ${colCount === 1 ? "grid-cols-1" : colCount === 2 ? "grid-cols-2" : colCount === 3 ? "grid-cols-3" : "grid-cols-4"}`}>
+                    {rows[virtualRow.index]?.map(row => (
+                      <TermCard
+                        key={row.term}
+                        row={row}
+                        activeTab={activeTab}
+                        isSelected={selected?.term === row.term}
+                        onClick={() => setSelected(selected?.term === row.term ? null : row)}
+                      />
+                    ))}
+                  </div>
                 </div>
-              )}
-            </>
+              ))}
+            </div>
           )}
         </div>
 
