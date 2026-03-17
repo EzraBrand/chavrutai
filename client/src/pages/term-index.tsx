@@ -1,5 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "wouter";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
@@ -564,8 +563,6 @@ export default function TermIndexPage() {
   const [selected, setSelected] = useState<GlossaryRow | null>(null);
   const [showInfo, setShowInfo] = useState(false);
   const [displayCount, setDisplayCount] = useState(DISPLAY_LIMIT);
-  const [colCount, setColCount] = useState(1);
-  const cardsRef = useRef<HTMLDivElement>(null);
 
   const debouncedSearch = useDebounce(search, 250);
 
@@ -631,45 +628,10 @@ export default function TermIndexPage() {
     });
   }, [filtered, sort]);
 
-  // Track column count via ResizeObserver on the cards container
-  useEffect(() => {
-    const el = cardsRef.current;
-    if (!el) return;
-    const compute = (w: number) => {
-      if (selected) return 1;
-      if (w >= 1280) return 4;
-      if (w >= 1024) return 3;
-      if (w >= 640) return 2;
-      return 1;
-    };
-    const obs = new ResizeObserver(([entry]) => setColCount(compute(entry.contentRect.width)));
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [selected]);
-
-  // Group the current page of items into rows of colCount (virtualizer works on rows)
-  const rows = useMemo<GlossaryRow[][]>(() => {
-    const out: GlossaryRow[][] = [];
-    // displayed is defined below — reference sortedFiltered + displayCount directly here
-    const slice = sortedFiltered.slice(0, displayCount);
-    for (let i = 0; i < slice.length; i += colCount) {
-      out.push(slice.slice(i, i + colCount));
-    }
-    return out;
-  }, [sortedFiltered, displayCount, colCount]);
-
-  // Virtualizer over rows
-  const rowVirtualizer = useVirtualizer({
-    count: rows.length,
-    getScrollElement: () => cardsRef.current,
-    estimateSize: () => 130,
-    overscan: 4,
-  });
-
   // Reset pagination and scroll to top whenever the result set changes
   useEffect(() => {
     setDisplayCount(DISPLAY_LIMIT);
-    cardsRef.current?.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0 });
   }, [activeTab, debouncedSearch, sort]);
 
   const displayed = sortedFiltered.slice(0, displayCount);
@@ -684,7 +646,7 @@ export default function TermIndexPage() {
   }, []);
 
   return (
-    <div className="min-h-screen md:h-screen bg-background flex flex-col md:overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* ── Header ── */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -811,11 +773,11 @@ export default function TermIndexPage() {
 
       </div>
 
-      {/* ── Content area (flex-1, fills between sticky controls and footer) ── */}
-      <div className="flex-1 flex md:overflow-hidden min-h-0">
+      {/* ── Content area ── */}
+      <div className="flex-1 flex items-start">
 
-        {/* Category sidebar — desktop only */}
-        <aside className="hidden md:flex flex-col flex-shrink-0 w-44 border-r border-border bg-card overflow-y-auto">
+        {/* Category sidebar — desktop only, sticky */}
+        <aside className="hidden md:flex flex-col flex-shrink-0 w-44 border-r border-border bg-card sticky top-[118px] self-start max-h-[calc(100vh-118px)] overflow-y-auto">
           <div className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground border-b border-border/60">
             Category
           </div>
@@ -844,8 +806,8 @@ export default function TermIndexPage() {
           )}
         </aside>
 
-        {/* Cards column — virtualised */}
-        <div ref={cardsRef} className="flex-1 overflow-y-auto p-5 min-w-0">
+        {/* Cards column */}
+        <div className="flex-1 p-5 min-w-0">
           {isLoading ? (
             <div className="text-sm text-muted-foreground text-center py-20">Loading glossary data…</div>
           ) : loadError ? (
@@ -854,33 +816,15 @@ export default function TermIndexPage() {
             <div className="text-sm text-muted-foreground text-center py-20">No terms match your search.</div>
           ) : (
             <>
-              <div style={{ height: `${rowVirtualizer.getTotalSize()}px`, position: "relative" }}>
-                {rowVirtualizer.getVirtualItems().map(virtualRow => (
-                  <div
-                    key={virtualRow.index}
-                    data-index={virtualRow.index}
-                    ref={rowVirtualizer.measureElement}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      transform: `translateY(${virtualRow.start}px)`,
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    <div className={`grid gap-2.5 ${colCount === 1 ? "grid-cols-1" : colCount === 2 ? "grid-cols-2" : colCount === 3 ? "grid-cols-3" : "grid-cols-4"}`}>
-                      {rows[virtualRow.index]?.map(row => (
-                        <TermCard
-                          key={row.term}
-                          row={row}
-                          activeTab={activeTab}
-                          isSelected={selected?.term === row.term}
-                          onClick={() => setSelected(selected?.term === row.term ? null : row)}
-                        />
-                      ))}
-                    </div>
-                  </div>
+              <div className={`grid gap-2.5 grid-cols-1 ${selected ? "" : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"}`}>
+                {displayed.map(row => (
+                  <TermCard
+                    key={row.term}
+                    row={row}
+                    activeTab={activeTab}
+                    isSelected={selected?.term === row.term}
+                    onClick={() => setSelected(selected?.term === row.term ? null : row)}
+                  />
                 ))}
               </div>
 
@@ -898,7 +842,7 @@ export default function TermIndexPage() {
                   </button>
                 </div>
               ) : (
-                <div className="hidden md:flex items-center gap-4 mt-6 mb-4 mx-1">
+                <div className="flex items-center gap-4 mt-6 mb-4 mx-1">
                   <div className="flex-1 border-t border-border" />
                   <span className="text-xs text-muted-foreground tabular-nums">
                     {sortedFiltered.length.toLocaleString()} {sortedFiltered.length === 1 ? "term" : "terms"}
@@ -910,9 +854,9 @@ export default function TermIndexPage() {
           )}
         </div>
 
-        {/* Detail panel — full-screen overlay on mobile, side panel on md+ */}
+        {/* Detail panel — full-screen overlay on mobile, sticky side panel on md+ */}
         {selected && (
-          <div className="fixed inset-0 z-50 flex flex-col bg-card overflow-hidden md:relative md:inset-auto md:z-auto md:w-96 md:border-l md:border-border md:flex-shrink-0">
+          <div className="fixed inset-0 z-50 flex flex-col bg-card overflow-hidden md:sticky md:inset-auto md:z-auto md:top-[118px] md:self-start md:w-96 md:max-h-[calc(100vh-118px)] md:overflow-y-auto md:border-l md:border-border md:flex-shrink-0">
             <DetailPanel row={selected} onClose={() => setSelected(null)} />
           </div>
         )}
