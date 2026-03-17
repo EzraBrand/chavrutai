@@ -64,6 +64,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const TAB_ORDER = ["all", "names", "talmudToponyms", "biblicalNames", "concepts", "biblicalNations", "biblicalPlaces"];
+const DISPLAY_LIMIT = 20;
 
 type SortOption = "count-desc" | "count-asc" | "alpha-asc" | "alpha-desc";
 const SORT_LABELS: Record<SortOption, string> = {
@@ -562,6 +563,7 @@ export default function TermIndexPage() {
   const [sort, setSort] = useState<SortOption>("count-desc");
   const [selected, setSelected] = useState<GlossaryRow | null>(null);
   const [showInfo, setShowInfo] = useState(false);
+  const [displayCount, setDisplayCount] = useState(DISPLAY_LIMIT);
   const [colCount, setColCount] = useState(1);
   const cardsRef = useRef<HTMLDivElement>(null);
 
@@ -645,14 +647,16 @@ export default function TermIndexPage() {
     return () => obs.disconnect();
   }, [selected]);
 
-  // Group sorted items into rows of colCount
+  // Group the current page of items into rows of colCount (virtualizer works on rows)
   const rows = useMemo<GlossaryRow[][]>(() => {
     const out: GlossaryRow[][] = [];
-    for (let i = 0; i < sortedFiltered.length; i += colCount) {
-      out.push(sortedFiltered.slice(i, i + colCount));
+    // displayed is defined below — reference sortedFiltered + displayCount directly here
+    const slice = sortedFiltered.slice(0, displayCount);
+    for (let i = 0; i < slice.length; i += colCount) {
+      out.push(slice.slice(i, i + colCount));
     }
     return out;
-  }, [sortedFiltered, colCount]);
+  }, [sortedFiltered, displayCount, colCount]);
 
   // Virtualizer over rows
   const rowVirtualizer = useVirtualizer({
@@ -662,10 +666,14 @@ export default function TermIndexPage() {
     overscan: 4,
   });
 
-  // Scroll to top whenever the result set changes
+  // Reset pagination and scroll to top whenever the result set changes
   useEffect(() => {
+    setDisplayCount(DISPLAY_LIMIT);
     cardsRef.current?.scrollTo({ top: 0 });
   }, [activeTab, debouncedSearch, sort]);
+
+  const displayed = sortedFiltered.slice(0, displayCount);
+  const remaining = sortedFiltered.length - displayCount;
 
   const handleTabChange = useCallback((cat: string) => {
     setActiveTab(cat); setSelected(null);
@@ -744,10 +752,10 @@ export default function TermIndexPage() {
       </div>
 
       {/* ── Sticky controls: toolbar + tabs ── */}
-      <div className="sticky top-[72px] z-40 flex flex-col flex-shrink-0">
+      <div className="sticky top-[72px] z-40 flex flex-col flex-shrink-0 bg-background">
 
         {/* Toolbar (search + sort) */}
-        <div className="px-6 py-2.5 border-b border-border/60 bg-muted/40 flex items-center gap-3">
+        <div className="px-6 py-2.5 border-b border-border/60 bg-muted flex items-center gap-3">
           <div className="relative flex-1 min-w-0">
             <input
               type="search"
@@ -823,35 +831,52 @@ export default function TermIndexPage() {
           ) : sortedFiltered.length === 0 ? (
             <div className="text-sm text-muted-foreground text-center py-20">No terms match your search.</div>
           ) : (
-            <div style={{ height: `${rowVirtualizer.getTotalSize()}px`, position: "relative" }}>
-              {rowVirtualizer.getVirtualItems().map(virtualRow => (
-                <div
-                  key={virtualRow.index}
-                  data-index={virtualRow.index}
-                  ref={rowVirtualizer.measureElement}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    transform: `translateY(${virtualRow.start}px)`,
-                    paddingBottom: "10px",
-                  }}
-                >
-                  <div className={`grid gap-2.5 ${colCount === 1 ? "grid-cols-1" : colCount === 2 ? "grid-cols-2" : colCount === 3 ? "grid-cols-3" : "grid-cols-4"}`}>
-                    {rows[virtualRow.index]?.map(row => (
-                      <TermCard
-                        key={row.term}
-                        row={row}
-                        activeTab={activeTab}
-                        isSelected={selected?.term === row.term}
-                        onClick={() => setSelected(selected?.term === row.term ? null : row)}
-                      />
-                    ))}
+            <>
+              <div style={{ height: `${rowVirtualizer.getTotalSize()}px`, position: "relative" }}>
+                {rowVirtualizer.getVirtualItems().map(virtualRow => (
+                  <div
+                    key={virtualRow.index}
+                    data-index={virtualRow.index}
+                    ref={rowVirtualizer.measureElement}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      transform: `translateY(${virtualRow.start}px)`,
+                      paddingBottom: "10px",
+                    }}
+                  >
+                    <div className={`grid gap-2.5 ${colCount === 1 ? "grid-cols-1" : colCount === 2 ? "grid-cols-2" : colCount === 3 ? "grid-cols-3" : "grid-cols-4"}`}>
+                      {rows[virtualRow.index]?.map(row => (
+                        <TermCard
+                          key={row.term}
+                          row={row}
+                          activeTab={activeTab}
+                          isSelected={selected?.term === row.term}
+                          onClick={() => setSelected(selected?.term === row.term ? null : row)}
+                        />
+                      ))}
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              {remaining > 0 && (
+                <div className="mt-6 pb-4 text-center">
+                  <p className="text-xs text-muted-foreground mb-2">
+                    Showing {displayed.length.toLocaleString()} of {sortedFiltered.length.toLocaleString()} terms.
+                  </p>
+                  <button
+                    onClick={() => setDisplayCount(c => c + 20)}
+                    className="text-sm border border-border rounded-md px-4 py-1.5 text-foreground hover:bg-accent transition-colors"
+                  >
+                    Show 20 more
+                    <span className="text-muted-foreground ml-1.5">({remaining.toLocaleString()} remaining)</span>
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
 
