@@ -5,6 +5,7 @@ import { useSEO } from "@/hooks/use-seo";
 import { ExternalLink } from "lucide-react";
 import { getTractateSlug } from "@shared/tractates";
 import { getBookBySlug } from "@shared/bible-books";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -207,12 +208,15 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
             ))}
           </div>
         </div>
-        <button
-          onClick={onClose}
-          className="text-muted-foreground hover:text-foreground transition-colors flex-shrink-0 text-lg leading-none px-1"
-        >
-          ✕
-        </button>
+        <DialogPrimitive.Close asChild>
+          <button
+            onClick={onClose}
+            className="text-muted-foreground hover:text-foreground transition-colors flex-shrink-0 text-lg leading-none px-1"
+            aria-label="Close details"
+          >
+            ✕
+          </button>
+        </DialogPrimitive.Close>
       </div>
 
       {/* Scrollable body */}
@@ -566,21 +570,6 @@ export default function TermIndexPage() {
 
   const debouncedSearch = useDebounce(search, 250);
 
-  // Escape key closes the detail panel
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSelected(null);
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, []);
-
-  // Lock body scroll while detail panel is open (prevents double scrollbar)
-  useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    document.body.style.overflow = selected && isMobile ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [selected]);
 
   // Load from shared/data via API
   useEffect(() => {
@@ -825,7 +814,7 @@ export default function TermIndexPage() {
             <div className="text-sm text-muted-foreground text-center py-20">No terms match your search.</div>
           ) : (
             <>
-              <div className={`grid gap-2.5 grid-cols-1 ${selected ? "" : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"}`}>
+              <div className="grid gap-2.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {displayed.map(row => (
                   <TermCard
                     key={row.term}
@@ -863,13 +852,22 @@ export default function TermIndexPage() {
           )}
         </div>
 
-        {/* Detail panel — full-screen overlay on mobile, sticky side panel on md+ */}
-        {selected && (
-          <div className="fixed inset-0 z-50 flex flex-col bg-card overflow-hidden md:sticky md:inset-auto md:z-auto md:top-[118px] md:self-start md:w-96 md:max-h-[calc(100vh-118px)] md:overflow-y-auto md:border-l md:border-border md:flex-shrink-0">
-            <DetailPanel row={selected} onClose={() => setSelected(null)} />
-          </div>
-        )}
       </div>
+
+      <DialogPrimitive.Root open={!!selected} onOpenChange={open => { if (!open) setSelected(null); }}>
+        <DialogPrimitive.Portal>
+          <DialogPrimitive.Overlay className="fixed inset-0 z-[60] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+          <DialogPrimitive.Content
+            className="fixed left-1/2 top-1/2 z-[60] -translate-x-1/2 -translate-y-1/2 bg-card rounded-lg shadow-xl border border-border w-[calc(100%-2rem)] sm:w-[calc(100%-4rem)] max-w-2xl max-h-[85vh] flex flex-col overflow-hidden focus:outline-none"
+            aria-describedby={undefined}
+          >
+            <DialogPrimitive.Title className="sr-only">
+              {selected?.term ?? "Term details"}
+            </DialogPrimitive.Title>
+            {selected && <DetailPanel row={selected} onClose={() => setSelected(null)} />}
+          </DialogPrimitive.Content>
+        </DialogPrimitive.Portal>
+      </DialogPrimitive.Root>
 
       <Footer />
     </div>
