@@ -385,10 +385,10 @@ function TermCard({
   return (
     <div
       onClick={onClick}
-      className={`border rounded-lg p-3.5 cursor-pointer transition-all ${
+      className={`group border rounded-lg p-3.5 cursor-pointer transition-all ${
         isSelected
           ? "border-foreground bg-muted/40 shadow-sm"
-          : "border-border bg-card hover:border-muted-foreground/40 hover:shadow-sm"
+          : "border-border bg-card hover:border-muted-foreground/40 hover:shadow-sm hover:bg-accent/40"
       }`}
     >
       {/* Term + Hebrew + Variants */}
@@ -406,13 +406,6 @@ function TermCard({
           </div>
         )}
       </div>
-
-      {/* Corpus count */}
-      {row.__corpusCount > 0 && (
-        <p className="text-xs text-muted-foreground mt-2">
-          {row.__corpusCount.toLocaleString()} occurrences
-        </p>
-      )}
 
       {/* Category badge for All tab */}
       {activeTab === "all" && row.__categories.length > 0 && (
@@ -482,6 +475,20 @@ function TermCard({
             )}
           </div>
         </>
+      )}
+
+      {/* Click affordance */}
+      {!isSelected && (
+        <div className="mt-3 pt-2 border-t border-border/30 flex justify-between items-center">
+          {row.__corpusCount > 0 ? (
+            <span className="text-xs text-muted-foreground/40 group-hover:text-muted-foreground/70 transition-colors">
+              {row.__corpusCount.toLocaleString()} corpus passages
+            </span>
+          ) : <span />}
+          <span className="text-xs text-muted-foreground/40 group-hover:text-muted-foreground/70 transition-colors">
+            View details ›
+          </span>
+        </div>
       )}
     </div>
   );
