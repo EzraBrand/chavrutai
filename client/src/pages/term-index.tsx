@@ -222,7 +222,7 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
         <div className="space-y-1">
           {row.__variants.length > 0 && (
             <p className="text-sm text-muted-foreground">
-              <span className="text-muted-foreground/60">Also known as: </span>{row.__variants.join(", ")}
+              <span className="text-muted-foreground/60">Also known as: </span>{row.__variants.join("; ")}
             </p>
           )}
           {row.__corpusCount > 0 && (
@@ -401,7 +401,7 @@ function TermCard({
         )}
         {row.__variants.length > 0 && (
           <div className="text-xs text-muted-foreground/60 mt-0.5">
-            also: {row.__variants.slice(0, 3).join(", ")}
+            also: {row.__variants.slice(0, 3).join("; ")}
             {row.__variants.length > 3 && ` +${row.__variants.length - 3}`}
           </div>
         )}
