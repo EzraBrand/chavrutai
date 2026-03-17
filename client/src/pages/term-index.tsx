@@ -643,7 +643,7 @@ export default function TermIndexPage() {
   }, []);
 
   return (
-    <div className="h-screen bg-background flex flex-col overflow-hidden">
+    <div className="min-h-screen md:h-screen bg-background flex flex-col md:overflow-hidden">
       {/* ── Header ── */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -710,71 +710,76 @@ export default function TermIndexPage() {
         )}
       </div>
 
-      {/* ── Toolbar (search + sort) ── */}
-      <div className="px-6 py-2.5 border-b border-border/60 bg-muted/40 flex items-center gap-3 flex-shrink-0">
-        <div className="relative flex-1 min-w-0">
-          <input
-            type="search"
-            placeholder="Search terms, Hebrew, variants…"
-            value={search}
-            onChange={e => handleSearch(e.target.value)}
-            className="border border-input rounded-md pl-3 pr-7 py-1.5 text-sm w-full bg-background focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground text-foreground"
-          />
-          {search && (
-            <button
-              onClick={() => handleSearch("")}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors text-base leading-none"
-              aria-label="Clear search"
+      {/* ── Sticky controls: toolbar + tabs ── */}
+      <div className="sticky top-[72px] z-40 flex flex-col flex-shrink-0">
+
+        {/* Toolbar (search + sort) */}
+        <div className="px-6 py-2.5 border-b border-border/60 bg-muted/40 flex items-center gap-3">
+          <div className="relative flex-1 min-w-0">
+            <input
+              type="search"
+              placeholder="Search terms, Hebrew, variants…"
+              value={search}
+              onChange={e => handleSearch(e.target.value)}
+              className="border border-input rounded-md pl-3 pr-7 py-1.5 text-sm w-full bg-background focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground text-foreground"
+            />
+            {search && (
+              <button
+                onClick={() => handleSearch("")}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors text-base leading-none"
+                aria-label="Clear search"
+              >
+                ×
+              </button>
+            )}
+          </div>
+          <div className="flex-shrink-0">
+            <select
+              value={sort}
+              onChange={e => setSort(e.target.value as SortOption)}
+              className="border border-input rounded-md px-2 py-1.5 text-sm bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
             >
-              ×
-            </button>
+              {(Object.keys(SORT_LABELS) as SortOption[]).map(opt => (
+                <option key={opt} value={opt}>{SORT_LABELS[opt]}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="border-b border-border bg-card">
+          <div className="flex overflow-x-auto px-6">
+            {TAB_ORDER.map(cat => (
+              <button
+                key={cat}
+                onClick={() => handleTabChange(cat)}
+                className={`px-3.5 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
+                  activeTab === cat
+                    ? "border-foreground text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/40"
+                }`}
+              >
+                {CATEGORY_LABELS[cat] ?? cat}
+                {!isLoading && (
+                  <span className={`ml-1.5 text-xs ${activeTab === cat ? "text-muted-foreground" : "text-muted-foreground/60"}`}>
+                    {tabCounts[cat]?.toLocaleString() ?? 0}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+          {/* Search results count — only shown when actively searching */}
+          {!isLoading && debouncedSearch && (
+            <div className="px-6 pb-1.5 text-xs text-muted-foreground">
+              {sortedFiltered.length.toLocaleString()} result{sortedFiltered.length !== 1 ? "s" : ""} in {CATEGORY_LABELS[activeTab] ?? activeTab}
+            </div>
           )}
         </div>
-        <div className="flex-shrink-0">
-          <select
-            value={sort}
-            onChange={e => setSort(e.target.value as SortOption)}
-            className="border border-input rounded-md px-2 py-1.5 text-sm bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-          >
-            {(Object.keys(SORT_LABELS) as SortOption[]).map(opt => (
-              <option key={opt} value={opt}>{SORT_LABELS[opt]}</option>
-            ))}
-          </select>
-        </div>
-      </div>
 
-      {/* ── Tabs ── */}
-      <div className="border-b border-border bg-card flex-shrink-0">
-        <div className="flex overflow-x-auto px-6">
-          {TAB_ORDER.map(cat => (
-            <button
-              key={cat}
-              onClick={() => handleTabChange(cat)}
-              className={`px-3.5 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
-                activeTab === cat
-                  ? "border-foreground text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/40"
-              }`}
-            >
-              {CATEGORY_LABELS[cat] ?? cat}
-              {!isLoading && (
-                <span className={`ml-1.5 text-xs ${activeTab === cat ? "text-muted-foreground" : "text-muted-foreground/60"}`}>
-                  {tabCounts[cat]?.toLocaleString() ?? 0}
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-        {/* Search results count — only shown when actively searching */}
-        {!isLoading && debouncedSearch && (
-          <div className="px-6 pb-1.5 text-xs text-muted-foreground">
-            {sortedFiltered.length.toLocaleString()} result{sortedFiltered.length !== 1 ? "s" : ""} in {CATEGORY_LABELS[activeTab] ?? activeTab}
-          </div>
-        )}
       </div>
 
       {/* ── Content area (flex-1, fills between tabs and footer) ── */}
-      <div className="flex-1 flex overflow-hidden min-h-0">
+      <div className="flex-1 flex md:overflow-hidden min-h-0">
 
         {/* Cards column */}
         <div className="flex-1 overflow-y-auto p-5 min-w-0">
