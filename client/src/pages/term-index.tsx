@@ -443,23 +443,30 @@ function TermCard({
 
 export default function TermIndexPage() {
   useSEO({
-    title: "Talmud Term Index - Names, Places & Key Terms | ChavrutAI",
-    description: "Glossary of personal names, place names, and key terms in the Babylonian Talmud. Includes corpus counts, Wikipedia links, Hebrew terms, and biographical data.",
-    ogTitle: "Talmud Term Index - Names, Places & Key Terms | ChavrutAI",
-    ogDescription: "Glossary of personal names, place names, and key terms in the Babylonian Talmud with corpus counts, Wikipedia links, and biographical data.",
+    title: "Talmud Glossary: 4,900+ Names, Places & Terms | ChavrutAI",
+    description: "Searchable glossary of 4,904 Talmudic and Biblical terms — rabbinic names, Aramaic place names, concepts, and nations. Includes Hebrew text, Wikipedia links, Wikidata, corpus counts, and biographical data (teachers, students, dates).",
+    ogTitle: "Talmud Glossary: 4,900+ Names, Places & Terms | ChavrutAI",
+    ogDescription: "4,904 Talmudic and Biblical terms with Hebrew text, Wikipedia links, Wikidata, corpus counts, and biographical data from the Babylonian Talmud.",
+    ogUrl: `${window.location.origin}/term-index`,
     canonical: `${window.location.origin}/term-index`,
+    keywords: "Talmud glossary, Talmudic names, rabbinic names, Babylonian Talmud terms, Aramaic glossary, Hebrew glossary, Talmud place names, Talmud concepts, Amoraim, Tannaim, Wikidata Talmud, ChavrutAI",
     robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Dataset",
-      name: "Talmud Term Index",
-      description: "Glossary of personal names, place names, and key terms in the Babylonian Talmud with corpus counts and Wikipedia mappings.",
+      name: "Talmudic Glossary — Names, Places & Key Terms",
+      description: "Structured glossary of 4,904 terms from the Babylonian Talmud: personal names, place names, Biblical figures, nations, and concepts. Includes Hebrew/Aramaic text, variant spellings, corpus occurrence counts, Wikipedia links, and Wikidata identifiers.",
       url: `${window.location.origin}/term-index`,
       license: "https://opensource.org/licenses/MIT",
       creator: { "@type": "Person", name: "Ezra Brand", url: "https://www.ezrabrand.com/" },
       publisher: { "@type": "Organization", name: "ChavrutAI", url: window.location.origin },
       about: { "@type": "Thing", name: "Babylonian Talmud" },
-      keywords: "Talmud, glossary, rabbinic names, place names, Aramaic, Hebrew, Babylonian Talmud, NLP, corpus",
+      keywords: "Talmud, glossary, rabbinic names, Amoraim, Tannaim, place names, Aramaic, Hebrew, Babylonian Talmud, Wikidata, corpus",
+      distribution: [{
+        "@type": "DataDownload",
+        encodingFormat: "application/json",
+        contentUrl: `${window.location.origin}/api/glossary`,
+      }],
     },
   });
 
@@ -468,12 +475,21 @@ export default function TermIndexPage() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("names");
   const [search, setSearch] = useState("");
-  const [showAll, setShowAll] = useState(false);
+  const [displayCount, setDisplayCount] = useState(DISPLAY_LIMIT);
   const [sort, setSort] = useState<SortOption>("count-desc");
   const [selected, setSelected] = useState<GlossaryRow | null>(null);
   const [showInfo, setShowInfo] = useState(false);
 
   const debouncedSearch = useDebounce(search, 250);
+
+  // Escape key closes the detail panel
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelected(null);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   // Load from shared/data via API
   useEffect(() => {
@@ -522,14 +538,18 @@ export default function TermIndexPage() {
     });
   }, [filtered, sort]);
 
-  const displayed = showAll ? sortedFiltered : sortedFiltered.slice(0, DISPLAY_LIMIT);
+  // Reset display count whenever filter changes
+  useEffect(() => { setDisplayCount(DISPLAY_LIMIT); }, [activeTab, debouncedSearch, sort]);
+
+  const displayed = sortedFiltered.slice(0, displayCount);
+  const remaining = sortedFiltered.length - displayCount;
 
   const handleTabChange = useCallback((cat: string) => {
-    setActiveTab(cat); setShowAll(false); setSelected(null);
+    setActiveTab(cat); setSelected(null);
   }, []);
 
   const handleSearch = useCallback((val: string) => {
-    setSearch(val); setShowAll(false);
+    setSearch(val);
   }, []);
 
   return (
@@ -589,7 +609,7 @@ export default function TermIndexPage() {
                 rel="noopener noreferrer"
                 className="text-primary hover:underline inline-flex items-center gap-1 font-medium"
               >
-                Read the full writeup on how this glossary was built
+                Read a writeup on how an initial version of this glossary was built
                 <ExternalLink className="w-3 h-3" />
               </a>
             </p>
@@ -599,17 +619,28 @@ export default function TermIndexPage() {
 
       {/* ── Toolbar (search + sort) ── */}
       <div className="px-6 py-2.5 border-b border-border/60 bg-muted/40 flex items-center gap-3 flex-shrink-0 flex-wrap">
-        <input
-          type="search"
-          placeholder="Search terms, Hebrew, variants…"
-          value={search}
-          onChange={e => handleSearch(e.target.value)}
-          className="border border-input rounded-md px-3 py-1.5 text-sm w-64 bg-background focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground text-foreground"
-        />
+        <div className="relative">
+          <input
+            type="search"
+            placeholder="Search terms, Hebrew, variants…"
+            value={search}
+            onChange={e => handleSearch(e.target.value)}
+            className="border border-input rounded-md pl-3 pr-7 py-1.5 text-sm w-64 bg-background focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground text-foreground"
+          />
+          {search && (
+            <button
+              onClick={() => handleSearch("")}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors text-base leading-none"
+              aria-label="Clear search"
+            >
+              ×
+            </button>
+          )}
+        </div>
         <div className="ml-auto">
           <select
             value={sort}
-            onChange={e => { setSort(e.target.value as SortOption); setShowAll(false); }}
+            onChange={e => setSort(e.target.value as SortOption)}
             className="border border-input rounded-md px-2 py-1.5 text-sm bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
           >
             {(Object.keys(SORT_LABELS) as SortOption[]).map(opt => (
@@ -675,17 +706,18 @@ export default function TermIndexPage() {
                 ))}
               </div>
 
-              {!showAll && sortedFiltered.length > DISPLAY_LIMIT && (
+              {remaining > 0 && (
                 <div className="mt-6 text-center">
                   <p className="text-xs text-muted-foreground mb-2">
-                    Showing {DISPLAY_LIMIT} of {sortedFiltered.length.toLocaleString()} terms.
-                    {!search && " Use search to narrow down."}
+                    Showing {displayed.length.toLocaleString()} of {sortedFiltered.length.toLocaleString()} terms
+                    {!search && " — use search to narrow down"}.
                   </p>
                   <button
-                    onClick={() => setShowAll(true)}
+                    onClick={() => setDisplayCount(c => c + 30)}
                     className="text-sm border border-border rounded-md px-4 py-1.5 text-foreground hover:bg-accent transition-colors"
                   >
-                    Show all {sortedFiltered.length.toLocaleString()}
+                    Show 30 more
+                    <span className="text-muted-foreground ml-1.5">({remaining.toLocaleString()} remaining)</span>
                   </button>
                 </div>
               )}
