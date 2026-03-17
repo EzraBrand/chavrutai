@@ -63,7 +63,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const TAB_ORDER = ["all", "names", "talmudToponyms", "biblicalNames", "concepts", "biblicalNations", "biblicalPlaces"];
-const DISPLAY_LIMIT = 30;
+const DISPLAY_LIMIT = 20;
 
 type SortOption = "count-desc" | "count-asc" | "alpha-asc" | "alpha-desc";
 const SORT_LABELS: Record<SortOption, string> = {
@@ -743,35 +743,34 @@ export default function TermIndexPage() {
         </div>
       </div>
 
-      {/* ── Tabs + count ── */}
+      {/* ── Tabs ── */}
       <div className="border-b border-border bg-card flex-shrink-0">
-        <div className="flex items-center px-6">
-          <div className="flex overflow-x-auto flex-1">
-            {TAB_ORDER.map(cat => (
-              <button
-                key={cat}
-                onClick={() => handleTabChange(cat)}
-                className={`px-3.5 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
-                  activeTab === cat
-                    ? "border-foreground text-foreground"
-                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/40"
-                }`}
-              >
-                {CATEGORY_LABELS[cat] ?? cat}
-                {!isLoading && (
-                  <span className={`ml-1.5 text-xs ${activeTab === cat ? "text-muted-foreground" : "text-muted-foreground/60"}`}>
-                    {tabCounts[cat]?.toLocaleString() ?? 0}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-          {!isLoading && (
-            <span className="text-xs text-muted-foreground flex-shrink-0 pl-4 whitespace-nowrap">
-              {sortedFiltered.length.toLocaleString()} of {tabCounts[activeTab]?.toLocaleString() ?? 0} shown
-            </span>
-          )}
+        <div className="flex overflow-x-auto px-6">
+          {TAB_ORDER.map(cat => (
+            <button
+              key={cat}
+              onClick={() => handleTabChange(cat)}
+              className={`px-3.5 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
+                activeTab === cat
+                  ? "border-foreground text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/40"
+              }`}
+            >
+              {CATEGORY_LABELS[cat] ?? cat}
+              {!isLoading && (
+                <span className={`ml-1.5 text-xs ${activeTab === cat ? "text-muted-foreground" : "text-muted-foreground/60"}`}>
+                  {tabCounts[cat]?.toLocaleString() ?? 0}
+                </span>
+              )}
+            </button>
+          ))}
         </div>
+        {/* Search results count — only shown when actively searching */}
+        {!isLoading && debouncedSearch && (
+          <div className="px-6 pb-1.5 text-xs text-muted-foreground">
+            {sortedFiltered.length.toLocaleString()} result{sortedFiltered.length !== 1 ? "s" : ""} in {CATEGORY_LABELS[activeTab] ?? activeTab}
+          </div>
+        )}
       </div>
 
       {/* ── Content area (flex-1, fills between tabs and footer) ── */}
@@ -806,10 +805,10 @@ export default function TermIndexPage() {
                     {!search && " — use search to narrow down"}.
                   </p>
                   <button
-                    onClick={() => setDisplayCount(c => c + 30)}
+                    onClick={() => setDisplayCount(c => c + 20)}
                     className="text-sm border border-border rounded-md px-4 py-1.5 text-foreground hover:bg-accent transition-colors"
                   >
-                    Show 30 more
+                    Show 20 more
                     <span className="text-muted-foreground ml-1.5">({remaining.toLocaleString()} remaining)</span>
                   </button>
                 </div>
