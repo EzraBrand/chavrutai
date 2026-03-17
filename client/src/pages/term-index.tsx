@@ -14,6 +14,7 @@ interface GlossaryRow {
   wikipedia_en: string;
   wikipedia_he: string;
   hebrew_term: string;
+  wikidata_id: string;
   father: string;
   student_of: string;
   affiliation: string;
@@ -31,6 +32,7 @@ interface GlossaryRow {
   __wikiHeTitle: string;
   __variants: string[];
   __search: string;
+  __wikidataUrl: string;
 }
 
 interface SearchResult {
@@ -59,7 +61,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const TAB_ORDER = ["all", "names", "talmudToponyms", "biblicalNames", "concepts", "biblicalNations", "biblicalPlaces"];
-const DISPLAY_LIMIT = 120;
+const DISPLAY_LIMIT = 30;
 
 type SortOption = "count-desc" | "count-asc" | "alpha-asc" | "alpha-desc";
 const SORT_LABELS: Record<SortOption, string> = {
@@ -96,6 +98,7 @@ function useDebounce<T>(value: T, delay: number): T {
 function buildRow(obj: Record<string, string>): GlossaryRow {
   const cats = (obj.categories || "").split(";").map(c => c.trim()).filter(Boolean);
   const variants = (obj.variant_names || "").split(";").map(v => v.trim()).filter(Boolean);
+  const wdId = (obj.wikidata_id || "").trim();
   return {
     ...(obj as unknown as GlossaryRow),
     __categories: cats,
@@ -106,6 +109,7 @@ function buildRow(obj: Record<string, string>): GlossaryRow {
     __wikiHeTitle: wikiTitleFromUrl(obj.wikipedia_he),
     __variants: variants,
     __search: [obj.term, obj.variant_names, obj.hebrew_term].join(" ").toLowerCase(),
+    __wikidataUrl: wdId && wdId.startsWith("Q") ? `https://www.wikidata.org/wiki/${wdId}` : "",
   };
 }
 
@@ -224,8 +228,8 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
           </div>
         )}
 
-        {/* Wikipedia */}
-        {(row.__wikiEnUrl || row.__wikiHeUrl) && (
+        {/* Wikipedia + Wikidata */}
+        {(row.__wikiEnUrl || row.__wikiHeUrl || row.__wikidataUrl) && (
           <div className="flex flex-wrap gap-4 text-sm">
             {row.__wikiEnUrl && (
               <a href={row.__wikiEnUrl} target="_blank" rel="noopener noreferrer"
@@ -238,6 +242,13 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
               <a href={row.__wikiHeUrl} target="_blank" rel="noopener noreferrer"
                 className="text-primary hover:underline inline-flex items-center gap-1">
                 ויקיפדיה (HE): {row.__wikiHeTitle}
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+            {row.__wikidataUrl && (
+              <a href={row.__wikidataUrl} target="_blank" rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center gap-1">
+                Wikidata ({row.wikidata_id})
                 <ExternalLink className="w-3 h-3" />
               </a>
             )}
@@ -327,7 +338,7 @@ function TermCard({
           )}
         </div>
         {row.hebrew_term && (
-          <span dir="rtl" className="text-sm text-muted-foreground flex-shrink-0 leading-snug" style={{ fontFamily: "serif" }}>
+          <span dir="rtl" className="text-sm text-foreground flex-shrink-0 leading-snug" style={{ fontFamily: "serif" }}>
             {row.hebrew_term}
           </span>
         )}
@@ -430,6 +441,7 @@ export default function TermIndexPage() {
   const [showAll, setShowAll] = useState(false);
   const [sort, setSort] = useState<SortOption>("count-desc");
   const [selected, setSelected] = useState<GlossaryRow | null>(null);
+  const [showInfo, setShowInfo] = useState(false);
 
   const debouncedSearch = useDebounce(search, 250);
 
@@ -510,19 +522,52 @@ export default function TermIndexPage() {
       </header>
 
       {/* ── Page title ── */}
-      <div className="border-b border-border px-6 py-5 flex-shrink-0 bg-card">
-        <h1 className="text-xl font-semibold text-foreground">Index of Names, Places &amp; Key Terms</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Glossary of Talmudic and Biblical terms with variants, corpus counts, and Wikipedia links.{" "}
-          <a
-            href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline inline-flex items-center gap-0.5"
+      <div className="border-b border-border px-6 py-4 flex-shrink-0 bg-card">
+        <div className="flex items-baseline justify-between gap-4 flex-wrap">
+          <h1 className="text-xl font-semibold text-foreground">Index of Names, Places &amp; Key Terms</h1>
+          <button
+            onClick={() => setShowInfo(v => !v)}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 flex-shrink-0"
           >
-            Learn more <ExternalLink className="w-3 h-3" />
-          </a>
-        </p>
+            {showInfo ? "▲" : "▼"} About this index
+          </button>
+        </div>
+
+        {showInfo && (
+          <div className="mt-4 text-sm text-foreground leading-relaxed space-y-3 max-w-3xl border-t border-border/60 pt-4">
+            <p>
+              This is a structured glossary of 4,904 terms appearing in the Babylonian Talmud — personal names,
+              place names, Biblical figures, nations, and key concepts. Each entry includes variant spellings,
+              Hebrew/Aramaic text, occurrence counts in the Steinsaltz English Talmud corpus, and links to
+              Wikipedia where available.
+            </p>
+            <p>
+              Biographical data (teachers, students, father, dates, affiliation) is sourced from{" "}
+              <a href="https://www.wikidata.org" target="_blank" rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center gap-0.5">
+                Wikidata <ExternalLink className="w-3 h-3" />
+              </a>{" "}
+              and is available for entries that have a corresponding Wikidata item (Q-ID). This data is
+              community-maintained and may not be complete or fully accurate for all figures.
+            </p>
+            <p>
+              Corpus occurrence counts reflect how often each term appears in the full Steinsaltz English
+              translation as indexed in the ChavrutAI search corpus. Terms with a count of 0 are present in the
+              glossary but were not matched in the corpus text.
+            </p>
+            <p>
+              <a
+                href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center gap-1 font-medium"
+              >
+                Read the full writeup on how this glossary was built
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </p>
+          </div>
+        )}
       </div>
 
       {/* ── Toolbar (search + sort) ── */}
