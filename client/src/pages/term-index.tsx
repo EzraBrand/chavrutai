@@ -724,7 +724,7 @@ export default function TermIndexPage() {
             <div className="text-sm text-muted-foreground text-center py-20">No terms match your search.</div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5">
+              <div className={`grid gap-2.5 ${selected ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"}`}>
                 {displayed.map(row => (
                   <TermCard
                     key={row.term}
