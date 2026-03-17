@@ -1,15 +1,10 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "wouter";
-import { Search, ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, Loader2, ChevronDown } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { useSEO } from "@/hooks/use-seo";
 import { Footer } from "@/components/footer";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { useSEO } from "@/hooks/use-seo";
+import { ExternalLink } from "lucide-react";
 
-const CSV_URL =
-  "https://raw.githubusercontent.com/EzraBrand/talmud-nlp-indexer/main/docs/glossary/glossary_initial_v4.csv";
-
-const CSV_CACHE_KEY = "glossary_csv_v4";
+// ── Types ─────────────────────────────────────────────────────────────────────
 
 interface GlossaryRow {
   term: string;
@@ -18,11 +13,7 @@ interface GlossaryRow {
   talmud_corpus_count: string;
   wikipedia_en: string;
   wikipedia_he: string;
-  selected_anchor_text: string;
   hebrew_term: string;
-  chavrutai_search_url: string;
-  wiki_match_source: string;
-  wikidata_id: string;
   father: string;
   student_of: string;
   affiliation: string;
@@ -31,143 +22,383 @@ interface GlossaryRow {
   place_of_birth: string;
   date_of_death: string;
   place_of_death: string;
-  __search: string;
+  // derived
   __categories: string[];
   __corpusCount: number;
+  __wikiEnUrl: string;
   __wikiEnTitle: string;
+  __wikiHeUrl: string;
   __wikiHeTitle: string;
   __variants: string[];
+  __search: string;
 }
 
-type SortKey = keyof Omit<GlossaryRow, "__search" | "__categories" | "__corpusCount" | "__wikiEnTitle" | "__wikiHeTitle" | "__variants">;
-type SortDir = "asc" | "desc";
-
-function parseCsv(text: string): Record<string, string>[] {
-  const rows: string[][] = [];
-  let row: string[] = [];
-  let cell = "";
-  let inQuotes = false;
-
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-    if (inQuotes) {
-      if (ch === '"') {
-        if (text[i + 1] === '"') {
-          cell += '"';
-          i++;
-        } else {
-          inQuotes = false;
-        }
-      } else {
-        cell += ch;
-      }
-      continue;
-    }
-    if (ch === '"') {
-      inQuotes = true;
-    } else if (ch === ',') {
-      row.push(cell);
-      cell = "";
-    } else if (ch === '\n') {
-      row.push(cell);
-      rows.push(row);
-      row = [];
-      cell = "";
-    } else if (ch !== '\r') {
-      cell += ch;
-    }
-  }
-  if (cell || row.length) {
-    row.push(cell);
-    rows.push(row);
-  }
-
-  if (rows.length < 2) return [];
-  const headers = rows[0];
-  return rows.slice(1).filter(r => r.length === headers.length).map(r => {
-    const obj: Record<string, string> = {};
-    headers.forEach((h, i) => { obj[h.trim()] = (r[i] || "").trim(); });
-    return obj;
-  });
+interface SearchResult {
+  ref: string;
+  text: string;
+  highlight?: string;
+  type: "talmud" | "bible" | "other";
 }
+
+interface SearchResponse {
+  results: SearchResult[];
+  total: number;
+  totalPages: number;
+}
+
+// ── Constants ─────────────────────────────────────────────────────────────────
+
+const CATEGORY_LABELS: Record<string, string> = {
+  all: "All",
+  names: "Names",
+  talmudToponyms: "Places",
+  biblicalNames: "Biblical Names",
+  concepts: "Concepts",
+  biblicalNations: "Nations",
+  biblicalPlaces: "Biblical Places",
+};
+
+const TAB_ORDER = ["all", "names", "talmudToponyms", "biblicalNames", "concepts", "biblicalNations", "biblicalPlaces"];
+const DISPLAY_LIMIT = 120;
+
+type SortOption = "count-desc" | "count-asc" | "alpha-asc" | "alpha-desc";
+const SORT_LABELS: Record<SortOption, string> = {
+  "count-desc": "Count: high to low",
+  "count-asc": "Count: low to high",
+  "alpha-asc": "A to Z",
+  "alpha-desc": "Z to A",
+};
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function wikiTitleFromUrl(url: string): string {
   if (!url) return "";
   try {
-    const u = new URL(url);
-    const parts = u.pathname.split("/");
-    const title = parts[parts.length - 1];
-    return decodeURIComponent(title).replace(/_/g, " ");
-  } catch {
-    return url;
-  }
+    const parts = new URL(url).pathname.split("/");
+    return decodeURIComponent(parts[parts.length - 1]).replace(/_/g, " ");
+  } catch { return url; }
 }
 
-function ExternalLinkCell({ href, label }: { href: string; label: string }) {
-  if (!href || !label) return <span className="text-muted-foreground/50">—</span>;
+function cleanList(raw: string): string {
+  if (!raw) return "";
+  return raw.split(";").map(s => s.trim()).filter(s => s && !s.startsWith("Q")).join("; ");
+}
+
+function useDebounce<T>(value: T, delay: number): T {
+  const [d, setD] = useState(value);
+  useEffect(() => {
+    const t = setTimeout(() => setD(value), delay);
+    return () => clearTimeout(t);
+  }, [value, delay]);
+  return d;
+}
+
+function buildRow(obj: Record<string, string>): GlossaryRow {
+  const cats = (obj.categories || "").split(";").map(c => c.trim()).filter(Boolean);
+  const variants = (obj.variant_names || "").split(";").map(v => v.trim()).filter(Boolean);
+  return {
+    ...(obj as unknown as GlossaryRow),
+    __categories: cats,
+    __corpusCount: parseInt(obj.talmud_corpus_count || "0", 10) || 0,
+    __wikiEnUrl: obj.wikipedia_en || "",
+    __wikiEnTitle: wikiTitleFromUrl(obj.wikipedia_en),
+    __wikiHeUrl: obj.wikipedia_he || "",
+    __wikiHeTitle: wikiTitleFromUrl(obj.wikipedia_he),
+    __variants: variants,
+    __search: [obj.term, obj.variant_names, obj.hebrew_term].join(" ").toLowerCase(),
+  };
+}
+
+// ── HighlightedText ───────────────────────────────────────────────────────────
+
+function HighlightedText({ result }: { result: SearchResult }) {
+  const raw = result.highlight || result.text;
+  const parts = raw.split(/(<(?:em|mark)>[^<]*<\/(?:em|mark)>)/g);
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-primary hover:underline inline-flex items-center gap-0.5 text-xs"
-    >
-      {label}
-      <ExternalLink className="w-3 h-3 flex-shrink-0" />
-    </a>
+    <span className="text-sm text-foreground leading-relaxed">
+      {parts.map((part, i) => {
+        if (/^<(em|mark)>/.test(part)) {
+          const inner = part.replace(/<\/?(?:em|mark)>/g, "");
+          return <mark key={i} className="bg-yellow-200 dark:bg-yellow-800/60 px-px rounded not-italic">{inner}</mark>;
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </span>
   );
 }
 
-function CategoryBadges({ categories }: { categories: string[] }) {
-  if (!categories.length) return <span className="text-muted-foreground/50">—</span>;
+// ── DetailPanel ───────────────────────────────────────────────────────────────
+
+function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }) {
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [total, setTotal] = useState(0);
+  const [searching, setSearching] = useState(false);
+  const [searchError, setSearchError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    setSearching(true);
+    setSearchError(false);
+    setResults([]);
+    const params = new URLSearchParams({ query: row.term, page: "1", pageSize: "10", type: "talmud", exact: "false" });
+    fetch(`/api/search/text?${params}`)
+      .then(r => { if (!r.ok) throw new Error(); return r.json() as Promise<SearchResponse>; })
+      .then(data => { if (!cancelled) { setResults(data.results); setTotal(data.total); setSearching(false); } })
+      .catch(() => { if (!cancelled) { setSearchError(true); setSearching(false); } });
+    return () => { cancelled = true; };
+  }, [row.term]);
+
+  const teacher = cleanList(row.student_of);
+  const student = cleanList(row.student);
+  const father = cleanList(row.father);
+  const isNames = row.__categories.includes("names");
+  const isPlace = row.__categories.includes("talmudToponyms") || row.__categories.includes("biblicalPlaces");
+
   return (
-    <div className="flex flex-wrap gap-1">
-      {categories.map(c => (
-        <span
-          key={c}
-          className="inline-block px-2 py-0.5 rounded-full text-xs bg-primary/10 text-primary font-medium whitespace-nowrap"
+    <div className="flex flex-col h-full overflow-hidden">
+      {/* Panel header */}
+      <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-border flex-shrink-0">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <span className="font-semibold text-lg text-foreground">{row.term}</span>
+            {row.hebrew_term && (
+              <span dir="rtl" className="text-base text-muted-foreground" style={{ fontFamily: "serif" }}>{row.hebrew_term}</span>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-1 mt-1.5">
+            {row.__categories.map(c => (
+              <span key={c} className="text-xs border border-border rounded px-1.5 py-0.5 text-muted-foreground">
+                {CATEGORY_LABELS[c] ?? c}
+              </span>
+            ))}
+          </div>
+        </div>
+        <button
+          onClick={onClose}
+          className="text-muted-foreground hover:text-foreground transition-colors flex-shrink-0 text-lg leading-none px-1"
         >
-          {c}
-        </span>
-      ))}
+          ✕
+        </button>
+      </div>
+
+      {/* Scrollable body */}
+      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+
+        {row.__variants.length > 0 && (
+          <p className="text-sm text-muted-foreground">
+            <span className="text-muted-foreground/70">Also known as: </span>{row.__variants.join(", ")}
+          </p>
+        )}
+
+        {row.__corpusCount > 0 && (
+          <p className="text-sm text-muted-foreground">
+            {row.__corpusCount.toLocaleString()} occurrences in the Steinsaltz English corpus
+          </p>
+        )}
+
+        {/* Bio / place details */}
+        {isNames && (father || teacher || student || row.affiliation || row.date_of_birth) && (
+          <div className="rounded-md bg-muted/50 px-4 py-3 text-sm space-y-1">
+            {father && <div><span className="text-muted-foreground">Father: </span>{father}</div>}
+            {teacher && <div><span className="text-muted-foreground">Teacher: </span>{teacher}</div>}
+            {student && <div><span className="text-muted-foreground">Student: </span>{student}</div>}
+            {row.affiliation && <div><span className="text-muted-foreground">Affiliation: </span>{row.affiliation}</div>}
+            {row.date_of_birth && (
+              <div>
+                <span className="text-muted-foreground">Born: </span>
+                {row.date_of_birth}{row.place_of_birth ? `, ${row.place_of_birth}` : ""}
+              </div>
+            )}
+            {row.date_of_death && (
+              <div>
+                <span className="text-muted-foreground">Died: </span>
+                {row.date_of_death}{row.place_of_death ? `, ${row.place_of_death}` : ""}
+              </div>
+            )}
+          </div>
+        )}
+
+        {isPlace && row.affiliation && (
+          <div className="rounded-md bg-muted/50 px-4 py-3 text-sm">
+            <span className="text-muted-foreground">Region: </span>{row.affiliation}
+          </div>
+        )}
+
+        {/* Wikipedia */}
+        {(row.__wikiEnUrl || row.__wikiHeUrl) && (
+          <div className="flex flex-wrap gap-4 text-sm">
+            {row.__wikiEnUrl && (
+              <a href={row.__wikiEnUrl} target="_blank" rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center gap-1">
+                Wikipedia (EN): {row.__wikiEnTitle}
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+            {row.__wikiHeUrl && (
+              <a href={row.__wikiHeUrl} target="_blank" rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center gap-1">
+                ויקיפדיה (HE): {row.__wikiHeTitle}
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+          </div>
+        )}
+
+        {/* Corpus passages */}
+        <div>
+          <div className="flex items-baseline justify-between mb-3">
+            <span className="text-sm font-semibold text-foreground">
+              Corpus passages
+              {!searching && !searchError && (
+                <span className="font-normal text-muted-foreground ml-1.5">({total.toLocaleString()} total)</span>
+              )}
+            </span>
+            <Link
+              href={`/search?q=${encodeURIComponent(row.term)}&type=talmud`}
+              className="text-xs text-primary hover:underline"
+            >
+              View all in search →
+            </Link>
+          </div>
+
+          {searching && <p className="text-sm text-muted-foreground py-4">Loading passages…</p>}
+          {searchError && <p className="text-sm text-destructive py-2">Could not load passages.</p>}
+          {!searching && !searchError && results.length === 0 && (
+            <p className="text-sm text-muted-foreground py-2">No passages found.</p>
+          )}
+
+          <div className="space-y-2">
+            {results.map((result, i) => (
+              <Link
+                key={i}
+                href={`/search?q=${encodeURIComponent(row.term)}&type=talmud`}
+                className="block border border-border rounded-md px-3 py-2.5 hover:bg-accent/50 transition-colors"
+              >
+                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
+                  {result.type === "talmud" ? "Talmud" : result.type === "bible" ? "Bible" : "Other"}
+                  {" · "}
+                  <span className="normal-case tracking-normal">{result.ref}</span>
+                </div>
+                <HighlightedText result={result} />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-function SortIcon({ col, sortKey, sortDir }: { col: SortKey; sortKey: SortKey; sortDir: SortDir }) {
-  if (sortKey !== col) return <ArrowUpDown className="w-3 h-3 text-muted-foreground/50 ml-1 inline" />;
-  return sortDir === "asc"
-    ? <ArrowUp className="w-3 h-3 text-primary ml-1 inline" />
-    : <ArrowDown className="w-3 h-3 text-primary ml-1 inline" />;
+// ── TermCard ──────────────────────────────────────────────────────────────────
+
+function TermCard({
+  row, activeTab, isSelected, onClick,
+}: {
+  row: GlossaryRow;
+  activeTab: string;
+  isSelected: boolean;
+  onClick: () => void;
+}) {
+  const isNames = activeTab === "names" || (activeTab === "all" && row.__categories.includes("names"));
+  const isPlace = activeTab === "talmudToponyms" || activeTab === "biblicalPlaces" ||
+    (activeTab === "all" && (row.__categories.includes("talmudToponyms") || row.__categories.includes("biblicalPlaces")));
+  const teacher = cleanList(row.student_of);
+  const student = cleanList(row.student);
+  const father = cleanList(row.father);
+
+  return (
+    <div
+      onClick={onClick}
+      className={`border rounded-lg p-3.5 cursor-pointer transition-all ${
+        isSelected
+          ? "border-foreground bg-muted/40 shadow-sm"
+          : "border-border bg-card hover:border-muted-foreground/40 hover:shadow-sm"
+      }`}
+    >
+      {/* Term + Hebrew */}
+      <div className="flex items-start justify-between gap-2 mb-1">
+        <div className="min-w-0">
+          <span className="font-medium text-foreground text-sm leading-snug">{row.term}</span>
+          {row.__variants.length > 0 && (
+            <div className="text-xs text-muted-foreground/70 mt-0.5">
+              also: {row.__variants.slice(0, 3).join(", ")}
+              {row.__variants.length > 3 && ` +${row.__variants.length - 3}`}
+            </div>
+          )}
+        </div>
+        {row.hebrew_term && (
+          <span dir="rtl" className="text-sm text-muted-foreground flex-shrink-0 leading-snug" style={{ fontFamily: "serif" }}>
+            {row.hebrew_term}
+          </span>
+        )}
+      </div>
+
+      {/* Corpus count */}
+      {row.__corpusCount > 0 && (
+        <p className="text-xs text-muted-foreground/70 mb-2">
+          {row.__corpusCount.toLocaleString()} occurrences
+        </p>
+      )}
+
+      {/* Category badge for All tab */}
+      {activeTab === "all" && row.__categories.length > 0 && (
+        <div className="mb-2 flex flex-wrap gap-1">
+          {row.__categories.slice(0, 2).map(c => (
+            <span key={c} className="text-xs border border-border/60 rounded px-1.5 py-0.5 text-muted-foreground/80">
+              {CATEGORY_LABELS[c] ?? c}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Biographical (names) */}
+      {isNames && (father || teacher || student) && (
+        <div className="border-t border-border/50 pt-2 mt-1 text-xs text-muted-foreground space-y-0.5">
+          {father && <div><span className="text-muted-foreground/60">Father: </span>{father}</div>}
+          {teacher && <div><span className="text-muted-foreground/60">Teacher: </span>{teacher}</div>}
+          {student && <div><span className="text-muted-foreground/60">Student: </span>{student}</div>}
+        </div>
+      )}
+
+      {/* Place */}
+      {isPlace && row.affiliation && (
+        <div className="border-t border-border/50 pt-2 mt-1 text-xs text-muted-foreground">
+          <span className="text-muted-foreground/60">Region: </span>{row.affiliation}
+        </div>
+      )}
+
+      {/* Wikipedia links */}
+      {(row.__wikiEnUrl || row.__wikiHeUrl) && (
+        <div className="mt-2 flex gap-3 flex-wrap">
+          {row.__wikiEnUrl && (
+            <a
+              href={row.__wikiEnUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-primary hover:underline"
+              onClick={e => e.stopPropagation()}
+            >
+              Wikipedia EN
+            </a>
+          )}
+          {row.__wikiHeUrl && (
+            <a
+              href={row.__wikiHeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-primary hover:underline"
+              onClick={e => e.stopPropagation()}
+            >
+              ויקיפדיה HE
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
-const COLUMNS: { key: SortKey; label: string; tooltip?: string; minWidth?: string }[] = [
-  { key: "term", label: "Term", minWidth: "140px" },
-  { key: "categories", label: "Category", minWidth: "100px" },
-  { key: "variant_names", label: "Variants", minWidth: "120px" },
-  { key: "talmud_corpus_count", label: "Count", tooltip: "Approximate occurrences in the Steinsaltz English corpus.", minWidth: "60px" },
-  { key: "wikipedia_en", label: "Wikipedia EN", tooltip: "Mapped English Wikipedia page, if available.", minWidth: "140px" },
-  { key: "wikipedia_he", label: "Wikipedia HE", tooltip: "Mapped Hebrew Wikipedia page, if available.", minWidth: "140px" },
-  { key: "hebrew_term", label: "Hebrew Term", tooltip: "Hebrew label as it appears in the Talmud.", minWidth: "100px" },
-  { key: "wikidata_id", label: "Wikidata ID", tooltip: "Wikidata item ID derived from the mapped Wikipedia page.", minWidth: "90px" },
-  { key: "father", label: "Father", tooltip: "Wikidata field: father.", minWidth: "100px" },
-  { key: "student_of", label: "Teacher(s)", tooltip: "Wikidata field: student_of.", minWidth: "120px" },
-  { key: "affiliation", label: "Affiliation", tooltip: "Wikidata field: affiliation.", minWidth: "110px" },
-  { key: "student", label: "Student(s)", tooltip: "Wikidata field: student.", minWidth: "120px" },
-  { key: "date_of_birth", label: "Birth Date", tooltip: "Wikidata field: date_of_birth.", minWidth: "80px" },
-  { key: "place_of_birth", label: "Birth Place", tooltip: "Wikidata field: place_of_birth.", minWidth: "100px" },
-  { key: "date_of_death", label: "Death Date", tooltip: "Wikidata field: date_of_death.", minWidth: "80px" },
-  { key: "place_of_death", label: "Death Place", tooltip: "Wikidata field: place_of_death.", minWidth: "100px" },
-];
-
-function useDebounce<T>(value: T, delay: number): T {
-  const [debounced, setDebounced] = useState(value);
-  useEffect(() => {
-    const t = setTimeout(() => setDebounced(value), delay);
-    return () => clearTimeout(t);
-  }, [value, delay]);
-  return debounced;
-}
+// ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function TermIndexPage() {
   useSEO({
@@ -184,208 +415,85 @@ export default function TermIndexPage() {
       description: "Glossary of personal names, place names, and key terms in the Babylonian Talmud with corpus counts and Wikipedia mappings.",
       url: `${window.location.origin}/term-index`,
       license: "https://opensource.org/licenses/MIT",
-      creator: {
-        "@type": "Person",
-        name: "Ezra Brand",
-        url: "https://www.ezrabrand.com/",
-      },
-      publisher: {
-        "@type": "Organization",
-        name: "ChavrutAI",
-        url: window.location.origin,
-      },
-      about: {
-        "@type": "Thing",
-        name: "Babylonian Talmud",
-      },
+      creator: { "@type": "Person", name: "Ezra Brand", url: "https://www.ezrabrand.com/" },
+      publisher: { "@type": "Organization", name: "ChavrutAI", url: window.location.origin },
+      about: { "@type": "Thing", name: "Babylonian Talmud" },
       keywords: "Talmud, glossary, rabbinic names, place names, Aramaic, Hebrew, Babylonian Talmud, NLP, corpus",
     },
   });
 
   const [rawData, setRawData] = useState<GlossaryRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
-  const [sortKey, setSortKey] = useState<SortKey>("term");
-  const [sortDir, setSortDir] = useState<SortDir>("asc");
-  const [selectedRow, setSelectedRow] = useState<number | null>(null);
-  const tableWrapRef = useRef<HTMLDivElement>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("names");
+  const [search, setSearch] = useState("");
+  const [showAll, setShowAll] = useState(false);
+  const [sort, setSort] = useState<SortOption>("count-desc");
+  const [selected, setSelected] = useState<GlossaryRow | null>(null);
 
-  const debouncedSearch = useDebounce(searchQuery, 250);
+  const debouncedSearch = useDebounce(search, 250);
 
+  // Load from shared/data via API
   useEffect(() => {
     let cancelled = false;
-
-    function buildRows(text: string): GlossaryRow[] {
-      const parsed = parseCsv(text);
-      return parsed.map(r => {
-        const cats = (r.categories || "").split(";").map(c => c.trim()).filter(Boolean);
-        const variants = (r.variant_names || "").split(";").map(v => v.trim()).filter(Boolean);
-        return {
-          ...(r as unknown as GlossaryRow),
-          __search: [r.term, r.variant_names, r.wikipedia_en].join(" ").toLowerCase(),
-          __categories: cats,
-          __corpusCount: parseInt(r.talmud_corpus_count || "0", 10) || 0,
-          __wikiEnTitle: wikiTitleFromUrl(r.wikipedia_en),
-          __wikiHeTitle: wikiTitleFromUrl(r.wikipedia_he),
-          __variants: variants,
-        };
-      });
-    }
-
-    async function load() {
-      try {
-        const cached = sessionStorage.getItem(CSV_CACHE_KEY);
-        let text: string;
-
-        if (cached) {
-          text = cached;
-        } else {
-          const res = await fetch(CSV_URL, { cache: "default" });
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          text = await res.text();
-          try {
-            sessionStorage.setItem(CSV_CACHE_KEY, text);
-          } catch {
-            // sessionStorage quota exceeded — just skip caching
-          }
-        }
-
+    fetch("/api/glossary")
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then((data: { fields: string[]; rows: string[][] }) => {
         if (cancelled) return;
-        setRawData(buildRows(text));
-      } catch (e: unknown) {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load data");
-      } finally {
-        if (!cancelled) setIsLoading(false);
-      }
-    }
-
-    load();
+        const rows = data.rows.map(row => {
+          const obj: Record<string, string> = {};
+          data.fields.forEach((f, i) => { obj[f] = row[i] || ""; });
+          return buildRow(obj);
+        });
+        setRawData(rows);
+        setIsLoading(false);
+      })
+      .catch(e => { if (!cancelled) { setLoadError(e.message); setIsLoading(false); } });
     return () => { cancelled = true; };
   }, []);
 
-  const allCategories = useMemo(() => {
-    const set = new Set<string>();
-    rawData.forEach(r => r.__categories.forEach(c => set.add(c)));
-    return Array.from(set).sort();
+  const tabCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: rawData.length };
+    TAB_ORDER.forEach(cat => {
+      if (cat !== "all") counts[cat] = rawData.filter(r => r.__categories.includes(cat)).length;
+    });
+    return counts;
   }, [rawData]);
 
   const filtered = useMemo(() => {
     const needle = debouncedSearch.trim().toLowerCase();
     return rawData.filter(r => {
+      const catOk = activeTab === "all" || r.__categories.includes(activeTab);
       const textOk = needle ? r.__search.includes(needle) : true;
-      const catOk = categoryFilter ? r.__categories.includes(categoryFilter) : true;
-      return textOk && catOk;
+      return catOk && textOk;
     });
-  }, [rawData, debouncedSearch, categoryFilter]);
+  }, [rawData, activeTab, debouncedSearch]);
 
-  const sorted = useMemo(() => {
+  const sortedFiltered = useMemo(() => {
     return filtered.slice().sort((a, b) => {
-      const sign = sortDir === "asc" ? 1 : -1;
-      if (sortKey === "talmud_corpus_count") {
-        if (a.__corpusCount !== b.__corpusCount) return (a.__corpusCount - b.__corpusCount) * sign;
-        return a.term.localeCompare(b.term);
+      switch (sort) {
+        case "count-desc": return b.__corpusCount !== a.__corpusCount ? b.__corpusCount - a.__corpusCount : a.term.localeCompare(b.term);
+        case "count-asc": return a.__corpusCount !== b.__corpusCount ? a.__corpusCount - b.__corpusCount : a.term.localeCompare(b.term);
+        case "alpha-asc": return a.term.localeCompare(b.term, undefined, { sensitivity: "base" });
+        case "alpha-desc": return b.term.localeCompare(a.term, undefined, { sensitivity: "base" });
       }
-      const ax = (a[sortKey] || "").toString().toLowerCase();
-      const bx = (b[sortKey] || "").toString().toLowerCase();
-      const cmp = ax.localeCompare(bx, undefined, { numeric: true, sensitivity: "base" });
-      if (cmp !== 0) return cmp * sign;
-      return a.term.localeCompare(b.term);
     });
-  }, [filtered, sortKey, sortDir]);
+  }, [filtered, sort]);
 
-  const virtualizer = useVirtualizer({
-    count: sorted.length,
-    getScrollElement: () => tableWrapRef.current,
-    estimateSize: () => 40,
-    overscan: 15,
-  });
+  const displayed = showAll ? sortedFiltered : sortedFiltered.slice(0, DISPLAY_LIMIT);
 
-  const virtualItems = virtualizer.getVirtualItems();
-  const totalVirtualSize = virtualizer.getTotalSize();
-  const paddingTop = virtualItems.length > 0 ? virtualItems[0].start : 0;
-  const paddingBottom = virtualItems.length > 0
-    ? totalVirtualSize - virtualItems[virtualItems.length - 1].end
-    : 0;
+  const handleTabChange = useCallback((cat: string) => {
+    setActiveTab(cat); setShowAll(false); setSelected(null);
+  }, []);
 
-  function handleSort(key: SortKey) {
-    if (sortKey === key) {
-      setSortDir(d => d === "asc" ? "desc" : "asc");
-    } else {
-      setSortKey(key);
-      setSortDir(key === "talmud_corpus_count" ? "desc" : "asc");
-    }
-    setSelectedRow(null);
-  }
-
-  function renderCell(row: GlossaryRow, key: SortKey): React.ReactNode {
-    switch (key) {
-      case "term":
-        return row.term ? (
-          <Link
-            href={`/search?q=${encodeURIComponent(row.term)}&type=talmud`}
-            className="font-medium text-blue-600 hover:underline hover:text-blue-800"
-            onClick={e => e.stopPropagation()}
-          >
-            {row.term}
-          </Link>
-        ) : <span className="text-muted-foreground/50">—</span>;
-
-      case "categories":
-        return <CategoryBadges categories={row.__categories} />;
-
-      case "variant_names": {
-        if (!row.__variants.length) return <span className="text-muted-foreground/50">—</span>;
-        return (
-          <div className="text-xs space-y-0.5">
-            {row.__variants.map((v, i) => (
-              <a
-                key={i}
-                href={`https://chavrutai.com/search?q=${encodeURIComponent(v)}&type=talmud`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline hover:text-blue-800 inline-flex items-center gap-0.5 mr-1"
-              >
-                {v}
-                {i < row.__variants.length - 1 && <span className="text-muted-foreground">;</span>}
-              </a>
-            ))}
-          </div>
-        );
-      }
-
-      case "talmud_corpus_count":
-        return (row.__corpusCount === 0)
-          ? <span className="text-muted-foreground/50">—</span>
-          : <span className="font-mono text-sm">{row.talmud_corpus_count}</span>;
-
-      case "wikipedia_en":
-        return <ExternalLinkCell href={row.wikipedia_en} label={row.__wikiEnTitle} />;
-
-      case "wikipedia_he":
-        return <ExternalLinkCell href={row.wikipedia_he} label={row.__wikiHeTitle} />;
-
-      case "hebrew_term":
-        return row.hebrew_term
-          ? <span dir="rtl" className="font-hebrew text-sm">{row.hebrew_term}</span>
-          : <span className="text-muted-foreground/50">—</span>;
-
-      case "wikidata_id":
-        return row.wikidata_id
-          ? <ExternalLinkCell href={`https://www.wikidata.org/wiki/${encodeURIComponent(row.wikidata_id)}`} label={row.wikidata_id} />
-          : <span className="text-muted-foreground/50">—</span>;
-
-      default: {
-        const val = row[key];
-        return val ? <span className="text-sm">{val}</span> : <span className="text-muted-foreground/50">—</span>;
-      }
-    }
-  }
+  const handleSearch = useCallback((val: string) => {
+    setSearch(val); setShowAll(false);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+      {/* ── Header ── */}
+      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
             <Link
@@ -401,182 +509,126 @@ export default function TermIndexPage() {
         </div>
       </header>
 
-      <main className="max-w-[1400px] mx-auto w-full px-4 py-6">
-        <div className="mb-4">
-          <h1 className="text-2xl font-bold text-foreground mb-1">
-            Index of Names, Places &amp; Key Terms
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Glossary of Talmudic and Biblical terms with variants, corpus counts, and Wikipedia links.{" "}
-            Read more about this at{" "}
-            <a
-              href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline hover:text-blue-800 inline-flex items-center gap-0.5"
-            >
-              Introducing a New Talmudic Glossary
-              <ExternalLink className="w-3 h-3" />
-            </a>
-            {" "}(Feb 22, 2026).
-          </p>
+      {/* ── Page title ── */}
+      <div className="border-b border-border px-6 py-5 flex-shrink-0 bg-card">
+        <h1 className="text-xl font-semibold text-foreground">Index of Names, Places &amp; Key Terms</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Glossary of Talmudic and Biblical terms with variants, corpus counts, and Wikipedia links.{" "}
+          <a
+            href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline inline-flex items-center gap-0.5"
+          >
+            Learn more <ExternalLink className="w-3 h-3" />
+          </a>
+        </p>
+      </div>
+
+      {/* ── Toolbar (search + sort) ── */}
+      <div className="px-6 py-2.5 border-b border-border/60 bg-muted/40 flex items-center gap-3 flex-shrink-0 flex-wrap">
+        <input
+          type="search"
+          placeholder="Search terms, Hebrew, variants…"
+          value={search}
+          onChange={e => handleSearch(e.target.value)}
+          className="border border-input rounded-md px-3 py-1.5 text-sm w-64 bg-background focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground text-foreground"
+        />
+        <div className="ml-auto">
+          <select
+            value={sort}
+            onChange={e => { setSort(e.target.value as SortOption); setShowAll(false); }}
+            className="border border-input rounded-md px-2 py-1.5 text-sm bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+          >
+            {(Object.keys(SORT_LABELS) as SortOption[]).map(opt => (
+              <option key={opt} value={opt}>{SORT_LABELS[opt]}</option>
+            ))}
+          </select>
         </div>
+      </div>
 
-        {/* Toolbar */}
-        <div className="flex flex-wrap gap-3 mb-3 items-center">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-            <Input
-              type="search"
-              placeholder="Search terms, variants, names…"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="pl-9 w-72 max-w-[50vw]"
-            />
-          </div>
-
-          <div className="relative">
-            <select
-              value={categoryFilter}
-              onChange={e => setCategoryFilter(e.target.value)}
-              className="appearance-none border border-input rounded-md bg-background px-3 py-2 pr-8 text-sm text-foreground min-w-[180px] focus:outline-none focus:ring-1 focus:ring-ring"
-            >
-              <option value="">All categories</option>
-              {allCategories.map(c => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-          </div>
-
-          <span className="text-sm text-muted-foreground ml-auto">
-            {isLoading ? "Loading…" : `${sorted.length.toLocaleString()} / ${rawData.length.toLocaleString()} rows`}
-          </span>
-        </div>
-
-        {/* Table */}
-        <div
-          ref={tableWrapRef}
-          className="border border-border rounded-lg overflow-auto bg-card shadow-sm"
-          style={{ maxHeight: "70vh" }}
-        >
-          {isLoading ? (
-            <div className="flex items-center justify-center h-48 gap-2 text-muted-foreground">
-              <Loader2 className="w-5 h-5 animate-spin" />
-              <span>Loading glossary data…</span>
-            </div>
-          ) : error ? (
-            <div className="flex items-center justify-center h-48 text-destructive text-sm">
-              Error: {error}
-            </div>
-          ) : (
-            <table className="border-collapse text-sm" style={{ minWidth: "2200px", width: "100%", tableLayout: "fixed" }}>
-              <thead className="sticky top-0 z-20">
-                <tr>
-                  <th
-                    className="text-right text-muted-foreground font-medium border-b border-border px-2 py-2.5 text-xs w-10"
-                    style={{ position: "sticky", left: 0, zIndex: 30, background: "var(--muted)" }}
-                  >
-                    #
-                  </th>
-                  {COLUMNS.map((col) => (
-                    <th
-                      key={col.key}
-                      onClick={() => handleSort(col.key)}
-                      title={col.tooltip}
-                      className="text-left font-semibold border-b border-border px-3 py-2.5 cursor-pointer select-none text-xs whitespace-nowrap transition-colors"
-                      style={{
-                        minWidth: col.minWidth,
-                        background: "var(--muted)",
-                        ...(col.key === "term" ? { position: "sticky", left: "40px", zIndex: 30, boxShadow: "2px 0 4px -2px rgba(0,0,0,0.12)" } : {}),
-                      }}
-                    >
-                      {col.label}
-                      <SortIcon col={col.key} sortKey={sortKey} sortDir={sortDir} />
-                      {col.tooltip && (
-                        <span
-                          title={col.tooltip}
-                          className="ml-1 inline-flex items-center justify-center w-3.5 h-3.5 rounded-full border border-muted-foreground/40 text-muted-foreground/60 text-[9px] cursor-help"
-                        >
-                          ?
-                        </span>
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {sorted.length === 0 ? (
-                  <tr>
-                    <td colSpan={COLUMNS.length + 1} className="text-center text-muted-foreground py-10 text-sm">
-                      No results found. Try a different search term or category.
-                    </td>
-                  </tr>
-                ) : (
-                  <>
-                    {paddingTop > 0 && (
-                      <tr><td colSpan={COLUMNS.length + 1} style={{ height: paddingTop, padding: 0, border: 0 }} /></tr>
-                    )}
-                    {virtualItems.map(virtualRow => {
-                      const row = sorted[virtualRow.index];
-                      const idx = virtualRow.index;
-                      const isSelected = selectedRow === idx;
-                      const isEven = idx % 2 === 0;
-
-                      const stickyBg = isSelected
-                        ? "color-mix(in srgb, var(--primary) 15%, var(--card))"
-                        : isEven ? "var(--card)" : "var(--muted)";
-
-                      return (
-                        <tr
-                          key={`${row.term}-${idx}`}
-                          data-index={virtualRow.index}
-                          onClick={() => setSelectedRow(isSelected ? null : idx)}
-                          className={`cursor-pointer border-b border-border/50 transition-colors ${
-                            isSelected
-                              ? "bg-primary/15"
-                              : isEven
-                              ? "bg-card hover:bg-muted/40"
-                              : "bg-muted/20 hover:bg-muted/40"
-                          }`}
-                        >
-                          <td
-                            className="text-right text-muted-foreground/60 text-xs px-2 py-2 font-mono"
-                            style={{ position: "sticky", left: 0, zIndex: 10, background: stickyBg }}
-                          >
-                            {idx + 1}
-                          </td>
-                          {COLUMNS.map(col => (
-                            <td
-                              key={col.key}
-                              className="px-3 py-2 align-top"
-                              style={{
-                                minWidth: col.minWidth,
-                                ...(col.key === "term" ? {
-                                  position: "sticky",
-                                  left: "40px",
-                                  zIndex: 10,
-                                  boxShadow: "2px 0 4px -2px rgba(0,0,0,0.10)",
-                                  background: stickyBg,
-                                } : {}),
-                              }}
-                            >
-                              {renderCell(row, col.key)}
-                            </td>
-                          ))}
-                        </tr>
-                      );
-                    })}
-                    {paddingBottom > 0 && (
-                      <tr><td colSpan={COLUMNS.length + 1} style={{ height: paddingBottom, padding: 0, border: 0 }} /></tr>
-                    )}
-                  </>
+      {/* ── Tabs + count ── */}
+      <div className="border-b border-border bg-card flex-shrink-0">
+        <div className="flex items-center px-6">
+          <div className="flex overflow-x-auto flex-1">
+            {TAB_ORDER.map(cat => (
+              <button
+                key={cat}
+                onClick={() => handleTabChange(cat)}
+                className={`px-3.5 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
+                  activeTab === cat
+                    ? "border-foreground text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/40"
+                }`}
+              >
+                {CATEGORY_LABELS[cat] ?? cat}
+                {!isLoading && (
+                  <span className={`ml-1.5 text-xs ${activeTab === cat ? "text-muted-foreground" : "text-muted-foreground/60"}`}>
+                    {tabCounts[cat]?.toLocaleString() ?? 0}
+                  </span>
                 )}
-              </tbody>
-            </table>
+              </button>
+            ))}
+          </div>
+          {!isLoading && (
+            <span className="text-xs text-muted-foreground flex-shrink-0 pl-4 whitespace-nowrap">
+              {sortedFiltered.length.toLocaleString()} of {tabCounts[activeTab]?.toLocaleString() ?? 0} shown
+            </span>
           )}
         </div>
-      </main>
+      </div>
+
+      {/* ── Content area (flex-1, fills between tabs and footer) ── */}
+      <div className="flex-1 flex overflow-hidden">
+
+        {/* Cards column */}
+        <div className="flex-1 overflow-y-auto p-5">
+          {isLoading ? (
+            <div className="text-sm text-muted-foreground text-center py-20">Loading glossary data…</div>
+          ) : loadError ? (
+            <div className="text-sm text-destructive text-center py-20">Error loading data: {loadError}</div>
+          ) : sortedFiltered.length === 0 ? (
+            <div className="text-sm text-muted-foreground text-center py-20">No terms match your search.</div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5">
+                {displayed.map(row => (
+                  <TermCard
+                    key={row.term}
+                    row={row}
+                    activeTab={activeTab}
+                    isSelected={selected?.term === row.term}
+                    onClick={() => setSelected(selected?.term === row.term ? null : row)}
+                  />
+                ))}
+              </div>
+
+              {!showAll && sortedFiltered.length > DISPLAY_LIMIT && (
+                <div className="mt-6 text-center">
+                  <p className="text-xs text-muted-foreground mb-2">
+                    Showing {DISPLAY_LIMIT} of {sortedFiltered.length.toLocaleString()} terms.
+                    {!search && " Use search to narrow down."}
+                  </p>
+                  <button
+                    onClick={() => setShowAll(true)}
+                    className="text-sm border border-border rounded-md px-4 py-1.5 text-foreground hover:bg-accent transition-colors"
+                  >
+                    Show all {sortedFiltered.length.toLocaleString()}
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Detail panel */}
+        {selected && (
+          <div className="w-96 border-l border-border bg-card flex-shrink-0 overflow-hidden flex flex-col">
+            <DetailPanel row={selected} onClose={() => setSelected(null)} />
+          </div>
+        )}
+      </div>
+
       <Footer />
     </div>
   );
