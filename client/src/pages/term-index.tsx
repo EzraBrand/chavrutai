@@ -3,6 +3,8 @@ import { Link } from "wouter";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { ExternalLink } from "lucide-react";
+import { getTractateSlug } from "@shared/tractates";
+import { getBookBySlug } from "@shared/bible-books";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -113,6 +115,34 @@ function buildRow(obj: Record<string, string>): GlossaryRow {
   };
 }
 
+// ── Link builder (mirrors search page logic) ──────────────────────────────────
+
+function getPassageLink(result: SearchResult): string {
+  const ref = result.ref;
+  if (result.type === "talmud") {
+    const match = ref.match(/^([A-Za-z\s]+)\s+(\d+)([ab])(?::(\d+)(?:-\d+)?)?$/);
+    if (match) {
+      const tractate = getTractateSlug(match[1].trim());
+      const folio = match[2];
+      const side = match[3];
+      const section = match[4];
+      const anchor = section ? `#section-${section}` : "";
+      return `/talmud/${tractate}/${folio}${side}${anchor}`;
+    }
+  } else if (result.type === "bible") {
+    const match = ref.match(/^([A-Za-z\s]+)\s+(\d+)(?::(\d+)(?:-\d+)?)?$/);
+    if (match) {
+      const bookInfo = getBookBySlug(match[1].trim());
+      const book = bookInfo ? bookInfo.slug : match[1].trim().replace(/\s+/g, "_");
+      const chapter = match[2];
+      const verse = match[3];
+      const anchor = verse ? `#${verse}` : "";
+      return `/bible/${book}/${chapter}${anchor}`;
+    }
+  }
+  return `/search?q=${encodeURIComponent(ref)}&type=talmud`;
+}
+
 // ── HighlightedText ───────────────────────────────────────────────────────────
 
 function HighlightedText({ result }: { result: SearchResult }) {
@@ -166,7 +196,7 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
           <div className="flex items-baseline gap-2 flex-wrap">
             <span className="font-semibold text-lg text-foreground">{row.term}</span>
             {row.hebrew_term && (
-              <span dir="rtl" className="text-base text-muted-foreground" style={{ fontFamily: "serif" }}>{row.hebrew_term}</span>
+              <span dir="rtl" className="text-lg font-semibold text-foreground" style={{ fontFamily: "'Assistant', sans-serif" }}>{row.hebrew_term}</span>
             )}
           </div>
           <div className="flex flex-wrap gap-1 mt-1.5">
@@ -282,7 +312,7 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
             {results.map((result, i) => (
               <Link
                 key={i}
-                href={`/search?q=${encodeURIComponent(row.term)}&type=talmud`}
+                href={getPassageLink(result)}
                 className="block border border-border rounded-md px-3 py-2.5 hover:bg-accent/50 transition-colors"
               >
                 <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
@@ -338,7 +368,7 @@ function TermCard({
           )}
         </div>
         {row.hebrew_term && (
-          <span dir="rtl" className="text-sm text-foreground flex-shrink-0 leading-snug" style={{ fontFamily: "serif" }}>
+          <span dir="rtl" className="text-base font-semibold text-foreground flex-shrink-0 leading-snug" style={{ fontFamily: "'Assistant', sans-serif" }}>
             {row.hebrew_term}
           </span>
         )}
@@ -523,15 +553,13 @@ export default function TermIndexPage() {
 
       {/* ── Page title ── */}
       <div className="border-b border-border px-6 py-4 flex-shrink-0 bg-card">
-        <div className="flex items-baseline justify-between gap-4 flex-wrap">
-          <h1 className="text-xl font-semibold text-foreground">Index of Names, Places &amp; Key Terms</h1>
-          <button
-            onClick={() => setShowInfo(v => !v)}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 flex-shrink-0"
-          >
-            {showInfo ? "▲" : "▼"} About this index
-          </button>
-        </div>
+        <h1 className="text-xl font-semibold text-foreground">Index of Names, Places &amp; Key Terms</h1>
+        <button
+          onClick={() => setShowInfo(v => !v)}
+          className="mt-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+        >
+          {showInfo ? "▲" : "▼"} About this index
+        </button>
 
         {showInfo && (
           <div className="mt-4 text-sm text-foreground leading-relaxed space-y-3 max-w-3xl border-t border-border/60 pt-4">
@@ -552,8 +580,7 @@ export default function TermIndexPage() {
             </p>
             <p>
               Corpus occurrence counts reflect how often each term appears in the full Steinsaltz English
-              translation as indexed in the ChavrutAI search corpus. Terms with a count of 0 are present in the
-              glossary but were not matched in the corpus text.
+              translation as indexed in the ChavrutAI search corpus.
             </p>
             <p>
               <a
