@@ -295,21 +295,21 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
             <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
               {row.__wikiEnUrl && (
                 <a href={row.__wikiEnUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-primary hover:underline inline-flex items-center gap-1">
+                  className="text-blue-600 hover:underline inline-flex items-center gap-1">
                   Wikipedia (EN): {row.__wikiEnTitle}
                   <ExternalLink className="w-3 h-3" />
                 </a>
               )}
               {row.__wikiHeUrl && (
                 <a href={row.__wikiHeUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-primary hover:underline inline-flex items-center gap-1">
+                  className="text-blue-600 hover:underline inline-flex items-center gap-1">
                   ויקיפדיה (HE): {row.__wikiHeTitle}
                   <ExternalLink className="w-3 h-3" />
                 </a>
               )}
               {row.__wikidataUrl && (
                 <a href={row.__wikidataUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-primary hover:underline inline-flex items-center gap-1">
+                  className="text-blue-600 hover:underline inline-flex items-center gap-1">
                   Wikidata ({row.wikidata_id})
                   <ExternalLink className="w-3 h-3" />
                 </a>
@@ -470,15 +470,15 @@ function TermCard({
           <div className="flex gap-3 flex-wrap">
             {row.__wikiEnUrl && (
               <a href={row.__wikiEnUrl} target="_blank" rel="noopener noreferrer"
-                className="text-xs text-primary hover:underline"
+                className="text-xs text-blue-600 hover:underline inline-flex items-center gap-0.5"
                 onClick={e => e.stopPropagation()}
-              >Wikipedia EN</a>
+              >Wikipedia EN<ExternalLink className="w-3 h-3" /></a>
             )}
             {row.__wikiHeUrl && (
               <a href={row.__wikiHeUrl} target="_blank" rel="noopener noreferrer"
-                className="text-xs text-primary hover:underline"
+                className="text-xs text-blue-600 hover:underline inline-flex items-center gap-0.5"
                 onClick={e => e.stopPropagation()}
-              >ויקיפדיה HE</a>
+              >ויקיפדיה HE<ExternalLink className="w-3 h-3" /></a>
             )}
           </div>
         </>
