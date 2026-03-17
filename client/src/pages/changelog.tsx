@@ -72,6 +72,13 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Search: Accurate Result Count for Small Result Sets</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed a bug where the search result count was displayed as too low (e.g. "1 results" when 2 results were shown). The count is now always accurate for small result sets, rather than using a rough estimate based on halving the raw Elasticsearch hit count.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Unified Input &amp; Sefaria-Style URLs</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li><strong>Unified input:</strong> "Dropdown Selection" and "Sefaria URL" are now always visible at the same time. Changing a dropdown (tractate, page, or section) automatically updates the reference field above it.</li>
