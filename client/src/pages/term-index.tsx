@@ -684,7 +684,7 @@ export default function TermIndexPage() {
   }, []);
 
   return (
-    <div className="min-h-screen md:h-dvh bg-background flex flex-col md:overflow-hidden">
+    <div className="min-h-screen md:h-screen bg-background flex flex-col md:overflow-hidden">
       {/* ── Header ── */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 py-4">
