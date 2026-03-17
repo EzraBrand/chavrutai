@@ -441,10 +441,10 @@ function TermCard({
 
 export default function TermIndexPage() {
   useSEO({
-    title: "Talmud Glossary: 4,900+ Names, Places & Terms | ChavrutAI",
-    description: "Searchable glossary of 4,904 Talmudic and Biblical terms — rabbinic names, Aramaic place names, concepts, and nations. Includes Hebrew text, Wikipedia links, Wikidata, corpus counts, and biographical data (teachers, students, dates).",
-    ogTitle: "Talmud Glossary: 4,900+ Names, Places & Terms | ChavrutAI",
-    ogDescription: "4,904 Talmudic and Biblical terms with Hebrew text, Wikipedia links, Wikidata, corpus counts, and biographical data from the Babylonian Talmud.",
+    title: "Talmud Glossary: Names, Places & Terms | ChavrutAI",
+    description: "Searchable glossary of around 5,000 Talmudic and Biblical terms — rabbinic names, Aramaic place names, concepts, and nations. Includes Hebrew text, Wikipedia links, Wikidata, corpus counts, and biographical data (teachers, students, dates).",
+    ogTitle: "Talmud Glossary: Names, Places & Terms | ChavrutAI",
+    ogDescription: "Around 5,000 Talmudic and Biblical terms with Hebrew text, Wikipedia links, Wikidata, corpus counts, and biographical data from the Babylonian Talmud.",
     ogUrl: `${window.location.origin}/term-index`,
     canonical: `${window.location.origin}/term-index`,
     keywords: "Talmud glossary, Talmudic names, rabbinic names, Babylonian Talmud terms, Aramaic glossary, Hebrew glossary, Talmud place names, Talmud concepts, Amoraim, Tannaim, Wikidata Talmud, ChavrutAI",
