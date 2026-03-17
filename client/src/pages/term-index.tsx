@@ -755,9 +755,9 @@ export default function TermIndexPage() {
           )}
         </div>
 
-        {/* Detail panel */}
+        {/* Detail panel — full-screen overlay on mobile, side panel on md+ */}
         {selected && (
-          <div className="w-96 border-l border-border bg-card flex-shrink-0 overflow-hidden flex flex-col">
+          <div className="fixed inset-0 z-50 flex flex-col bg-card overflow-hidden md:relative md:inset-auto md:z-auto md:w-96 md:border-l md:border-border md:flex-shrink-0">
             <DetailPanel row={selected} onClose={() => setSelected(null)} />
           </div>
         )}
