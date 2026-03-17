@@ -884,7 +884,7 @@ export default function TermIndexPage() {
                 ))}
               </div>
 
-              {remaining > 0 && (
+              {remaining > 0 ? (
                 <div className="mt-6 pb-4 text-center">
                   <p className="text-xs text-muted-foreground mb-2">
                     Showing {displayed.length.toLocaleString()} of {sortedFiltered.length.toLocaleString()} terms.
@@ -896,6 +896,14 @@ export default function TermIndexPage() {
                     Show 20 more
                     <span className="text-muted-foreground ml-1.5">({remaining.toLocaleString()} remaining)</span>
                   </button>
+                </div>
+              ) : (
+                <div className="hidden md:flex items-center gap-4 mt-6 mb-4 mx-1">
+                  <div className="flex-1 border-t border-border" />
+                  <span className="text-xs text-muted-foreground tabular-nums">
+                    {sortedFiltered.length.toLocaleString()} {sortedFiltered.length === 1 ? "term" : "terms"}
+                  </span>
+                  <div className="flex-1 border-t border-border" />
                 </div>
               )}
             </>
