@@ -16,6 +16,10 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
+localPort = 5174
+externalPort = 3002
+
+[[ports]]
 localPort = 23636
 externalPort = 3000
 
@@ -34,6 +38,10 @@ author = "agent"
 task = "workflow.run"
 args = "Start application"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "artifacts/mockup-sandbox: Component Preview Server"
+
 [[workflows.workflow]]
 name = "Start application"
 author = "agent"
@@ -51,6 +59,19 @@ author = 1583694
 [[workflows.workflow.tasks]]
 task = "workflow.run"
 args = "Start application"
+
+[[workflows.workflow]]
+name = "artifacts/mockup-sandbox: Component Preview Server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd artifacts/mockup-sandbox && npm run dev"
+waitForPort = 5174
+
+[workflows.workflow.metadata]
+outputType = "console"
+isCanvasWorkflow = true
 
 [agent]
 integrations = ["javascript_sendgrid:1.0.0", "google-mail:1.0.0"]
