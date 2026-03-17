@@ -787,40 +787,62 @@ export default function TermIndexPage() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="border-b border-border bg-card">
-          <div className="flex overflow-x-auto px-6">
+        {/* Mobile category selector — hidden on md+ */}
+        <div className="md:hidden border-b border-border/60 bg-muted flex items-center gap-2 px-4 py-2">
+          <span className="text-xs text-muted-foreground flex-shrink-0">Category:</span>
+          <select
+            value={activeTab}
+            onChange={e => handleTabChange(e.target.value)}
+            className="flex-1 border border-input rounded-md px-2 py-1.5 text-sm bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+          >
             {TAB_ORDER.map(cat => (
-              <button
-                key={cat}
-                onClick={() => handleTabChange(cat)}
-                className={`px-3.5 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
-                  activeTab === cat
-                    ? "border-foreground text-foreground"
-                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/40"
-                }`}
-              >
-                {CATEGORY_LABELS[cat] ?? cat}
-                {!isLoading && (
-                  <span className={`ml-1.5 text-xs ${activeTab === cat ? "text-muted-foreground" : "text-muted-foreground/60"}`}>
-                    {tabCounts[cat]?.toLocaleString() ?? 0}
-                  </span>
-                )}
-              </button>
+              <option key={cat} value={cat}>
+                {CATEGORY_LABELS[cat] ?? cat}{!isLoading ? ` (${(tabCounts[cat] ?? 0).toLocaleString()})` : ""}
+              </option>
             ))}
-          </div>
-          {/* Search results count — only shown when actively searching */}
-          {!isLoading && debouncedSearch && (
-            <div className="px-6 pb-1.5 text-xs text-muted-foreground">
-              {sortedFiltered.length.toLocaleString()} result{sortedFiltered.length !== 1 ? "s" : ""} in {CATEGORY_LABELS[activeTab] ?? activeTab}
-            </div>
-          )}
+          </select>
         </div>
+        {/* Mobile search result count — hidden on md+ */}
+        {!isLoading && debouncedSearch && (
+          <div className="md:hidden px-4 py-1.5 text-xs text-muted-foreground bg-muted border-b border-border/40">
+            {sortedFiltered.length.toLocaleString()} result{sortedFiltered.length !== 1 ? "s" : ""} in {CATEGORY_LABELS[activeTab] ?? activeTab}
+          </div>
+        )}
 
       </div>
 
-      {/* ── Content area (flex-1, fills between tabs and footer) ── */}
+      {/* ── Content area (flex-1, fills between sticky controls and footer) ── */}
       <div className="flex-1 flex md:overflow-hidden min-h-0">
+
+        {/* Category sidebar — desktop only */}
+        <aside className="hidden md:flex flex-col flex-shrink-0 w-44 border-r border-border bg-card overflow-y-auto">
+          <div className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground border-b border-border/60">
+            Category
+          </div>
+          {TAB_ORDER.map(cat => (
+            <button
+              key={cat}
+              onClick={() => handleTabChange(cat)}
+              className={`flex items-center justify-between w-full px-4 py-2.5 text-sm text-left border-l-2 transition-colors ${
+                activeTab === cat
+                  ? "border-foreground bg-muted font-medium text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              <span>{CATEGORY_LABELS[cat] ?? cat}</span>
+              {!isLoading && (
+                <span className="text-xs text-muted-foreground/60 tabular-nums ml-2">
+                  {(tabCounts[cat] ?? 0).toLocaleString()}
+                </span>
+              )}
+            </button>
+          ))}
+          {!isLoading && debouncedSearch && (
+            <div className="px-4 py-2.5 mt-auto border-t border-border/60 text-xs text-muted-foreground">
+              {sortedFiltered.length.toLocaleString()} result{sortedFiltered.length !== 1 ? "s" : ""}
+            </div>
+          )}
+        </aside>
 
         {/* Cards column — virtualised */}
         <div ref={cardsRef} className="flex-1 overflow-y-auto p-5 min-w-0">
