@@ -1759,13 +1759,14 @@ When answering questions:
       // Trim to requested pageSize after deduplication
       const results: SearchResult[] = deduped.slice(0, pageSize);
       
-      // Estimate unique total (roughly half due to Hebrew/English duplicates)
-      const estimatedUniqueTotal = Math.ceil(total / 2);
-      const totalPages = Math.ceil(estimatedUniqueTotal / pageSize);
+      // If we fetched all available hits, use the exact deduplicated count.
+      // Otherwise estimate (roughly half due to Hebrew/English duplicates).
+      const uniqueTotal = total <= fetchSize ? deduped.length : Math.ceil(total / 2);
+      const totalPages = Math.ceil(uniqueTotal / pageSize);
 
       const searchResponse: TextSearchResponse = {
         results,
-        total: estimatedUniqueTotal,
+        total: uniqueTotal,
         page,
         pageSize,
         totalPages,
