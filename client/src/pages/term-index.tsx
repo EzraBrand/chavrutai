@@ -216,84 +216,119 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
       </div>
 
       {/* Scrollable body */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+      <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5">
 
-        {row.__variants.length > 0 && (
-          <p className="text-sm text-muted-foreground">
-            <span className="text-muted-foreground/70">Also known as: </span>{row.__variants.join(", ")}
-          </p>
-        )}
+        {/* Variants + count */}
+        <div className="space-y-1">
+          {row.__variants.length > 0 && (
+            <p className="text-sm text-muted-foreground">
+              <span className="text-muted-foreground/60">Also known as: </span>{row.__variants.join(", ")}
+            </p>
+          )}
+          {row.__corpusCount > 0 && (
+            <p className="text-sm font-medium text-foreground/80">
+              {row.__corpusCount.toLocaleString()} occurrences in the Steinsaltz English corpus
+            </p>
+          )}
+        </div>
 
-        {row.__corpusCount > 0 && (
-          <p className="text-sm text-muted-foreground">
-            {row.__corpusCount.toLocaleString()} occurrences in the Steinsaltz English corpus
-          </p>
-        )}
-
-        {/* Bio / place details */}
-        {isNames && (father || teacher || student || row.affiliation || row.date_of_birth) && (
-          <div className="rounded-md bg-muted/50 px-4 py-3 text-sm space-y-1">
-            {father && <div><span className="text-muted-foreground">Father: </span>{father}</div>}
-            {teacher && <div><span className="text-muted-foreground">Teacher: </span>{teacher}</div>}
-            {student && <div><span className="text-muted-foreground">Student: </span>{student}</div>}
-            {row.affiliation && <div><span className="text-muted-foreground">Affiliation: </span>{row.affiliation}</div>}
-            {row.date_of_birth && (
-              <div>
-                <span className="text-muted-foreground">Born: </span>
-                {row.date_of_birth}{row.place_of_birth ? `, ${row.place_of_birth}` : ""}
-              </div>
-            )}
-            {row.date_of_death && (
-              <div>
-                <span className="text-muted-foreground">Died: </span>
-                {row.date_of_death}{row.place_of_death ? `, ${row.place_of_death}` : ""}
-              </div>
-            )}
+        {/* Biography */}
+        {isNames && (father || teacher || student || row.affiliation || row.date_of_birth || row.date_of_death) && (
+          <div>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground/50 font-medium mb-2.5">Biography</p>
+            <div className="space-y-1.5 text-sm">
+              {father && (
+                <div className="flex gap-4">
+                  <span className="text-muted-foreground/55 w-[5.5rem] flex-shrink-0 text-xs pt-px">Father</span>
+                  <span className="text-foreground/80">{father}</span>
+                </div>
+              )}
+              {teacher && (
+                <div className="flex gap-4">
+                  <span className="text-muted-foreground/55 w-[5.5rem] flex-shrink-0 text-xs pt-px">Teacher</span>
+                  <span className="text-foreground/80">{teacher}</span>
+                </div>
+              )}
+              {student && (
+                <div className="flex gap-4">
+                  <span className="text-muted-foreground/55 w-[5.5rem] flex-shrink-0 text-xs pt-px">Student</span>
+                  <span className="text-foreground/80">{student}</span>
+                </div>
+              )}
+              {row.affiliation && (
+                <div className="flex gap-4">
+                  <span className="text-muted-foreground/55 w-[5.5rem] flex-shrink-0 text-xs pt-px">Affiliation</span>
+                  <span className="text-foreground/80">{row.affiliation}</span>
+                </div>
+              )}
+              {row.date_of_birth && (
+                <div className="flex gap-4">
+                  <span className="text-muted-foreground/55 w-[5.5rem] flex-shrink-0 text-xs pt-px">Born</span>
+                  <span className="text-foreground/80">{row.date_of_birth}{row.place_of_birth ? `, ${row.place_of_birth}` : ""}</span>
+                </div>
+              )}
+              {row.date_of_death && (
+                <div className="flex gap-4">
+                  <span className="text-muted-foreground/55 w-[5.5rem] flex-shrink-0 text-xs pt-px">Died</span>
+                  <span className="text-foreground/80">{row.date_of_death}{row.place_of_death ? `, ${row.place_of_death}` : ""}</span>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
+        {/* Place geography */}
         {isPlace && row.affiliation && (
-          <div className="rounded-md bg-muted/50 px-4 py-3 text-sm">
-            <span className="text-muted-foreground">Region: </span>{row.affiliation}
+          <div>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground/50 font-medium mb-2.5">Geography</p>
+            <div className="flex gap-4 text-sm">
+              <span className="text-muted-foreground/55 w-[5.5rem] flex-shrink-0 text-xs pt-px">Region</span>
+              <span className="text-foreground/80">{row.affiliation}</span>
+            </div>
           </div>
         )}
 
-        {/* Wikipedia + Wikidata */}
+        {/* External links */}
         {(row.__wikiEnUrl || row.__wikiHeUrl || row.__wikidataUrl) && (
-          <div className="flex flex-wrap gap-4 text-sm">
-            {row.__wikiEnUrl && (
-              <a href={row.__wikiEnUrl} target="_blank" rel="noopener noreferrer"
-                className="text-primary hover:underline inline-flex items-center gap-1">
-                Wikipedia (EN): {row.__wikiEnTitle}
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            )}
-            {row.__wikiHeUrl && (
-              <a href={row.__wikiHeUrl} target="_blank" rel="noopener noreferrer"
-                className="text-primary hover:underline inline-flex items-center gap-1">
-                ויקיפדיה (HE): {row.__wikiHeTitle}
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            )}
-            {row.__wikidataUrl && (
-              <a href={row.__wikidataUrl} target="_blank" rel="noopener noreferrer"
-                className="text-primary hover:underline inline-flex items-center gap-1">
-                Wikidata ({row.wikidata_id})
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            )}
+          <div>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground/50 font-medium mb-2.5">External Links</p>
+            <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
+              {row.__wikiEnUrl && (
+                <a href={row.__wikiEnUrl} target="_blank" rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center gap-1">
+                  Wikipedia (EN): {row.__wikiEnTitle}
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+              {row.__wikiHeUrl && (
+                <a href={row.__wikiHeUrl} target="_blank" rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center gap-1">
+                  ויקיפדיה (HE): {row.__wikiHeTitle}
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+              {row.__wikidataUrl && (
+                <a href={row.__wikidataUrl} target="_blank" rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center gap-1">
+                  Wikidata ({row.wikidata_id})
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+            </div>
           </div>
         )}
 
         {/* Corpus passages */}
         <div>
           <div className="flex items-baseline justify-between mb-3">
-            <span className="text-sm font-semibold text-foreground">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground/50 font-medium">
               Corpus passages
               {!searching && !searchError && (
-                <span className="font-normal text-muted-foreground ml-1.5">({total.toLocaleString()} total)</span>
+                <span className="normal-case tracking-normal font-normal text-muted-foreground ml-1.5">
+                  ({total.toLocaleString()} total)
+                </span>
               )}
-            </span>
+            </p>
             <Link
               href={`/search?q=${encodeURIComponent(row.term)}&type=talmud`}
               className="text-xs text-primary hover:underline"
@@ -356,8 +391,8 @@ function TermCard({
           : "border-border bg-card hover:border-muted-foreground/40 hover:shadow-sm"
       }`}
     >
-      {/* Term + Hebrew */}
-      <div className="mb-1">
+      {/* Term + Hebrew + Variants */}
+      <div>
         <span className="font-medium text-foreground text-sm leading-snug">{row.term}</span>
         {row.hebrew_term && (
           <div dir="rtl" className="text-sm font-semibold text-foreground mt-0.5" style={{ fontFamily: "'Assistant', sans-serif" }}>
@@ -365,7 +400,7 @@ function TermCard({
           </div>
         )}
         {row.__variants.length > 0 && (
-          <div className="text-xs text-muted-foreground/70 mt-0.5">
+          <div className="text-xs text-muted-foreground/60 mt-0.5">
             also: {row.__variants.slice(0, 3).join(", ")}
             {row.__variants.length > 3 && ` +${row.__variants.length - 3}`}
           </div>
@@ -374,14 +409,14 @@ function TermCard({
 
       {/* Corpus count */}
       {row.__corpusCount > 0 && (
-        <p className="text-xs text-muted-foreground/70 mb-2">
+        <p className="text-xs text-muted-foreground mt-2">
           {row.__corpusCount.toLocaleString()} occurrences
         </p>
       )}
 
       {/* Category badge for All tab */}
       {activeTab === "all" && row.__categories.length > 0 && (
-        <div className="mb-2 flex flex-wrap gap-1">
+        <div className="mt-2 flex flex-wrap gap-1">
           {row.__categories.slice(0, 2).map(c => (
             <span key={c} className="text-xs border border-border/60 rounded px-1.5 py-0.5 text-muted-foreground/80">
               {CATEGORY_LABELS[c] ?? c}
@@ -392,46 +427,61 @@ function TermCard({
 
       {/* Biographical (names) */}
       {isNames && (father || teacher || student) && (
-        <div className="border-t border-border/50 pt-2 mt-1 text-xs text-muted-foreground space-y-0.5">
-          {father && <div><span className="text-muted-foreground/60">Father: </span>{father}</div>}
-          {teacher && <div><span className="text-muted-foreground/60">Teacher: </span>{teacher}</div>}
-          {student && <div><span className="text-muted-foreground/60">Student: </span>{student}</div>}
-        </div>
+        <>
+          <hr className="border-border/40 mt-2.5 mb-2" />
+          <div className="space-y-0.5 text-xs">
+            {father && (
+              <div className="flex gap-3">
+                <span className="text-muted-foreground/50 w-14 flex-shrink-0">Father</span>
+                <span className="text-muted-foreground">{father}</span>
+              </div>
+            )}
+            {teacher && (
+              <div className="flex gap-3">
+                <span className="text-muted-foreground/50 w-14 flex-shrink-0">Teacher</span>
+                <span className="text-muted-foreground">{teacher}</span>
+              </div>
+            )}
+            {student && (
+              <div className="flex gap-3">
+                <span className="text-muted-foreground/50 w-14 flex-shrink-0">Student</span>
+                <span className="text-muted-foreground">{student}</span>
+              </div>
+            )}
+          </div>
+        </>
       )}
 
       {/* Place */}
       {isPlace && row.affiliation && (
-        <div className="border-t border-border/50 pt-2 mt-1 text-xs text-muted-foreground">
-          <span className="text-muted-foreground/60">Region: </span>{row.affiliation}
-        </div>
+        <>
+          <hr className="border-border/40 mt-2.5 mb-2" />
+          <div className="flex gap-3 text-xs">
+            <span className="text-muted-foreground/50 w-14 flex-shrink-0">Region</span>
+            <span className="text-muted-foreground">{row.affiliation}</span>
+          </div>
+        </>
       )}
 
       {/* Wikipedia links */}
       {(row.__wikiEnUrl || row.__wikiHeUrl) && (
-        <div className="mt-2 flex gap-3 flex-wrap">
-          {row.__wikiEnUrl && (
-            <a
-              href={row.__wikiEnUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-primary hover:underline"
-              onClick={e => e.stopPropagation()}
-            >
-              Wikipedia EN
-            </a>
-          )}
-          {row.__wikiHeUrl && (
-            <a
-              href={row.__wikiHeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-primary hover:underline"
-              onClick={e => e.stopPropagation()}
-            >
-              ויקיפדיה HE
-            </a>
-          )}
-        </div>
+        <>
+          <hr className="border-border/40 mt-2.5 mb-2" />
+          <div className="flex gap-3 flex-wrap">
+            {row.__wikiEnUrl && (
+              <a href={row.__wikiEnUrl} target="_blank" rel="noopener noreferrer"
+                className="text-xs text-primary hover:underline"
+                onClick={e => e.stopPropagation()}
+              >Wikipedia EN</a>
+            )}
+            {row.__wikiHeUrl && (
+              <a href={row.__wikiHeUrl} target="_blank" rel="noopener noreferrer"
+                className="text-xs text-primary hover:underline"
+                onClick={e => e.stopPropagation()}
+              >ויקיפדיה HE</a>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
