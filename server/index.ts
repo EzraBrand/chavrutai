@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import http from "http";
 
 const app = express();
 app.use(express.json());
@@ -37,6 +38,17 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Proxy /__mockup/ requests to the mockup sandbox dev server on port 5174
+  app.use("/__mockup", (req, res) => {
+    const target = `http://localhost:5174${req.url}`;
+    const proxy = http.request(target, { method: req.method, headers: { ...req.headers, host: "localhost:5174" } }, (proxyRes) => {
+      res.writeHead(proxyRes.statusCode || 200, proxyRes.headers);
+      proxyRes.pipe(res, { end: true });
+    });
+    proxy.on("error", () => res.status(503).send("Mockup sandbox not running"));
+    req.pipe(proxy, { end: true });
+  });
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
