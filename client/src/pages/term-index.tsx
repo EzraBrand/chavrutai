@@ -67,10 +67,10 @@ const DISPLAY_LIMIT = 20;
 
 type SortOption = "count-desc" | "count-asc" | "alpha-asc" | "alpha-desc";
 const SORT_LABELS: Record<SortOption, string> = {
-  "count-desc": "Count: high to low",
-  "count-asc": "Count: low to high",
-  "alpha-asc": "A to Z",
-  "alpha-desc": "Z to A",
+  "count-desc": "Count ↓",
+  "count-asc": "Count ↑",
+  "alpha-asc": "A → Z",
+  "alpha-desc": "Z → A",
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -643,7 +643,7 @@ export default function TermIndexPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
       {/* ── Header ── */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -711,14 +711,14 @@ export default function TermIndexPage() {
       </div>
 
       {/* ── Toolbar (search + sort) ── */}
-      <div className="px-6 py-2.5 border-b border-border/60 bg-muted/40 flex items-center gap-3 flex-shrink-0 flex-wrap">
-        <div className="relative">
+      <div className="px-6 py-2.5 border-b border-border/60 bg-muted/40 flex items-center gap-3 flex-shrink-0">
+        <div className="relative flex-1 min-w-0">
           <input
             type="search"
             placeholder="Search terms, Hebrew, variants…"
             value={search}
             onChange={e => handleSearch(e.target.value)}
-            className="border border-input rounded-md pl-3 pr-7 py-1.5 text-sm w-64 bg-background focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground text-foreground"
+            className="border border-input rounded-md pl-3 pr-7 py-1.5 text-sm w-full bg-background focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground text-foreground"
           />
           {search && (
             <button
@@ -730,7 +730,7 @@ export default function TermIndexPage() {
             </button>
           )}
         </div>
-        <div className="ml-auto">
+        <div className="flex-shrink-0">
           <select
             value={sort}
             onChange={e => setSort(e.target.value as SortOption)}
