@@ -918,9 +918,7 @@ export default function TermIndexPage() {
         )}
       </div>
 
-      <div className="flex-shrink-0 md:hidden">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }
