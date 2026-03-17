@@ -39,7 +39,9 @@ app.use((req, res, next) => {
 
 (async () => {
   // Proxy /__mockup/ requests to the mockup sandbox dev server on port 5174
-  app.use("/__mockup", (req, res) => {
+  // Important: use app.use() without path prefix so req.url keeps the full /__mockup/... path
+  app.use((req, res, next) => {
+    if (!req.path.startsWith("/__mockup/")) return next();
     const target = `http://localhost:5174${req.url}`;
     const proxy = http.request(target, { method: req.method, headers: { ...req.headers, host: "localhost:5174" } }, (proxyRes) => {
       res.writeHead(proxyRes.statusCode || 200, proxyRes.headers);
