@@ -518,6 +518,12 @@ export default function TermIndexPage() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
+  // Lock body scroll while detail panel is open (prevents double scrollbar)
+  useEffect(() => {
+    document.body.style.overflow = selected ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [selected]);
+
   // Load from shared/data via API
   useEffect(() => {
     let cancelled = false;
