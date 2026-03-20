@@ -174,6 +174,16 @@ describe('Text Processing Module', () => {
       expect(replaceTerms('five fourths')).toContain('5/4ths');
     });
 
+    it('replaces three-eighths fraction', () => {
+      expect(replaceTerms('three-eighths')).toContain('3/8ths');
+      expect(replaceTerms('three eighths')).toContain('3/8ths');
+    });
+
+    it('replaces three-and-one-third mixed number', () => {
+      expect(replaceTerms('three-and-one-third')).toContain('3⅓');
+      expect(replaceTerms('three and one-third')).toContain('3⅓');
+    });
+
     it('replaces compound ordinals', () => {
       const text = 'the twenty-first day';
       const result = replaceTerms(text);
