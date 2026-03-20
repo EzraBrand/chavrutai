@@ -217,6 +217,14 @@ describe('Text Processing Module', () => {
       expect(replaceTerms('five and twenty')).toContain('25');
     });
 
+    it('replaces two hundred ten', () => {
+      expect(replaceTerms('two hundred ten')).toContain('210');
+    });
+
+    it('replaces fifth year without the', () => {
+      expect(replaceTerms('fifth year')).toContain('5th year');
+    });
+
     it('replaces compound ordinals', () => {
       const text = 'the twenty-first day';
       const result = replaceTerms(text);
