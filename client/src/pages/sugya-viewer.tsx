@@ -60,6 +60,7 @@ export default function SefariaFetchPage() {
   const [section, setSection] = useState<string>("all");
   const [url, setUrl] = useState<string>("");
   const [showBlogPostSelector, setShowBlogPostSelector] = useState<boolean>(false);
+  const [showAbout, setShowAbout] = useState<boolean>(false);
 
   interface FetchParams {
     inputMethod: "dropdown" | "url";
@@ -73,7 +74,18 @@ export default function SefariaFetchPage() {
   const buildRefFromDropdowns = (t: string, p: string, s: string) =>
     `${t}.${p}${s !== 'all' ? '.' + s : ''}`;
 
+  const convertChavrutaiRef = (input: string): string => {
+    const match = input.match(/^([A-Za-z_\s]+)\/([\d]+[ab](?:\.\d+(?:-[\d]+[ab](?:\.\d+)?)?)?)$/);
+    if (match) {
+      return `${match[1].trim()}.${match[2]}`;
+    }
+    return input;
+  };
+
   const extractRef = (rawUrl: string): string => {
+    const chavrutaiConverted = convertChavrutaiRef(rawUrl);
+    if (chavrutaiConverted !== rawUrl) return chavrutaiConverted;
+
     const stripped = rawUrl
       .replace(/^https?:\/\/www\.sefaria\.org\.il\//, '')
       .replace(/^https?:\/\/www\.sefaria\.org\//, '')
@@ -586,25 +598,37 @@ ${cleanHtml}
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <h1 className="text-2xl font-bold text-foreground mb-6">Sugya Viewer</h1>
-        <Card className="mb-4 bg-sepia-50 border-sepia-200">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">About This Tool</CardTitle>
-          </CardHeader>
-          <CardContent className="pt-0 text-sm text-sepia-700 space-y-3">
-            <p>
-              This page displays Talmud text by a user-specified range, as opposed to the main Talmud reader, which always displays a single Talmud page. 
-              You can specify a range using one of three options:
-            </p>
-            <ul className="list-disc list-inside space-y-1 ml-2">
-              <li><strong>Dropdown Selection:</strong> Choose tractate and page, with an optional section</li>
-              <li><strong>Sefaria URL:</strong> Paste a Sefaria URL (can span multiple pages, e.g., <code className="text-xs bg-sepia-200 px-1 rounded">https://www.sefaria.org/Berakhot.16b.18-17a.12</code>)</li>
-              <li><strong>Blog Post Selection:</strong> Choose from a dropdown list of blog post titles and ranges of specific sugyot to auto-fill the Sefaria URL</li>
-            </ul>
-            <p>
-              Use the AI assistant (at the bottom on mobile, on the right side on desktop) to explore the text.  The AI assistant will see the displayed Talmud text (Hebrew and English), and has access to 125 published Talmud & Tech blog posts.
-            </p>
-          </CardContent>
-        </Card>
+        <div className="mb-4">
+          <button
+            onClick={() => setShowAbout(v => !v)}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+          >
+            {showAbout ? "▲" : "▼"} About This Tool
+          </button>
+
+          {showAbout && (
+            <Card className="mt-2 bg-sepia-50 border-sepia-200">
+              <CardContent className="pt-4 text-sm text-sepia-700 space-y-3">
+                <p>
+                  This page displays Talmud text by a user-specified range, as opposed to the main Talmud reader, which always displays a single Talmud page. 
+                  You can specify a range using one of four options:
+                </p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li><strong>ChavrutAI Reference:</strong> Use slash-separated format (e.g., <code className="text-xs bg-sepia-200 px-1 rounded">Shabbat/89b</code>)</li>
+                  <li><strong>Sefaria Reference:</strong> Use dot-separated format (e.g., <code className="text-xs bg-sepia-200 px-1 rounded">Menachot.65a.4-66a.8</code>)</li>
+                  <li><strong>Sefaria URL:</strong> Paste a Sefaria URL (can span multiple pages, e.g., <code className="text-xs bg-sepia-200 px-1 rounded">https://www.sefaria.org/Berakhot.16b.18-17a.12</code>)</li>
+                  <li><strong>Blog Post Selection:</strong> Choose from a dropdown list of blog post titles and ranges of specific sugyot to auto-fill the reference</li>
+                </ul>
+                <p>
+                  You can also use the <strong>Dropdown Selection</strong> to pick a tractate and page. Press <strong>Enter</strong> or click <strong>Fetch Text</strong> to load.
+                </p>
+                <p>
+                  Use the AI assistant (at the bottom on mobile, on the right side on desktop) to explore the text. The AI assistant will see the displayed Talmud text (Hebrew and English), and has access to 125 published Talmud & Tech blog posts.
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
 
         <Card className="mb-8">
           <CardHeader>
@@ -614,18 +638,19 @@ ${cleanHtml}
             {/* URL / Reference input */}
             <div className="space-y-2">
               <Label htmlFor="sefaria-url" className="text-sm font-semibold">
-                Sefaria Reference or URL
+                ChavrutAI / Sefaria Reference or URL
               </Label>
               <Input
                 id="sefaria-url"
-                placeholder="e.g., Menachot.65a.4-66a.8 or https://www.sefaria.org/Sanhedrin.43b.9"
+                placeholder="e.g., Shabbat/89b or Menachot.65a.4-66a.8 or https://www.sefaria.org/Sanhedrin.43b.9"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleFetch(); }}
                 data-testid="input-sefaria-url"
                 className="text-base"
               />
               <p className="text-xs text-muted-foreground">
-                Paste a Sefaria URL or type a reference directly. Ranges spanning multiple pages (e.g. <code className="bg-muted px-1 rounded">Menachot.65a.4-66a.8</code>) are supported.
+                Paste a Sefaria URL, type a reference directly, or use ChavrutAI format (e.g. <code className="bg-muted px-1 rounded">Shabbat/89b</code>). Ranges spanning multiple pages (e.g. <code className="bg-muted px-1 rounded">Menachot.65a.4-66a.8</code>) are supported.
               </p>
             </div>
 
