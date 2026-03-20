@@ -91,10 +91,10 @@ export function ChatPanel({ context }: ChatPanelProps) {
       </CardHeader>
 
       <CardContent className="flex-1 flex flex-col p-4 pt-0 min-h-0">
-        <ScrollArea ref={scrollRef} className="flex-1 pr-4 mb-4">
+        <ScrollArea ref={scrollRef} className={`pr-4 mb-4 ${messages.length > 0 ? 'flex-1' : ''}`}>
           <div className="space-y-4">
             {messages.length === 0 && (
-              <div className="text-center text-gray-500 py-8">
+              <div className="text-center text-gray-500 py-4">
                 <p className="mb-2">Start a conversation!</p>
                 <p className="text-sm">
                   Try asking: "What is this passage about?" or "Are there related blog posts?"
