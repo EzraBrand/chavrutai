@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Search, Copy, FileText, Code, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, Copy, FileText, Code, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
 import { TRACTATE_LISTS } from "@shared/tractates";
 import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
@@ -774,14 +774,33 @@ ${cleanHtml}
               )}
             </div>
 
-            <Button
-              onClick={handleFetch}
-              className="w-full md:w-auto"
-              data-testid="button-fetch"
-            >
-              <Search className="mr-2 h-4 w-4" />
-              Fetch Text
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                onClick={handleFetch}
+                className="w-full md:w-auto"
+                data-testid="button-fetch"
+              >
+                <Search className="mr-2 h-4 w-4" />
+                Fetch Text
+              </Button>
+              {(fetchParams || url) && (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setUrl("");
+                    setTractate(tractates[0]);
+                    setPage("2a");
+                    setSection("all");
+                    setFetchParams(null);
+                    window.history.pushState({}, '', window.location.pathname);
+                  }}
+                  className="w-full md:w-auto"
+                >
+                  <RotateCcw className="mr-2 h-4 w-4" />
+                  Clear
+                </Button>
+              )}
+            </div>
           </CardContent>
         </Card>
 
