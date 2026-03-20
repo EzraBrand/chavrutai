@@ -184,6 +184,23 @@ describe('Text Processing Module', () => {
       expect(replaceTerms('three and one-third')).toContain('3⅓');
     });
 
+    it('replaces thirty-three and one-third', () => {
+      expect(replaceTerms('thirty-three and one-third')).toContain('33⅓');
+    });
+
+    it('replaces ninety-three and one-third', () => {
+      expect(replaceTerms('ninety-three and one-third')).toContain('93⅓');
+    });
+
+    it('replaces one and one-half', () => {
+      expect(replaceTerms('one-and-one-half')).toContain('1½');
+      expect(replaceTerms('one and one-half')).toContain('1½');
+    });
+
+    it('replaces one hundred dinars', () => {
+      expect(replaceTerms('one hundred dinars')).toContain('100 dinars');
+    });
+
     it('replaces compound ordinals', () => {
       const text = 'the twenty-first day';
       const result = replaceTerms(text);
