@@ -72,6 +72,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Bible Citation Linking in Talmud Pages</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Bible references in the English (Steinsaltz) translation are now <strong>automatically detected and hyperlinked</strong> to the corresponding ChavrutAI Bible page</li>
+                <li>Supports all 24 books of the Tanach, including multi-word names (e.g. Song of Songs, I Samuel)</li>
+                <li>Clicking a citation like <strong>Deuteronomy 6:7</strong> navigates directly to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/Deuteronomy/6#7</code></li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: ChavrutAI References, UX Improvements & Chat Layout Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Input field now accepts <strong>ChavrutAI-style references</strong> (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Shabbat/89b</code>) and full <strong>ChavrutAI URLs</strong> (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">https://chavrutai.com/talmud/Rosh_Hashanah/17a#11</code>), including section-level targeting via <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#</code> fragment</li>

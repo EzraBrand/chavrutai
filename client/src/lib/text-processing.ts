@@ -16,6 +16,7 @@ import {
   normalizeApiText,
   processHebrewTextCore
 } from '@shared/text-processing';
+import { ALL_BIBLE_BOOKS } from '@shared/bible-books';
 
 // Re-export all shared text processing functions
 export {
@@ -58,6 +59,46 @@ export function formatEnglishText(text: string): string {
   }).filter(p => p);
   
   return paragraphs.join('');
+}
+
+const BIBLE_NAME_TO_SLUG: Record<string, string> = {};
+for (const book of ALL_BIBLE_BOOKS) {
+  BIBLE_NAME_TO_SLUG[book.name] = book.slug;
+}
+
+const BIBLE_BOOK_NAMES_SORTED = ALL_BIBLE_BOOKS.map(b => b.name)
+  .sort((a, b) => b.length - a.length);
+
+const BIBLE_CITATION_PATTERN = new RegExp(
+  `(${BIBLE_BOOK_NAMES_SORTED.map(n => n.replace(/\s+/g, '\\s+')).join('|')})\\s+(\\d+):(\\d+)(?:\\s*[–\\-]\\s*\\d+)?`,
+  'g'
+);
+
+export function linkBibleCitations(html: string): string {
+  if (!html) return '';
+
+  const anchors: string[] = [];
+  let protected_ = html.replace(/<a\s[^>]*>[\s\S]*?<\/a>/gi, (match) => {
+    anchors.push(match);
+    return `__EXISTING_ANCHOR_${anchors.length - 1}__`;
+  });
+  
+  const htmlTags: string[] = [];
+  protected_ = protected_.replace(/<[^>]+>/g, (match) => {
+    htmlTags.push(match);
+    return `__LINK_HTML_${htmlTags.length - 1}__`;
+  });
+
+  protected_ = protected_.replace(BIBLE_CITATION_PATTERN, (match, book: string, chapter: string, verse: string) => {
+    const normalizedBook = book.replace(/\s+/g, ' ');
+    const slug = BIBLE_NAME_TO_SLUG[normalizedBook] || normalizedBook;
+    return `<a href="/bible/${slug}/${chapter}#${verse}" class="bible-citation-link">${match}</a>`;
+  });
+
+  protected_ = protected_.replace(/__LINK_HTML_(\d+)__/g, (_, index) => htmlTags[parseInt(index)]);
+  protected_ = protected_.replace(/__EXISTING_ANCHOR_(\d+)__/g, (_, index) => anchors[parseInt(index)]);
+
+  return protected_;
 }
 
 /**

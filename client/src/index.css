@@ -382,6 +382,20 @@
     font-style: italic;
     font-weight: 500;
   }
+
+  .bible-citation-link {
+    color: hsl(var(--primary));
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 2px;
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .bible-citation-link:hover {
+    text-decoration-style: solid;
+    opacity: 0.85;
+  }
   
   .sepia-bg {
     background-color: var(--sepia-100);

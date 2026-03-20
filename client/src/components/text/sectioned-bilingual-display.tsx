@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useCallback, useState, useTransition } from "react";
 import { ExternalLink as ExternalLinkIcon, Link as LinkIcon, Check } from "lucide-react";
-import { formatEnglishText, processHebrewText, processEnglishText } from "@/lib/text-processing";
+import { formatEnglishText, processHebrewText, processEnglishText, linkBibleCitations } from "@/lib/text-processing";
 import { usePreferences } from "@/context/preferences-context";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import { getSefariaLink, getAlHaTorahLink, type TalmudReference } from "@/lib/external-links";
@@ -83,7 +83,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
       if (!hebrewSection.trim() && !englishSection.trim()) return null;
 
       const englishHtml = englishSection.trim()
-        ? applyHighlighting(formatEnglishText(processEnglishText(englishSection)))
+        ? applyHighlighting(linkBibleCitations(formatEnglishText(processEnglishText(englishSection))))
         : '';
 
       const hebrewLines = hebrewSection.trim()
