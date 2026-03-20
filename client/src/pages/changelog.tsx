@@ -83,6 +83,9 @@ export default function Changelog() {
                 <li>Added numeral conversions: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one hundred → 100</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one hundred dinars → 100 dinars</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one hundred thirty → 130</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">two hundred ten → 210</code></li>
                 <li>Added archaic number form: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">five and twenty → 25</code></li>
                 <li>Added ordinal without article: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">fifth year → 5th year</code></li>
+                <li>Added hyphenated half variants: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">six-and-a-half → 6½</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">nine-and-a-half → 9½</code></li>
+                <li>Added compound half: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">twenty-nine and a half → 29½</code></li>
+                <li>Added unit with fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">hour-and-a-quarter → 1¼ hours</code></li>
               </ul>
             </div>
 
