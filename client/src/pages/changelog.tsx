@@ -72,6 +72,19 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: ChavrutAI References, UX Improvements & Chat Layout Fix</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Input field now accepts <strong>ChavrutAI-style references</strong> (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Shabbat/89b</code>) and full <strong>ChavrutAI URLs</strong> (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">https://chavrutai.com/talmud/Rosh_Hashanah/17a#11</code>), including section-level targeting via <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#</code> fragment</li>
+                <li>Renamed input label to <strong>"ChavrutAI / Sefaria Reference or URL"</strong> to reflect the expanded input options</li>
+                <li>Pressing <strong>Enter</strong> in the reference input field now submits the form (same as clicking "Fetch Text")</li>
+                <li>Added a <strong>Clear button</strong> to reset the input, dropdowns, displayed text, and browser URL after a fetch</li>
+                <li>"About This Tool" section is now <strong>collapsed by default</strong> with a toggle arrow, matching the pattern used on the Term Index page</li>
+                <li>Updated "About This Tool" documentation to list all five input methods: ChavrutAI reference, ChavrutAI URL, Sefaria reference, Sefaria URL, and Blog Post selection</li>
+                <li>Fixed excessive whitespace in the <strong>AI Study Assistant chat panel</strong> — the text input now sits directly below the intro text instead of being pushed to the bottom of the panel</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing: Expanded Fraction & Number Mappings</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added improper fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">five-fourths → 5/4ths</code></li>
