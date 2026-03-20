@@ -201,6 +201,22 @@ describe('Text Processing Module', () => {
       expect(replaceTerms('one hundred dinars')).toContain('100 dinars');
     });
 
+    it('replaces capitalized One and one half', () => {
+      expect(replaceTerms('One and one half')).toContain('1½');
+    });
+
+    it('replaces one hundred thirty', () => {
+      expect(replaceTerms('one hundred thirty')).toContain('130');
+    });
+
+    it('replaces A quarter', () => {
+      expect(replaceTerms('A quarter')).toContain('1/4th');
+    });
+
+    it('replaces five and twenty', () => {
+      expect(replaceTerms('five and twenty')).toContain('25');
+    });
+
     it('replaces compound ordinals', () => {
       const text = 'the twenty-first day';
       const result = replaceTerms(text);
