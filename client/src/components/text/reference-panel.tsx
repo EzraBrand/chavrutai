@@ -304,7 +304,7 @@ export function ReferencePanel({ englishSections }: ReferencePanelProps) {
           className="p-1.5 text-muted-foreground hover:text-foreground transition-colors"
           aria-label={panelOpen ? "Collapse panel" : "Expand panel"}
         >
-          {panelOpen ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+          {panelOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
       </div>
 
