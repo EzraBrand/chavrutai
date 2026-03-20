@@ -232,6 +232,11 @@ export function splitHebrewText(text: string): string {
   // the dash carries no additional split value once the ? already splits the line.
   processedText = processedText.replace(/\?\s*[–—]/g, '?');
 
+  // STEP 5c: Remove dash that immediately follows a colon (: — or : –)
+  // Same rationale as the question-mark rule above: the colon already splits
+  // the line, so the trailing dash is redundant.
+  processedText = processedText.replace(/:\s*[–—]/g, ':');
+
   // STEP 6: Split on individual punctuation marks
   // Each mark gets a newline after it to create paragraph breaks
   // Hebrew-specific: ׃ (sof pasuq)
