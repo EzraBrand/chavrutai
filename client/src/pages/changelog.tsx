@@ -72,6 +72,21 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing: Expanded Fraction & Number Mappings</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added improper fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">five-fourths → 5/4ths</code></li>
+                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">three-eighths → 3/8ths</code></li>
+                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">seven-twentieths → 7/20ths</code></li>
+                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">A quarter → 1/4th</code></li>
+                <li>Added mixed numbers: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">three-and-one-third → 3⅓</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">thirty-three and one-third → 33⅓</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ninety-three and one-third → 93⅓</code></li>
+                <li>Added mixed number variants: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one and one-half → 1½</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">One and one half → 1½</code></li>
+                <li>Added numeral conversions: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one hundred → 100</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one hundred dinars → 100 dinars</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one hundred thirty → 130</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">two hundred ten → 210</code></li>
+                <li>Added archaic number form: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">five and twenty → 25</code></li>
+                <li>Added ordinal without article: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">fifth year → 5th year</code></li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Term Index: Full Redesign — Tabbed Cards Layout</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Completely redesigned the <Link href="/term-index" className="text-blue-600 hover:underline">/term-index</Link> page from a wide, horizontally-scrolling table into a tabbed cards layout with a click-to-expand detail panel</li>
