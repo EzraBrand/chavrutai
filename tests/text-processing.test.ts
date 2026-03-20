@@ -230,6 +230,14 @@ describe('Text Processing Module', () => {
       expect(replaceTerms('seven twentieths')).toContain('7/20ths');
     });
 
+    it('replaces hour-and-a-quarter', () => {
+      expect(replaceTerms('hour-and-a-quarter')).toContain('1¼ hours');
+    });
+
+    it('replaces nine-and-a-half', () => {
+      expect(replaceTerms('nine-and-a-half')).toContain('9½');
+    });
+
     it('replaces compound ordinals', () => {
       const text = 'the twenty-first day';
       const result = replaceTerms(text);
