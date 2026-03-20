@@ -238,6 +238,14 @@ describe('Text Processing Module', () => {
       expect(replaceTerms('nine-and-a-half')).toContain('9½');
     });
 
+    it('replaces six-and-a-half', () => {
+      expect(replaceTerms('six-and-a-half')).toContain('6½');
+    });
+
+    it('replaces twenty-nine and a half', () => {
+      expect(replaceTerms('twenty-nine and a half')).toContain('29½');
+    });
+
     it('replaces compound ordinals', () => {
       const text = 'the twenty-first day';
       const result = replaceTerms(text);
