@@ -72,6 +72,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Reference Panel on Talmud Pages</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>New <strong>collapsible Reference Panel</strong> below the Talmud text with two tabs</li>
+                <li><strong>Bible Verses</strong> tab (default): automatically detects Bible citations in the text and fetches full Hebrew and English verse text from Sefaria, with a link to the ChavrutAI Bible Reader</li>
+                <li><strong>Key Terms (beta)</strong> tab: lists highlighted terms (names, concepts, places) found on the current page, sorted by frequency, with category filters and glossary data</li>
+                <li>Panel collapses/expands to keep focus on the text when needed</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Bible Citation Linking in Talmud Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Bible references in the English (Steinsaltz) translation are now <strong>automatically detected and hyperlinked</strong> to the corresponding ChavrutAI Bible page</li>

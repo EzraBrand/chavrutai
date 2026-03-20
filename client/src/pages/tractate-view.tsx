@@ -11,6 +11,7 @@ import { CenteredBreadcrumbNav } from "@/components/navigation/centered-breadcru
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { ExternalLinksFooter } from "@/components/external-links-footer";
+import { ReferencePanel } from "@/components/text/reference-panel";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { usePrefetchAdjacentPages } from "@/hooks/use-prefetch";
@@ -215,6 +216,9 @@ export default function TractateView() {
             <SectionedBilingualDisplay 
               text={text} 
               onSectionVisible={handleSectionVisible}
+            />
+            <ReferencePanel
+              englishSections={text.englishSections || [text.englishText]}
             />
           </div>
         )}
