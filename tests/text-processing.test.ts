@@ -169,6 +169,11 @@ describe('Text Processing Module', () => {
       expect(result).toContain('1/3rd');
     });
 
+    it('replaces improper fractional ordinals like five-fourths', () => {
+      expect(replaceTerms('five-fourths')).toContain('5/4ths');
+      expect(replaceTerms('five fourths')).toContain('5/4ths');
+    });
+
     it('replaces compound ordinals', () => {
       const text = 'the twenty-first day';
       const result = replaceTerms(text);
