@@ -447,11 +447,11 @@ export default function MishnahChapter() {
                       <div className="text-display mishnah-text-display flex flex-col lg:flex-row gap-6">
                         <div className="text-column space-y-3 lg:order-1">
                           {section.englishLines.length > 0 && (
-                            <div className="english-text text-foreground">
+                            <div className="english-text text-foreground space-y-3">
                               {section.englishLines.map((line, lineIndex) => (
                                 <p
                                   key={lineIndex}
-                                  className={`leading-relaxed ${lineIndex < section.englishLines.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
+                                  className="leading-relaxed"
                                   dangerouslySetInnerHTML={{ __html: line }}
                                 />
                               ))}
@@ -461,11 +461,11 @@ export default function MishnahChapter() {
 
                         <div className="text-column space-y-3 lg:order-2">
                           {section.hebrewLines.length > 0 && (
-                            <div className={`hebrew-text text-foreground ${getHebrewFontClass()}`}>
+                            <div className={`hebrew-text text-foreground ${getHebrewFontClass()} space-y-3`}>
                               {section.hebrewLines.map((line, lineIndex) => (
                                 <p
                                   key={lineIndex}
-                                  className={`leading-relaxed ${lineIndex < section.hebrewLines.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
+                                  className="leading-relaxed"
                                   dangerouslySetInnerHTML={{ __html: line }}
                                 />
                               ))}
