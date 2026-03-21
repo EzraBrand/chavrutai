@@ -133,7 +133,7 @@ export function processMishnahEnglishText(text: string): string {
     .replace(/[ \t]+/g, ' ')
     .trim();
 
-  processed = processed.replace(/([.;:?!])\s+/g, '$1\n');
+  processed = processed.replace(/([.;:?!,])\s+/g, '$1\n');
 
   processed = processed
     .replace(/\n{3,}/g, '\n')
