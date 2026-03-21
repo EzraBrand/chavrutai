@@ -339,34 +339,38 @@ export default function MishnahChapter() {
               <HamburgerMenu onLocationChange={handleLocationChange} />
             </div>
 
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {hasNext && (
+                <Link href={`/mishnah/${tractateSlug}/${chapterNum + 1}`}>
+                  <Button variant="outline" size="sm" className="flex items-center gap-1 px-2 py-2">
+                    <ChevronLeft className="w-3 h-3" />
+                    <span className="text-xs">Next ({chapterNum + 1})</span>
+                  </Button>
+                </Link>
+              )}
+            </div>
+
             <div className="flex-1 flex items-center justify-center min-w-0">
-              <div className="flex items-center gap-2">
-                {hasNext && (
-                  <Link href={`/mishnah/${tractateSlug}/${chapterNum + 1}`}>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                )}
-                <div className="text-center">
-                  <Link href={`/mishnah/${tractateSlug}`} className="text-sm font-semibold text-primary hover:underline">
-                    {tractateDisplayName}
-                  </Link>
-                  <div className="text-xs text-muted-foreground">
-                    Chapter {chapterNum}{tractateInfo ? ` of ${tractateInfo.chapters}` : ''}
-                  </div>
+              <div className="text-center">
+                <Link href={`/mishnah/${tractateSlug}`} className="text-sm font-semibold text-primary hover:underline">
+                  {tractateDisplayName}
+                </Link>
+                <div className="text-xs text-muted-foreground">
+                  Chapter {chapterNum}{tractateInfo ? ` of ${tractateInfo.chapters}` : ''}
                 </div>
-                {hasPrev && (
-                  <Link href={`/mishnah/${tractateSlug}/${chapterNum - 1}`}>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                )}
               </div>
             </div>
 
-            <div className="w-10" />
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {hasPrev && (
+                <Link href={`/mishnah/${tractateSlug}/${chapterNum - 1}`}>
+                  <Button variant="outline" size="sm" className="flex items-center gap-1 px-2 py-2">
+                    <span className="text-xs">Previous ({chapterNum - 1})</span>
+                    <ChevronRight className="w-3 h-3" />
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </header>
