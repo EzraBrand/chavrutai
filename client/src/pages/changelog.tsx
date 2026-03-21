@@ -81,10 +81,6 @@ export default function Changelog() {
                 <li>Custom Hebrew text processing: comma-to-colon conversion for speech markers (e.g. <span dir="rtl">אומר:</span> instead of <span dir="rtl">אומר,</span>)</li>
                 <li>Custom English text processing: name transliteration (R' instead of R., Yehoshua instead of Joshua, etc.) and sentence-level line splitting</li>
                 <li>Tractate table of contents with chapter and mishnah-count navigation</li>
-                <li>Main <Link href="/mishnah" className="text-primary hover:underline">contents page</Link> listing all tractates by Seder with translator attribution</li>
-                <li><Link href="/mishnah-map" className="text-primary hover:underline">Mishnah-Talmud mapping page</Link> showing where Mishnah passages appear in the Talmud</li>
-                <li>SEO metadata for all Mishnah routes</li>
-                <li>Mishnah links added to home page, navigation menu, and footer</li>
               </ul>
             </div>
 

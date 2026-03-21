@@ -104,6 +104,13 @@ export function Footer() {
                 Bible-Talmud Index
               </Link>
               <Link 
+                href="/mishnah"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-mishnah"
+              >
+                Mishnah (not in Talmud)
+              </Link>
+              <Link 
                 href="/mishnah-map"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-mishnah-map"
