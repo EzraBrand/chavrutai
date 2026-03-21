@@ -121,8 +121,10 @@ export default function MishnahChapter() {
 
       const hebrewLines = hebrewSection.trim()
         ? processMishnahHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => {
-            const trimmed = line.trim();
-            return applyHighlighting(trimmed.replace(/:$/g, '.'));
+            let trimmed = line.trim();
+            trimmed = trimmed.replace(/:$/g, '.');
+            trimmed = trimmed.replace(/אומר\./g, 'אומר:').replace(/אומרים\./g, 'אומרים:');
+            return applyHighlighting(trimmed);
           })
         : [];
 

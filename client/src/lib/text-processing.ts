@@ -129,10 +129,6 @@ export function processMishnahHebrewText(text: string): string {
   let processed = removeNikud(text);
 
   processed = processed
-    .replace(/אומרים,/g, 'אומרים:')
-    .replace(/אומר,/g, 'אומר:');
-
-  processed = processed
     .replace(/[ \t]+/g, ' ')
     .replace(/\n[ \t]+/g, '\n')
     .replace(/[ \t]+\n/g, '\n')
