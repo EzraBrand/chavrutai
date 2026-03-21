@@ -1,4 +1,5 @@
 import { useRoute, Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/footer";
@@ -12,6 +13,13 @@ import {
   getMishnahTractateSlug,
 } from "@shared/tractates";
 import NotFound from "@/pages/not-found";
+import { apiRequest } from "@/lib/queryClient";
+
+interface TractateInfoData {
+  tractate: string;
+  chapters: number;
+  mishnayotPerChapter: number[];
+}
 
 export default function MishnahTractate() {
   const [match, params] = useRoute("/mishnah/:tractate");
@@ -19,6 +27,16 @@ export default function MishnahTractate() {
   const tractateDisplayName = normalizeMishnahTractateName(tractateParam);
 
   const tractateInfo = tractateDisplayName ? getMishnahTractateInfo(tractateDisplayName) : null;
+  const tractateSlug = tractateDisplayName ? getMishnahTractateSlug(tractateDisplayName) : "";
+
+  const { data: infoData } = useQuery<TractateInfoData>({
+    queryKey: ['/api/mishnah', tractateSlug, 'info'],
+    queryFn: async () => {
+      const response = await apiRequest('GET', `/api/mishnah/${encodeURIComponent(tractateSlug)}/info`);
+      return response.json();
+    },
+    enabled: !!tractateDisplayName && !!tractateInfo,
+  });
 
   useSEO({
     title: tractateDisplayName
@@ -28,7 +46,7 @@ export default function MishnahTractate() {
       ? `Study Mishnah ${tractateDisplayName} chapter by chapter with bilingual Hebrew-English text. Free online on ChavrutAI.`
       : "Study the Mishnah with Hebrew-English text on ChavrutAI.",
     canonical: tractateDisplayName
-      ? `${window.location.origin}/mishnah/${getMishnahTractateSlug(tractateDisplayName)}`
+      ? `${window.location.origin}/mishnah/${tractateSlug}`
       : `${window.location.origin}/mishnah`,
     robots: "index, follow",
   });
@@ -78,25 +96,34 @@ export default function MishnahTractate() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 max-w-none sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto">
-          {Array.from({ length: tractateInfo.chapters }, (_, i) => i + 1).map((chapterNum) => (
-            <Card key={chapterNum} className="hover:shadow-lg transition-shadow duration-200">
-              <CardContent className="p-6">
-                <div className="mb-4">
-                  <h3 className="text-xl text-primary mb-2">
-                    Chapter {chapterNum}
-                  </h3>
-                </div>
-                <Link href={`/mishnah/${getMishnahTractateSlug(tractateDisplayName)}/${chapterNum}`}>
-                  <Button
-                    variant="outline"
-                    className="hover:bg-primary hover:text-primary-foreground"
-                  >
-                    Read Chapter {chapterNum}
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
+          {Array.from({ length: tractateInfo.chapters }, (_, i) => i + 1).map((chapterNum) => {
+            const mishnayotCount = infoData?.mishnayotPerChapter?.[chapterNum - 1];
+
+            return (
+              <Card key={chapterNum} className="hover:shadow-lg transition-shadow duration-200">
+                <CardContent className="p-6">
+                  <div className="mb-4">
+                    <h3 className="text-xl text-primary mb-1">
+                      Chapter {chapterNum}
+                    </h3>
+                    {mishnayotCount !== undefined && mishnayotCount > 0 && (
+                      <p className="text-sm text-muted-foreground">
+                        {mishnayotCount} {mishnayotCount === 1 ? 'mishnah' : 'mishnayot'}
+                      </p>
+                    )}
+                  </div>
+                  <Link href={`/mishnah/${tractateSlug}/${chapterNum}`}>
+                    <Button
+                      variant="outline"
+                      className="hover:bg-primary hover:text-primary-foreground"
+                    >
+                      Read Chapter {chapterNum}
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
 

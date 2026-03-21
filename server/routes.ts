@@ -1050,6 +1050,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/mishnah/tractates", async (_req, res) => {
+    try {
+      const result: Record<string, Array<{ name: string; chapters: number; sefaria: string }>> = {};
+      for (const [seder, tractates] of Object.entries(MISHNAH_ONLY_TRACTATES)) {
+        result[seder] = tractates.map(t => ({ name: t.name, chapters: t.chapters, sefaria: t.sefaria }));
+      }
+      res.json({ tractates: result });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get Mishnah tractates" });
+    }
+  });
+
+  app.get("/api/mishnah/:tractate/info", async (req, res) => {
+    try {
+      const { tractate } = req.params;
+      const tractateInfo = getMishnahTractateInfo(tractate);
+      if (!tractateInfo) {
+        res.status(404).json({ error: `Invalid Mishnah tractate: ${tractate}` });
+        return;
+      }
+
+      const sefariaRef = tractateInfo.sefaria;
+      const response = await fetch(`https://www.sefaria.org/api/v3/texts/${sefariaRef}`);
+
+      if (!response.ok) {
+        res.json({ tractate: tractateInfo.name, chapters: tractateInfo.chapters, mishnayotPerChapter: [] });
+        return;
+      }
+
+      const sefariaData = await response.json();
+      const mishnayotPerChapter: number[] = [];
+
+      const versions = sefariaData.versions || [];
+      const heVersion = versions.find((v: any) => v.language === 'he');
+      if (heVersion && Array.isArray(heVersion.text)) {
+        for (const chapter of heVersion.text) {
+          mishnayotPerChapter.push(Array.isArray(chapter) ? chapter.length : 0);
+        }
+      }
+
+      res.json({
+        tractate: tractateInfo.name,
+        chapters: tractateInfo.chapters,
+        mishnayotPerChapter,
+      });
+    } catch (error) {
+      console.error('Error in /api/mishnah/:tractate/info:', error);
+      res.status(500).json({ error: "Failed to get tractate info" });
+    }
+  });
+
   app.get("/api/mishnah/:tractate/:chapter", async (req, res) => {
     try {
       const { tractate, chapter } = req.params;
