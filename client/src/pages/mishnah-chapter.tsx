@@ -9,7 +9,7 @@ import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigat
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
-import { processMishnahHebrewText, processMishnahEnglishText } from "@/lib/text-processing";
+import { processMishnahHebrewText, processMishnahEnglishText, processHebrewText, processEnglishText } from "@/lib/text-processing";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import {
   normalizeMishnahTractateName,
@@ -48,6 +48,7 @@ export default function MishnahChapter() {
 
   const hebrewName = tractateDisplayName ? (MISHNAH_ONLY_HEBREW_NAMES[tractateDisplayName] || tractateDisplayName) : "";
   const tractateSlug = tractateDisplayName ? getMishnahTractateSlug(tractateDisplayName) : "";
+  const isShekalim = tractateDisplayName === "Shekalim";
 
   useSEO({
     title: tractateDisplayName && !isNaN(chapterNum)
@@ -115,6 +116,18 @@ export default function MishnahChapter() {
       const englishSection = textData.englishSections[index] || '';
       if (!hebrewSection.trim() && !englishSection.trim()) return null;
 
+      if (isShekalim) {
+        const englishLines = englishSection.trim()
+          ? processEnglishText(englishSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
+          : [];
+
+        const hebrewLines = hebrewSection.trim()
+          ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
+          : [];
+
+        return { englishLines, hebrewLines };
+      }
+
       const englishLines = englishSection.trim()
         ? processMishnahEnglishText(englishSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
         : [];
@@ -132,7 +145,7 @@ export default function MishnahChapter() {
 
       return { englishLines, hebrewLines };
     });
-  }, [textData, applyHighlighting]);
+  }, [textData, applyHighlighting, isShekalim]);
 
   const handleLocationChange = (_newLocation: TalmudLocation) => {
     setLocation('/');
@@ -448,7 +461,7 @@ export default function MishnahChapter() {
                         </a>
                       </div>
 
-                      <div className="text-display mishnah-text-display flex flex-col lg:flex-row gap-6">
+                      <div className={`text-display ${isShekalim ? '' : 'mishnah-text-display'} flex flex-col lg:flex-row gap-6`}>
                         <div className="text-column space-y-3 lg:order-1">
                           {section.englishLines.length > 0 && (
                             <div className="english-text text-foreground space-y-3">
