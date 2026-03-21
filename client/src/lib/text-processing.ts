@@ -119,6 +119,70 @@ export function processBibleHebrewText(text: string): string {
 }
 
 /**
+ * Processes Mishnah Hebrew text: just removes nikud and normalizes whitespace.
+ * Unlike Talmud Hebrew, Mishnah text is already pre-split by the API,
+ * so we skip the additional punctuation splitting that processHebrewText does.
+ */
+export function processMishnahHebrewText(text: string): string {
+  if (!text) return '';
+
+  let processed = removeNikud(text);
+
+  processed = processed
+    .replace(/אומרים,/g, 'אומרים:')
+    .replace(/אומר,/g, 'אומר:');
+
+  processed = processed
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
+
+  return processed;
+}
+
+/**
+ * Processes Mishnah English text: splits by punctuation into separate lines.
+ * Mishnah English is pure translation (like Bible), so we split on sentence-ending
+ * punctuation (periods, semicolons, colons, question marks, exclamation marks)
+ * to create line-by-line display matching the Hebrew layout.
+ */
+export function processMishnahEnglishText(text: string): string {
+  if (!text) return '';
+
+  let processed = text
+    .replace(/<[^>]*>/g, '')
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .trim();
+
+  processed = processed
+    .replace(/\bsaid,/g, 'said:')
+    .replace(/\bR\.\s/g, "R' ")
+    .replace(/\bJoshua\b/g, 'Yehoshua')
+    .replace(/\bJudah\b/g, 'Yehuda')
+    .replace(/\bYose\b/g, 'Yosei')
+    .replace(/\bIshmael\b/g, 'Yishmael')
+    .replace(/\bthyself\b/gi, (m) => m[0] === 'T' ? 'Yourself' : 'yourself')
+    .replace(/\bthy\b/gi, (m) => m[0] === 'T' ? 'Your' : 'your')
+    .replace(/\bi\.e\./g, 'i\x00e\x00')
+    .replace(/\be\.g\./g, 'e\x00g\x00')
+    .replace(/R'/g, 'R\x00')
+    .replace(/([.;:?!,])(?![\]\)'])\s+/g, '$1\n')
+    .replace(/R\x00/g, "R'")
+    .replace(/i\x00e\x00/g, 'i.e.')
+    .replace(/e\x00g\x00/g, 'e.g.');
+
+  processed = processed
+    .replace(/\n{3,}/g, '\n')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
+
+  return processed;
+}
+
+/**
  * Simpler processing for Bible English text - no auto-splitting
  * (Backend already handles verse splitting and HTML processing)
  */
