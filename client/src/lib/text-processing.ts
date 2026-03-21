@@ -132,6 +132,7 @@ export function processMishnahHebrewText(text: string): string {
     .replace(/אומרים,/g, 'אומרים:')
     .replace(/אומר,/g, 'אומר:')
     .replace(/אמרו לו,/g, 'אמרו לו:')
+    .replace(/אמר להם,/g, 'אמר להם:')
     .replace(/אמר רבי ([^,]+),/g, 'אמר רבי $1:');
 
   processed = processed

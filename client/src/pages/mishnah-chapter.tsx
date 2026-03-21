@@ -122,7 +122,14 @@ export default function MishnahChapter() {
           : [];
 
         const hebrewLines = hebrewSection.trim()
-          ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
+          ? (() => {
+              const lines = processMishnahHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => line.trim());
+              if (lines.length > 0) {
+                const last = lines[lines.length - 1];
+                lines[lines.length - 1] = last.replace(/:$/, '.');
+              }
+              return lines.map((line: string) => applyHighlighting(line));
+            })()
           : [];
 
         return { englishLines, hebrewLines };
