@@ -37,6 +37,9 @@ const Home = lazy(() => import("@/pages/home"));
 const BlogReader = lazy(() => import("@/pages/blog-reader"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 const TermIndexPage = lazy(() => import("@/pages/term-index"));
+const MishnahContents = lazy(() => import("@/pages/mishnah-contents"));
+const MishnahTractate = lazy(() => import("@/pages/mishnah-tractate"));
+const MishnahChapterPage = lazy(() => import("@/pages/mishnah-chapter"));
 
 function TractateRedirect() {
   const { tractate, folio } = useParams<{ tractate: string; folio: string }>();
@@ -107,6 +110,9 @@ function Router() {
       <Route path="/talmud" component={Contents} />
       <Route path="/talmud/:tractate" component={TractateContentsRoute} />
       <Route path="/talmud/:tractate/:folio" component={TractateViewRoute} />
+      <Route path="/mishnah" component={MishnahContents} />
+      <Route path="/mishnah/:tractate" component={MishnahTractate} />
+      <Route path="/mishnah/:tractate/:chapter" component={MishnahChapterPage} />
       <Route path="/tractate/:tractate/:folio" component={TractateRedirect} />
       <Route path="/outline/:tractate/:chapter" component={TractateOutlinePage} />
       <Route component={NotFound} />
