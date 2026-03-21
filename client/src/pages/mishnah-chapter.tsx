@@ -120,7 +120,10 @@ export default function MishnahChapter() {
         : '';
 
       const hebrewLines = hebrewSection.trim()
-        ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
+        ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => {
+            const trimmed = line.trim();
+            return applyHighlighting(trimmed.replace(/:$/g, '.'));
+          })
         : [];
 
       return { englishHtml, hebrewLines };
@@ -148,6 +151,146 @@ export default function MishnahChapter() {
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
     }
+  }, [textData]);
+
+  useEffect(() => {
+    const container = document.querySelector('.bg-card.rounded-lg.shadow-sm.border.border-border.p-6');
+    if (!container) return;
+
+    const handleCopy = (e: ClipboardEvent) => {
+      const selection = window.getSelection();
+      if (!selection || !selection.rangeCount) return;
+
+      const range = selection.getRangeAt(0);
+      const fragment = range.cloneContents();
+      const tempDiv = document.createElement('div');
+      tempDiv.appendChild(fragment);
+
+      const removeExternalLinkArrow = (element: HTMLElement): void => {
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null);
+        const updates: { node: Text; newValue: string }[] = [];
+        let node: Node | null;
+        while ((node = walker.nextNode())) {
+          if (node.nodeType === Node.TEXT_NODE && node.textContent) {
+            const cleaned = node.textContent.replace(/↗/g, '').trim();
+            if (cleaned !== node.textContent.trim()) {
+              updates.push({ node: node as Text, newValue: cleaned });
+            }
+          }
+        }
+        updates.forEach(({ node: n, newValue }) => { n.textContent = newValue; });
+      };
+
+      removeExternalLinkArrow(tempDiv);
+
+      const sectionLinks = tempDiv.querySelectorAll('[data-testid^="link-sefaria-section-"]');
+      sectionLinks.forEach(link => {
+        const parent = link.parentElement;
+        if (parent) parent.remove();
+      });
+
+      const sectionBadges = tempDiv.querySelectorAll('.bg-secondary.text-secondary-foreground');
+      sectionBadges.forEach(badge => {
+        const headerRow = badge.closest('.flex.items-center.justify-center');
+        if (headerRow) headerRow.remove();
+      });
+
+      const textDisplays = tempDiv.querySelectorAll('.text-display');
+      textDisplays.forEach(display => {
+        const englishCol = display.querySelector('.lg\\:order-1');
+        const hebrewCol = display.querySelector('.lg\\:order-2');
+        if (englishCol && hebrewCol && englishCol.parentNode === hebrewCol.parentNode) {
+          const parent = englishCol.parentNode;
+          if (parent && parent.contains(hebrewCol) && parent.contains(englishCol)) {
+            const hebrewClone = hebrewCol.cloneNode(true);
+            parent.insertBefore(hebrewClone, englishCol);
+            parent.removeChild(hebrewCol);
+          }
+        }
+      });
+
+      const stripFormatting = (element: HTMLElement): string => {
+        const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'a', 'sup', 'sub', 'small'];
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_ELEMENT, null);
+        const nodesToProcess: Element[] = [];
+        let wNode: Node | null;
+        while ((wNode = walker.nextNode())) nodesToProcess.push(wNode as Element);
+
+        nodesToProcess.forEach(n => {
+          const tagName = n.tagName.toLowerCase();
+          if (!allowedTags.includes(tagName)) {
+            const parent = n.parentNode;
+            if (!parent) return;
+            while (n.firstChild) parent.insertBefore(n.firstChild, n);
+            parent.removeChild(n);
+          } else {
+            const el = n as HTMLElement;
+            const attrsToKeep = ['dir', 'style', 'href', 'target', 'rel', 'class'];
+            const attrsToRemove: string[] = [];
+            for (let i = 0; i < el.attributes.length; i++) {
+              const attrName = el.attributes[i].name;
+              if (!attrsToKeep.includes(attrName) && !attrName.startsWith('data-')) {
+                attrsToRemove.push(attrName);
+              }
+            }
+            attrsToRemove.forEach(attr => el.removeAttribute(attr));
+
+            const styleUpdates: Record<string, string> = {};
+            if (tagName === 'strong' || tagName === 'b') styleUpdates['font-weight'] = 'bold';
+            if (tagName === 'em' || tagName === 'i') styleUpdates['font-style'] = 'italic';
+
+            const isHebrew = (el.hasAttribute('dir') && el.getAttribute('dir') === 'rtl') ||
+                            el.classList.contains('hebrew-text') ||
+                            el.closest('.hebrew-text');
+            if (isHebrew) {
+              styleUpdates['direction'] = 'rtl';
+              styleUpdates['font-weight'] = 'bold';
+            }
+
+            if (Object.keys(styleUpdates).length > 0) {
+              const currentStyle = el.getAttribute('style') || '';
+              const existing = currentStyle.split(';').filter(s => s.trim()).reduce((acc, s) => {
+                const [key, value] = s.split(':').map(x => x.trim());
+                if (key && value && !styleUpdates.hasOwnProperty(key)) acc[key] = value;
+                return acc;
+              }, {} as Record<string, string>);
+              const merged = { ...existing, ...styleUpdates };
+              el.setAttribute('style', Object.entries(merged).map(([k, v]) => `${k}: ${v}`).join('; '));
+            }
+          }
+        });
+        return element.innerHTML;
+      };
+
+      const cleanHTML = stripFormatting(tempDiv);
+
+      const getPlainText = (element: HTMLElement, isRoot = true): string => {
+        let text = '';
+        element.childNodes.forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            text += node.textContent;
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const el = node as HTMLElement;
+            const tag = el.tagName.toLowerCase();
+            if (tag === 'br') text += '\n';
+            else if (tag === 'p' || tag === 'div') text += getPlainText(el, false) + '\n';
+            else text += getPlainText(el, false);
+          }
+        });
+        return isRoot ? text.trimEnd() : text;
+      };
+
+      const plainText = getPlainText(tempDiv);
+
+      if (e.clipboardData) {
+        e.clipboardData.setData('text/html', cleanHTML);
+        e.clipboardData.setData('text/plain', plainText);
+        e.preventDefault();
+      }
+    };
+
+    container.addEventListener('copy', handleCopy as EventListener);
+    return () => container.removeEventListener('copy', handleCopy as EventListener);
   }, [textData]);
 
   if (isInvalidTractate || isInvalidChapter) {
@@ -271,12 +414,12 @@ export default function MishnahChapter() {
                     >
                       <div className="flex items-center justify-center gap-3 mb-4">
                         <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
-                          mishnah {index + 1}
+                          Mishnah {index + 1}
                         </span>
                         <button
                           onClick={() => copySectionUrl(index + 1)}
                           className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
-                          title={`Copy link to mishnah ${index + 1}`}
+                          title={`Copy link to Mishnah ${index + 1}`}
                         >
                           {copiedSection === index + 1 ? (
                             <>
@@ -294,7 +437,7 @@ export default function MishnahChapter() {
                           rel="nofollow noopener noreferrer"
                           className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
                           data-testid={`link-sefaria-section-${index + 1}`}
-                          title={`View mishnah ${index + 1} on Sefaria`}
+                          title={`View Mishnah ${index + 1} on Sefaria`}
                         >
                           Sefaria
                           <ExternalLinkIcon className="w-3 h-3" />
