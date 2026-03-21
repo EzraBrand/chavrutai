@@ -451,7 +451,7 @@ export default function MishnahChapter() {
                               {section.englishLines.map((line, lineIndex) => (
                                 <p
                                   key={lineIndex}
-                                  className="leading-relaxed"
+                                  className="leading-relaxed m-0"
                                   dangerouslySetInnerHTML={{ __html: line }}
                                 />
                               ))}
@@ -465,7 +465,7 @@ export default function MishnahChapter() {
                               {section.hebrewLines.map((line, lineIndex) => (
                                 <p
                                   key={lineIndex}
-                                  className="leading-relaxed"
+                                  className="leading-relaxed m-0"
                                   dangerouslySetInnerHTML={{ __html: line }}
                                 />
                               ))}
