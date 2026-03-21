@@ -444,6 +444,238 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
   return seoData;
 }
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+async function generateCrawlerBodyContent(urlPath: string, seoData: { title: string; description: string }): Promise<string> {
+  const baseUrl = process.env.NODE_ENV === 'production' ? 'https://chavrutai.com' : 'http://localhost:5000';
+
+  function safeSlug(slug: string): string {
+    return encodeURIComponent(slug).replace(/%2F/g, '/');
+  }
+
+  let heading = '';
+  let breadcrumbs = '';
+  let body = '';
+  let nav = '';
+
+  if (urlPath === '/') {
+    heading = 'ChavrutAI — Study Talmud Online';
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    nav = `<nav aria-label="Main navigation"><h2>Explore</h2><ul>` +
+      `<li><a href="/talmud">Browse All Tractates</a></li>` +
+      `<li><a href="/bible">Hebrew Bible (Tanach)</a></li>` +
+      `<li><a href="/suggested-pages">Famous Talmud Pages</a></li>` +
+      `<li><a href="/dictionary">Talmud Dictionary</a></li>` +
+      `<li><a href="/search">Search</a></li>` +
+      `<li><a href="/about">About</a></li>` +
+      `</ul></nav>`;
+  } else if (urlPath === '/talmud') {
+    heading = 'Babylonian Talmud — All Tractates';
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Talmud</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    const sederNames: Record<string, string> = {
+      zeraim: 'Seder Zeraim (Seeds)',
+      moed: 'Seder Moed (Festivals)',
+      nashim: 'Seder Nashim (Women)',
+      nezikin: 'Seder Nezikin (Damages)',
+      kodashim: 'Seder Kodashim (Holy Things)',
+      tohorot: 'Seder Tohorot (Purities)'
+    };
+    const { SEDER_TRACTATES } = await import('@shared/tractates');
+    nav = '';
+    for (const [seder, tractates] of Object.entries(SEDER_TRACTATES)) {
+      nav += `<h3>${sederNames[seder] || seder}</h3><ul>`;
+      for (const t of tractates) {
+        const slug = safeSlug(getTractateSlug(t.name));
+        nav += `<li><a href="/talmud/${slug}">${escapeHtml(t.name)}</a> (${t.folios} folios)</li>`;
+      }
+      nav += `</ul>`;
+    }
+  } else if (urlPath.match(/^\/talmud\/[^/]+$/)) {
+    const tractateSlug = urlPath.split('/')[2];
+    const tractateTitle = normalizeDisplayTractateName(tractateSlug);
+    const safeTractatePath = safeSlug(tractateSlug);
+    const { SEDER_TRACTATES } = await import('@shared/tractates');
+    const info = Object.values(SEDER_TRACTATES).flat().find(
+      t => getTractateSlug(t.name) === tractateSlug
+    );
+    heading = `${tractateTitle} — Talmud Tractate`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/talmud">Talmud</a> &rsaquo; ${escapeHtml(tractateTitle)}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    if (info) {
+      const startFolio = (info as any).startFolio || 2;
+      const startSide = (info as any).startSide || 'a';
+      nav = `<h3>Folios</h3><ul>`;
+      for (let f = startFolio; f <= info.folios; f++) {
+        const sides = f === startFolio && startSide === 'b' ? ['b'] :
+          f === info.folios ? (info.lastSide === 'a' ? ['a'] : ['a', 'b']) : ['a', 'b'];
+        for (const s of sides) {
+          nav += `<li><a href="/talmud/${safeTractatePath}/${f}${s}">${escapeHtml(tractateTitle)} ${f}${s.toUpperCase()}</a></li>`;
+        }
+      }
+      nav += `</ul>`;
+    }
+  } else if (urlPath.match(/^\/talmud\/[^/]+\/\d+[ab]$/)) {
+    const parts = urlPath.split('/');
+    const tractateSlug = parts[2];
+    const folio = parts[3];
+    const tractateTitle = normalizeDisplayTractateName(tractateSlug);
+    const safeTractatePath = safeSlug(tractateSlug);
+    const folioUpper = folio.toUpperCase();
+    heading = `${tractateTitle} ${folioUpper}`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/talmud">Talmud</a> &rsaquo; <a href="/talmud/${safeTractatePath}">${escapeHtml(tractateTitle)}</a> &rsaquo; ${escapeHtml(folioUpper)}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+
+    try {
+      const folioNum = parseInt(folio);
+      const side = folio.slice(-1);
+      const sefariaName = normalizeSefariaTractateName(tractateSlug);
+      const text = await storage.getText('Talmud Bavli', sefariaName, 1, folioNum, side);
+      if (text && text.englishSections) {
+        const sections = text.englishSections as string[];
+        const snippet = sections.slice(0, 5).map(s =>
+          typeof s === 'string' ? s.replace(/<[^>]*>/g, '').substring(0, 300) : ''
+        ).filter(Boolean);
+        if (snippet.length > 0) {
+          body += `<div><h2>Text Excerpt</h2>`;
+          for (const line of snippet) {
+            body += `<p>${escapeHtml(line)}</p>`;
+          }
+          body += `</div>`;
+        }
+      }
+    } catch {}
+
+    const { SEDER_TRACTATES } = await import('@shared/tractates');
+    const tractateInfo = Object.values(SEDER_TRACTATES).flat().find(
+      t => getTractateSlug(t.name) === tractateSlug
+    );
+    const folioNum = parseInt(folio);
+    const side = folio.slice(-1);
+    const tStartFolio = (tractateInfo as any)?.startFolio || 2;
+    const tStartSide = (tractateInfo as any)?.startSide || 'a';
+    const tMaxFolio = tractateInfo?.folios;
+    const tLastSide = tractateInfo?.lastSide || 'b';
+
+    let prevFolio: string | null = null;
+    if (side === 'b') {
+      if (folioNum > tStartFolio || tStartSide === 'a') {
+        prevFolio = `${folioNum}a`;
+      }
+    } else {
+      if (folioNum > tStartFolio) {
+        prevFolio = `${folioNum - 1}b`;
+      }
+    }
+
+    let nextFolio: string | null = null;
+    if (tMaxFolio) {
+      if (side === 'a') {
+        if (folioNum < tMaxFolio || (folioNum === tMaxFolio && tLastSide === 'b')) {
+          nextFolio = `${folioNum}b`;
+        }
+      } else {
+        if (folioNum < tMaxFolio) {
+          nextFolio = `${folioNum + 1}a`;
+        }
+      }
+    }
+
+    nav = `<nav aria-label="Page navigation">`;
+    if (prevFolio) {
+      nav += `<a href="/talmud/${safeTractatePath}/${prevFolio}">&larr; ${escapeHtml(tractateTitle)} ${prevFolio.toUpperCase()}</a> `;
+    }
+    if (nextFolio) {
+      nav += `<a href="/talmud/${safeTractatePath}/${nextFolio}">${escapeHtml(tractateTitle)} ${nextFolio.toUpperCase()} &rarr;</a>`;
+    }
+    nav += `</nav>`;
+  } else if (urlPath === '/bible') {
+    heading = 'Hebrew Bible (Tanach)';
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Bible</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    const { TORAH_BOOKS, NEVIIM_BOOKS, KETUVIM_BOOKS } = await import('@shared/bible-books');
+    const sections: [string, any[]][] = [['Torah', TORAH_BOOKS], ["Nevi'im (Prophets)", NEVIIM_BOOKS], ['Ketuvim (Writings)', KETUVIM_BOOKS]];
+    nav = '';
+    for (const [label, books] of sections) {
+      nav += `<h3>${escapeHtml(label)}</h3><ul>`;
+      for (const b of books) {
+        nav += `<li><a href="/bible/${safeSlug(b.slug)}">${escapeHtml(b.name)} (${escapeHtml(b.hebrew)})</a> — ${b.chapters} chapters</li>`;
+      }
+      nav += `</ul>`;
+    }
+  } else if (urlPath.match(/^\/bible\/[^/]+$/)) {
+    const bookSlug = urlPath.split('/')[2];
+    const book = getBookBySlug(bookSlug);
+    const bookTitle = book ? book.name : bookSlug.replace(/_/g, ' ');
+    const safeBookPath = safeSlug(bookSlug);
+    heading = bookTitle;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/bible">Bible</a> &rsaquo; ${escapeHtml(bookTitle)}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    if (book) {
+      nav = `<h3>Chapters</h3><ul>`;
+      for (let c = 1; c <= book.chapters; c++) {
+        nav += `<li><a href="/bible/${safeBookPath}/${c}">${escapeHtml(bookTitle)} Chapter ${c}</a></li>`;
+      }
+      nav += `</ul>`;
+    }
+  } else if (urlPath.match(/^\/bible\/[^/]+\/\d+$/)) {
+    const parts = urlPath.split('/');
+    const bookSlug = parts[2];
+    const chapter = parts[3];
+    const book = getBookBySlug(bookSlug);
+    const bookTitle = book ? book.name : bookSlug.replace(/_/g, ' ');
+    const safeBookPath = safeSlug(bookSlug);
+    heading = `${bookTitle} Chapter ${chapter}`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/bible">Bible</a> &rsaquo; <a href="/bible/${safeBookPath}">${escapeHtml(bookTitle)}</a> &rsaquo; Chapter ${escapeHtml(chapter)}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+
+    try {
+      const text = await storage.getText('Bible', bookSlug, parseInt(chapter), 0, 'a');
+      if (text && text.englishSections) {
+        const sections = text.englishSections as string[];
+        const snippet = sections.slice(0, 8).map(s =>
+          typeof s === 'string' ? s.replace(/<[^>]*>/g, '').substring(0, 300) : ''
+        ).filter(Boolean);
+        if (snippet.length > 0) {
+          body += `<div><h2>Text</h2><ol>`;
+          for (const line of snippet) {
+            body += `<li>${escapeHtml(line)}</li>`;
+          }
+          body += `</ol></div>`;
+        }
+      }
+    } catch {}
+
+    const chapterNum = parseInt(chapter);
+    nav = `<nav aria-label="Page navigation">`;
+    if (chapterNum > 1) {
+      nav += `<a href="/bible/${safeBookPath}/${chapterNum - 1}">&larr; Chapter ${chapterNum - 1}</a> `;
+    }
+    if (book && chapterNum < book.chapters) {
+      nav += `<a href="/bible/${safeBookPath}/${chapterNum + 1}">Chapter ${chapterNum + 1} &rarr;</a>`;
+    }
+    nav += `</nav>`;
+  } else {
+    heading = seoData.title.replace(/ \| ChavrutAI$/, '').replace(/ - ChavrutAI$/, '');
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; ${escapeHtml(heading)}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+  }
+
+  return `<div id="crawler-content">` +
+    (breadcrumbs ? breadcrumbs : '') +
+    `<h1>${escapeHtml(heading)}</h1>` +
+    body +
+    nav +
+    `<footer><p><a href="${escapeHtml(baseUrl)}">ChavrutAI</a> — Free online Talmud and Bible study platform</p></footer>` +
+    `</div>`;
+}
+
 // Check if request is from a search engine crawler
 function isCrawlerRequest(userAgent: string): boolean {
   const crawlerPatterns = [
@@ -542,7 +774,6 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
     const structuredData = generateServerSideStructuredData(req.path, baseUrl);
     if (structuredData) {
       const jsonLdScript = `  <script type="application/ld+json">\n${JSON.stringify(structuredData, null, 2)}\n  </script>\n  </head>`;
-      // Replace any existing JSON-LD injected by this function, or append before </head>
       if (template.includes('application/ld+json')) {
         template = template.replace(
           /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
@@ -552,6 +783,12 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
         template = template.replace('</head>', jsonLdScript);
       }
     }
+
+    const crawlerContent = await generateCrawlerBodyContent(req.path, seoData);
+    template = template.replace(
+      '<div id="root"></div>',
+      `${crawlerContent}\n    <div id="root"></div>`
+    );
     
     res.status(200).set({ "Content-Type": "text/html" }).end(template);
   } catch (error) {
