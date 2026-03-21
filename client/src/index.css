@@ -192,13 +192,15 @@
     padding: 0 0.75rem;
   }
   
-  /* Bible-specific 50/50 layout */
-  .layout-side-by-side .bible-text-display .text-column:first-child {
+  /* Bible and Mishnah 50/50 layout */
+  .layout-side-by-side .bible-text-display .text-column:first-child,
+  .layout-side-by-side .mishnah-text-display .text-column:first-child {
     width: 50%;
     padding: 0 0.75rem;
   }
   
-  .layout-side-by-side .bible-text-display .text-column:last-child {
+  .layout-side-by-side .bible-text-display .text-column:last-child,
+  .layout-side-by-side .mishnah-text-display .text-column:last-child {
     width: 50%;
     padding: 0 0.75rem;
   }
@@ -219,13 +221,15 @@
       padding: 0 0.5rem;
     }
 
-    /* Bible-specific 50/50 on mobile */
-    .layout-side-by-side .bible-text-display .text-column:first-child {
+    /* Bible and Mishnah 50/50 on mobile */
+    .layout-side-by-side .bible-text-display .text-column:first-child,
+    .layout-side-by-side .mishnah-text-display .text-column:first-child {
       width: 50% !important;
       padding: 0 0.5rem;
     }
     
-    .layout-side-by-side .bible-text-display .text-column:last-child {
+    .layout-side-by-side .bible-text-display .text-column:last-child,
+    .layout-side-by-side .mishnah-text-display .text-column:last-child {
       width: 50% !important;
       padding: 0 0.5rem;
     }

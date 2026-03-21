@@ -119,6 +119,32 @@ export function processBibleHebrewText(text: string): string {
 }
 
 /**
+ * Processes Mishnah English text: splits by punctuation into separate lines.
+ * Mishnah English is pure translation (like Bible), so we split on sentence-ending
+ * punctuation (periods, semicolons, colons, question marks, exclamation marks)
+ * to create line-by-line display matching the Hebrew layout.
+ */
+export function processMishnahEnglishText(text: string): string {
+  if (!text) return '';
+
+  let processed = text
+    .replace(/<[^>]*>/g, '')
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .trim();
+
+  processed = processed.replace(/([.;:?!])\s+/g, '$1\n');
+
+  processed = processed
+    .replace(/\n{3,}/g, '\n')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
+
+  return processed;
+}
+
+/**
  * Simpler processing for Bible English text - no auto-splitting
  * (Backend already handles verse splitting and HTML processing)
  */

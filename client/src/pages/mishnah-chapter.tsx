@@ -9,7 +9,7 @@ import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigat
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
-import { formatEnglishText, processHebrewText, processEnglishText } from "@/lib/text-processing";
+import { formatEnglishText, processHebrewText, processMishnahEnglishText } from "@/lib/text-processing";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import {
   normalizeMishnahTractateName,
@@ -115,9 +115,9 @@ export default function MishnahChapter() {
       const englishSection = textData.englishSections[index] || '';
       if (!hebrewSection.trim() && !englishSection.trim()) return null;
 
-      const englishHtml = englishSection.trim()
-        ? applyHighlighting(formatEnglishText(processEnglishText(englishSection)))
-        : '';
+      const englishLines = englishSection.trim()
+        ? processMishnahEnglishText(englishSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(formatEnglishText(line.trim())))
+        : [];
 
       const hebrewLines = hebrewSection.trim()
         ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => {
@@ -126,7 +126,7 @@ export default function MishnahChapter() {
           })
         : [];
 
-      return { englishHtml, hebrewLines };
+      return { englishLines, hebrewLines };
     });
   }, [textData, applyHighlighting]);
 
@@ -444,13 +444,17 @@ export default function MishnahChapter() {
                         </a>
                       </div>
 
-                      <div className="text-display flex flex-col lg:flex-row gap-6">
+                      <div className="text-display mishnah-text-display flex flex-col lg:flex-row gap-6">
                         <div className="text-column space-y-3 lg:order-1">
-                          {section.englishHtml && (
+                          {section.englishLines.length > 0 && (
                             <div className="english-text text-foreground">
-                              <div
-                                dangerouslySetInnerHTML={{ __html: section.englishHtml }}
-                              />
+                              {section.englishLines.map((line, lineIndex) => (
+                                <p
+                                  key={lineIndex}
+                                  className={`leading-relaxed ${lineIndex < section.englishLines.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
+                                  dangerouslySetInnerHTML={{ __html: line }}
+                                />
+                              ))}
                             </div>
                           )}
                         </div>
