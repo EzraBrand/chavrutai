@@ -465,7 +465,7 @@ export default function MishnahChapter() {
                               {section.hebrewLines.map((line, lineIndex) => (
                                 <p
                                   key={lineIndex}
-                                  className="leading-normal m-0"
+                                  className="leading-tight m-0"
                                   dangerouslySetInnerHTML={{ __html: line }}
                                 />
                               ))}
