@@ -207,9 +207,9 @@ export function isValidMishnahTractate(urlTractate: string): boolean {
 export function getMishnahTractateSlug(tractate: string): string {
   const normalized = normalizeMishnahTractateName(tractate);
   if (normalized) {
-    return normalized.replace(/\s+/g, '_');
+    return normalized.toLowerCase().replace(/\s+/g, '-');
   }
-  return tractate.replace(/\s+/g, '_');
+  return tractate.toLowerCase().replace(/\s+/g, '-');
 }
 
 export function getMishnahTractateInfo(tractate: string): { name: string; chapters: number; sefaria: string } | null {
