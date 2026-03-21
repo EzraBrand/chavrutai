@@ -445,9 +445,9 @@ export default function MishnahChapter() {
                       </div>
 
                       <div className="text-display mishnah-text-display flex flex-col lg:flex-row gap-6">
-                        <div className="text-column space-y-3 lg:order-1">
+                        <div className="text-column lg:order-1">
                           {section.englishLines.length > 0 && (
-                            <div className="english-text text-foreground space-y-3">
+                            <div className="english-text text-foreground space-y-1">
                               {section.englishLines.map((line, lineIndex) => (
                                 <p
                                   key={lineIndex}
@@ -459,9 +459,9 @@ export default function MishnahChapter() {
                           )}
                         </div>
 
-                        <div className="text-column space-y-3 lg:order-2">
+                        <div className="text-column lg:order-2">
                           {section.hebrewLines.length > 0 && (
-                            <div className={`hebrew-text text-foreground ${getHebrewFontClass()} space-y-3`}>
+                            <div className={`hebrew-text text-foreground ${getHebrewFontClass()} space-y-1`}>
                               {section.hebrewLines.map((line, lineIndex) => (
                                 <p
                                   key={lineIndex}
