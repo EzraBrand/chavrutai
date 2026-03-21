@@ -119,6 +119,25 @@ export function processBibleHebrewText(text: string): string {
 }
 
 /**
+ * Processes Mishnah Hebrew text: just removes nikud and normalizes whitespace.
+ * Unlike Talmud Hebrew, Mishnah text is already pre-split by the API,
+ * so we skip the additional punctuation splitting that processHebrewText does.
+ */
+export function processMishnahHebrewText(text: string): string {
+  if (!text) return '';
+
+  let processed = removeNikud(text);
+
+  processed = processed
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
+
+  return processed;
+}
+
+/**
  * Processes Mishnah English text: splits by punctuation into separate lines.
  * Mishnah English is pure translation (like Bible), so we split on sentence-ending
  * punctuation (periods, semicolons, colons, question marks, exclamation marks)

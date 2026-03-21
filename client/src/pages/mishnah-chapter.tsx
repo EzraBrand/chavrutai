@@ -9,7 +9,7 @@ import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigat
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
-import { formatEnglishText, processHebrewText, processMishnahEnglishText } from "@/lib/text-processing";
+import { processMishnahHebrewText, processMishnahEnglishText } from "@/lib/text-processing";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import {
   normalizeMishnahTractateName,
@@ -116,11 +116,11 @@ export default function MishnahChapter() {
       if (!hebrewSection.trim() && !englishSection.trim()) return null;
 
       const englishLines = englishSection.trim()
-        ? processMishnahEnglishText(englishSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(formatEnglishText(line.trim())))
+        ? processMishnahEnglishText(englishSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
         : [];
 
       const hebrewLines = hebrewSection.trim()
-        ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => {
+        ? processMishnahHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => {
             const trimmed = line.trim();
             return applyHighlighting(trimmed.replace(/:$/g, '.'));
           })
