@@ -168,6 +168,7 @@ export const MISHNAH_URL_MAP: Record<string, string> = {
   "maasrot": "Maasrot",
   "maaser-sheni": "Maaser Sheni",
   "maaser sheni": "Maaser Sheni",
+  "maaser_sheni": "Maaser Sheni",
   "challah": "Challah",
   "orlah": "Orlah",
   "bikkurim": "Bikkurim",
@@ -186,6 +187,7 @@ export const MISHNAH_URL_MAP: Record<string, string> = {
   "zavim": "Zavim",
   "tevul-yom": "Tevul Yom",
   "tevul yom": "Tevul Yom",
+  "tevul_yom": "Tevul Yom",
   "yadayim": "Yadayim",
   "uktzin": "Uktzin",
 };
@@ -207,9 +209,9 @@ export function isValidMishnahTractate(urlTractate: string): boolean {
 export function getMishnahTractateSlug(tractate: string): string {
   const normalized = normalizeMishnahTractateName(tractate);
   if (normalized) {
-    return normalized.toLowerCase().replace(/\s+/g, '-');
+    return normalized.replace(/\s+/g, '_');
   }
-  return tractate.toLowerCase().replace(/\s+/g, '-');
+  return tractate.replace(/\s+/g, '_');
 }
 
 export function getMishnahTractateInfo(tractate: string): { name: string; chapters: number; sefaria: string } | null {

@@ -36,6 +36,8 @@ export default function MishnahTractate() {
       return response.json();
     },
     enabled: !!tractateDisplayName && !!tractateInfo,
+    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 60 * 24,
   });
 
   useSEO({
@@ -87,7 +89,7 @@ export default function MishnahTractate() {
 
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-primary mb-2">
-            Mishnah {tractateDisplayName}
+            {tractateDisplayName}
           </h1>
           <h2 className="text-3xl text-primary/80 mb-4 font-hebrew">{hebrewName}</h2>
           <p className="text-xl text-muted-foreground">
@@ -103,7 +105,7 @@ export default function MishnahTractate() {
               <Card key={chapterNum} className="hover:shadow-lg transition-shadow duration-200">
                 <CardContent className="p-6">
                   <div className="mb-4">
-                    <h3 className="text-xl text-primary mb-1">
+                    <h3 className="text-xl text-primary mb-2">
                       Chapter {chapterNum}
                     </h3>
                     {mishnayotCount !== undefined && mishnayotCount > 0 && (
@@ -112,14 +114,34 @@ export default function MishnahTractate() {
                       </p>
                     )}
                   </div>
-                  <Link href={`/mishnah/${tractateSlug}/${chapterNum}`}>
-                    <Button
-                      variant="outline"
-                      className="hover:bg-primary hover:text-primary-foreground"
-                    >
-                      Read Chapter {chapterNum}
-                    </Button>
-                  </Link>
+
+                  <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 justify-items-center">
+                    {mishnayotCount !== undefined && mishnayotCount > 0 ? (
+                      Array.from({ length: mishnayotCount }, (_, j) => j + 1).map((mishnahNum) => (
+                        <Link
+                          key={mishnahNum}
+                          href={`/mishnah/${tractateSlug}/${chapterNum}#${mishnahNum}`}
+                        >
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-10 px-2 text-base font-normal w-full min-w-[3rem] max-w-[4rem] hover:bg-primary hover:text-primary-foreground"
+                          >
+                            {mishnahNum}
+                          </Button>
+                        </Link>
+                      ))
+                    ) : (
+                      <Link href={`/mishnah/${tractateSlug}/${chapterNum}`}>
+                        <Button
+                          variant="outline"
+                          className="hover:bg-primary hover:text-primary-foreground"
+                        >
+                          Read Chapter {chapterNum}
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             );

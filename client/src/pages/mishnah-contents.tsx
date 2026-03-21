@@ -67,6 +67,11 @@ export default function MishnahContents() {
           <p className="text-base text-muted-foreground">
             26 tractates not covered by the Babylonian Talmud, with Hebrew-English text
           </p>
+          <p className="text-xs text-muted-foreground mt-2">
+            English translation by Dr. Joshua Kulp, "Mishnah Yomit" (CC-BY) via{' '}
+            <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Sefaria</a>.{' '}
+            Hebrew text: Torat Emet.
+          </p>
         </div>
 
         <div className="space-y-4">

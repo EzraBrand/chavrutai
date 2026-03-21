@@ -161,6 +161,8 @@ export default function MishnahChapter() {
   const hasPrev = chapterNum > 1;
   const hasNext = tractateInfo ? chapterNum < tractateInfo.chapters : false;
 
+  const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
+
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
@@ -172,8 +174,8 @@ export default function MishnahChapter() {
 
             <div className="flex-1 flex items-center justify-center min-w-0">
               <div className="flex items-center gap-2">
-                {hasPrev && (
-                  <Link href={`/mishnah/${tractateSlug}/${chapterNum - 1}`}>
+                {hasNext && (
+                  <Link href={`/mishnah/${tractateSlug}/${chapterNum + 1}`}>
                     <Button variant="ghost" size="icon" className="h-8 w-8">
                       <ChevronLeft className="h-4 w-4" />
                     </Button>
@@ -187,8 +189,8 @@ export default function MishnahChapter() {
                     Chapter {chapterNum}{tractateInfo ? ` of ${tractateInfo.chapters}` : ''}
                   </div>
                 </div>
-                {hasNext && (
-                  <Link href={`/mishnah/${tractateSlug}/${chapterNum + 1}`}>
+                {hasPrev && (
+                  <Link href={`/mishnah/${tractateSlug}/${chapterNum - 1}`}>
                     <Button variant="ghost" size="icon" className="h-8 w-8">
                       <ChevronRight className="h-4 w-4" />
                     </Button>
@@ -267,53 +269,61 @@ export default function MishnahChapter() {
                       id={`${index + 1}`}
                       className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
                     >
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-xs text-muted-foreground font-medium">
-                          Mishnah {index + 1}
+                      <div className="flex items-center justify-center gap-3 mb-4">
+                        <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
+                          mishnah {index + 1}
                         </span>
-                        <div className="flex items-center gap-1">
-                          <a
-                            href={sefariaUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-muted-foreground hover:text-primary transition-colors"
-                            title="View on Sefaria"
-                          >
-                            <ExternalLinkIcon className="h-3 w-3" />
-                          </a>
-                          <button
-                            onClick={() => copySectionUrl(index + 1)}
-                            className="text-xs text-muted-foreground hover:text-primary transition-colors"
-                            title="Copy link to this mishnah"
-                          >
-                            {copiedSection === index + 1 ? (
-                              <Check className="h-3 w-3 text-green-500" />
-                            ) : (
-                              <LinkIcon className="h-3 w-3" />
-                            )}
-                          </button>
-                        </div>
+                        <button
+                          onClick={() => copySectionUrl(index + 1)}
+                          className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
+                          title={`Copy link to mishnah ${index + 1}`}
+                        >
+                          {copiedSection === index + 1 ? (
+                            <>
+                              <Check className="w-3 h-3 text-green-500" />
+                              <span className="text-green-500 text-xs">Copied!</span>
+                            </>
+                          ) : (
+                            <LinkIcon className="w-3 h-3" />
+                          )}
+                        </button>
+                        <span className="w-px h-4 bg-border" />
+                        <a
+                          href={sefariaUrl}
+                          target="_blank"
+                          rel="nofollow noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
+                          data-testid={`link-sefaria-section-${index + 1}`}
+                          title={`View mishnah ${index + 1} on Sefaria`}
+                        >
+                          Sefaria
+                          <ExternalLinkIcon className="w-3 h-3" />
+                        </a>
                       </div>
 
-                      <div className="text-display">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                          <div className="lg:order-1 english-text">
-                            <div
-                              className="leading-relaxed text-foreground"
-                              dangerouslySetInnerHTML={{ __html: section.englishHtml }}
-                            />
-                          </div>
-                          <div className="lg:order-2 hebrew-text" dir="rtl">
-                            <div className="leading-relaxed text-foreground font-hebrew">
+                      <div className="text-display flex flex-col lg:flex-row gap-6">
+                        <div className="text-column space-y-3 lg:order-1">
+                          {section.englishHtml && (
+                            <div className="english-text text-foreground">
+                              <div
+                                dangerouslySetInnerHTML={{ __html: section.englishHtml }}
+                              />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="text-column space-y-3 lg:order-2">
+                          {section.hebrewLines.length > 0 && (
+                            <div className={`hebrew-text text-foreground ${getHebrewFontClass()}`}>
                               {section.hebrewLines.map((line, lineIndex) => (
                                 <p
                                   key={lineIndex}
-                                  className="mb-1"
+                                  className={`leading-relaxed ${lineIndex < section.hebrewLines.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
                                   dangerouslySetInnerHTML={{ __html: line }}
                                 />
                               ))}
                             </div>
-                          </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -326,21 +336,25 @@ export default function MishnahChapter() {
 
         <div className="mt-8 pt-6 border-t border-border">
           <div className="flex justify-between items-center">
-            {hasPrev ? (
-              <Link href={`/mishnah/${tractateSlug}/${chapterNum - 1}`}>
-                <Button variant="outline" className="gap-2">
-                  <ChevronLeft className="h-4 w-4" />
-                  Chapter {chapterNum - 1}
+            {hasNext ? (
+              <Link href={`/mishnah/${tractateSlug}/${chapterNum + 1}`}>
+                <Button variant="outline" className="flex items-center space-x-2 px-6 py-3">
+                  <ChevronLeft className="w-4 h-4 text-primary" />
+                  <span className="text-primary font-medium">
+                    Next (Chapter {chapterNum + 1})
+                  </span>
                 </Button>
               </Link>
             ) : (
               <div />
             )}
-            {hasNext ? (
-              <Link href={`/mishnah/${tractateSlug}/${chapterNum + 1}`}>
-                <Button variant="outline" className="gap-2">
-                  Chapter {chapterNum + 1}
-                  <ChevronRight className="h-4 w-4" />
+            {hasPrev ? (
+              <Link href={`/mishnah/${tractateSlug}/${chapterNum - 1}`}>
+                <Button variant="outline" className="flex items-center space-x-2 px-6 py-3">
+                  <span className="text-primary font-medium">
+                    Previous (Chapter {chapterNum - 1})
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-primary" />
                 </Button>
               </Link>
             ) : (
@@ -349,15 +363,20 @@ export default function MishnahChapter() {
           </div>
         </div>
 
-        <div className="mt-6 pt-4 border-t border-border text-center">
-          <a
-            href={`https://www.sefaria.org/${textData?.sefariaRef?.replace(/ /g, '_') || ''}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1"
-          >
-            View on Sefaria <ExternalLinkIcon className="h-3 w-3" />
-          </a>
+        <div className="mt-8 pt-6 border-t border-border" data-testid="external-links-footer">
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="text-lg font-semibold text-foreground">External Links:</span>
+            <a
+              href={`https://www.sefaria.org/${textData?.sefariaRef?.replace(/ /g, '_') || ''}`}
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+              title="View this chapter on Sefaria"
+            >
+              Sefaria
+              <ExternalLinkIcon className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
 
         <Footer />

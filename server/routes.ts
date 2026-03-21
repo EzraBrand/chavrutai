@@ -1062,6 +1062,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  const mishnahInfoCache = new Map<string, { tractate: string; chapters: number; mishnayotPerChapter: number[] }>();
+
   app.get("/api/mishnah/:tractate/info", async (req, res) => {
     try {
       const { tractate } = req.params;
@@ -1071,11 +1073,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return;
       }
 
+      const cacheKey = tractateInfo.name;
+      if (mishnahInfoCache.has(cacheKey)) {
+        res.json(mishnahInfoCache.get(cacheKey));
+        return;
+      }
+
       const sefariaRef = tractateInfo.sefaria;
       const response = await fetch(`https://www.sefaria.org/api/v3/texts/${sefariaRef}`);
 
       if (!response.ok) {
-        res.json({ tractate: tractateInfo.name, chapters: tractateInfo.chapters, mishnayotPerChapter: [] });
+        const fallback = { tractate: tractateInfo.name, chapters: tractateInfo.chapters, mishnayotPerChapter: [] };
+        res.json(fallback);
         return;
       }
 
@@ -1095,11 +1104,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      res.json({
+      const result = {
         tractate: tractateInfo.name,
         chapters: tractateInfo.chapters,
         mishnayotPerChapter,
-      });
+      };
+
+      if (mishnayotPerChapter.length > 0) {
+        mishnahInfoCache.set(cacheKey, result);
+      }
+
+      res.json(result);
     } catch (error) {
       console.error('Error in /api/mishnah/:tractate/info:', error);
       res.status(500).json({ error: "Failed to get tractate info" });
