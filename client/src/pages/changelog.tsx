@@ -72,6 +72,23 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Reader</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>New <strong>Mishnah reader</strong> covering <strong>26 tractates</strong> not included in the Babylonian Talmud, organized by Seder</li>
+                <li>Bilingual <strong>Hebrew-English</strong> chapter reader with 50/50 side-by-side layout, matching the Bible reader style</li>
+                <li>Hebrew text: Torat Emet (public domain). English translation: Dr. Joshua Kulp, "Mishnah Yomit" (CC-BY, via Sefaria)</li>
+                <li>Tractate <strong>Shekalim</strong> uses the Steinsaltz (William Davidson Edition) translation with Talmud-style commentary layout</li>
+                <li>Custom Hebrew text processing: comma-to-colon conversion for speech markers (e.g. <span dir="rtl">אומר:</span> instead of <span dir="rtl">אומר,</span>)</li>
+                <li>Custom English text processing: name transliteration (R' instead of R., Yehoshua instead of Joshua, etc.) and sentence-level line splitting</li>
+                <li>Tractate table of contents with chapter and mishnah-count navigation</li>
+                <li>Main <Link href="/mishnah" className="text-primary hover:underline">contents page</Link> listing all tractates by Seder with translator attribution</li>
+                <li><Link href="/mishnah-map" className="text-primary hover:underline">Mishnah-Talmud mapping page</Link> showing where Mishnah passages appear in the Talmud</li>
+                <li>SEO metadata for all Mishnah routes</li>
+                <li>Mishnah links added to home page, navigation menu, and footer</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Reference Panel on Talmud Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>New <strong>collapsible Reference Panel</strong> below the Talmud text with two tabs</li>
