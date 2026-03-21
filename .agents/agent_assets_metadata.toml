@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "MFEjPUge75bmxXIqYgRvJ"
+uri = "file://MISHNAH_MERGE_GUIDE.md"
+type = "text"
+title = "Mishnah Reader — Merge Guide"
