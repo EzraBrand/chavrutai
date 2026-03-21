@@ -1541,9 +1541,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // AI Chat Routes
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-  });
+  let openai: OpenAI | null = null;
+  function getOpenAI(): OpenAI {
+    if (!openai) {
+      if (!process.env.OPENAI_API_KEY) {
+        throw new Error("OPENAI_API_KEY is not set. AI chat features are unavailable.");
+      }
+      openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    }
+    return openai;
+  }
 
   const blogSearch = getBlogPostSearch();
 
@@ -1639,7 +1646,7 @@ When answering questions:
         ...messages
       ];
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: "gpt-4o",
         messages: allMessages,
         tools: tools,
@@ -1692,7 +1699,7 @@ When answering questions:
           ...toolResults
         ];
 
-        const finalCompletion = await openai.chat.completions.create({
+        const finalCompletion = await getOpenAI().chat.completions.create({
           model: "gpt-4o",
           messages: secondMessages
         });
