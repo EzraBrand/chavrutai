@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { storage } from "./storage";
 import { insertTextSchema, searchRequestSchema, browseRequestSchema, autosuggestRequestSchema, textSearchRequestSchema, type SearchResult, type TextSearchResponse } from "@shared/schema";
-import { normalizeSefariaTractateName, normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
+import { normalizeSefariaTractateName, normalizeDisplayTractateName, isValidTractate, getTractateSlug, normalizeMishnahTractateName, isValidMishnahTractate, getMishnahTractateInfo, MISHNAH_ONLY_TRACTATES } from "@shared/tractates";
 import { getBookBySlug } from "@shared/bible-books";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
@@ -376,6 +376,41 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       ogTitle: "Changelog - ChavrutAI",
       ogDescription: "Recent updates and improvements to ChavrutAI.",
       canonical: `${baseUrl}/changelog`,
+      robots: "index, follow"
+    };
+  } else if (url === '/mishnah') {
+    seoData = {
+      title: "Mishnah - Hebrew & English | ChavrutAI",
+      description: "Study the Mishnah online with bilingual Hebrew-English text. Browse 26 tractates not covered by the Babylonian Talmud, organized by Seder.",
+      ogTitle: "Mishnah - Hebrew & English | ChavrutAI",
+      ogDescription: "Study the Mishnah online with bilingual Hebrew-English text on ChavrutAI.",
+      canonical: `${baseUrl}/mishnah`,
+      robots: "index, follow"
+    };
+  } else if (url.match(/^\/mishnah\/[^/]+\/\d+$/)) {
+    const urlParts = url.split('/');
+    const tractateSlug = urlParts[2];
+    const chapter = urlParts[3];
+    const tractateInfo = getMishnahTractateInfo(tractateSlug);
+    const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
+    seoData = {
+      title: `Mishnah ${tractateName} Chapter ${chapter} - Hebrew & English | ChavrutAI`,
+      description: `Study Mishnah ${tractateName} Chapter ${chapter} with parallel Hebrew-English text. Free online Mishnah study on ChavrutAI.`,
+      ogTitle: `Mishnah ${tractateName} ${chapter} - Hebrew & English`,
+      ogDescription: `Read Mishnah ${tractateName} Chapter ${chapter} with parallel Hebrew-English text on ChavrutAI.`,
+      canonical: `${baseUrl}/mishnah/${tractateSlug}/${chapter}`,
+      robots: "index, follow"
+    };
+  } else if (url.match(/^\/mishnah\/[^/]+$/)) {
+    const tractateSlug = url.split('/')[2];
+    const tractateInfo = getMishnahTractateInfo(tractateSlug);
+    const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
+    seoData = {
+      title: `Mishnah ${tractateName} - Hebrew & English | ChavrutAI`,
+      description: `Study Mishnah ${tractateName} chapter by chapter with bilingual Hebrew-English text. Free online on ChavrutAI.`,
+      ogTitle: `Mishnah ${tractateName} - Hebrew & English`,
+      ogDescription: `Study Mishnah ${tractateName} with Hebrew-English text on ChavrutAI.`,
+      canonical: `${baseUrl}/mishnah/${tractateSlug}`,
       robots: "index, follow"
     };
   } else if (url.match(/^\/talmud\/[^/]+$/)) {
@@ -1012,6 +1047,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error in /api/text:', error);
       res.status(400).json({ message: "Invalid request parameters" });
+    }
+  });
+
+  app.get("/api/mishnah/:tractate/:chapter", async (req, res) => {
+    try {
+      const { tractate, chapter } = req.params;
+
+      if (!/^\d+$/.test(chapter)) {
+        res.status(400).json({ error: "Invalid chapter number" });
+        return;
+      }
+
+      const chapterNum = parseInt(chapter, 10);
+
+      if (chapterNum < 1) {
+        res.status(400).json({ error: "Invalid chapter number" });
+        return;
+      }
+
+      const tractateInfo = getMishnahTractateInfo(tractate);
+      if (!tractateInfo) {
+        res.status(404).json({ error: `Invalid Mishnah tractate: ${tractate}` });
+        return;
+      }
+
+      if (chapterNum > tractateInfo.chapters) {
+        res.status(404).json({ error: `Chapter ${chapterNum} does not exist in ${tractateInfo.name} (max: ${tractateInfo.chapters})` });
+        return;
+      }
+
+      const sefariaRef = `${tractateInfo.sefaria}.${chapterNum}`;
+      const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0`);
+
+      if (!response.ok) {
+        res.status(502).json({ error: "Failed to fetch from Sefaria" });
+        return;
+      }
+
+      const sefariaData = await response.json();
+      const hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
+      const englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+
+      const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
+      const processedEnglishSections = englishSections.map((section: string) => processEnglishText(section || ''));
+
+      res.json({
+        tractate: tractateInfo.name,
+        chapter: chapterNum,
+        totalChapters: tractateInfo.chapters,
+        hebrewSections: processedHebrewSections,
+        englishSections: processedEnglishSections,
+        sefariaRef: sefariaRef.replace(/_/g, ' '),
+        mishnayotCount: hebrewSections.length,
+      });
+    } catch (error) {
+      console.error('Error in /api/mishnah:', error);
+      res.status(500).json({ error: "Failed to fetch Mishnah text" });
     }
   });
 

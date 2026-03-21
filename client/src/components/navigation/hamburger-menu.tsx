@@ -59,6 +59,39 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
           </div>
           
           
+          <div className="space-y-1">
+            <Link 
+              href="/talmud"
+              onClick={() => {
+                trackEvent('navigate_menu', 'navigation', 'talmud');
+                setOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
+            >
+              Talmud Bavli
+            </Link>
+            <Link 
+              href="/mishnah"
+              onClick={() => {
+                trackEvent('navigate_menu', 'navigation', 'mishnah');
+                setOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
+            >
+              Mishnah
+            </Link>
+            <Link 
+              href="/bible"
+              onClick={() => {
+                trackEvent('navigate_menu', 'navigation', 'bible');
+                setOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
+            >
+              Tanakh
+            </Link>
+          </div>
+          
           {/* Bottom Section */}
           <div className="border-t border-border pt-4 mt-4 space-y-4">
             {/* Preferences Section */}

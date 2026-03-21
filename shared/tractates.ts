@@ -89,6 +89,142 @@ export const TRACTATE_FOLIO_RANGES = {
 export type WorkName = keyof typeof TRACTATE_LISTS;
 export type TalmudBavliTractate = typeof TRACTATE_LISTS["Talmud Bavli"][number];
 
+export const MISHNAH_ONLY_HEBREW_NAMES: Record<string, string> = {
+  "Peah": "פאה",
+  "Demai": "דמאי",
+  "Kilayim": "כלאים",
+  "Sheviit": "שביעית",
+  "Terumot": "תרומות",
+  "Maasrot": "מעשרות",
+  "Maaser Sheni": "מעשר שני",
+  "Challah": "חלה",
+  "Orlah": "ערלה",
+  "Bikkurim": "ביכורים",
+  "Shekalim": "שקלים",
+  "Eduyot": "עדויות",
+  "Avot": "אבות",
+  "Middot": "מידות",
+  "Kinnim": "קינים",
+  "Kelim": "כלים",
+  "Oholot": "אהלות",
+  "Negaim": "נגעים",
+  "Parah": "פרה",
+  "Taharot": "טהרות",
+  "Mikvaot": "מקואות",
+  "Makhshirin": "מכשירין",
+  "Zavim": "זבים",
+  "Tevul Yom": "טבול יום",
+  "Yadayim": "ידיים",
+  "Uktzin": "עוקצין"
+};
+
+export const MISHNAH_ONLY_TRACTATES = {
+  zeraim: [
+    { name: "Peah", chapters: 8, sefaria: "Mishnah_Peah" },
+    { name: "Demai", chapters: 7, sefaria: "Mishnah_Demai" },
+    { name: "Kilayim", chapters: 9, sefaria: "Mishnah_Kilayim" },
+    { name: "Sheviit", chapters: 10, sefaria: "Mishnah_Sheviit" },
+    { name: "Terumot", chapters: 11, sefaria: "Mishnah_Terumot" },
+    { name: "Maasrot", chapters: 5, sefaria: "Mishnah_Maasrot" },
+    { name: "Maaser Sheni", chapters: 5, sefaria: "Mishnah_Maaser_Sheni" },
+    { name: "Challah", chapters: 4, sefaria: "Mishnah_Challah" },
+    { name: "Orlah", chapters: 3, sefaria: "Mishnah_Orlah" },
+    { name: "Bikkurim", chapters: 4, sefaria: "Mishnah_Bikkurim" },
+  ],
+  moed: [
+    { name: "Shekalim", chapters: 8, sefaria: "Mishnah_Shekalim" },
+  ],
+  nezikin: [
+    { name: "Eduyot", chapters: 8, sefaria: "Mishnah_Eduyot" },
+    { name: "Avot", chapters: 6, sefaria: "Mishnah_Avot" },
+  ],
+  kodashim: [
+    { name: "Middot", chapters: 5, sefaria: "Mishnah_Middot" },
+    { name: "Kinnim", chapters: 3, sefaria: "Mishnah_Kinnim" },
+  ],
+  tohorot: [
+    { name: "Kelim", chapters: 30, sefaria: "Mishnah_Kelim" },
+    { name: "Oholot", chapters: 18, sefaria: "Mishnah_Oholot" },
+    { name: "Negaim", chapters: 14, sefaria: "Mishnah_Negaim" },
+    { name: "Parah", chapters: 12, sefaria: "Mishnah_Parah" },
+    { name: "Taharot", chapters: 10, sefaria: "Mishnah_Taharot" },
+    { name: "Mikvaot", chapters: 10, sefaria: "Mishnah_Mikvaot" },
+    { name: "Makhshirin", chapters: 6, sefaria: "Mishnah_Makhshirin" },
+    { name: "Zavim", chapters: 5, sefaria: "Mishnah_Zavim" },
+    { name: "Tevul Yom", chapters: 4, sefaria: "Mishnah_Tevul_Yom" },
+    { name: "Yadayim", chapters: 4, sefaria: "Mishnah_Yadayim" },
+    { name: "Uktzin", chapters: 3, sefaria: "Mishnah_Oktzin" },
+  ],
+} as const;
+
+export type MishnahSederName = keyof typeof MISHNAH_ONLY_TRACTATES;
+
+export const MISHNAH_URL_MAP: Record<string, string> = {
+  "peah": "Peah",
+  "demai": "Demai",
+  "kilayim": "Kilayim",
+  "sheviit": "Sheviit",
+  "terumot": "Terumot",
+  "maasrot": "Maasrot",
+  "maaser-sheni": "Maaser Sheni",
+  "maaser sheni": "Maaser Sheni",
+  "challah": "Challah",
+  "orlah": "Orlah",
+  "bikkurim": "Bikkurim",
+  "shekalim": "Shekalim",
+  "eduyot": "Eduyot",
+  "avot": "Avot",
+  "middot": "Middot",
+  "kinnim": "Kinnim",
+  "kelim": "Kelim",
+  "oholot": "Oholot",
+  "negaim": "Negaim",
+  "parah": "Parah",
+  "taharot": "Taharot",
+  "mikvaot": "Mikvaot",
+  "makhshirin": "Makhshirin",
+  "zavim": "Zavim",
+  "tevul-yom": "Tevul Yom",
+  "tevul yom": "Tevul Yom",
+  "yadayim": "Yadayim",
+  "uktzin": "Uktzin",
+};
+
+export function normalizeMishnahTractateName(urlTractate: string): string | null {
+  const key = decodeURIComponent(urlTractate)
+    .toLowerCase()
+    .replace(/['\u2019]/g, '')
+    .replace(/[\s_]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+  return MISHNAH_URL_MAP[key] || null;
+}
+
+export function isValidMishnahTractate(urlTractate: string): boolean {
+  return normalizeMishnahTractateName(urlTractate) !== null;
+}
+
+export function getMishnahTractateSlug(tractate: string): string {
+  const normalized = normalizeMishnahTractateName(tractate);
+  if (normalized) {
+    return normalized.replace(/\s+/g, '_');
+  }
+  return tractate.replace(/\s+/g, '_');
+}
+
+export function getMishnahTractateInfo(tractate: string): { name: string; chapters: number; sefaria: string } | null {
+  const normalized = normalizeMishnahTractateName(tractate);
+  if (!normalized) return null;
+  for (const seder of Object.values(MISHNAH_ONLY_TRACTATES)) {
+    for (const t of seder) {
+      if (t.name === normalized) {
+        return { name: t.name, chapters: t.chapters, sefaria: t.sefaria };
+      }
+    }
+  }
+  return null;
+}
+
 // URL-safe to proper case mapping for Sefaria API calls
 export const URL_TO_SEFARIA_TRACTATE_MAP: Record<string, string> = {
   "berakhot": "Berakhot",
