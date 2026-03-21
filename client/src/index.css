@@ -355,6 +355,31 @@
     }
   }
   
+  /* Mishnah-specific: override Talmud's spaced-out Hebrew paragraph layout */
+  .layout-side-by-side .mishnah-text-display .hebrew-text {
+    justify-content: flex-start;
+  }
+  
+  .layout-side-by-side .mishnah-text-display .hebrew-text p {
+    margin-bottom: 0 !important;
+    flex-grow: 0;
+    display: block;
+  }
+  
+  .layout-side-by-side .mishnah-text-display .hebrew-text p:not(:last-child) {
+    margin-bottom: 0 !important;
+  }
+
+  @media (min-width: 1024px) {
+    .layout-side-by-side .mishnah-text-display .hebrew-text p {
+      margin-bottom: 0 !important;
+    }
+    
+    .layout-side-by-side .mishnah-text-display .hebrew-text p:not(:last-child) {
+      margin-bottom: 0 !important;
+    }
+  }
+
   .hebrew-text strong {
     font-weight: 900;
   }
