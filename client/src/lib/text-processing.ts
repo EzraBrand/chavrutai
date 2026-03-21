@@ -157,11 +157,18 @@ export function processMishnahEnglishText(text: string): string {
     .trim();
 
   processed = processed
+    .replace(/\bR\.\s/g, "R' ")
+    .replace(/\bJoshua\b/g, 'Yehoshua')
+    .replace(/\bJudah\b/g, 'Yehuda')
+    .replace(/\bYose\b/g, 'Yosei')
+    .replace(/\bIshmael\b/g, 'Yishmael')
     .replace(/\bthyself\b/gi, (m) => m[0] === 'T' ? 'Yourself' : 'yourself')
     .replace(/\bthy\b/gi, (m) => m[0] === 'T' ? 'Your' : 'your')
     .replace(/\bi\.e\./g, 'i\x00e\x00')
     .replace(/\be\.g\./g, 'e\x00g\x00')
+    .replace(/R'/g, 'R\x00')
     .replace(/([.;:?!,])\s+/g, '$1\n')
+    .replace(/R\x00/g, "R'")
     .replace(/i\x00e\x00/g, 'i.e.')
     .replace(/e\x00g\x00/g, 'e.g.');
 
