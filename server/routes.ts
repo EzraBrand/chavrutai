@@ -1082,8 +1082,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const sefariaData = await response.json();
       const mishnayotPerChapter: number[] = [];
 
-      const versions = sefariaData.versions || [];
-      const heVersion = versions.find((v: any) => v.language === 'he');
+      interface SefariaVersion {
+        language?: string;
+        text?: unknown[];
+      }
+
+      const versions: SefariaVersion[] = Array.isArray(sefariaData.versions) ? sefariaData.versions : [];
+      const heVersion = versions.find((v) => v.language === 'he');
       if (heVersion && Array.isArray(heVersion.text)) {
         for (const chapter of heVersion.text) {
           mishnayotPerChapter.push(Array.isArray(chapter) ? chapter.length : 0);
