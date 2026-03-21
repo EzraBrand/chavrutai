@@ -29,7 +29,7 @@ export default function MishnahTractate() {
   const tractateInfo = tractateDisplayName ? getMishnahTractateInfo(tractateDisplayName) : null;
   const tractateSlug = tractateDisplayName ? getMishnahTractateSlug(tractateDisplayName) : "";
 
-  const { data: infoData } = useQuery<TractateInfoData>({
+  const { data: infoData, isLoading: isInfoLoading } = useQuery<TractateInfoData>({
     queryKey: ['/api/mishnah', tractateSlug, 'info'],
     queryFn: async () => {
       const response = await apiRequest('GET', `/api/mishnah/${encodeURIComponent(tractateSlug)}/info`);
@@ -116,7 +116,11 @@ export default function MishnahTractate() {
                   </div>
 
                   <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 justify-items-center">
-                    {mishnayotCount !== undefined && mishnayotCount > 0 ? (
+                    {isInfoLoading ? (
+                      Array.from({ length: 6 }, (_, j) => (
+                        <div key={j} className="h-10 min-w-[3rem] max-w-[4rem] w-full rounded bg-muted animate-pulse" />
+                      ))
+                    ) : mishnayotCount !== undefined && mishnayotCount > 0 ? (
                       Array.from({ length: mishnayotCount }, (_, j) => j + 1).map((mishnahNum) => (
                         <Link
                           key={mishnahNum}
