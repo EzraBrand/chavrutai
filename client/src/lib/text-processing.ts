@@ -134,6 +134,8 @@ export function processMishnahEnglishText(text: string): string {
     .trim();
 
   processed = processed
+    .replace(/\bthyself\b/gi, (m) => m[0] === 'T' ? 'Yourself' : 'yourself')
+    .replace(/\bthy\b/gi, (m) => m[0] === 'T' ? 'Your' : 'your')
     .replace(/\bi\.e\./g, 'i\x00e\x00')
     .replace(/\be\.g\./g, 'e\x00g\x00')
     .replace(/([.;:?!,])\s+/g, '$1\n')
