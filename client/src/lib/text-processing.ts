@@ -157,6 +157,7 @@ export function processMishnahEnglishText(text: string): string {
     .trim();
 
   processed = processed
+    .replace(/\bsaid,/g, 'said:')
     .replace(/\bR\.\s/g, "R' ")
     .replace(/\bJoshua\b/g, 'Yehoshua')
     .replace(/\bJudah\b/g, 'Yehuda')
