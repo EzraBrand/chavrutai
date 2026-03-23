@@ -144,7 +144,8 @@ export function processMishnahHebrewText(text: string): string {
     .replace(/(אלו\s+[^.]+)\./g, '$1:')
     .replace(/שני לו,/g, 'שני לו:')
     .replace(/שלישי לו,/g, 'שלישי לו:')
-    .replace(/כיצד\./g, 'כיצד?');
+    .replace(/כיצד\./g, 'כיצד?')
+    .replace(/אימתי,/g, 'אימתי?');
 
   processed = processed
     .replace(/[ \t]+/g, ' ')
@@ -177,6 +178,11 @@ export function processMishnahEnglishText(text: string): string {
     .replace(/\bJudah\b/g, 'Yehuda')
     .replace(/\bYose\b/g, 'Yosei')
     .replace(/\bIshmael\b/g, 'Yishmael')
+    .replace(/\bAkiba\b/g, 'Akiva')
+    .replace(/\bZadok\b/g, 'Tzadok')
+    .replace(/\bEleazar\b/g, 'Elazar')
+    .replace(/\bBeth Hillel\b/g, 'Beit Hillel')
+    .replace(/\bBeth Shammai\b/g, 'Beit Shammai')
     .replace(/\bthyself\b/gi, (m) => m[0] === 'T' ? 'Yourself' : 'yourself')
     .replace(/\bthy\b/gi, (m) => m[0] === 'T' ? 'Your' : 'your')
     .replace(/\bi\.e\./g, 'i\x00e\x00')
