@@ -191,6 +191,7 @@ export function processMishnahEnglishText(text: string): string {
     .replace(/\bBeth Shammai\b/g, 'Beit Shammai')
     .replace(/\bthyself\b/gi, (m) => m[0] === 'T' ? 'Yourself' : 'yourself')
     .replace(/\bthy\b/gi, (m) => m[0] === 'T' ? 'Your' : 'your')
+    .replace(/\bMt\.\s/g, 'Mount ')
     .replace(/\bi\.e\./g, 'i\x00e\x00')
     .replace(/\be\.g\./g, 'e\x00g\x00')
     .replace(/\bibid\./g, 'ibid\x00')
