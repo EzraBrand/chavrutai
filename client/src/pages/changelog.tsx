@@ -84,7 +84,12 @@ export default function Changelog() {
                 <li><span dir="rtl">אמר [name],</span> → <span dir="rtl">אמר [name]:</span> (general pattern for any name following אמר, e.g. <span dir="rtl">אמר נחום הלבלר:</span>)</li>
                 <li><span dir="rtl">ואלו [words].</span> → <span dir="rtl">ואלו [words]:</span> (replaces trailing period with colon on ואלו enumeration lines)</li>
                 <li><span dir="rtl">אלו [words].</span> → <span dir="rtl">אלו [words]:</span> (same for אלו without the leading ו)</li>
+                <li><span dir="rtl">אמרו להם [words],</span> → <span dir="rtl">אמרו להם [words]:</span> (general pattern for any words following אמרו להם)</li>
+                <li><span dir="rtl">כיצד.</span> → <span dir="rtl">כיצד?</span> (period to question mark — "how?")</li>
+                <li><span dir="rtl">אימתי,</span> → <span dir="rtl">אימתי?</span> (comma to question mark — "when?")</li>
                 <li>Fixed Mishnah English: punctuation immediately followed by an uppercase letter (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Shammai:A</code>) now correctly splits into separate lines</li>
+                <li>Mishnah English: protected abbreviations <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">b.</code> and <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ibid.</code> from being split at the period (e.g. "Dosa b. Harkinas" stays on one line)</li>
+                <li>Mishnah English name transliterations: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Akiba → Akiva</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Zadok → Tzadok</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Eleazar → Elazar</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Beth Hillel → Beit Hillel</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Beth Shammai → Beit Shammai</code></li>
               </ul>
             </div>
 
