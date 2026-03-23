@@ -72,6 +72,29 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Hebrew Text Processing: Expanded Comma-to-Colon Rules</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added new comma-to-colon conversion rules for Mishnah Hebrew text, replacing trailing commas with colons on speech and enumeration markers:</li>
+                <li><span dir="rtl">ואלו הן,</span> → <span dir="rtl">ואלו הן:</span></li>
+                <li><span dir="rtl">אמר לו,</span> → <span dir="rtl">אמר לו:</span></li>
+                <li><span dir="rtl">אמר,</span> → <span dir="rtl">אמר:</span></li>
+                <li><span dir="rtl">שני לו,</span> → <span dir="rtl">שני לו:</span></li>
+                <li><span dir="rtl">שלישי לו,</span> → <span dir="rtl">שלישי לו:</span></li>
+                <li><span dir="rtl">אמר לו רבי X,</span> → <span dir="rtl">אמר לו רבי X:</span> (with dynamic rabbi name matching)</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing: Additional Fraction & Number Mappings</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one-thirtieth → 1/30th</code></li>
+                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one twenty-fourth → 1/24th</code></li>
+                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one forty-eighth → 1/48th</code></li>
+                <li>Added mixed number: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">twenty-two and a half → 22½</code></li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Reader</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>New <strong>Mishnah reader</strong> covering <strong>26 tractates</strong> not included in the Babylonian Talmud, organized by Seder</li>
