@@ -197,7 +197,7 @@ export function processMishnahEnglishText(text: string): string {
     .replace(/\bibid\./g, 'ibid\x00')
     .replace(/\bb\.\s/g, 'b\x00 ')
     .replace(/R'/g, 'R\x00')
-    .replace(/([.;:?!,])(?![\]\)'])(?=[A-Z])/g, '$1\n')
+    .replace(/([.;:?!,])(?![\]\)'])(?=[\[A-Z])/g, '$1\n')
     .replace(/([.;:?!,])(?![\]\)'])\s+(?!\))/g, '$1\n')
     .replace(/R\x00/g, "R'")
     .replace(/i\x00e\x00/g, 'i.e.')
