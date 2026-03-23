@@ -145,7 +145,13 @@ export function processMishnahHebrewText(text: string): string {
     .replace(/(אלו\s+[^.]+)\./g, '$1:')
     .replace(/שני לו,/g, 'שני לו:')
     .replace(/שלישי לו,/g, 'שלישי לו:')
+    .replace(/(איזהו\s+[^,]+),/g, '$1?')
+    .replace(/(ואיזו היא\s+[^,]+),/g, '$1?')
+    .replace(/(מה בין\s+[^.]+)\./g, '$1?')
+    .replace(/(כיצד\s+[^,.]+)[,.]/g, '$1?')
     .replace(/כיצד\./g, 'כיצד?')
+    .replace(/כיצד,/g, 'כיצד?')
+    .replace(/במה דברים אמורים,/g, 'במה דברים אמורים?')
     .replace(/אימתי,/g, 'אימתי?');
 
   processed = processed
