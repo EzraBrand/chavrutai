@@ -141,6 +141,7 @@ export function processMishnahHebrewText(text: string): string {
     .replace(/(אמר\s+[^,]+),/g, '$1:')
     .replace(/אמר,/g, 'אמר:')
     .replace(/(ואלו\s+[^.]+)\./g, '$1:')
+    .replace(/ואלו הן,/g, 'ואלו הן:')
     .replace(/(אלו\s+[^.]+)\./g, '$1:')
     .replace(/שני לו,/g, 'שני לו:')
     .replace(/שלישי לו,/g, 'שלישי לו:')

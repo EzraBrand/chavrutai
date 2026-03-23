@@ -9,7 +9,7 @@ import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigat
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
-import { processMishnahHebrewText, processMishnahEnglishText, processHebrewText, processEnglishText } from "@/lib/text-processing";
+import { processMishnahHebrewText, processMishnahEnglishText, processHebrewText, processEnglishText, linkBibleCitations } from "@/lib/text-processing";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import {
   normalizeMishnahTractateName,
@@ -118,7 +118,7 @@ export default function MishnahChapter() {
 
       if (isShekalim) {
         const englishLines = englishSection.trim()
-          ? processEnglishText(englishSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
+          ? processEnglishText(englishSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(linkBibleCitations(line.trim())))
           : [];
 
         const hebrewLines = hebrewSection.trim()
@@ -136,7 +136,7 @@ export default function MishnahChapter() {
       }
 
       const englishLines = englishSection.trim()
-        ? processMishnahEnglishText(englishSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
+        ? processMishnahEnglishText(englishSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(linkBibleCitations(line.trim())))
         : [];
 
       const hebrewLines = hebrewSection.trim()
