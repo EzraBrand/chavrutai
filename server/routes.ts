@@ -15,7 +15,7 @@ import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
 
 // Import text processing utilities from shared library
-import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
+import { processHebrewTextCore as processHebrewText, processEnglishText, removeNikud } from "@shared/text-processing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
 
@@ -1163,8 +1163,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
       const englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
 
-      const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
-      const processedEnglishSections = englishSections.map((section: string) => processEnglishText(section || ''));
+      const processedHebrewSections = hebrewSections.map((section: string) => removeNikud(section || ''));
+      const processedEnglishSections = englishSections.map((section: string) => (section || '').replace(/<[^>]*>/g, ''));
 
       res.json({
         tractate: tractateInfo.name,
