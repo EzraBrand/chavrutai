@@ -81,6 +81,9 @@ export default function Changelog() {
                 <li><span dir="rtl">שני לו,</span> → <span dir="rtl">שני לו:</span></li>
                 <li><span dir="rtl">שלישי לו,</span> → <span dir="rtl">שלישי לו:</span></li>
                 <li><span dir="rtl">אמר לו רבי X,</span> → <span dir="rtl">אמר לו רבי X:</span> (with dynamic rabbi name matching)</li>
+                <li><span dir="rtl">אמר [name],</span> → <span dir="rtl">אמר [name]:</span> (general pattern for any name following אמר, e.g. <span dir="rtl">אמר נחום הלבלר:</span>)</li>
+                <li><span dir="rtl">ואלו [words].</span> → <span dir="rtl">ואלו [words]:</span> (replaces trailing period with colon on ואלו enumeration lines)</li>
+                <li><span dir="rtl">אלו [words].</span> → <span dir="rtl">אלו [words]:</span> (same for אלו without the leading ו)</li>
               </ul>
             </div>
 
