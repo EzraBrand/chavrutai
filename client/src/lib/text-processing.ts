@@ -178,6 +178,7 @@ export function processMishnahEnglishText(text: string): string {
     .replace(/\bthy\b/gi, (m) => m[0] === 'T' ? 'Your' : 'your')
     .replace(/\bi\.e\./g, 'i\x00e\x00')
     .replace(/\be\.g\./g, 'e\x00g\x00')
+    .replace(/\(ibid\.\)/g, '(\x00ibid\x00)')
     .replace(/\bibid\./g, 'ibid\x00')
     .replace(/R'/g, 'R\x00')
     .replace(/([.;:?!,])(?![\]\)'])(?=[A-Z])/g, '$1\n')
@@ -185,6 +186,7 @@ export function processMishnahEnglishText(text: string): string {
     .replace(/R\x00/g, "R'")
     .replace(/i\x00e\x00/g, 'i.e.')
     .replace(/e\x00g\x00/g, 'e.g.')
+    .replace(/\(\x00ibid\x00\)/g, '(ibid.)')
     .replace(/ibid\x00/g, 'ibid.');
 
   processed = processed
