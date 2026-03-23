@@ -143,7 +143,8 @@ export function processMishnahHebrewText(text: string): string {
     .replace(/(ואלו\s+[^.]+)\./g, '$1:')
     .replace(/(אלו\s+[^.]+)\./g, '$1:')
     .replace(/שני לו,/g, 'שני לו:')
-    .replace(/שלישי לו,/g, 'שלישי לו:');
+    .replace(/שלישי לו,/g, 'שלישי לו:')
+    .replace(/כיצד\./g, 'כיצד?');
 
   processed = processed
     .replace(/[ \t]+/g, ' ')
@@ -180,12 +181,16 @@ export function processMishnahEnglishText(text: string): string {
     .replace(/\bthy\b/gi, (m) => m[0] === 'T' ? 'Your' : 'your')
     .replace(/\bi\.e\./g, 'i\x00e\x00')
     .replace(/\be\.g\./g, 'e\x00g\x00')
+    .replace(/\bibid\./g, 'ibid\x00')
+    .replace(/\bb\.\s/g, 'b\x00 ')
     .replace(/R'/g, 'R\x00')
     .replace(/([.;:?!,])(?![\]\)'])(?=[A-Z])/g, '$1\n')
     .replace(/([.;:?!,])(?![\]\)'])\s+(?!\))/g, '$1\n')
     .replace(/R\x00/g, "R'")
     .replace(/i\x00e\x00/g, 'i.e.')
-    .replace(/e\x00g\x00/g, 'e.g.');
+    .replace(/e\x00g\x00/g, 'e.g.')
+    .replace(/ibid\x00/g, 'ibid.')
+    .replace(/b\x00/g, 'b.');
 
   processed = processed
     .replace(/\n{3,}/g, '\n')
