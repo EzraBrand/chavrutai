@@ -179,6 +179,7 @@ export function processMishnahEnglishText(text: string): string {
     .replace(/\bi\.e\./g, 'i\x00e\x00')
     .replace(/\be\.g\./g, 'e\x00g\x00')
     .replace(/R'/g, 'R\x00')
+    .replace(/([.;:?!,])(?![\]\)'])(?=[A-Z])/g, '$1\n')
     .replace(/([.;:?!,])(?![\]\)'])\s+(?!\))/g, '$1\n')
     .replace(/R\x00/g, "R'")
     .replace(/i\x00e\x00/g, 'i.e.')

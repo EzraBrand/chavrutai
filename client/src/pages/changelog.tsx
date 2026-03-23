@@ -84,6 +84,7 @@ export default function Changelog() {
                 <li><span dir="rtl">אמר [name],</span> → <span dir="rtl">אמר [name]:</span> (general pattern for any name following אמר, e.g. <span dir="rtl">אמר נחום הלבלר:</span>)</li>
                 <li><span dir="rtl">ואלו [words].</span> → <span dir="rtl">ואלו [words]:</span> (replaces trailing period with colon on ואלו enumeration lines)</li>
                 <li><span dir="rtl">אלו [words].</span> → <span dir="rtl">אלו [words]:</span> (same for אלו without the leading ו)</li>
+                <li>Fixed Mishnah English: punctuation immediately followed by an uppercase letter (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Shammai:A</code>) now correctly splits into separate lines</li>
               </ul>
             </div>
 
