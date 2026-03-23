@@ -72,6 +72,18 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Hebrew Text: Question Mark Punctuation</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added punctuation mappings so Hebrew question phrases now correctly end with a question mark instead of a comma or period:</li>
+                <li><span dir="rtl">איזהו X,</span> → <span dir="rtl">איזהו X?</span></li>
+                <li><span dir="rtl">ואיזו היא X,</span> → <span dir="rtl">ואיזו היא X?</span></li>
+                <li><span dir="rtl">מה בין X.</span> → <span dir="rtl">מה בין X?</span></li>
+                <li><span dir="rtl">כיצד X,</span> / <span dir="rtl">כיצד X.</span> → <span dir="rtl">כיצד X?</span></li>
+                <li><span dir="rtl">במה דברים אמורים,</span> → <span dir="rtl">במה דברים אמורים?</span></li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Hebrew Text Processing: Expanded Comma-to-Colon Rules</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added new comma-to-colon conversion rules for Mishnah Hebrew text, replacing trailing commas with colons on speech and enumeration markers:</li>
