@@ -151,7 +151,10 @@ export function processMishnahHebrewText(text: string): string {
     .replace(/כיצד\./g, 'כיצד?')
     .replace(/כיצד,/g, 'כיצד?')
     .replace(/במה דברים אמורים,/g, 'במה דברים אמורים?')
-    .replace(/אימתי,/g, 'אימתי?');
+    .replace(/אימתי,/g, 'אימתי?')
+    .replace(/זה הכלל,/g, 'זה הכלל:')
+    .replace(/(איזהו\s+[^.\n]+)\./g, '$1?')
+    .replace(/(מאימתי\s+[^.\n]+)\./g, '$1?');
 
   processed = processed
     .replace(/[ \t]+/g, ' ')
