@@ -11,7 +11,6 @@ import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
 import { generateMishnahSitemap } from "./routes/sitemap-mishnah";
 import { z } from "zod";
-import OpenAI from "openai";
 import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
 
@@ -1891,14 +1890,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // AI Chat Routes
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-  });
-
   const blogSearch = getBlogPostSearch();
 
-  // Tool definitions for OpenAI function calling
-  const tools: OpenAI.Chat.ChatCompletionTool[] = [
+  // Tool definitions for AI function calling
+  const tools = [
     {
       type: "function",
       function: {
@@ -1951,12 +1946,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Chat endpoint
   app.post("/api/chat", async (req, res) => {
     try {
+      if (!process.env.OPENAI_API_KEY) {
+        return res.status(503).json({ error: "AI chat is not configured on this server." });
+      }
+
+      const { default: OpenAI } = await import("openai");
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
       const { messages, context } = req.body;
       const userMessages = messages.filter((m: any) => m.role === 'user');
       const userMessage = userMessages[userMessages.length - 1];
 
       // Build system message with context
-      const systemMessage: OpenAI.Chat.ChatCompletionSystemMessageParam = {
+      const systemMessage = {
         role: "system",
         content: `You are a knowledgeable Talmud study assistant. You have access to the Talmud & Tech blog archive which contains detailed analysis of Talmud passages.
 
@@ -1984,7 +1986,7 @@ When answering questions:
 5. Be direct and specific - avoid vague statements, meta-commentary, or filler like "there may be", "further exploration might be needed", or "for a comprehensive study"`
       };
 
-      const allMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+      const allMessages: any[] = [
         systemMessage,
         ...messages
       ];
@@ -2036,7 +2038,7 @@ When answering questions:
         }
 
         // Second API call with tool results
-        const secondMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+        const secondMessages: any[] = [
           ...allMessages,
           responseMessage,
           ...toolResults
