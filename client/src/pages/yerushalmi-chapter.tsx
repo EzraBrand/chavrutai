@@ -37,18 +37,42 @@ interface FootnoteEntry {
   noteHtml: string;
 }
 
-interface EnglishPart {
-  mainHtml: string;
-  footnotes: FootnoteEntry[];
-}
-
-function parseLineFootnotes(html: string): EnglishPart {
+function parseSectionFootnotes(html: string): { cleanedHtml: string; footnotes: FootnoteEntry[] } {
   const footnotes: FootnoteEntry[] = [];
-  const mainHtml = html.replace(/<sup>(\d+)<\/sup>\s*(<i>[\s\S]*?<\/i>)/g, (_match, num, noteHtml) => {
-    footnotes.push({ num, noteHtml });
-    return `<sup class="text-muted-foreground cursor-help" title="Note ${num}">${num}</sup>`;
-  });
-  return { mainHtml, footnotes };
+
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(`<div>${html}</div>`, 'text/html');
+    const container = doc.body.firstElementChild as HTMLElement;
+
+    const sups = Array.from(container.querySelectorAll('sup.footnote-marker, sup[class*="footnote"]'));
+    for (const sup of sups) {
+      const num = sup.textContent?.trim() || '';
+      // Walk next siblings to find the adjacent <i class="footnote">
+      let sibling = sup.nextSibling;
+      while (sibling && sibling.nodeType === Node.TEXT_NODE && (sibling.textContent || '').trim() === '') {
+        sibling = sibling.nextSibling;
+      }
+      if (
+        sibling &&
+        sibling.nodeName === 'I' &&
+        (sibling as Element).classList.contains('footnote')
+      ) {
+        footnotes.push({ num, noteHtml: (sibling as Element).innerHTML });
+        sibling.remove();
+      }
+      // Replace the <sup> with a clean styled one
+      const newSup = doc.createElement('sup');
+      newSup.className = 'text-[10px] text-muted-foreground cursor-default';
+      newSup.title = `Note ${num}`;
+      newSup.textContent = num;
+      sup.replaceWith(newSup);
+    }
+
+    return { cleanedHtml: container.innerHTML, footnotes };
+  } catch {
+    return { cleanedHtml: html, footnotes };
+  }
 }
 
 export default function YerushalmiChapter() {
@@ -135,25 +159,17 @@ export default function YerushalmiChapter() {
       const englishSection = textData.englishSections[index] || '';
       if (!hebrewSection.trim() && !englishSection.trim()) return null;
 
-      const rawEnglishLines = englishSection.trim()
-        ? processEnglishText(englishSection).split('\n').filter((line: string) => line.trim())
+      const { cleanedHtml, footnotes: sectionFootnotes } = parseSectionFootnotes(englishSection);
+
+      const englishLines = cleanedHtml.trim()
+        ? processEnglishText(cleanedHtml).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(linkBibleCitations(line.trim())))
         : [];
-
-      const englishParts: EnglishPart[] = rawEnglishLines.map((line: string) => {
-        const { mainHtml, footnotes } = parseLineFootnotes(line.trim());
-        return {
-          mainHtml: applyHighlighting(linkBibleCitations(mainHtml)),
-          footnotes,
-        };
-      });
-
-      const sectionFootnotes = englishParts.flatMap(p => p.footnotes);
 
       const hebrewLines = hebrewSection.trim()
         ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
         : [];
 
-      return { englishParts, sectionFootnotes, hebrewLines };
+      return { englishLines, sectionFootnotes, hebrewLines };
     });
   }, [textData, applyHighlighting]);
 
@@ -346,12 +362,12 @@ export default function YerushalmiChapter() {
 
                       <div className="text-display flex flex-col lg:flex-row gap-6">
                         <div className="text-column space-y-3 lg:order-1">
-                          {section.englishParts.length > 0 && (
+                          {section.englishLines.length > 0 && (
                             <div className="english-text text-foreground space-y-1.5">
-                              {section.englishParts.map((part, lineIndex) => (
+                              {section.englishLines.map((line, lineIndex) => (
                                 <div
                                   key={lineIndex}
-                                  dangerouslySetInnerHTML={{ __html: part.mainHtml }}
+                                  dangerouslySetInnerHTML={{ __html: line }}
                                 />
                               ))}
                               {section.sectionFootnotes.length > 0 && (
