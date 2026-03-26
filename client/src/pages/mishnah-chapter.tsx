@@ -475,7 +475,7 @@ export default function MishnahChapter() {
                       <div className={`text-display ${isShekalim ? '' : 'mishnah-text-display'} flex flex-col lg:flex-row gap-6`}>
                         <div className="text-column space-y-3 lg:order-1">
                           {section.englishLines.length > 0 && (
-                            <div className="english-text text-foreground space-y-3">
+                            <div className="english-text text-foreground space-y-1.5">
                               {section.englishLines.map((line, lineIndex) => (
                                 <div
                                   key={lineIndex}

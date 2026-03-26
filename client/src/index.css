@@ -355,14 +355,23 @@
     }
   }
   
-  /* Mishnah-specific: use Bible-like compact spacing instead of Talmud's stretched layout */
-  .layout-side-by-side .mishnah-text-display .hebrew-text {
-    justify-content: flex-start;
+  /* Mishnah-specific: both columns stretch to match the taller one */
+  .layout-side-by-side .mishnah-text-display .text-column > .hebrew-text,
+  .layout-side-by-side .mishnah-text-display .text-column > .english-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .layout-side-by-side .mishnah-text-display .hebrew-text p {
-    flex-grow: 0;
+    flex-grow: 1;
   }
+
+  .layout-side-by-side .mishnah-text-display .english-text > div {
+    flex-grow: 1;
+  }
+
 
   .hebrew-text strong {
     font-weight: 900;
