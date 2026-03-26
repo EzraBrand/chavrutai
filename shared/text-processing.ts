@@ -336,6 +336,18 @@ export function replaceTerms(text: string): string {
   // e.g., "<b>sky</b>-<b>blue wool</b>" prevents matching "sky-blue"
   // This collapses "</b>-<b>" into just "-" so "sky-blue" becomes matchable
   processedText = processedText.replace(/<\/b>-<b>/g, '-');
+
+  // STEP 0c: Normalize newlines inside <a> tags to spaces.
+  // Sefaria sometimes inserts \n inside anchor tags for Bible citations:
+  // e.g., <a href="..."><i>Deut</i>.\n24:1</a> — the \n causes a spurious split.
+  processedText = processedText.replace(/(<a\b[^>]*>)([\s\S]*?)(<\/a>)/g,
+    (_m, open, content, close) => open + content.replace(/\n/g, ' ') + close
+  );
+
+  // STEP 0d: Strip <i> tags that wrap a Bible book abbreviation immediately
+  // before a period, so the term-replacement step can see the full "Abbrev." token.
+  // e.g., <i>Deut</i>. → Deut.  (then term replacement expands → Deuteronomy)
+  processedText = processedText.replace(/<i>([A-Z][a-zA-Z]{1,8})<\/i>(?=\.)/g, '$1');
   
   // STEP 1: Handle Rabbi special cases first (complex logic, not in combined pattern)
   // "Rabbi," (vocative) → "Rabbi!" to mark direct address

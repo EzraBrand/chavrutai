@@ -189,7 +189,8 @@ export default function YerushalmiChapter() {
       const englishSection = textData.englishSections[index] || '';
       if (!hebrewSection.trim() && !englishSection.trim()) return null;
 
-      const { cleanedHtml, footnotes: sectionFootnotes } = parseSectionFootnotes(englishSection);
+      const { cleanedHtml: rawCleanedHtml, footnotes: sectionFootnotes } = parseSectionFootnotes(englishSection);
+      const cleanedHtml = convertNoteLinks(rawCleanedHtml);
 
       const englishLines = cleanedHtml.trim()
         ? processEnglishText(cleanedHtml).split('\n').flatMap((line: string) => splitLineByColons(line)).filter((line: string) => line.trim()).map((line: string) => applyHighlighting(linkBibleCitations(line.trim())))
