@@ -39,11 +39,24 @@ interface FootnoteEntry {
 
 function convertNoteLinks(html: string): string {
   return html
+    // 1. Yerushalmi → /yerushalmi/{tractate}/{chapter}
     .replace(
       /href="\/Jerusalem_Talmud_([^."]+(?:_[^."]+)*)\.(\d+)[^"]*"/g,
       (_match, tractate, chapter) => `href="/yerushalmi/${tractate}/${chapter}"`
     )
-    .replace(/href="(\/(?!yerushalmi)[^"]+)"/g, (_match, path) => {
+    // 2. Bavli → /talmud/{tractate}/{daf}  (tractate names have no underscores)
+    .replace(
+      /href="\/([A-Z][a-zA-Z]+)\.(\d+[ab])[^"]*"/g,
+      (_match, tractate, daf) => `href="/talmud/${tractate}/${daf}"`
+    )
+    // 3. Bible → /bible/{book}/{chapter}  (book may have underscores: I_Samuel)
+    //    Negative lookahead (?![ab]) avoids matching daf-style refs that slipped through
+    .replace(
+      /href="\/([A-Z][a-zA-Z_]*)\.(\d+)(?![ab])[^"]*"/g,
+      (_match, book, chapter) => `href="/bible/${book}/${chapter}"`
+    )
+    // 4. Any remaining Sefaria relative links → absolute sefaria.org.il
+    .replace(/href="(\/(?!(?:yerushalmi|talmud|bible)\/)[^"]+)"/g, (_match, path) => {
       return `href="https://www.sefaria.org.il${path}"`;
     });
 }
