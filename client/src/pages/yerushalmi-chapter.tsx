@@ -321,7 +321,7 @@ export default function YerushalmiChapter() {
                 {processedSections.map((section, index) => {
                   if (!section) return null;
 
-                  const sefariaUrl = `https://www.sefaria.org/${textData.sefariaRef.replace(/ /g, '_')}.${index + 1}`;
+                  const sefariaUrl = `https://www.sefaria.org.il/${textData.sefariaRef.replace(/ /g, '_')}.1.${index + 1}`;
 
                   return (
                     <div
@@ -452,7 +452,7 @@ export default function YerushalmiChapter() {
         <div className="mt-8 pt-4 border-t border-border text-center">
           <div className="flex flex-wrap justify-center gap-4 text-sm">
             <a
-              href={`https://www.sefaria.org/${textData?.sefariaRef?.replace(/ /g, '_') || `Jerusalem_Talmud_${tractateSlug}`}`}
+              href={`https://www.sefaria.org.il/${textData?.sefariaRef?.replace(/ /g, '_') || `Jerusalem_Talmud_${tractateSlug}`}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
