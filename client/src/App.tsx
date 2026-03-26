@@ -40,6 +40,9 @@ const TermIndexPage = lazy(() => import("@/pages/term-index"));
 const MishnahContents = lazy(() => import("@/pages/mishnah-contents"));
 const MishnahTractate = lazy(() => import("@/pages/mishnah-tractate"));
 const MishnahChapterPage = lazy(() => import("@/pages/mishnah-chapter"));
+const YerushalmiContents = lazy(() => import("@/pages/yerushalmi-contents"));
+const YerushalmiTractate = lazy(() => import("@/pages/yerushalmi-tractate"));
+const YerushalmiChapterPage = lazy(() => import("@/pages/yerushalmi-chapter"));
 
 function TractateRedirect() {
   const { tractate, folio } = useParams<{ tractate: string; folio: string }>();
@@ -113,6 +116,9 @@ function Router() {
       <Route path="/mishnah" component={MishnahContents} />
       <Route path="/mishnah/:tractate" component={MishnahTractate} />
       <Route path="/mishnah/:tractate/:chapter" component={MishnahChapterPage} />
+      <Route path="/yerushalmi" component={YerushalmiContents} />
+      <Route path="/yerushalmi/:tractate" component={YerushalmiTractate} />
+      <Route path="/yerushalmi/:tractate/:chapter" component={YerushalmiChapterPage} />
       <Route path="/tractate/:tractate/:folio" component={TractateRedirect} />
       <Route path="/outline/:tractate/:chapter" component={TractateOutlinePage} />
       <Route component={NotFound} />

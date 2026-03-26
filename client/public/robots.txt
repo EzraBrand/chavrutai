@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Allow: /talmud/
 Allow: /bible/
+Allow: /yerushalmi/
 Allow: /about
 Allow: /suggested-pages
 Allow: /biblical-index

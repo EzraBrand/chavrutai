@@ -63,6 +63,12 @@ export function generateSitemapIndex(req: Request, res: Response) {
     <loc>${baseUrl}/sitemap-mishnah.xml</loc>
     <lastmod>${currentDate}</lastmod>
   </sitemap>
+  
+  <!-- Jerusalem Talmud (Yerushalmi) - 39 tractates -->
+  <sitemap>
+    <loc>${baseUrl}/sitemap-yerushalmi.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>
 </sitemapindex>`;
 
   res.set('Content-Type', 'application/xml');
