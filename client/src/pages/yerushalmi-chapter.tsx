@@ -9,7 +9,7 @@ import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigat
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
-import { processHebrewText, processEnglishText, linkBibleCitations } from "@/lib/text-processing";
+import { processHebrewText, processEnglishText, linkBibleCitations, replaceTerms } from "@/lib/text-processing";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import {
   normalizeYerushalmiTractateName,
@@ -91,7 +91,7 @@ function parseSectionFootnotes(html: string): { cleanedHtml: string; footnotes: 
         sibling.nodeName === 'I' &&
         (sibling as Element).classList.contains('footnote')
       ) {
-        footnotes.push({ num, noteHtml: convertNoteLinks((sibling as Element).innerHTML) });
+        footnotes.push({ num, noteHtml: convertNoteLinks(replaceTerms((sibling as Element).innerHTML)) });
         sibling.remove();
       }
       // Replace the <sup> with a clean styled one
