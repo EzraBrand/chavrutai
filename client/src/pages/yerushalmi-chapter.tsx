@@ -49,11 +49,14 @@ function convertNoteLinks(html: string): string {
       /href="\/([A-Z][a-zA-Z]+)\.(\d+[ab])[^"]*"/g,
       (_match, tractate, daf) => `href="/talmud/${tractate}/${daf}"`
     )
-    // 3. Bible → /bible/{book}/{chapter}  (book may have underscores: I_Samuel)
+    // 3. Bible → /bible/{book}/{chapter}#verse  (book may have underscores: I_Samuel)
     //    Negative lookahead (?![ab]) avoids matching daf-style refs that slipped through
+    //    Verse number (if present) becomes a hash anchor: /Deuteronomy.24.1 → /bible/Deuteronomy/24#1
     .replace(
-      /href="\/([A-Z][a-zA-Z_]*)\.(\d+)(?![ab])[^"]*"/g,
-      (_match, book, chapter) => `href="/bible/${book}/${chapter}"`
+      /href="\/([A-Z][a-zA-Z_]*)\.(\d+)(?![ab])(?:\.(\d+)[\d\-]*)?[^"]*"/g,
+      (_match, book, chapter, verse) => verse
+        ? `href="/bible/${book}/${chapter}#${verse}"`
+        : `href="/bible/${book}/${chapter}"`
     )
     // 4. Any remaining Sefaria relative links → absolute sefaria.org.il
     .replace(/href="(\/(?!(?:yerushalmi|talmud|bible)\/)[^"]+)"/g, (_match, path) => {
