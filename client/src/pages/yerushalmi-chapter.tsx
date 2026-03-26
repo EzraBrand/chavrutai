@@ -32,11 +32,31 @@ interface YerushalmiTextData {
   halakhotCount: number;
 }
 
+interface FootnoteEntry {
+  num: string;
+  noteHtml: string;
+}
+
+interface EnglishPart {
+  mainHtml: string;
+  footnotes: FootnoteEntry[];
+}
+
+function parseLineFootnotes(html: string): EnglishPart {
+  const footnotes: FootnoteEntry[] = [];
+  const mainHtml = html.replace(/<sup>(\d+)<\/sup>\s*(<i>[\s\S]*?<\/i>)/g, (_match, num, noteHtml) => {
+    footnotes.push({ num, noteHtml });
+    return `<sup class="text-muted-foreground cursor-help" title="Note ${num}">${num}</sup>`;
+  });
+  return { mainHtml, footnotes };
+}
+
 export default function YerushalmiChapter() {
   const { tractate, chapter } = useParams<{ tractate: string; chapter: string }>();
   const [, setLocation] = useLocation();
   const { preferences } = usePreferences();
   const [copiedSection, setCopiedSection] = useState<number | null>(null);
+  const [expandedNotes, setExpandedNotes] = useState<Set<number>>(new Set());
 
   const tractateDisplayName = tractate ? normalizeYerushalmiTractateName(tractate) : null;
   const chapterNum = chapter ? parseInt(chapter, 10) : NaN;
@@ -115,20 +135,39 @@ export default function YerushalmiChapter() {
       const englishSection = textData.englishSections[index] || '';
       if (!hebrewSection.trim() && !englishSection.trim()) return null;
 
-      const englishLines = englishSection.trim()
-        ? processEnglishText(englishSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(linkBibleCitations(line.trim())))
+      const rawEnglishLines = englishSection.trim()
+        ? processEnglishText(englishSection).split('\n').filter((line: string) => line.trim())
         : [];
+
+      const englishParts: EnglishPart[] = rawEnglishLines.map((line: string) => {
+        const { mainHtml, footnotes } = parseLineFootnotes(line.trim());
+        return {
+          mainHtml: applyHighlighting(linkBibleCitations(mainHtml)),
+          footnotes,
+        };
+      });
+
+      const sectionFootnotes = englishParts.flatMap(p => p.footnotes);
 
       const hebrewLines = hebrewSection.trim()
         ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
         : [];
 
-      return { englishLines, hebrewLines };
+      return { englishParts, sectionFootnotes, hebrewLines };
     });
   }, [textData, applyHighlighting]);
 
   const handleLocationChange = (_newLocation: TalmudLocation) => {
     setLocation('/');
+  };
+
+  const toggleNotes = (halakhahIndex: number) => {
+    setExpandedNotes(prev => {
+      const next = new Set(prev);
+      if (next.has(halakhahIndex)) next.delete(halakhahIndex);
+      else next.add(halakhahIndex);
+      return next;
+    });
   };
 
   const copySectionUrl = (sectionNumber: number) => {
@@ -307,14 +346,37 @@ export default function YerushalmiChapter() {
 
                       <div className="text-display flex flex-col lg:flex-row gap-6">
                         <div className="text-column space-y-3 lg:order-1">
-                          {section.englishLines.length > 0 && (
+                          {section.englishParts.length > 0 && (
                             <div className="english-text text-foreground space-y-1.5">
-                              {section.englishLines.map((line, lineIndex) => (
+                              {section.englishParts.map((part, lineIndex) => (
                                 <div
                                   key={lineIndex}
-                                  dangerouslySetInnerHTML={{ __html: line }}
+                                  dangerouslySetInnerHTML={{ __html: part.mainHtml }}
                                 />
                               ))}
+                              {section.sectionFootnotes.length > 0 && (
+                                <div className="mt-3 pt-2 border-t border-border/40">
+                                  <button
+                                    onClick={() => toggleNotes(index)}
+                                    className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                                  >
+                                    <span className="text-[10px]">{expandedNotes.has(index) ? '▼' : '▶'}</span>
+                                    {expandedNotes.has(index)
+                                      ? 'Hide notes'
+                                      : `Notes (${section.sectionFootnotes.length})`}
+                                  </button>
+                                  {expandedNotes.has(index) && (
+                                    <div className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+                                      {section.sectionFootnotes.map((fn, fnIdx) => (
+                                        <div key={fnIdx} className="flex gap-1.5">
+                                          <sup className="text-[10px] leading-5 flex-shrink-0">{fn.num}</sup>
+                                          <span dangerouslySetInnerHTML={{ __html: fn.noteHtml }} />
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>

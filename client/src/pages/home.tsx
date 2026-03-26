@@ -75,7 +75,7 @@ export default function Home() {
             <CardContent className="p-6 flex flex-col h-full">
               <h2 className="text-xl font-semibold text-foreground mb-3">Jerusalem Talmud</h2>
               <p className="text-muted-foreground mb-4 flex-1">
-                39 tractates with bilingual Hebrew-English text. English translation by Heinrich W. Guggenheimer.
+                39 tractates with bilingual Hebrew-English text organized by Seder.
               </p>
               <Link href="/yerushalmi">
                 <Button variant="default" className="w-full" data-testid="button-browse-yerushalmi">
