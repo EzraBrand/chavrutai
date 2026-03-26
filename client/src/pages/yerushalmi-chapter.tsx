@@ -37,6 +37,23 @@ interface FootnoteEntry {
   noteHtml: string;
 }
 
+function convertNoteLinks(html: string): string {
+  return html
+    .replace(
+      /href="\/Jerusalem_Talmud_([^."]+(?:_[^."]+)*)\.(\d+)[^"]*"/g,
+      (_match, tractate, chapter) => `href="/yerushalmi/${tractate}/${chapter}"`
+    )
+    .replace(/href="(\/(?!yerushalmi)[^"]+)"/g, (_match, path) => {
+      return `href="https://www.sefaria.org.il${path}"`;
+    });
+}
+
+function splitLineByColons(line: string): string[] {
+  const parts = line.split(/(?<!\d): /);
+  if (parts.length <= 1) return [line];
+  return parts.map((part, i) => (i < parts.length - 1 ? part + ':' : part)).filter(s => s.trim());
+}
+
 function parseSectionFootnotes(html: string): { cleanedHtml: string; footnotes: FootnoteEntry[] } {
   const footnotes: FootnoteEntry[] = [];
 
@@ -58,7 +75,7 @@ function parseSectionFootnotes(html: string): { cleanedHtml: string; footnotes: 
         sibling.nodeName === 'I' &&
         (sibling as Element).classList.contains('footnote')
       ) {
-        footnotes.push({ num, noteHtml: (sibling as Element).innerHTML });
+        footnotes.push({ num, noteHtml: convertNoteLinks((sibling as Element).innerHTML) });
         sibling.remove();
       }
       // Replace the <sup> with a clean styled one
@@ -162,7 +179,7 @@ export default function YerushalmiChapter() {
       const { cleanedHtml, footnotes: sectionFootnotes } = parseSectionFootnotes(englishSection);
 
       const englishLines = cleanedHtml.trim()
-        ? processEnglishText(cleanedHtml).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(linkBibleCitations(line.trim())))
+        ? processEnglishText(cleanedHtml).split('\n').flatMap((line: string) => splitLineByColons(line)).filter((line: string) => line.trim()).map((line: string) => applyHighlighting(linkBibleCitations(line.trim())))
         : [];
 
       const hebrewLines = hebrewSection.trim()
