@@ -72,6 +72,14 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Reader: Balanced Section Heights & Compact Spacing</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Hebrew and English text blocks now expand to match whichever is taller, eliminating empty whitespace at the bottom of shorter columns</li>
+                <li>Slightly reduced English paragraph spacing for a more compact reading experience</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO: Mishnah Sitemap, Structured Data & Search Noindex</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Created a dedicated <strong>Mishnah XML sitemap</strong> (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sitemap-mishnah.xml</code>) covering all 26 tractates and ~250 chapter pages, registered in the sitemap index</li>
