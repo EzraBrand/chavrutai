@@ -66,6 +66,60 @@ export function generateMainSitemap(req: Request, res: Response) {
     <changefreq>monthly</changefreq>
     <lastmod>${currentDate}</lastmod>
   </url>
+  <url>
+    <loc>${baseUrl}/mishnah</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/mishnah-map</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/search</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/sugya-viewer</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/sitemap</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/external-links</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/contact</loc>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/privacy</loc>
+    <priority>0.4</priority>
+    <changefreq>yearly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/changelog</loc>
+    <priority>0.5</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
 
   <!-- Tractate contents pages -->`;
 

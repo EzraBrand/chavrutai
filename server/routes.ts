@@ -9,6 +9,7 @@ import { getBookBySlug } from "@shared/bible-books";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
+import { generateMishnahSitemap } from "./routes/sitemap-mishnah";
 import { z } from "zod";
 import OpenAI from "openai";
 import { getBlogPostSearch } from "./blog-search";
@@ -172,6 +173,188 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
         name: "ChavrutAI",
         url: origin,
       },
+    };
+  }
+
+  if (url === '/bible') {
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": `${origin}/bible`,
+          name: "Hebrew Bible (Tanach) — Hebrew & English",
+          description: "Read the complete Hebrew Bible with Koren Jerusalem Bible English translation. All 24 books of the Torah, Nevi'im, and Ketuvim.",
+          url: `${origin}/bible`,
+          breadcrumb: {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+              { "@type": "ListItem", position: 2, name: "Bible", item: `${origin}/bible` },
+            ],
+          },
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        organizationNode,
+      ],
+    };
+  }
+
+  const bibleBookMatch = url.match(/^\/bible\/([^/]+)$/);
+  if (bibleBookMatch) {
+    const bookSlug = bibleBookMatch[1];
+    const book = getBookBySlug(bookSlug);
+    const bookTitle = book ? book.name : bookSlug.replace(/_/g, ' ');
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Book",
+          "@id": `${origin}/bible/${bookSlug}`,
+          name: `${bookTitle} — Hebrew Bible`,
+          url: `${origin}/bible/${bookSlug}`,
+          inLanguage: ["he", "en"],
+          genre: "Religious Text",
+          isPartOf: { "@type": "BookSeries", name: "Hebrew Bible (Tanach)" },
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+            { "@type": "ListItem", position: 2, name: "Bible", item: `${origin}/bible` },
+            { "@type": "ListItem", position: 3, name: bookTitle, item: `${origin}/bible/${bookSlug}` },
+          ],
+        },
+        organizationNode,
+      ],
+    };
+  }
+
+  const bibleChapterMatch = url.match(/^\/bible\/([^/]+)\/(\d+)$/);
+  if (bibleChapterMatch) {
+    const bookSlug = bibleChapterMatch[1];
+    const chapter = bibleChapterMatch[2];
+    const book = getBookBySlug(bookSlug);
+    const bookTitle = book ? book.name : bookSlug.replace(/_/g, ' ');
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": `${origin}/bible/${bookSlug}/${chapter}`,
+          headline: `${bookTitle} Chapter ${chapter} — Hebrew & English`,
+          description: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the Koren Jerusalem Bible translation.`,
+          url: `${origin}/bible/${bookSlug}/${chapter}`,
+          author: { "@id": `${origin}/#organization` },
+          publisher: { "@id": `${origin}/#organization` },
+          isPartOf: {
+            "@type": "Book",
+            name: `${bookTitle} — Hebrew Bible`,
+            isPartOf: { "@type": "BookSeries", name: "Hebrew Bible (Tanach)" },
+          },
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+            { "@type": "ListItem", position: 2, name: "Bible", item: `${origin}/bible` },
+            { "@type": "ListItem", position: 3, name: bookTitle, item: `${origin}/bible/${bookSlug}` },
+            { "@type": "ListItem", position: 4, name: `Chapter ${chapter}`, item: `${origin}/bible/${bookSlug}/${chapter}` },
+          ],
+        },
+        organizationNode,
+      ],
+    };
+  }
+
+  if (url === '/mishnah') {
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": `${origin}/mishnah`,
+          name: "Mishnah — Hebrew & English",
+          description: "Study 26 Mishnah tractates not covered by the Babylonian Talmud with bilingual Hebrew-English text.",
+          url: `${origin}/mishnah`,
+          breadcrumb: {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+              { "@type": "ListItem", position: 2, name: "Mishnah", item: `${origin}/mishnah` },
+            ],
+          },
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        organizationNode,
+      ],
+    };
+  }
+
+  const mishnahTractateMatch = url.match(/^\/mishnah\/([^/]+)$/);
+  if (mishnahTractateMatch) {
+    const tractateSlug = mishnahTractateMatch[1];
+    const tractateInfo = getMishnahTractateInfo(tractateSlug);
+    const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": `${origin}/mishnah/${tractateSlug}`,
+          name: `Mishnah ${tractateName}`,
+          description: `Study Mishnah ${tractateName} chapter by chapter with bilingual Hebrew-English text.`,
+          url: `${origin}/mishnah/${tractateSlug}`,
+          isPartOf: { "@type": "WebSite", "@id": `${origin}/#website` },
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+            { "@type": "ListItem", position: 2, name: "Mishnah", item: `${origin}/mishnah` },
+            { "@type": "ListItem", position: 3, name: tractateName, item: `${origin}/mishnah/${tractateSlug}` },
+          ],
+        },
+        organizationNode,
+      ],
+    };
+  }
+
+  const mishnahChapterMatch = url.match(/^\/mishnah\/([^/]+)\/(\d+)$/);
+  if (mishnahChapterMatch) {
+    const tractateSlug = mishnahChapterMatch[1];
+    const chapter = mishnahChapterMatch[2];
+    const tractateInfo = getMishnahTractateInfo(tractateSlug);
+    const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": `${origin}/mishnah/${tractateSlug}/${chapter}`,
+          headline: `Mishnah ${tractateName} Chapter ${chapter}`,
+          description: `Study Mishnah ${tractateName} Chapter ${chapter} with parallel Hebrew-English text.`,
+          url: `${origin}/mishnah/${tractateSlug}/${chapter}`,
+          author: { "@id": `${origin}/#organization` },
+          publisher: { "@id": `${origin}/#organization` },
+          isPartOf: {
+            "@type": "Book",
+            name: `Mishnah ${tractateName}`,
+            isPartOf: { "@type": "BookSeries", name: "Mishnah" },
+          },
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+            { "@type": "ListItem", position: 2, name: "Mishnah", item: `${origin}/mishnah` },
+            { "@type": "ListItem", position: 3, name: tractateName, item: `${origin}/mishnah/${tractateSlug}` },
+            { "@type": "ListItem", position: 4, name: `Chapter ${chapter}`, item: `${origin}/mishnah/${tractateSlug}/${chapter}` },
+          ],
+        },
+        organizationNode,
+      ],
     };
   }
 
@@ -472,7 +655,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       ogTitle,
       ogDescription,
       canonical: `${baseUrl}/search`,
-      robots: "index, follow"
+      robots: (query || type) ? "noindex, follow" : "index, follow"
     };
   }
   
@@ -1656,6 +1839,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/sitemap-seder-nezikin.xml', generateSederSitemap('nezikin'));
   app.get('/sitemap-seder-kodashim.xml', generateSederSitemap('kodashim'));
   app.get('/sitemap-seder-tohorot.xml', generateSederSitemap('tohorot'));
+  app.get('/sitemap-mishnah.xml', generateMishnahSitemap);
 
   // Dictionary API Routes
   // Search dictionary entries

@@ -57,6 +57,12 @@ export function generateSitemapIndex(req: Request, res: Response) {
     <loc>${baseUrl}/sitemap-seder-tohorot.xml</loc>
     <lastmod>${currentDate}</lastmod>
   </sitemap>
+  
+  <!-- Mishnah - 26 tractates not in Talmud Bavli -->
+  <sitemap>
+    <loc>${baseUrl}/sitemap-mishnah.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>
 </sitemapindex>`;
 
   res.set('Content-Type', 'application/xml');
