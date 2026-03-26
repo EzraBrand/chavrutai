@@ -237,6 +237,11 @@ export function splitHebrewText(text: string): string {
   // the line, so the trailing dash is redundant.
   processedText = processedText.replace(/:\s*[–—]/g, ':');
 
+  // STEP 5d: Remove period that immediately follows a question mark (?.)
+  // Guggenheimer sometimes writes "?." — the period is redundant and would
+  // otherwise trigger an extra (spurious) split after the question mark split.
+  processedText = processedText.replace(/\?\./g, '?');
+
   // STEP 6: Split on individual punctuation marks
   // Each mark gets a newline after it to create paragraph breaks
   // Hebrew-specific: ׃ (sof pasuq)
