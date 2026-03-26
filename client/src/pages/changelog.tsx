@@ -72,6 +72,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO: Mishnah Sitemap, Structured Data & Search Noindex</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Created a dedicated <strong>Mishnah XML sitemap</strong> (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sitemap-mishnah.xml</code>) covering all 26 tractates and ~250 chapter pages, registered in the sitemap index</li>
+                <li>Added <strong>server-side structured data</strong> (JSON-LD) for Bible and Mishnah pages — Bible books use <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Book</code> schema, Bible chapters and Mishnah chapters use <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Article</code> schema with <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">BreadcrumbList</code>, and index pages use <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">CollectionPage</code></li>
+                <li>Added missing pages to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">sitemap-main.xml</code>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/mishnah</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/mishnah-map</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/search</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sugya-viewer</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sitemap</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/external-links</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/contact</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/privacy</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/changelog</code></li>
+                <li>Search result pages with query parameters (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">?q=...</code> or <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">?type=...</code>) now return <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">noindex, follow</code> to prevent thin/duplicate search result pages from being indexed</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Hebrew Text: Question Mark Punctuation</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added punctuation mappings so Hebrew question phrases now correctly end with a question mark instead of a comma or period:</li>
