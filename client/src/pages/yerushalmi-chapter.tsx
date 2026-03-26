@@ -370,29 +370,6 @@ export default function YerushalmiChapter() {
                                   dangerouslySetInnerHTML={{ __html: line }}
                                 />
                               ))}
-                              {section.sectionFootnotes.length > 0 && (
-                                <div className="mt-3 pt-2 border-t border-border/40">
-                                  <button
-                                    onClick={() => toggleNotes(index)}
-                                    className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                                  >
-                                    <span className="text-[10px]">{expandedNotes.has(index) ? '▼' : '▶'}</span>
-                                    {expandedNotes.has(index)
-                                      ? 'Hide notes'
-                                      : `Notes (${section.sectionFootnotes.length})`}
-                                  </button>
-                                  {expandedNotes.has(index) && (
-                                    <div className="mt-2 space-y-1.5 text-sm text-muted-foreground">
-                                      {section.sectionFootnotes.map((fn, fnIdx) => (
-                                        <div key={fnIdx} className="flex gap-1.5">
-                                          <sup className="text-[10px] leading-5 flex-shrink-0">{fn.num}</sup>
-                                          <span dangerouslySetInnerHTML={{ __html: fn.noteHtml }} />
-                                        </div>
-                                      ))}
-                                    </div>
-                                  )}
-                                </div>
-                              )}
                             </div>
                           )}
                         </div>
@@ -411,6 +388,30 @@ export default function YerushalmiChapter() {
                           )}
                         </div>
                       </div>
+
+                      {section.sectionFootnotes.length > 0 && (
+                        <div className="mt-4 pt-3 border-t border-border/40">
+                          <button
+                            onClick={() => toggleNotes(index)}
+                            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                          >
+                            <span>{expandedNotes.has(index) ? '▼' : '▶'}</span>
+                            {expandedNotes.has(index)
+                              ? 'Hide notes'
+                              : `Notes (${section.sectionFootnotes.length})`}
+                          </button>
+                          {expandedNotes.has(index) && (
+                            <div className="mt-3 space-y-2 text-sm text-muted-foreground max-w-prose">
+                              {section.sectionFootnotes.map((fn, fnIdx) => (
+                                <div key={fnIdx} className="flex gap-2">
+                                  <sup className="text-[10px] leading-5 flex-shrink-0 font-medium">{fn.num}</sup>
+                                  <span dangerouslySetInnerHTML={{ __html: fn.noteHtml }} />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -460,9 +461,6 @@ export default function YerushalmiChapter() {
               <ExternalLinkIcon className="w-3 h-3" />
             </a>
           </div>
-          <p className="text-xs text-muted-foreground mt-3">
-            English translation: Heinrich W. Guggenheimer, <em>The Jerusalem Talmud</em> (de Gruyter). Via Sefaria.
-          </p>
         </div>
       </main>
 
