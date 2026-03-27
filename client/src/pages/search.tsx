@@ -184,12 +184,19 @@ export default function SearchPage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      const trimmed = searchQuery.trim();
-      setSubmittedQuery(trimmed);
+      // Strip leading/trailing punctuation (commas, periods, semicolons, etc.) and collapse whitespace
+      const sanitized = searchQuery
+        .trim()
+        .replace(/^[,;:.!?]+|[,;:.!?]+$/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (!sanitized) return;
+      setSearchQuery(sanitized);
+      setSubmittedQuery(sanitized);
       setCurrentPage(1);
       setShowSuggestions(false);
       setIsUserTyping(false);
-      pushUrl({ q: trimmed });
+      pushUrl({ q: sanitized });
     }
   };
 
