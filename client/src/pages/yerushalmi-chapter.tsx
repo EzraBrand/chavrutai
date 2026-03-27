@@ -94,10 +94,11 @@ function parseSectionFootnotes(html: string): { cleanedHtml: string; footnotes: 
         footnotes.push({ num, noteHtml: convertNoteLinks(replaceTerms((sibling as Element).innerHTML)) });
         sibling.remove();
       }
-      // Replace the <sup> with a clean styled one
+      // Replace the <sup> with a clean styled clickable one
       const newSup = doc.createElement('sup');
-      newSup.className = 'text-[10px] text-muted-foreground cursor-default';
-      newSup.title = `Note ${num}`;
+      newSup.className = 'text-[10px] text-blue-500 cursor-pointer hover:text-blue-700 transition-colors';
+      newSup.title = `Jump to note ${num}`;
+      newSup.setAttribute('data-note-ref', num);
       newSup.textContent = num;
       sup.replaceWith(newSup);
     }
@@ -351,16 +352,30 @@ export default function YerushalmiChapter() {
             )}
 
             <div className="bg-card rounded-lg shadow-sm border border-border p-6">
-              <div className="space-y-8">
+              <div
+                className="space-y-8"
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  if (target.tagName !== 'SUP' || !target.dataset.noteRef) return;
+                  const num = target.dataset.noteRef;
+                  const halakhahDiv = target.closest('[data-halakhah-index]') as HTMLElement | null;
+                  if (!halakhahDiv) return;
+                  const sectionIndex = parseInt(halakhahDiv.dataset.halakhahIndex || '0', 10);
+                  setExpandedNotes(prev => new Set([...prev, sectionIndex]));
+                  setTimeout(() => {
+                    const noteEl = document.getElementById(`note-${sectionIndex}-${num}`);
+                    if (noteEl) noteEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 50);
+                }}
+              >
                 {processedSections.map((section, index) => {
-                  if (!section) return null;
-
                   const sefariaUrl = `https://www.sefaria.org.il/${textData.sefariaRef.replace(/ /g, '_')}.1.${index + 1}`;
 
                   return (
                     <div
                       key={index}
                       id={`${index + 1}`}
+                      data-halakhah-index={index}
                       className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
                     >
                       <div className="flex items-center justify-center gap-3 mb-4">
@@ -394,57 +409,69 @@ export default function YerushalmiChapter() {
                         </a>
                       </div>
 
-                      <div className="text-display flex flex-col lg:flex-row gap-6">
-                        <div className="text-column space-y-3 lg:order-1">
-                          {section.englishLines.length > 0 && (
-                            <div className="english-text text-foreground space-y-1.5">
-                              {section.englishLines.map((line, lineIndex) => (
-                                <div
-                                  key={lineIndex}
-                                  dangerouslySetInnerHTML={{ __html: line }}
-                                />
-                              ))}
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="text-column space-y-3 lg:order-2">
-                          {section.hebrewLines.length > 0 && (
-                            <div className={`hebrew-text text-foreground ${getHebrewFontClass()} space-y-3`}>
-                              {section.hebrewLines.map((line, lineIndex) => (
-                                <div key={lineIndex}>
-                                  <p className="leading-relaxed">
-                                    <span dangerouslySetInnerHTML={{ __html: line }} />
-                                  </p>
+                      {!section ? (
+                        <p className="text-center text-xs text-muted-foreground italic py-2">
+                          Text not available for this halakhah.
+                        </p>
+                      ) : (
+                        <>
+                          <div className="text-display flex flex-col lg:flex-row gap-6">
+                            <div className="text-column space-y-3 lg:order-1">
+                              {section.englishLines.length > 0 ? (
+                                <div className="english-text text-foreground space-y-1.5">
+                                  {section.englishLines.map((line, lineIndex) => (
+                                    <div
+                                      key={lineIndex}
+                                      dangerouslySetInnerHTML={{ __html: line }}
+                                    />
+                                  ))}
                                 </div>
-                              ))}
+                              ) : (
+                                <p className="text-xs text-muted-foreground italic">English translation not available.</p>
+                              )}
                             </div>
-                          )}
-                        </div>
-                      </div>
 
-                      {section.sectionFootnotes.length > 0 && (
-                        <div className="mt-4 pt-3 border-t border-border/40">
-                          <button
-                            onClick={() => toggleNotes(index)}
-                            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                          >
-                            <span>{expandedNotes.has(index) ? '▼' : '▶'}</span>
-                            {expandedNotes.has(index)
-                              ? 'Hide notes'
-                              : `Notes (${section.sectionFootnotes.length})`}
-                          </button>
-                          {expandedNotes.has(index) && (
-                            <div className="mt-3 space-y-2 text-sm text-muted-foreground max-w-prose">
-                              {section.sectionFootnotes.map((fn, fnIdx) => (
-                                <div key={fnIdx} className="flex gap-2">
-                                  <sup className="text-[10px] leading-5 flex-shrink-0 font-medium">{fn.num}</sup>
-                                  <span dangerouslySetInnerHTML={{ __html: fn.noteHtml }} />
+                            <div className="text-column space-y-3 lg:order-2">
+                              {section.hebrewLines.length > 0 ? (
+                                <div className={`hebrew-text text-foreground ${getHebrewFontClass()} space-y-3`}>
+                                  {section.hebrewLines.map((line, lineIndex) => (
+                                    <div key={lineIndex}>
+                                      <p className="leading-relaxed">
+                                        <span dangerouslySetInnerHTML={{ __html: line }} />
+                                      </p>
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
+                              ) : (
+                                <p className="text-xs text-muted-foreground italic text-right" dir="rtl">טקסט עברי אינו זמין.</p>
+                              )}
+                            </div>
+                          </div>
+
+                          {section.sectionFootnotes.length > 0 && (
+                            <div className="mt-4 pt-3 border-t border-border/40">
+                              <button
+                                onClick={() => toggleNotes(index)}
+                                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                              >
+                                <span>{expandedNotes.has(index) ? '▼' : '▶'}</span>
+                                {expandedNotes.has(index)
+                                  ? 'Hide notes'
+                                  : `Notes (${section.sectionFootnotes.length})`}
+                              </button>
+                              {expandedNotes.has(index) && (
+                                <div className="mt-3 space-y-2 text-sm text-muted-foreground max-w-prose">
+                                  {section.sectionFootnotes.map((fn, fnIdx) => (
+                                    <div key={fnIdx} id={`note-${index}-${fn.num}`} className="flex gap-2 scroll-mt-24">
+                                      <sup className="text-[10px] leading-5 flex-shrink-0 font-medium">{fn.num}</sup>
+                                      <span dangerouslySetInnerHTML={{ __html: fn.noteHtml }} />
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
                             </div>
                           )}
-                        </div>
+                        </>
                       )}
                     </div>
                   );

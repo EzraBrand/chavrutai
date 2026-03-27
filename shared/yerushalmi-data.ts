@@ -42,20 +42,20 @@ export const YERUSHALMI_HEBREW_NAMES: Record<string, string> = {
 
 export const YERUSHALMI_TRACTATES = {
   zeraim: [
-    { name: "Berakhot", chapters: 5, sefaria: "Jerusalem_Talmud_Berakhot" },
+    { name: "Berakhot", chapters: 9, sefaria: "Jerusalem_Talmud_Berakhot" },
     { name: "Peah", chapters: 8, sefaria: "Jerusalem_Talmud_Peah" },
     { name: "Demai", chapters: 7, sefaria: "Jerusalem_Talmud_Demai" },
     { name: "Kilayim", chapters: 9, sefaria: "Jerusalem_Talmud_Kilayim" },
     { name: "Sheviit", chapters: 10, sefaria: "Jerusalem_Talmud_Sheviit" },
-    { name: "Terumot", chapters: 10, sefaria: "Jerusalem_Talmud_Terumot" },
+    { name: "Terumot", chapters: 11, sefaria: "Jerusalem_Talmud_Terumot" },
     { name: "Maasrot", chapters: 5, sefaria: "Jerusalem_Talmud_Maasrot" },
     { name: "Maaser Sheni", chapters: 5, sefaria: "Jerusalem_Talmud_Maaser_Sheni" },
     { name: "Challah", chapters: 4, sefaria: "Jerusalem_Talmud_Challah" },
-    { name: "Orlah", chapters: 2, sefaria: "Jerusalem_Talmud_Orlah" },
+    { name: "Orlah", chapters: 3, sefaria: "Jerusalem_Talmud_Orlah" },
     { name: "Bikkurim", chapters: 3, sefaria: "Jerusalem_Talmud_Bikkurim" },
   ],
   moed: [
-    { name: "Shabbat", chapters: 20, sefaria: "Jerusalem_Talmud_Shabbat" },
+    { name: "Shabbat", chapters: 24, sefaria: "Jerusalem_Talmud_Shabbat" },
     { name: "Eruvin", chapters: 10, sefaria: "Jerusalem_Talmud_Eruvin" },
     { name: "Pesachim", chapters: 10, sefaria: "Jerusalem_Talmud_Pesachim" },
     { name: "Shekalim", chapters: 8, sefaria: "Jerusalem_Talmud_Shekalim" },
@@ -86,7 +86,7 @@ export const YERUSHALMI_TRACTATES = {
     { name: "Shevuot", chapters: 8, sefaria: "Jerusalem_Talmud_Shevuot" },
     { name: "Avodah Zarah", chapters: 5, sefaria: "Jerusalem_Talmud_Avodah_Zarah" },
     { name: "Horayot", chapters: 3, sefaria: "Jerusalem_Talmud_Horayot" },
-    { name: "Niddah", chapters: 3, sefaria: "Jerusalem_Talmud_Niddah" },
+    { name: "Niddah", chapters: 4, sefaria: "Jerusalem_Talmud_Niddah" },
   ],
 } as const;
 
