@@ -23,15 +23,6 @@ function toHebrewLetter(n: number): string {
   return HEBREW_LETTERS[n - 1] ?? String(n);
 }
 
-function halakhotStartSections(segmentCounts: number[]): number[] {
-  const starts: number[] = [];
-  let cumulative = 1;
-  for (const count of segmentCounts) {
-    starts.push(cumulative);
-    cumulative += count;
-  }
-  return starts;
-}
 
 export default function YerushalmiTractate() {
   const [match, params] = useRoute("/yerushalmi/:tractate");
@@ -110,7 +101,6 @@ export default function YerushalmiTractate() {
         <div className="grid grid-cols-1 gap-6 max-w-none sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto">
           {Array.from({ length: tractateInfo.chapters }, (_, i) => i + 1).map((chapterNum) => {
             const chapterShape: number[] = shapes[chapterNum - 1] ?? [];
-            const startSections = halakhotStartSections(chapterShape);
             const halakhotCount = chapterShape.length;
 
             return (
@@ -132,7 +122,7 @@ export default function YerushalmiTractate() {
                       {chapterShape.map((_, halIdx) => (
                         <Link
                           key={halIdx}
-                          href={`/yerushalmi/${tractateSlug}/${chapterNum}#${startSections[halIdx]}`}
+                          href={`/yerushalmi/${tractateSlug}/${chapterNum}#${halIdx + 1}-1`}
                           className="inline-flex items-center justify-center w-8 h-8 rounded border border-border bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors text-sm font-medium"
                           title={`Halakhah ${halIdx + 1}`}
                         >

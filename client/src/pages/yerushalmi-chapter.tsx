@@ -38,6 +38,17 @@ interface FootnoteEntry {
   noteHtml: string;
 }
 
+// Parse halakhah (H) and segment (S) from a sectionRef like "Jerusalem_Talmud_Berakhot.1.6.1"
+function parseRef(ref: string | undefined): { h: number; s: number } | null {
+  if (!ref) return null;
+  const parts = ref.split('.');
+  if (parts.length < 4) return null;
+  const h = parseInt(parts[parts.length - 2], 10);
+  const s = parseInt(parts[parts.length - 1], 10);
+  if (isNaN(h) || isNaN(s)) return null;
+  return { h, s };
+}
+
 function convertNoteLinks(html: string): string {
   return html
     // 1. Yerushalmi → /yerushalmi/{tractate}/{chapter}
@@ -51,8 +62,6 @@ function convertNoteLinks(html: string): string {
       (_match, tractate, daf) => `href="/talmud/${tractate}/${daf}"`
     )
     // 3. Bible → /bible/{book}/{chapter}#verse  (book may have underscores: I_Samuel)
-    //    Negative lookahead (?![ab]) avoids matching daf-style refs that slipped through
-    //    Verse number (if present) becomes a hash anchor: /Deuteronomy.24.1 → /bible/Deuteronomy/24#1
     .replace(
       /href="\/([A-Z][a-zA-Z_]*)\.(\d+)(?![ab])(?:\.(\d+)[\d\-]*)?[^"]*"/g,
       (_match, book, chapter, verse) => verse
@@ -82,7 +91,6 @@ function parseSectionFootnotes(html: string): { cleanedHtml: string; footnotes: 
     const sups = Array.from(container.querySelectorAll('sup.footnote-marker, sup[class*="footnote"]'));
     for (const sup of sups) {
       const num = sup.textContent?.trim() || '';
-      // Walk next siblings to find the adjacent <i class="footnote">
       let sibling = sup.nextSibling;
       while (sibling && sibling.nodeType === Node.TEXT_NODE && (sibling.textContent || '').trim() === '') {
         sibling = sibling.nextSibling;
@@ -95,7 +103,6 @@ function parseSectionFootnotes(html: string): { cleanedHtml: string; footnotes: 
         footnotes.push({ num, noteHtml: convertNoteLinks(replaceTerms((sibling as Element).innerHTML)) });
         sibling.remove();
       }
-      // Replace the <sup> with a clean styled clickable one
       const newSup = doc.createElement('sup');
       newSup.className = 'text-[10px] text-blue-500 cursor-pointer hover:text-blue-700 transition-colors';
       newSup.title = `Jump to note ${num}`;
@@ -114,7 +121,7 @@ export default function YerushalmiChapter() {
   const { tractate, chapter } = useParams<{ tractate: string; chapter: string }>();
   const [, setLocation] = useLocation();
   const { preferences } = usePreferences();
-  const [copiedSection, setCopiedSection] = useState<number | null>(null);
+  const [copiedSection, setCopiedSection] = useState<string | null>(null);
   const [expandedNotes, setExpandedNotes] = useState<Set<number>>(new Set());
 
   const tractateDisplayName = tractate ? normalizeYerushalmiTractateName(tractate) : null;
@@ -209,33 +216,66 @@ export default function YerushalmiChapter() {
     });
   }, [textData, applyHighlighting]);
 
+  // Group sections by halakhah using sectionRefs
+  const halakhotGroups = useMemo(() => {
+    const groups: Array<{
+      h: number;
+      items: Array<{ index: number; h: number; s: number; section: typeof processedSections[number] }>;
+    }> = [];
+    let currentH = -1;
+
+    processedSections.forEach((section, index) => {
+      const ref = parseRef(textData?.sectionRefs?.[index]);
+      const h = ref?.h ?? 1;
+      const s = ref?.s ?? (index + 1);
+
+      if (h !== currentH) {
+        groups.push({ h, items: [] });
+        currentH = h;
+      }
+      groups[groups.length - 1].items.push({ index, h, s, section });
+    });
+
+    return groups;
+  }, [processedSections, textData]);
+
+  // Unique halakhot for jump bar — one entry per halakhah with its first anchor
+  const halakhotJumpTargets = useMemo(() => {
+    return halakhotGroups.map(({ h, items }) => ({
+      h,
+      anchor: items.length > 0 ? `${items[0].h}-${items[0].s}` : `${h}-1`,
+    }));
+  }, [halakhotGroups]);
+
   const handleLocationChange = (_newLocation: TalmudLocation) => {
     setLocation('/');
   };
 
-  const toggleNotes = (halakhahIndex: number) => {
+  const toggleNotes = (sectionIndex: number) => {
     setExpandedNotes(prev => {
       const next = new Set(prev);
-      if (next.has(halakhahIndex)) next.delete(halakhahIndex);
-      else next.add(halakhahIndex);
+      if (next.has(sectionIndex)) next.delete(sectionIndex);
+      else next.add(sectionIndex);
       return next;
     });
   };
 
-  const copySectionUrl = (sectionNumber: number) => {
-    const url = `${window.location.origin}${window.location.pathname}#${sectionNumber}`;
+  const copySectionUrl = (h: number, s: number) => {
+    const key = `${h}-${s}`;
+    const url = `${window.location.origin}${window.location.pathname}#${key}`;
     navigator.clipboard.writeText(url).then(() => {
-      setCopiedSection(sectionNumber);
+      setCopiedSection(key);
       setTimeout(() => setCopiedSection(null), 2000);
     });
   };
 
+  // Scroll to hash anchor after data loads — supports both "#H-S" and legacy "#N"
   useEffect(() => {
     const hash = window.location.hash;
-    if (hash && /^#\d+$/.test(hash)) {
-      const num = parseInt(hash.slice(1), 10);
+    if (hash && /^#[\d]+([-][\d]+)?$/.test(hash)) {
+      const id = hash.slice(1);
       setTimeout(() => {
-        const el = document.getElementById(`${num}`);
+        const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
     }
@@ -334,18 +374,18 @@ export default function YerushalmiChapter() {
 
         {textData && !isLoading && (
           <div className="space-y-6">
-            {processedSections.length > 1 && (
+            {halakhotJumpTargets.length > 1 && (
               <>
-                <p className="text-center text-xs text-muted-foreground mb-1">Jump to section:</p>
+                <p className="text-center text-xs text-muted-foreground mb-1">Jump to halakhah:</p>
                 <div className="flex flex-wrap gap-2 justify-center py-3">
-                  {processedSections.map((_, i) => (
+                  {halakhotJumpTargets.map(({ h, anchor }) => (
                     <a
-                      key={i + 1}
-                      href={`#${i + 1}`}
+                      key={h}
+                      href={`#${anchor}`}
                       className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
-                      title={`Go to Section ${i + 1}`}
+                      title={`Jump to Halakhah ${h}`}
                     >
-                      {i + 1}
+                      {h}
                     </a>
                   ))}
                 </div>
@@ -354,7 +394,6 @@ export default function YerushalmiChapter() {
 
             <div className="bg-card rounded-lg shadow-sm border border-border p-6">
               <div
-                className="space-y-8"
                 onClick={(e) => {
                   const target = e.target as HTMLElement;
                   if (target.tagName !== 'SUP' || !target.dataset.noteRef) return;
@@ -369,117 +408,134 @@ export default function YerushalmiChapter() {
                   }, 50);
                 }}
               >
-                {processedSections.map((section, index) => {
-                  const sectionRef = textData.sectionRefs?.[index];
-                  const sefariaUrl = sectionRef
-                    ? `https://www.sefaria.org.il/${sectionRef}`
-                    : `https://www.sefaria.org.il/${textData.sefariaRef.replace(/ /g, '_')}.1.${index + 1}`;
-
-                  return (
-                    <div
-                      key={index}
-                      id={`${index + 1}`}
-                      data-halakhah-index={index}
-                      className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
-                    >
-                      <div className="flex items-center justify-center gap-3 mb-4">
-                        <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
-                          Section {index + 1}
-                        </span>
-                        <button
-                          onClick={() => copySectionUrl(index + 1)}
-                          className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
-                          title={`Copy link to Section ${index + 1}`}
-                        >
-                          {copiedSection === index + 1 ? (
-                            <>
-                              <Check className="w-3 h-3 text-green-500" />
-                              <span className="text-green-500 text-xs">Copied!</span>
-                            </>
-                          ) : (
-                            <LinkIcon className="w-3 h-3" />
-                          )}
-                        </button>
-                        <span className="w-px h-4 bg-border" />
-                        <a
-                          href={sefariaUrl}
-                          target="_blank"
-                          rel="nofollow noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
-                          title={`View Section ${index + 1} on Sefaria`}
-                        >
-                          Sefaria
-                          <ExternalLinkIcon className="w-3 h-3" />
-                        </a>
-                      </div>
-
-                      {!section ? (
-                        <p className="text-center text-xs text-muted-foreground italic py-2">
-                          Text not available for this halakhah.
-                        </p>
-                      ) : (
-                        <>
-                          <div className="text-display flex flex-col lg:flex-row gap-6">
-                            <div className="text-column space-y-3 lg:order-1">
-                              {section.englishLines.length > 0 ? (
-                                <div className="english-text text-foreground space-y-1.5">
-                                  {section.englishLines.map((line, lineIndex) => (
-                                    <div
-                                      key={lineIndex}
-                                      dangerouslySetInnerHTML={{ __html: line }}
-                                    />
-                                  ))}
-                                </div>
-                              ) : (
-                                <p className="text-xs text-muted-foreground italic">English translation not available.</p>
-                              )}
-                            </div>
-
-                            <div className="text-column space-y-3 lg:order-2">
-                              {section.hebrewLines.length > 0 ? (
-                                <div className={`hebrew-text text-foreground ${getHebrewFontClass()} space-y-3`}>
-                                  {section.hebrewLines.map((line, lineIndex) => (
-                                    <div key={lineIndex}>
-                                      <p className="leading-relaxed">
-                                        <span dangerouslySetInnerHTML={{ __html: line }} />
-                                      </p>
-                                    </div>
-                                  ))}
-                                </div>
-                              ) : (
-                                <p className="text-xs text-muted-foreground italic text-right" dir="rtl">טקסט עברי אינו זמין.</p>
-                              )}
-                            </div>
-                          </div>
-
-                          {section.sectionFootnotes.length > 0 && (
-                            <div className="mt-4 pt-3 border-t border-border/40">
-                              <button
-                                onClick={() => toggleNotes(index)}
-                                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                              >
-                                <span>{expandedNotes.has(index) ? '▼' : '▶'}</span>
-                                {expandedNotes.has(index)
-                                  ? 'Hide notes'
-                                  : `Notes (${section.sectionFootnotes.length})`}
-                              </button>
-                              {expandedNotes.has(index) && (
-                                <div className="mt-3 space-y-2 text-sm text-muted-foreground max-w-prose">
-                                  {section.sectionFootnotes.map((fn, fnIdx) => (
-                                    <div key={fnIdx} id={`note-${index}-${fn.num}`} className="flex gap-2 scroll-mt-24">
-                                      <sup className="text-[10px] leading-5 flex-shrink-0 font-medium">{fn.num}</sup>
-                                      <span dangerouslySetInnerHTML={{ __html: fn.noteHtml }} />
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </>
-                      )}
+                {halakhotGroups.map(({ h, items }, groupIdx) => (
+                  <div key={h}>
+                    {/* Halakhah divider header */}
+                    <div className={`flex items-center gap-3 ${groupIdx === 0 ? 'mb-6' : 'my-8'}`}>
+                      <div className="flex-1 h-px bg-border/60" />
+                      <span className="text-xs font-semibold text-muted-foreground tracking-wide uppercase px-3 py-1 rounded-full border border-border/60">
+                        Halakhah {h}
+                      </span>
+                      <div className="flex-1 h-px bg-border/60" />
                     </div>
-                  );
-                })}
+
+                    {/* Segments within this halakhah */}
+                    <div className="space-y-8">
+                      {items.map(({ index, h: itemH, s, section }) => {
+                        const sectionRef = textData.sectionRefs?.[index];
+                        const sefariaUrl = sectionRef
+                          ? `https://www.sefaria.org.il/${sectionRef}`
+                          : `https://www.sefaria.org.il/${textData.sefariaRef.replace(/ /g, '_')}`;
+                        const sectionKey = `${itemH}-${s}`;
+
+                        return (
+                          <div
+                            key={index}
+                            id={sectionKey}
+                            data-halakhah-index={index}
+                            className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
+                          >
+                            <div className="flex items-center justify-center gap-3 mb-4">
+                              <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold font-mono">
+                                {itemH}:{s}
+                              </span>
+                              <button
+                                onClick={() => copySectionUrl(itemH, s)}
+                                className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
+                                title={`Copy link to ${itemH}:${s}`}
+                              >
+                                {copiedSection === sectionKey ? (
+                                  <>
+                                    <Check className="w-3 h-3 text-green-500" />
+                                    <span className="text-green-500 text-xs">Copied!</span>
+                                  </>
+                                ) : (
+                                  <LinkIcon className="w-3 h-3" />
+                                )}
+                              </button>
+                              <span className="w-px h-4 bg-border" />
+                              <a
+                                href={sefariaUrl}
+                                target="_blank"
+                                rel="nofollow noopener noreferrer"
+                                className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
+                                title={`View ${itemH}:${s} on Sefaria`}
+                              >
+                                Sefaria
+                                <ExternalLinkIcon className="w-3 h-3" />
+                              </a>
+                            </div>
+
+                            {!section ? (
+                              <p className="text-center text-xs text-muted-foreground italic py-2">
+                                Text not available for this segment.
+                              </p>
+                            ) : (
+                              <>
+                                <div className="text-display flex flex-col lg:flex-row gap-6">
+                                  <div className="text-column space-y-3 lg:order-1">
+                                    {section.englishLines.length > 0 ? (
+                                      <div className="english-text text-foreground space-y-1.5">
+                                        {section.englishLines.map((line, lineIndex) => (
+                                          <div
+                                            key={lineIndex}
+                                            dangerouslySetInnerHTML={{ __html: line }}
+                                          />
+                                        ))}
+                                      </div>
+                                    ) : (
+                                      <p className="text-xs text-muted-foreground italic">English translation not available.</p>
+                                    )}
+                                  </div>
+
+                                  <div className="text-column space-y-3 lg:order-2">
+                                    {section.hebrewLines.length > 0 ? (
+                                      <div className={`hebrew-text text-foreground ${getHebrewFontClass()} space-y-3`}>
+                                        {section.hebrewLines.map((line, lineIndex) => (
+                                          <div key={lineIndex}>
+                                            <p className="leading-relaxed">
+                                              <span dangerouslySetInnerHTML={{ __html: line }} />
+                                            </p>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    ) : (
+                                      <p className="text-xs text-muted-foreground italic text-right" dir="rtl">טקסט עברי אינו זמין.</p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {section.sectionFootnotes.length > 0 && (
+                                  <div className="mt-4 pt-3 border-t border-border/40">
+                                    <button
+                                      onClick={() => toggleNotes(index)}
+                                      className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                                    >
+                                      <span>{expandedNotes.has(index) ? '▼' : '▶'}</span>
+                                      {expandedNotes.has(index)
+                                        ? 'Hide notes'
+                                        : `Notes (${section.sectionFootnotes.length})`}
+                                    </button>
+                                    {expandedNotes.has(index) && (
+                                      <div className="mt-3 space-y-2 text-sm text-muted-foreground max-w-prose">
+                                        {section.sectionFootnotes.map((fn, fnIdx) => (
+                                          <div key={fnIdx} id={`note-${index}-${fn.num}`} className="flex gap-2 scroll-mt-24">
+                                            <sup className="text-[10px] leading-5 flex-shrink-0 font-medium">{fn.num}</sup>
+                                            <span dangerouslySetInnerHTML={{ __html: fn.noteHtml }} />
+                                          </div>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -511,20 +567,6 @@ export default function YerushalmiChapter() {
             ) : (
               <div />
             )}
-          </div>
-        </div>
-
-        <div className="mt-8 pt-4 border-t border-border text-center">
-          <div className="flex flex-wrap justify-center gap-4 text-sm">
-            <a
-              href={`https://www.sefaria.org.il/${textData?.sefariaRef?.replace(/ /g, '_') || `Jerusalem_Talmud_${tractateSlug}`}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
-            >
-              View on Sefaria
-              <ExternalLinkIcon className="w-3 h-3" />
-            </a>
           </div>
         </div>
       </main>
