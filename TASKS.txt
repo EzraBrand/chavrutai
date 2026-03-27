@@ -1,0 +1,17 @@
+# Proposed Maintenance Tasks
+
+## Fix Typographical Error
+- **Issue**: Several chapter data imports in `client/src/lib/chapter-data.ts` use misspelled identifiers like `bavaBartraData`, `bavaMetzeaData`, `berakhottData`, and `taanittData`, which reduces readability and can cause confusion when maintaining the mapping logic.【F:client/src/lib/chapter-data.ts†L7-L39】
+- **Task**: Rename the affected variables and their usages to the correctly spelled forms (e.g., `bavaBatraData`, `bavaMetziaData`, `berakhotData`, `taanitData`) to align with tractate names.
+
+## Fix Functional Bug
+- **Issue**: `client/src/pages/contact.tsx` renders `<BreadcrumbNavigation>` but never imports the component, which will cause the build to fail with a ReferenceError when the contact page is compiled.【F:client/src/pages/contact.tsx†L1-L53】
+- **Task**: Add the missing import for `BreadcrumbNavigation` (and helper utilities if needed) so that the contact page compiles correctly.
+
+## Correct Documentation Discrepancy
+- **Issue**: The project structure table in `README.md` lists a `docs/` directory, but the repository does not contain that folder, so the documentation misrepresents the current layout.【F:README.md†L55-L69】【2efb1d†L3-L6】
+- **Task**: Update the README to remove or revise the `docs/` entry, or create the documented directory with appropriate content to keep the documentation accurate.
+
+## Improve Test Robustness
+- **Issue**: The `testEmptyFolioPages` suite in `tests/data-integrity.test.js` issues `fetch` requests to `http://localhost:5000` without starting the Express server, causing the test to fail whenever the server is not already running.【F:tests/data-integrity.test.js†L204-L254】
+- **Task**: Refactor the test to mock the API responses or spin up a temporary server instance within the test harness so it can run independently.
