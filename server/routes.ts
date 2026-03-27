@@ -1565,6 +1565,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const yerushalmiInfoCache = new Map<string, { tractate: string; chapters: number; halakhotPerChapter: number[] }>();
+  const yerushalmiShapeCache = new Map<string, number[][]>();
 
   app.get("/api/yerushalmi/:tractate/info", async (req, res) => {
     try {
@@ -1645,20 +1646,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return;
       }
 
-      const sefariaRef = `${tractateInfo.sefaria}.${chapterNum}`;
-      const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0&versionTitle=The%20Jerusalem%20Talmud%2C%20translation%20and%20commentary%20by%20Heinrich%20W.%20Guggenheimer&versionTitleInHebrew=%D9%AA`);
+      const sefariaBase = tractateInfo.sefaria;
 
-      if (!response.ok) {
-        res.status(502).json({ error: "Failed to fetch from Sefaria" });
+      // Fetch halakhah structure from Sefaria shape API (cached per tractate)
+      let chapterShapes = yerushalmiShapeCache.get(sefariaBase);
+      if (!chapterShapes) {
+        const shapeResp = await fetch(`${sefariaAPIBaseURL}/shape/${sefariaBase}`);
+        if (!shapeResp.ok) {
+          res.status(502).json({ error: "Failed to fetch tractate shape from Sefaria" });
+          return;
+        }
+        const shapeData = await shapeResp.json();
+        // Shape API returns [{chapters: [[seg,seg,...], [seg,...], ...]}, ...]
+        const chapters: number[][] = Array.isArray(shapeData) ? (shapeData[0]?.chapters ?? []) : [];
+        yerushalmiShapeCache.set(sefariaBase, chapters);
+        chapterShapes = chapters;
+      }
+
+      const halakhotSegmentCounts: number[] = chapterShapes[chapterNum - 1] ?? [];
+      if (halakhotSegmentCounts.length === 0) {
+        res.status(502).json({ error: "No shape data for this chapter" });
         return;
       }
 
-      const sefariaData = await response.json();
-      const hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
-      const englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+      const guggenheimVersion = "versionTitle=The%20Jerusalem%20Talmud%2C%20translation%20and%20commentary%20by%20Heinrich%20W.%20Guggenheimer&versionTitleInHebrew=%D9%AA";
 
-      const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
-      const processedEnglishSections = englishSections.map((section: string) => processEnglishText(section || ''));
+      // Fetch every halakhah in parallel
+      const halakhotResponses = await Promise.all(
+        halakhotSegmentCounts.map((_, halIdx) =>
+          fetch(`${sefariaAPIBaseURL}/texts/${sefariaBase}.${chapterNum}.${halIdx + 1}?lang=bi&commentary=0&${guggenheimVersion}`)
+            .then(r => r.ok ? r.json() : null)
+        )
+      );
+
+      const allHebrew: string[] = [];
+      const allEnglish: string[] = [];
+      const sectionRefs: string[] = [];
+
+      halakhotResponses.forEach((halData, halIdx) => {
+        if (!halData) return;
+        const heSegs: string[] = Array.isArray(halData.he) ? halData.he : [halData.he || ''];
+        const enSegs: string[] = Array.isArray(halData.text) ? halData.text : [halData.text || ''];
+        const count = Math.max(heSegs.length, enSegs.length);
+        for (let segIdx = 0; segIdx < count; segIdx++) {
+          allHebrew.push(heSegs[segIdx] || '');
+          allEnglish.push(enSegs[segIdx] || '');
+          sectionRefs.push(`${sefariaBase}.${chapterNum}.${halIdx + 1}.${segIdx + 1}`);
+        }
+      });
+
+      const processedHebrewSections = allHebrew.map(s => processHebrewText(s));
+      const processedEnglishSections = allEnglish.map(s => processEnglishText(s));
 
       res.json({
         tractate: tractateInfo.name,
@@ -1666,8 +1704,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         totalChapters: tractateInfo.chapters,
         hebrewSections: processedHebrewSections,
         englishSections: processedEnglishSections,
-        sefariaRef: sefariaRef.replace(/_/g, ' '),
-        halakhotCount: hebrewSections.length,
+        sefariaRef: `${sefariaBase}.${chapterNum}`.replace(/_/g, ' '),
+        halakhotCount: halakhotSegmentCounts.length,
+        sectionRefs,
       });
     } catch (error) {
       console.error('Error in /api/yerushalmi:', error);

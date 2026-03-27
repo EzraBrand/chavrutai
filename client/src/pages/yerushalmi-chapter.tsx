@@ -30,6 +30,7 @@ interface YerushalmiTextData {
   englishSections: string[];
   sefariaRef: string;
   halakhotCount: number;
+  sectionRefs?: string[];
 }
 
 interface FootnoteEntry {
@@ -369,7 +370,10 @@ export default function YerushalmiChapter() {
                 }}
               >
                 {processedSections.map((section, index) => {
-                  const sefariaUrl = `https://www.sefaria.org.il/${textData.sefariaRef.replace(/ /g, '_')}.1.${index + 1}`;
+                  const sectionRef = textData.sectionRefs?.[index];
+                  const sefariaUrl = sectionRef
+                    ? `https://www.sefaria.org.il/${sectionRef}`
+                    : `https://www.sefaria.org.il/${textData.sefariaRef.replace(/ /g, '_')}.1.${index + 1}`;
 
                   return (
                     <div
