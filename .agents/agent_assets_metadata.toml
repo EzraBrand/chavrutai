@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "BMzZvwpHYvUu12XuvAT-T"
+uri = "file://docs/yerushalmi-review.md"
+type = "text"
+title = "Yerushalmi Reader: Sprint Review & Improvement Brainstorm"
