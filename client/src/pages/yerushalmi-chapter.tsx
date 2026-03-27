@@ -335,14 +335,14 @@ export default function YerushalmiChapter() {
           <div className="space-y-6">
             {processedSections.length > 1 && (
               <>
-                <p className="text-center text-xs text-muted-foreground mb-1">Jump to halakhah:</p>
+                <p className="text-center text-xs text-muted-foreground mb-1">Jump to section:</p>
                 <div className="flex flex-wrap gap-2 justify-center py-3">
                   {processedSections.map((_, i) => (
                     <a
                       key={i + 1}
                       href={`#${i + 1}`}
                       className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
-                      title={`Go to Halakhah ${i + 1}`}
+                      title={`Go to Section ${i + 1}`}
                     >
                       {i + 1}
                     </a>
@@ -380,12 +380,12 @@ export default function YerushalmiChapter() {
                     >
                       <div className="flex items-center justify-center gap-3 mb-4">
                         <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
-                          Halakhah {index + 1}
+                          Section {index + 1}
                         </span>
                         <button
                           onClick={() => copySectionUrl(index + 1)}
                           className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
-                          title={`Copy link to Halakhah ${index + 1}`}
+                          title={`Copy link to Section ${index + 1}`}
                         >
                           {copiedSection === index + 1 ? (
                             <>
@@ -402,7 +402,7 @@ export default function YerushalmiChapter() {
                           target="_blank"
                           rel="nofollow noopener noreferrer"
                           className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
-                          title={`View Halakhah ${index + 1} on Sefaria`}
+                          title={`View Section ${index + 1} on Sefaria`}
                         >
                           Sefaria
                           <ExternalLinkIcon className="w-3 h-3" />
