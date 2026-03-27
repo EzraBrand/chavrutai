@@ -21,6 +21,14 @@ import { processHebrewTextCore as processHebrewText, processEnglishText } from "
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
 
+let yerushalmiShapesData: Record<string, number[][]> = {};
+try {
+  const shapesPath = path.join(process.cwd(), "shared/data/yerushalmi-shapes.json");
+  yerushalmiShapesData = JSON.parse(fs.readFileSync(shapesPath, "utf-8"));
+} catch (e) {
+  console.error("Failed to load yerushalmi-shapes.json:", e);
+}
+
 // Query parameters schema for text requests
 const textQuerySchema = z.object({
   work: z.string(),
@@ -1565,7 +1573,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const yerushalmiInfoCache = new Map<string, { tractate: string; chapters: number; halakhotPerChapter: number[] }>();
-  const yerushalmiShapeCache = new Map<string, number[][]>();
 
   app.get("/api/yerushalmi/:tractate/info", async (req, res) => {
     try {
@@ -1619,6 +1626,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/yerushalmi/:tractate/shape", (req, res) => {
+    const { tractate } = req.params;
+    const tractateInfo = getYerushalmiTractateInfo(tractate);
+    if (!tractateInfo) {
+      res.status(404).json({ error: "Invalid tractate" });
+      return;
+    }
+    const shapes = yerushalmiShapesData[tractateInfo.sefaria] ?? [];
+    res.json({ shapes });
+  });
+
   app.get("/api/yerushalmi/:tractate/:chapter", async (req, res) => {
     try {
       const { tractate, chapter } = req.params;
@@ -1648,21 +1666,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const sefariaBase = tractateInfo.sefaria;
 
-      // Fetch halakhah structure from Sefaria shape API (cached per tractate)
-      let chapterShapes = yerushalmiShapeCache.get(sefariaBase);
-      if (!chapterShapes) {
-        const shapeResp = await fetch(`${sefariaAPIBaseURL}/shape/${sefariaBase}`);
-        if (!shapeResp.ok) {
-          res.status(502).json({ error: "Failed to fetch tractate shape from Sefaria" });
-          return;
-        }
-        const shapeData = await shapeResp.json();
-        // Shape API returns [{chapters: [[seg,seg,...], [seg,...], ...]}, ...]
-        const chapters: number[][] = Array.isArray(shapeData) ? (shapeData[0]?.chapters ?? []) : [];
-        yerushalmiShapeCache.set(sefariaBase, chapters);
-        chapterShapes = chapters;
-      }
-
+      // Look up halakhah structure from pre-loaded static shape data
+      const chapterShapes: number[][] = yerushalmiShapesData[sefariaBase] ?? [];
       const halakhotSegmentCounts: number[] = chapterShapes[chapterNum - 1] ?? [];
       if (halakhotSegmentCounts.length === 0) {
         res.status(502).json({ error: "No shape data for this chapter" });

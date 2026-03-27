@@ -1,4 +1,5 @@
 import { useRoute, Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/footer";
@@ -13,6 +14,25 @@ import {
 } from "@shared/yerushalmi-data";
 import NotFound from "@/pages/not-found";
 
+const HEBREW_LETTERS = [
+  "א","ב","ג","ד","ה","ו","ז","ח","ט","י",
+  "יא","יב","יג","יד","טו","טז","יז","יח","יט","כ",
+];
+
+function toHebrewLetter(n: number): string {
+  return HEBREW_LETTERS[n - 1] ?? String(n);
+}
+
+function halakhotStartSections(segmentCounts: number[]): number[] {
+  const starts: number[] = [];
+  let cumulative = 1;
+  for (const count of segmentCounts) {
+    starts.push(cumulative);
+    cumulative += count;
+  }
+  return starts;
+}
+
 export default function YerushalmiTractate() {
   const [match, params] = useRoute("/yerushalmi/:tractate");
   const tractateParam = params?.tractate || "";
@@ -20,6 +40,13 @@ export default function YerushalmiTractate() {
 
   const tractateInfo = tractateDisplayName ? getYerushalmiTractateInfo(tractateDisplayName) : null;
   const tractateSlug = tractateDisplayName ? getYerushalmiTractateSlug(tractateDisplayName) : "";
+
+  const { data: shapeData } = useQuery<{ shapes: number[][] }>({
+    queryKey: ["/api/yerushalmi", tractateParam, "shape"],
+    queryFn: () => fetch(`/api/yerushalmi/${tractateParam}/shape`).then(r => r.json()),
+    enabled: !!tractateParam && !!tractateDisplayName,
+    staleTime: Infinity,
+  });
 
   useSEO({
     title: tractateDisplayName
@@ -43,6 +70,7 @@ export default function YerushalmiTractate() {
   }
 
   const hebrewName = YERUSHALMI_HEBREW_NAMES[tractateDisplayName] || tractateDisplayName;
+  const shapes: number[][] = shapeData?.shapes ?? [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -80,27 +108,54 @@ export default function YerushalmiTractate() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 max-w-none sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto">
-          {Array.from({ length: tractateInfo.chapters }, (_, i) => i + 1).map((chapterNum) => (
-            <Card key={chapterNum} className="hover:shadow-lg transition-shadow duration-200">
-              <CardContent className="p-6">
-                <div className="mb-4">
-                  <h3 className="text-xl text-primary mb-2">
-                    Chapter {chapterNum}
-                  </h3>
-                </div>
-                <div>
-                  <Link href={`/yerushalmi/${tractateSlug}/${chapterNum}`}>
-                    <Button
-                      variant="outline"
-                      className="hover:bg-primary hover:text-primary-foreground"
-                    >
-                      Read Chapter {chapterNum}
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          {Array.from({ length: tractateInfo.chapters }, (_, i) => i + 1).map((chapterNum) => {
+            const chapterShape: number[] = shapes[chapterNum - 1] ?? [];
+            const startSections = halakhotStartSections(chapterShape);
+            const halakhotCount = chapterShape.length;
+
+            return (
+              <Card key={chapterNum} className="hover:shadow-lg transition-shadow duration-200">
+                <CardContent className="p-6">
+                  <div className="mb-3">
+                    <h3 className="text-xl text-primary mb-1">
+                      Chapter {chapterNum}
+                    </h3>
+                    {halakhotCount > 0 && (
+                      <p className="text-xs text-muted-foreground">
+                        {halakhotCount} {halakhotCount === 1 ? "halakhah" : "halakhot"}
+                      </p>
+                    )}
+                  </div>
+
+                  {halakhotCount > 0 && (
+                    <div className="flex flex-wrap items-center gap-1.5 mb-4 font-hebrew" dir="rtl">
+                      {chapterShape.map((_, halIdx) => (
+                        <Link
+                          key={halIdx}
+                          href={`/yerushalmi/${tractateSlug}/${chapterNum}#${startSections[halIdx]}`}
+                          className="inline-flex items-center justify-center w-8 h-8 rounded border border-border bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors text-sm font-medium"
+                          title={`Halakhah ${halIdx + 1}`}
+                        >
+                          {toHebrewLetter(halIdx + 1)}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+
+                  <div>
+                    <Link href={`/yerushalmi/${tractateSlug}/${chapterNum}`}>
+                      <Button
+                        variant="outline"
+                        className="hover:bg-primary hover:text-primary-foreground"
+                      >
+                        Read Chapter {chapterNum}
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
 
