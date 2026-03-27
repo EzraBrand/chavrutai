@@ -67,8 +67,7 @@ export default function YerushalmiContents() {
           </p>
           <p className="text-xs text-muted-foreground mt-2">
             English translation by Heinrich W. Guggenheimer (ed. Guggenheimer) via{' '}
-            <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Sefaria</a>.{' '}
-            Hebrew text: Leiden manuscript via Sefaria.
+            <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Sefaria</a>.
           </p>
         </div>
 

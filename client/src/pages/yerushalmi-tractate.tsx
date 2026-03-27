@@ -14,15 +14,6 @@ import {
 } from "@shared/yerushalmi-data";
 import NotFound from "@/pages/not-found";
 
-const HEBREW_LETTERS = [
-  "א","ב","ג","ד","ה","ו","ז","ח","ט","י",
-  "יא","יב","יג","יד","טו","טז","יז","יח","יט","כ",
-];
-
-function toHebrewLetter(n: number): string {
-  return HEBREW_LETTERS[n - 1] ?? String(n);
-}
-
 
 export default function YerushalmiTractate() {
   const [match, params] = useRoute("/yerushalmi/:tractate");
@@ -108,7 +99,9 @@ export default function YerushalmiTractate() {
                 <CardContent className="p-6">
                   <div className="mb-3">
                     <h3 className="text-xl text-primary mb-1">
-                      Chapter {chapterNum}
+                      <Link href={`/yerushalmi/${tractateSlug}/${chapterNum}`} className="hover:underline">
+                        Chapter {chapterNum}
+                      </Link>
                     </h3>
                     {halakhotCount > 0 && (
                       <p className="text-xs text-muted-foreground">
@@ -118,7 +111,7 @@ export default function YerushalmiTractate() {
                   </div>
 
                   {halakhotCount > 0 && (
-                    <div className="flex flex-wrap items-center gap-1.5 mb-4 font-hebrew" dir="rtl">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       {chapterShape.map((_, halIdx) => (
                         <Link
                           key={halIdx}
@@ -126,22 +119,11 @@ export default function YerushalmiTractate() {
                           className="inline-flex items-center justify-center w-8 h-8 rounded border border-border bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors text-sm font-medium"
                           title={`Halakhah ${halIdx + 1}`}
                         >
-                          {toHebrewLetter(halIdx + 1)}
+                          {halIdx + 1}
                         </Link>
                       ))}
                     </div>
                   )}
-
-                  <div>
-                    <Link href={`/yerushalmi/${tractateSlug}/${chapterNum}`}>
-                      <Button
-                        variant="outline"
-                        className="hover:bg-primary hover:text-primary-foreground"
-                      >
-                        Read Chapter {chapterNum}
-                      </Button>
-                    </Link>
-                  </div>
                 </CardContent>
               </Card>
             );
