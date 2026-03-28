@@ -63,6 +63,7 @@
         "Rebbi": "R'",
         "Zeïra": "Ze'ira",
         "Joḥanan": "Yoḥanan",
+        "Ioḥai": "Yoḥai",
         "Jonathan": "Yonatan",
         "Laqish": "Lakish",
         "Eleazar": "Elazar",
@@ -82,6 +83,10 @@
     "bible_books": {
       "description": "Bible book name abbreviations (Guggenheimer edition)",
       "terms": {
+        "2Sam.": "II Samuel",
+        "1Sam.": "I Samuel",
+        "2K.": "II Kings",
+        "1K.": "I Kings",
         "II Sam.": "II Samuel",
         "I Sam.": "I Samuel",
         "II Chr.": "II Chronicles",
