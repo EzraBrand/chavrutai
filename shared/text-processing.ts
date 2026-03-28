@@ -324,7 +324,9 @@ export function processHebrewTextCore(text: string): string {
 export function replaceTerms(text: string): string {
   if (!text) return '';
   
-  let processedText = text;
+  // Normalize to NFC so precomposed diacritics in our term keys match Sefaria's
+  // decomposed forms (e.g. h + combining-dot-below → ḥ, so "Joḥanan" matches).
+  let processedText = text.normalize('NFC');
   
   // STEP 0a: Normalize animal-related terms with variable whitespace after comma
   // Sefaria API sometimes inserts newlines/extra spaces: "small,\n domesticated animals"
