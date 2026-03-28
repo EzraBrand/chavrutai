@@ -5,13 +5,14 @@ import path from "path";
 import { storage } from "./storage";
 import { insertTextSchema, searchRequestSchema, browseRequestSchema, autosuggestRequestSchema, textSearchRequestSchema, type SearchResult, type TextSearchResponse } from "@shared/schema";
 import { normalizeSefariaTractateName, normalizeDisplayTractateName, isValidTractate, getTractateSlug, normalizeMishnahTractateName, isValidMishnahTractate, getMishnahTractateInfo, MISHNAH_ONLY_TRACTATES } from "@shared/tractates";
+import { getYerushalmiTractateInfo, normalizeYerushalmiTractateName, YERUSHALMI_TRACTATES } from "@shared/yerushalmi-data";
 import { getBookBySlug } from "@shared/bible-books";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
 import { generateMishnahSitemap } from "./routes/sitemap-mishnah";
+import { generateYerushalmiSitemap } from "./routes/sitemap-yerushalmi";
 import { z } from "zod";
-import OpenAI from "openai";
 import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
 
@@ -19,6 +20,14 @@ import { sendChatbotAlert } from "./lib/gmail-client";
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
+
+let yerushalmiShapesData: Record<string, number[][]> = {};
+try {
+  const shapesPath = path.join(process.cwd(), "shared/data/yerushalmi-shapes.json");
+  yerushalmiShapesData = JSON.parse(fs.readFileSync(shapesPath, "utf-8"));
+} catch (e) {
+  console.error("Failed to load yerushalmi-shapes.json:", e);
+}
 
 // Query parameters schema for text requests
 const textQuerySchema = z.object({
@@ -358,6 +367,97 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
     };
   }
 
+  if (url === '/yerushalmi') {
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": `${origin}/yerushalmi`,
+          name: "Jerusalem Talmud (Yerushalmi) — Hebrew & English",
+          description: "Study the Jerusalem Talmud (Talmud Yerushalmi) with bilingual Hebrew-English text. 39 tractates across four Sedarim, with the Guggenheimer English translation.",
+          url: `${origin}/yerushalmi`,
+          breadcrumb: {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+              { "@type": "ListItem", position: 2, name: "Jerusalem Talmud", item: `${origin}/yerushalmi` },
+            ],
+          },
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        organizationNode,
+      ],
+    };
+  }
+
+  const yerushalmiTractateMatch = url.match(/^\/yerushalmi\/([^/]+)$/);
+  if (yerushalmiTractateMatch) {
+    const tractateSlug = yerushalmiTractateMatch[1];
+    const tractateInfo = getYerushalmiTractateInfo(tractateSlug);
+    const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": `${origin}/yerushalmi/${tractateSlug}`,
+          name: `Jerusalem Talmud ${tractateName}`,
+          description: `Study Jerusalem Talmud ${tractateName} chapter by chapter with bilingual Hebrew-English text (Guggenheimer translation).`,
+          url: `${origin}/yerushalmi/${tractateSlug}`,
+          isPartOf: { "@type": "WebSite", "@id": `${origin}/#website` },
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+            { "@type": "ListItem", position: 2, name: "Jerusalem Talmud", item: `${origin}/yerushalmi` },
+            { "@type": "ListItem", position: 3, name: tractateName, item: `${origin}/yerushalmi/${tractateSlug}` },
+          ],
+        },
+        organizationNode,
+      ],
+    };
+  }
+
+  const yerushalmiChapterMatch = url.match(/^\/yerushalmi\/([^/]+)\/(\d+)$/);
+  if (yerushalmiChapterMatch) {
+    const tractateSlug = yerushalmiChapterMatch[1];
+    const chapter = yerushalmiChapterMatch[2];
+    const tractateInfo = getYerushalmiTractateInfo(tractateSlug);
+    const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": `${origin}/yerushalmi/${tractateSlug}/${chapter}`,
+          headline: `Jerusalem Talmud ${tractateName} Chapter ${chapter}`,
+          description: `Study Jerusalem Talmud ${tractateName} Chapter ${chapter} with parallel Hebrew-English text (Guggenheimer translation).`,
+          url: `${origin}/yerushalmi/${tractateSlug}/${chapter}`,
+          author: { "@id": `${origin}/#organization` },
+          publisher: { "@id": `${origin}/#organization` },
+          isPartOf: {
+            "@type": "Book",
+            name: `Jerusalem Talmud ${tractateName}`,
+            isPartOf: { "@type": "BookSeries", name: "Jerusalem Talmud" },
+          },
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+            { "@type": "ListItem", position: 2, name: "Jerusalem Talmud", item: `${origin}/yerushalmi` },
+            { "@type": "ListItem", position: 3, name: tractateName, item: `${origin}/yerushalmi/${tractateSlug}` },
+            { "@type": "ListItem", position: 4, name: `Chapter ${chapter}`, item: `${origin}/yerushalmi/${tractateSlug}/${chapter}` },
+          ],
+        },
+        organizationNode,
+      ],
+    };
+  }
+
   const folioMatch = url.match(/^\/talmud\/([^/]+)\/(\d+[ab])$/i);
   if (folioMatch) {
     const tractate = folioMatch[1];
@@ -594,6 +694,41 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       ogTitle: `Mishnah ${tractateName} - Hebrew & English`,
       ogDescription: `Study Mishnah ${tractateName} with Hebrew-English text on ChavrutAI.`,
       canonical: `${baseUrl}/mishnah/${tractateSlug}`,
+      robots: "index, follow"
+    };
+  } else if (url === '/yerushalmi') {
+    seoData = {
+      title: "Jerusalem Talmud (Yerushalmi) - Hebrew & English | ChavrutAI",
+      description: "Study the Jerusalem Talmud (Talmud Yerushalmi) online with bilingual Hebrew-English text. 39 tractates with the Guggenheimer English translation, organized by Seder.",
+      ogTitle: "Jerusalem Talmud (Yerushalmi) - Hebrew & English | ChavrutAI",
+      ogDescription: "Study the Jerusalem Talmud online with bilingual Hebrew-English text (Guggenheimer translation) on ChavrutAI.",
+      canonical: `${baseUrl}/yerushalmi`,
+      robots: "index, follow"
+    };
+  } else if (url.match(/^\/yerushalmi\/[^/]+\/\d+$/)) {
+    const urlParts = url.split('/');
+    const tractateSlug = urlParts[2];
+    const chapter = urlParts[3];
+    const tractateInfo = getYerushalmiTractateInfo(tractateSlug);
+    const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
+    seoData = {
+      title: `Jerusalem Talmud ${tractateName} Chapter ${chapter} - Hebrew & English | ChavrutAI`,
+      description: `Study Jerusalem Talmud ${tractateName} Chapter ${chapter} with parallel Hebrew-English text (Guggenheimer translation). Free online on ChavrutAI.`,
+      ogTitle: `Jerusalem Talmud ${tractateName} Chapter ${chapter} - Hebrew & English`,
+      ogDescription: `Read Jerusalem Talmud ${tractateName} Chapter ${chapter} with Hebrew-English text (Guggenheimer) on ChavrutAI.`,
+      canonical: `${baseUrl}/yerushalmi/${tractateSlug}/${chapter}`,
+      robots: "index, follow"
+    };
+  } else if (url.match(/^\/yerushalmi\/[^/]+$/)) {
+    const tractateSlug = url.split('/')[2];
+    const tractateInfo = getYerushalmiTractateInfo(tractateSlug);
+    const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
+    seoData = {
+      title: `Jerusalem Talmud ${tractateName} - Hebrew & English | ChavrutAI`,
+      description: `Study Jerusalem Talmud ${tractateName} chapter by chapter with bilingual Hebrew-English text (Guggenheimer translation). Free online on ChavrutAI.`,
+      ogTitle: `Jerusalem Talmud ${tractateName} - Hebrew & English`,
+      ogDescription: `Study Jerusalem Talmud ${tractateName} with Hebrew-English text on ChavrutAI.`,
+      canonical: `${baseUrl}/yerushalmi/${tractateSlug}`,
       robots: "index, follow"
     };
   } else if (url.match(/^\/talmud\/[^/]+$/)) {
@@ -879,6 +1014,63 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
       nav += `<a href="/bible/${safeBookPath}/${chapterNum + 1}">Chapter ${chapterNum + 1} &rarr;</a>`;
     }
     nav += `</nav>`;
+  } else if (urlPath === '/yerushalmi') {
+    heading = 'Jerusalem Talmud (Talmud Yerushalmi) — All Tractates';
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Jerusalem Talmud</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    const { YERUSHALMI_TRACTATES, YERUSHALMI_HEBREW_NAMES } = await import('@shared/yerushalmi-data');
+    const sederLabels: Record<string, string> = {
+      zeraim: 'Seder Zeraim (Seeds)',
+      moed: 'Seder Moed (Festivals)',
+      nashim: 'Seder Nashim (Women)',
+      nezikin: 'Seder Nezikin (Damages)',
+    };
+    nav = '';
+    for (const [sederKey, tractates] of Object.entries(YERUSHALMI_TRACTATES)) {
+      nav += `<h3>${escapeHtml(sederLabels[sederKey] || sederKey)}</h3><ul>`;
+      for (const t of tractates) {
+        const slug = t.name.toLowerCase().replace(/ /g, '-');
+        const hebrew = YERUSHALMI_HEBREW_NAMES[t.name] || '';
+        nav += `<li><a href="/yerushalmi/${safeSlug(slug)}">${escapeHtml(t.name)}${hebrew ? ` (${escapeHtml(hebrew)})` : ''}</a></li>`;
+      }
+      nav += `</ul>`;
+    }
+  } else if (urlPath.match(/^\/yerushalmi\/[^/]+$/)) {
+    const tractateSlug = urlPath.split('/')[2];
+    const { getYerushalmiTractateInfo } = await import('@shared/yerushalmi-data');
+    const info = getYerushalmiTractateInfo(tractateSlug);
+    const tractateTitle = info ? info.name : tractateSlug.replace(/_/g, ' ');
+    const safeTractate = safeSlug(tractateSlug);
+    heading = `${tractateTitle} — Jerusalem Talmud`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/yerushalmi">Jerusalem Talmud</a> &rsaquo; ${escapeHtml(tractateTitle)}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    if (info) {
+      nav = `<h3>Chapters</h3><ul>`;
+      for (let c = 1; c <= info.chapters; c++) {
+        nav += `<li><a href="/yerushalmi/${safeTractate}/${c}">${escapeHtml(tractateTitle)} Chapter ${c}</a></li>`;
+      }
+      nav += `</ul>`;
+    }
+  } else if (urlPath.match(/^\/yerushalmi\/[^/]+\/\d+$/)) {
+    const parts = urlPath.split('/');
+    const tractateSlug = parts[2];
+    const chapter = parseInt(parts[3]);
+    const { getYerushalmiTractateInfo } = await import('@shared/yerushalmi-data');
+    const info = getYerushalmiTractateInfo(tractateSlug);
+    const tractateTitle = info ? info.name : tractateSlug.replace(/_/g, ' ');
+    const safeTractate = safeSlug(tractateSlug);
+    heading = `${tractateTitle} Chapter ${chapter} — Jerusalem Talmud`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/yerushalmi">Jerusalem Talmud</a> &rsaquo; <a href="/yerushalmi/${safeTractate}">${escapeHtml(tractateTitle)}</a> &rsaquo; Chapter ${chapter}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    const chapterNum = chapter;
+    nav = `<nav aria-label="Page navigation">`;
+    if (chapterNum > 1) {
+      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum - 1}">&larr; Chapter ${chapterNum - 1}</a> `;
+    }
+    if (info && chapterNum < info.chapters) {
+      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum + 1}">Chapter ${chapterNum + 1} &rarr;</a>`;
+    }
+    nav += `</nav>`;
   } else {
     heading = seoData.title.replace(/ \| ChavrutAI$/, '').replace(/ - ChavrutAI$/, '');
     breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; ${escapeHtml(heading)}</nav>`;
@@ -1129,6 +1321,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/mishnah', servePageWithMeta);
   app.get('/mishnah/:tractate', servePageWithMeta);
   app.get('/mishnah/:tractate/:chapter', servePageWithMeta);
+  app.get('/yerushalmi', servePageWithMeta);
+  app.get('/yerushalmi/:tractate', servePageWithMeta);
+  app.get('/yerushalmi/:tractate/:chapter', servePageWithMeta);
   app.get('/talmud/:tractate', servePageWithMeta);
   app.get('/talmud/:tractate/:folio', servePageWithMeta);
   
@@ -1361,6 +1556,166 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error in /api/mishnah:', error);
       res.status(500).json({ error: "Failed to fetch Mishnah text" });
+    }
+  });
+
+  // Yerushalmi API Routes
+  app.get("/api/yerushalmi/tractates", async (_req, res) => {
+    try {
+      const result: Record<string, Array<{ name: string; chapters: number; sefaria: string }>> = {};
+      for (const [seder, tractates] of Object.entries(YERUSHALMI_TRACTATES)) {
+        result[seder] = tractates.map(t => ({ name: t.name, chapters: t.chapters, sefaria: t.sefaria }));
+      }
+      res.json({ tractates: result });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get Yerushalmi tractates" });
+    }
+  });
+
+  const yerushalmiInfoCache = new Map<string, { tractate: string; chapters: number; halakhotPerChapter: number[] }>();
+
+  app.get("/api/yerushalmi/:tractate/info", async (req, res) => {
+    try {
+      const { tractate } = req.params;
+      const tractateInfo = getYerushalmiTractateInfo(tractate);
+      if (!tractateInfo) {
+        res.status(404).json({ error: `Invalid Yerushalmi tractate: ${tractate}` });
+        return;
+      }
+
+      const cacheKey = tractateInfo.name;
+      if (yerushalmiInfoCache.has(cacheKey)) {
+        res.json(yerushalmiInfoCache.get(cacheKey));
+        return;
+      }
+
+      const sefariaRef = tractateInfo.sefaria;
+      const response = await fetch(`https://www.sefaria.org/api/v3/texts/${sefariaRef}`);
+
+      if (!response.ok) {
+        const fallback = { tractate: tractateInfo.name, chapters: tractateInfo.chapters, halakhotPerChapter: [] };
+        res.json(fallback);
+        return;
+      }
+
+      const sefariaData = await response.json();
+      const halakhotPerChapter: number[] = [];
+
+      const versions: Array<{ language?: string; text?: unknown[] }> = Array.isArray(sefariaData.versions) ? sefariaData.versions : [];
+      const heVersion = versions.find((v) => v.language === 'he');
+      if (heVersion && Array.isArray(heVersion.text)) {
+        for (const chapter of heVersion.text) {
+          halakhotPerChapter.push(Array.isArray(chapter) ? chapter.length : 0);
+        }
+      }
+
+      const result = {
+        tractate: tractateInfo.name,
+        chapters: tractateInfo.chapters,
+        halakhotPerChapter,
+      };
+
+      if (halakhotPerChapter.length > 0) {
+        yerushalmiInfoCache.set(cacheKey, result);
+      }
+
+      res.json(result);
+    } catch (error) {
+      console.error('Error in /api/yerushalmi/:tractate/info:', error);
+      res.status(500).json({ error: "Failed to get Yerushalmi tractate info" });
+    }
+  });
+
+  app.get("/api/yerushalmi/:tractate/shape", (req, res) => {
+    const { tractate } = req.params;
+    const tractateInfo = getYerushalmiTractateInfo(tractate);
+    if (!tractateInfo) {
+      res.status(404).json({ error: "Invalid tractate" });
+      return;
+    }
+    const shapes = yerushalmiShapesData[tractateInfo.sefaria] ?? [];
+    res.json({ shapes });
+  });
+
+  app.get("/api/yerushalmi/:tractate/:chapter", async (req, res) => {
+    try {
+      const { tractate, chapter } = req.params;
+
+      if (!/^\d+$/.test(chapter)) {
+        res.status(400).json({ error: "Invalid chapter number" });
+        return;
+      }
+
+      const chapterNum = parseInt(chapter, 10);
+
+      if (chapterNum < 1) {
+        res.status(400).json({ error: "Invalid chapter number" });
+        return;
+      }
+
+      const tractateInfo = getYerushalmiTractateInfo(tractate);
+      if (!tractateInfo) {
+        res.status(404).json({ error: `Invalid Yerushalmi tractate: ${tractate}` });
+        return;
+      }
+
+      if (chapterNum > tractateInfo.chapters) {
+        res.status(404).json({ error: `Chapter ${chapterNum} does not exist in ${tractateInfo.name} (max: ${tractateInfo.chapters})` });
+        return;
+      }
+
+      const sefariaBase = tractateInfo.sefaria;
+
+      // Look up halakhah structure from pre-loaded static shape data
+      const chapterShapes: number[][] = yerushalmiShapesData[sefariaBase] ?? [];
+      const halakhotSegmentCounts: number[] = chapterShapes[chapterNum - 1] ?? [];
+      if (halakhotSegmentCounts.length === 0) {
+        res.status(502).json({ error: "No shape data for this chapter" });
+        return;
+      }
+
+      const guggenheimVersion = "versionTitle=The%20Jerusalem%20Talmud%2C%20translation%20and%20commentary%20by%20Heinrich%20W.%20Guggenheimer&versionTitleInHebrew=%D9%AA";
+
+      // Fetch every halakhah in parallel
+      const halakhotResponses = await Promise.all(
+        halakhotSegmentCounts.map((_, halIdx) =>
+          fetch(`${sefariaAPIBaseURL}/texts/${sefariaBase}.${chapterNum}.${halIdx + 1}?lang=bi&commentary=0&${guggenheimVersion}`)
+            .then(r => r.ok ? r.json() : null)
+        )
+      );
+
+      const allHebrew: string[] = [];
+      const allEnglish: string[] = [];
+      const sectionRefs: string[] = [];
+
+      halakhotResponses.forEach((halData, halIdx) => {
+        if (!halData) return;
+        const heSegs: string[] = Array.isArray(halData.he) ? halData.he : [halData.he || ''];
+        const enSegs: string[] = Array.isArray(halData.text) ? halData.text : [halData.text || ''];
+        const count = Math.max(heSegs.length, enSegs.length);
+        for (let segIdx = 0; segIdx < count; segIdx++) {
+          allHebrew.push(heSegs[segIdx] || '');
+          allEnglish.push(enSegs[segIdx] || '');
+          sectionRefs.push(`${sefariaBase}.${chapterNum}.${halIdx + 1}.${segIdx + 1}`);
+        }
+      });
+
+      const processedHebrewSections = allHebrew.map(s => processHebrewText(s));
+      const processedEnglishSections = allEnglish.map(s => processEnglishText(s));
+
+      res.json({
+        tractate: tractateInfo.name,
+        chapter: chapterNum,
+        totalChapters: tractateInfo.chapters,
+        hebrewSections: processedHebrewSections,
+        englishSections: processedEnglishSections,
+        sefariaRef: `${sefariaBase}.${chapterNum}`.replace(/_/g, ' '),
+        halakhotCount: halakhotSegmentCounts.length,
+        sectionRefs,
+      });
+    } catch (error) {
+      console.error('Error in /api/yerushalmi:', error);
+      res.status(500).json({ error: "Failed to fetch Yerushalmi text" });
     }
   });
 
@@ -1840,6 +2195,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/sitemap-seder-kodashim.xml', generateSederSitemap('kodashim'));
   app.get('/sitemap-seder-tohorot.xml', generateSederSitemap('tohorot'));
   app.get('/sitemap-mishnah.xml', generateMishnahSitemap);
+  app.get('/sitemap-yerushalmi.xml', generateYerushalmiSitemap);
 
   // Dictionary API Routes
   // Search dictionary entries
@@ -1891,14 +2247,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // AI Chat Routes
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-  });
-
   const blogSearch = getBlogPostSearch();
 
-  // Tool definitions for OpenAI function calling
-  const tools: OpenAI.Chat.ChatCompletionTool[] = [
+  // Tool definitions for AI function calling
+  const tools = [
     {
       type: "function",
       function: {
@@ -1951,12 +2303,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Chat endpoint
   app.post("/api/chat", async (req, res) => {
     try {
+      if (!process.env.OPENAI_API_KEY) {
+        return res.status(503).json({ error: "AI chat is not configured on this server." });
+      }
+
+      const { default: OpenAI } = await import("openai");
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
       const { messages, context } = req.body;
       const userMessages = messages.filter((m: any) => m.role === 'user');
       const userMessage = userMessages[userMessages.length - 1];
 
       // Build system message with context
-      const systemMessage: OpenAI.Chat.ChatCompletionSystemMessageParam = {
+      const systemMessage = {
         role: "system",
         content: `You are a knowledgeable Talmud study assistant. You have access to the Talmud & Tech blog archive which contains detailed analysis of Talmud passages.
 
@@ -1984,7 +2343,7 @@ When answering questions:
 5. Be direct and specific - avoid vague statements, meta-commentary, or filler like "there may be", "further exploration might be needed", or "for a comprehensive study"`
       };
 
-      const allMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+      const allMessages: any[] = [
         systemMessage,
         ...messages
       ];
@@ -2036,7 +2395,7 @@ When answering questions:
         }
 
         // Second API call with tool results
-        const secondMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+        const secondMessages: any[] = [
           ...allMessages,
           responseMessage,
           ...toolResults

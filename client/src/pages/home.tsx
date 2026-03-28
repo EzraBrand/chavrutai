@@ -42,7 +42,7 @@ export default function Home() {
           </p>
         </section>
 
-        <section className="grid md:grid-cols-3 gap-6 mb-10" data-testid="primary-texts-section">
+        <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10" data-testid="primary-texts-section">
           <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
             <CardContent className="p-6 flex flex-col h-full">
               <h2 className="text-xl font-semibold text-foreground mb-3">Babylonian Talmud</h2>
@@ -66,6 +66,20 @@ export default function Home() {
               <Link href="/mishnah">
                 <Button variant="default" className="w-full" data-testid="button-browse-mishnah">
                   Browse Mishnah
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
+            <CardContent className="p-6 flex flex-col h-full">
+              <h2 className="text-xl font-semibold text-foreground mb-3">Jerusalem Talmud</h2>
+              <p className="text-muted-foreground mb-4 flex-1">
+                39 tractates with bilingual Hebrew-English text organized by Seder.
+              </p>
+              <Link href="/yerushalmi">
+                <Button variant="default" className="w-full" data-testid="button-browse-yerushalmi">
+                  Browse Yerushalmi
                 </Button>
               </Link>
             </CardContent>

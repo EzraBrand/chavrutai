@@ -76,7 +76,7 @@ const MISHNA_MARKER_PATTERN = /מתני['׳](?!\w)/g;
 const GEMARA_MARKER_PATTERN = /גמ['׳](?!\w)/g;
 const GEMARA_ALT_MARKER_PATTERN = /גמר['׳](?!\w)/g;
 const IRONY_PUNCT_PATTERN = /\?\!/g;
-const QUESTION_NOT_EXCLAIM_PATTERN = /\?(?![\!״])/g;
+const QUESTION_NOT_EXCLAIM_PATTERN = /\?(?![\!״\]])/g;
 const EXCLAIM_NOT_QUESTION_PATTERN = /(?<!\?)\!(?!״)/g;
 
 // English processing patterns
@@ -95,9 +95,9 @@ const ELLIPSIS_PATTERN = /\.{2,}/g;
 const TRIPLE_PUNCT_PATTERN = /([,.\?!;])[''\u2018\u2019][""\u201C\u201D]/g;
 const COMMA_QUOTE_PATTERN = /,[""\u201C\u201D'\u2018\u2019](?![""\u201C\u201D'\u2018\u2019])/g;
 const PERIOD_QUOTE_PATTERN = /\.[""\u201C\u201D'\u2018\u2019](?![""\u201C\u201D'\u2018\u2019])/g;
-const PERIOD_SPLIT_PATTERN = /\.(?![""\u201C\u201D'\u2018\u2019]|\s*[a-z]|,)/g;
+const PERIOD_SPLIT_PATTERN = /\.(?![""\u201C\u201D'\u2018\u2019]|\s*[a-z]|,|\])/g;
 const QUESTION_QUOTE_PATTERN = /\?[""\u201C\u201D'\u2018\u2019](?![""\u201C\u201D'\u2018\u2019])/g;
-const QUESTION_OTHER_PATTERN = /\?(?![""\u201C\u201D'\u2018\u2019])/g;
+const QUESTION_OTHER_PATTERN = /\?(?![""\u201C\u201D'\u2018\u2019]|\])/g;
 const BOLD_COMMA_COLON_TEST = /[,:]/;
 const BOLD_COLON_SPLIT = /:/g;
 const BOLD_COMMA_SPLIT = /,(?![""\u201C\u201D'\u2018\u2019]|\d)(?<!\d)(?<!\.)/g;
@@ -237,6 +237,11 @@ export function splitHebrewText(text: string): string {
   // the line, so the trailing dash is redundant.
   processedText = processedText.replace(/:\s*[–—]/g, ':');
 
+  // STEP 5d: Remove period that immediately follows a question mark (?.)
+  // Guggenheimer sometimes writes "?." — the period is redundant and would
+  // otherwise trigger an extra (spurious) split after the question mark split.
+  processedText = processedText.replace(/\?\./g, '?');
+
   // STEP 6: Split on individual punctuation marks
   // Each mark gets a newline after it to create paragraph breaks
   // Hebrew-specific: ׃ (sof pasuq)
@@ -256,6 +261,10 @@ export function splitHebrewText(text: string): string {
     }
   });
   
+  // STEP 6b: Rejoin splits that landed inside editorial brackets (e.g. ".]\n" → ".]")
+  // Guggenheimer uses [...] for scribal emendations; splitting inside them is wrong.
+  processedText = processedText.replace(/([.?!,;])\n(\])/g, '$1$2');
+
   // STEP 7: Clean up excessive newlines and whitespace
   processedText = processedText
     .replace(MULTI_NEWLINE_PATTERN, '\n')
@@ -319,7 +328,9 @@ export function processHebrewTextCore(text: string): string {
 export function replaceTerms(text: string): string {
   if (!text) return '';
   
-  let processedText = text;
+  // Normalize to NFC so precomposed diacritics in our term keys match Sefaria's
+  // decomposed forms (e.g. h + combining-dot-below → ḥ, so "Joḥanan" matches).
+  let processedText = text.normalize('NFC');
   
   // STEP 0a: Normalize animal-related terms with variable whitespace after comma
   // Sefaria API sometimes inserts newlines/extra spaces: "small,\n domesticated animals"
@@ -331,6 +342,18 @@ export function replaceTerms(text: string): string {
   // e.g., "<b>sky</b>-<b>blue wool</b>" prevents matching "sky-blue"
   // This collapses "</b>-<b>" into just "-" so "sky-blue" becomes matchable
   processedText = processedText.replace(/<\/b>-<b>/g, '-');
+
+  // STEP 0c: Normalize newlines inside <a> tags to spaces.
+  // Sefaria sometimes inserts \n inside anchor tags for Bible citations:
+  // e.g., <a href="..."><i>Deut</i>.\n24:1</a> — the \n causes a spurious split.
+  processedText = processedText.replace(/(<a\b[^>]*>)([\s\S]*?)(<\/a>)/g,
+    (_m, open, content, close) => open + content.replace(/\n/g, ' ') + close
+  );
+
+  // STEP 0d: Strip <i> tags that wrap a Bible book abbreviation immediately
+  // before a period, so the term-replacement step can see the full "Abbrev." token.
+  // e.g., <i>Deut</i>. → Deut.  (then term replacement expands → Deuteronomy)
+  processedText = processedText.replace(/<i>([A-Z][a-zA-Z]{1,8})<\/i>(?=\.)/g, '$1');
   
   // STEP 1: Handle Rabbi special cases first (complex logic, not in combined pattern)
   // "Rabbi," (vocative) → "Rabbi!" to mark direct address

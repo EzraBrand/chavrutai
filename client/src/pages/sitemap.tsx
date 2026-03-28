@@ -208,6 +208,9 @@ export default function Sitemap() {
             <Link href="/bible" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               Bible Reader
             </Link>
+            <Link href="/yerushalmi" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
+              Jerusalem Talmud
+            </Link>
             <Link href="/dictionary" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               Jastrow Dictionary
             </Link>
@@ -306,6 +309,9 @@ export default function Sitemap() {
             </a>
             <a href="/sitemap-bible.xml" target="_blank" rel="noopener" className="text-blue-600 dark:text-blue-400 hover:underline">
               Bible Pages
+            </a>
+            <a href="/sitemap-yerushalmi.xml" target="_blank" rel="noopener" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Jerusalem Talmud
             </a>
             {sedarim.map((seder) => (
               <a 

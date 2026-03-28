@@ -81,6 +81,16 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
               Mishnah
             </Link>
             <Link 
+              href="/yerushalmi"
+              onClick={() => {
+                trackEvent('navigate_menu', 'navigation', 'yerushalmi');
+                setOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
+            >
+              Jerusalem Talmud
+            </Link>
+            <Link 
               href="/bible"
               onClick={() => {
                 trackEvent('navigate_menu', 'navigation', 'bible');

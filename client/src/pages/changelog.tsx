@@ -72,6 +72,54 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jerusalem Talmud (Yerushalmi) Reader</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>New <strong>Jerusalem Talmud reader</strong> covering all <strong>39 tractates</strong> across the four sedarim: Zeraim, Moed, Nashim, and Nezikin</li>
+                <li>Three-level navigation: contents page by seder → tractate page with chapter list → parallel Hebrew-English chapter reader</li>
+                <li>Hebrew text sourced from Sefaria; English translation: <strong>Heinrich W. Guggenheimer</strong> scholarly edition</li>
+                <li>Side-by-side 50/50 layout matching the Mishnah reader, with halakhah-level section numbering</li>
+                <li><strong>Collapsible footnotes panel</strong> — Guggenheimer's scholarly notes appear as a full-width row below both columns, collapsed by default with a "Notes (N)" toggle; footnote markers remain as superscripts in the text</li>
+                <li>Per-halakhah <strong>"Sefaria" link</strong> using the correct 4-part <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Tractate.Chapter.1.Halakhah</code> URL format on <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">sefaria.org.il</code></li>
+                <li>"View on Sefaria" link at the bottom of each chapter page</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Text Processing (Guggenheimer Edition)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li><strong>Colon splitting</strong> — English text is split into separate lines on <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">: </code> (except when preceded by a digit, to preserve verse references like 1:1)</li>
+                <li><strong>Bible book abbreviations expanded</strong> — 35 mappings covering the full Tanakh: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Gen.</code> → Genesis, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Lev.</code> → Leviticus, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Deut.</code> → Deuteronomy, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Ps.</code> → Psalms, etc. Expansion removes the period, preventing false line splits at abbreviations</li>
+                <li><strong>Italic-wrapped abbreviation fix</strong> — Sefaria wraps abbreviations in <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">&lt;i&gt;Deut&lt;/i&gt;.</code> tags that prevented matching; the wrapper is now stripped before term replacement</li>
+                <li><strong>Newline-inside-anchor fix</strong> — Sefaria sometimes embeds <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">\n</code> inside Bible citation anchor tags (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">&lt;i&gt;Deut&lt;/i&gt;.\n24:1</code>); these are normalized to spaces before splitting</li>
+                <li><strong>Punctuation fixes</strong> — <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">?.</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">?</code> (removes redundant period after question marks)</li>
+                <li><strong>Term normalizations</strong> applied to both main text and footnotes: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Rebbi → R'</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Qiddušin → Kiddushin</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Zeïra → Ze'ira</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Joḥanan → Yoḥanan</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Tosephta → Tosefta</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Babli → Bavli</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Yebamot → Yevamot</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Jehudah → Yehuda</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Simeon → Shimon</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">v. → verse</code></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Internal Link Conversion (Sefaria → ChavrutAI)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Sefaria-style relative hrefs in both main text and footnotes are automatically rewritten to ChavrutAI internal links</li>
+                <li><strong>Yerushalmi</strong>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/Jerusalem_Talmud_Kiddushin.4.2.4</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/yerushalmi/Kiddushin/4</code></li>
+                <li><strong>Bavli</strong>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/Berakhot.21a</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/Berakhot/21a</code></li>
+                <li><strong>Bible</strong>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/Deuteronomy.24.1</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/Deuteronomy/24#1</code> (verse as hash anchor)</li>
+                <li><strong>All other links</strong> (Rashi, Tosefta, Midrash, etc.) → converted to absolute <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">https://www.sefaria.org.il/...</code> links</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: SEO & Discovery</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Home page updated to a <strong>4-column grid</strong>: Babylonian Talmud, Mishnah, Jerusalem Talmud, Tanakh</li>
+                <li>Dedicated <strong>Yerushalmi XML sitemap</strong> covering all tractates and chapter pages, registered in the sitemap index</li>
+                <li>Jerusalem Talmud links added to the <Link href="/sitemap" className="text-blue-600 hover:underline">/sitemap</Link> page</li>
+                <li><code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Allow: /yerushalmi/</code> added to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">robots.txt</code></li>
+                <li>Yerushalmi route matchers added to the server-side crawler body content generator</li>
+                <li>Full SEO metadata (title, description, canonical URL) on all three page levels</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Reader: Balanced Section Heights & Compact Spacing</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Hebrew and English text blocks now expand to match whichever is taller, eliminating empty whitespace at the bottom of shorter columns</li>
