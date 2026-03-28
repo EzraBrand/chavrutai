@@ -91,5 +91,8 @@ temp-*
 # Development scripts folder
 scripts/
 
+# Internal analysis
+analysis/
+
 # Mockup and prototype artifacts
 artifacts/

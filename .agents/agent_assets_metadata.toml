@@ -6,3 +6,9 @@ id = "BMzZvwpHYvUu12XuvAT-T"
 uri = "file://docs/yerushalmi-review.md"
 type = "text"
 title = "Yerushalmi Reader: Sprint Review & Improvement Brainstorm"
+
+[[outputs]]
+id = "NgwJE9hQ3IoxspvYWW-Pd"
+uri = "file://analysis/guggenheimer-greek-latin.csv"
+type = "table"
+title = "Guggenheimer Greek & Latin Words Analysis"
