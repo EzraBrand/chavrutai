@@ -8,6 +8,8 @@
         "The Holy One, Blessed be He, ": "God ",
         "the Holy One, Blessed be He": "God",
         "The Holy One, Blessed be He": "God",
+        "The Holy, praise to Him, ": "God ",
+        "The Holy, praise to Him,": "God",
         "the Merciful One": "God",
         "the Almighty": "God",
         "the Omnipresent": "God",
@@ -40,6 +42,10 @@
         "Rebbi": "R'",
         "Zeïra": "Ze'ira",
         "Joḥanan": "Yoḥanan",
+        "Jonathan": "Yonatan",
+        "Laqish": "Lakish",
+        "Eleazar": "Elazar",
+        "Sadoq": "Tzadok",
         "v.": "verse"
       }
     },
