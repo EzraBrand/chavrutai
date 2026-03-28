@@ -56,6 +56,7 @@
         "Num.": "Numbers",
         "Deut.": "Deuteronomy",
         "Josh.": "Joshua",
+        "Jos.": "Joshua",
         "Judg.": "Judges",
         "Jud.": "Judges",
         "Sam.": "Samuel",
@@ -72,6 +73,7 @@
         "Is.": "Isaiah",
         "Jer.": "Jeremiah",
         "Lam.": "Lamentations",
+        "Lament.": "Lamentations",
         "Ezek.": "Ezekiel",
         "Ez.": "Ezekiel",
         "Dan.": "Daniel",
@@ -84,7 +86,10 @@
         "Zeph.": "Zephaniah",
         "Hag.": "Haggai",
         "Zech.": "Zechariah",
-        "Mal.": "Malachi"
+        "Zach.": "Zechariah",
+        "Mal.": "Malachi",
+        "Cant.": "Song of Songs",
+        "Ru.": "Ruth"
       }
     },
     "hebrew_terms": {
