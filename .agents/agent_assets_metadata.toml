@@ -12,3 +12,9 @@ id = "NgwJE9hQ3IoxspvYWW-Pd"
 uri = "file://analysis/guggenheimer-greek-latin.csv"
 type = "table"
 title = "Guggenheimer Greek & Latin Words Analysis"
+
+[[outputs]]
+id = "xyyPTuFHtSbgwUFPEPp_N"
+uri = "file://analysis/README.md"
+type = "text"
+title = "Greek & Latin Loanword Extraction — Abstract & Documentation"
