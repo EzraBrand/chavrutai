@@ -76,7 +76,7 @@ const MISHNA_MARKER_PATTERN = /מתני['׳](?!\w)/g;
 const GEMARA_MARKER_PATTERN = /גמ['׳](?!\w)/g;
 const GEMARA_ALT_MARKER_PATTERN = /גמר['׳](?!\w)/g;
 const IRONY_PUNCT_PATTERN = /\?\!/g;
-const QUESTION_NOT_EXCLAIM_PATTERN = /\?(?![\!״])/g;
+const QUESTION_NOT_EXCLAIM_PATTERN = /\?(?![\!״\]])/g;
 const EXCLAIM_NOT_QUESTION_PATTERN = /(?<!\?)\!(?!״)/g;
 
 // English processing patterns
@@ -97,7 +97,7 @@ const COMMA_QUOTE_PATTERN = /,[""\u201C\u201D'\u2018\u2019](?![""\u201C\u201D'\u
 const PERIOD_QUOTE_PATTERN = /\.[""\u201C\u201D'\u2018\u2019](?![""\u201C\u201D'\u2018\u2019])/g;
 const PERIOD_SPLIT_PATTERN = /\.(?![""\u201C\u201D'\u2018\u2019]|\s*[a-z]|,|\])/g;
 const QUESTION_QUOTE_PATTERN = /\?[""\u201C\u201D'\u2018\u2019](?![""\u201C\u201D'\u2018\u2019])/g;
-const QUESTION_OTHER_PATTERN = /\?(?![""\u201C\u201D'\u2018\u2019])/g;
+const QUESTION_OTHER_PATTERN = /\?(?![""\u201C\u201D'\u2018\u2019]|\])/g;
 const BOLD_COMMA_COLON_TEST = /[,:]/;
 const BOLD_COLON_SPLIT = /:/g;
 const BOLD_COMMA_SPLIT = /,(?![""\u201C\u201D'\u2018\u2019]|\d)(?<!\d)(?<!\.)/g;
@@ -261,6 +261,10 @@ export function splitHebrewText(text: string): string {
     }
   });
   
+  // STEP 6b: Rejoin splits that landed inside editorial brackets (e.g. ".]\n" → ".]")
+  // Guggenheimer uses [...] for scribal emendations; splitting inside them is wrong.
+  processedText = processedText.replace(/([.?!,;])\n(\])/g, '$1$2');
+
   // STEP 7: Clean up excessive newlines and whitespace
   processedText = processedText
     .replace(MULTI_NEWLINE_PATTERN, '\n')
