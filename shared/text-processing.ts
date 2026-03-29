@@ -128,6 +128,7 @@ const ORPHAN_QUOTE_END_PATTERN = /(?<![,.\?!;''\u2018\u2019""\u201C\u201D])\n[""
 
 import termReplacementsConfig from './data/term-replacements.json';
 import { loadTermReplacements, buildCombinedPattern, TermReplacementsConfigSchema } from './term-replacements-schema';
+import { parseNumbers } from './number-parser';
 
 // Validate config at module load
 const validatedConfig = TermReplacementsConfigSchema.parse(termReplacementsConfig);
@@ -363,11 +364,19 @@ export function replaceTerms(text: string): string {
   
   // STEP 2: Single-pass replacement for all terms from JSON config
   // Combined regex matches all terms; callback looks up replacement in Map
+  // This handles fractions, time-ordinals, and other special idioms FIRST,
+  // so that the number parser in STEP 3 does not interfere with them.
   processedText = processedText.replace(COMBINED_TERM_PATTERN, (match) => {
     return TERM_LOOKUP_MAP.get(match.toLowerCase()) || match;
   });
-  
-  // STEP 3: Post-processing cleanup
+
+  // STEP 3: Algorithmic cardinal-number parser
+  // Converts any remaining English number-word sequences to digits.
+  // Must run AFTER STEP 2 so fractions ("three and one-third" → "3⅓") and
+  // special idioms are already consumed by the lookup table above.
+  processedText = parseNumbers(processedText);
+
+  // STEP 4: Post-processing cleanup
   // Remove redundant "in a baraita" when preceded by "A baraita states"
   // e.g., "A baraita states in a baraita" → "A baraita states"
   processedText = processedText.replace(BARAITA_REDUNDANT_PATTERN, '$1$2');
