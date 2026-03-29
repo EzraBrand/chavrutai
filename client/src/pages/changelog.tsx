@@ -72,6 +72,17 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah & Yerushalmi: External Links (Al HaTorah, Wikisource)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li><strong>Mishnah reader</strong> now includes <strong>Al HaTorah</strong> and <strong>Hebrew Wikisource</strong> links at both the section level (next to each mishnah) and the page footer, in addition to the existing Sefaria links</li>
+                <li>Section-level links point to the specific mishnah on each site (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">mishna.alhatorah.org/Full/Maaser_Sheni/5.9</code>)</li>
+                <li>Page-level footer links point to the full chapter on Sefaria, Al HaTorah, and Hebrew Wikisource</li>
+                <li><strong>Yerushalmi reader</strong> now includes an <strong>External Links</strong> footer at the bottom of each chapter page with links to <strong>Sefaria</strong> and <strong>Hebrew Wikisource</strong></li>
+                <li>Wikisource links use Hebrew gematria for chapter and mishnah numbers (e.g. <span dir="rtl">משנה מעשר שני ה ט</span>, <span dir="rtl">ירושלמי ראש השנה ד</span>)</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Talmud Bavli Chapter Names — Audit & Corrections</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed <strong>Hebrew chapter names</strong> across multiple tractates: corrected כל הצללים → כל הצלמים (Avodah Zarah 3), expanded abbreviations (ר׳ ישמעאל → רבי ישמעאל), completed truncated names (השוכר → השוכר את הפועל), and fixed spelling (תפלת → תפילת, אלו קשרים, ואלו הן הלוקין)</li>
