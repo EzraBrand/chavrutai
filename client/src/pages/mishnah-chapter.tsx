@@ -441,7 +441,7 @@ export default function MishnahChapter() {
                       id={`${index + 1}`}
                       className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
                     >
-                      <div className="flex items-center justify-center gap-3 mb-4">
+                      <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
                         <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
                           Mishnah {index + 1}
                         </span>
