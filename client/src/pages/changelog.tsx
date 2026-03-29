@@ -72,6 +72,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Talmud Bavli Chapter Names — Audit & Corrections</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed <strong>Hebrew chapter names</strong> across multiple tractates: corrected כל הצללים → כל הצלמים (Avodah Zarah 3), expanded abbreviations (ר׳ ישמעאל → רבי ישמעאל), completed truncated names (השוכר → השוכר את הפועל), and fixed spelling (תפלת → תפילת, אלו קשרים, ואלו הן הלוקין)</li>
+                <li>Fixed <strong>English transliterations</strong> in Menachot chapters: Minchot → Menachot to match standard transliteration of מנחות</li>
+                <li>Corrected transliteration errors across 10 tractate files: HaChabal → HaChoveil (Bava Kamma), Yesh Mutar → Yesh Mutarot (Yevamot), Almanah Nizont → Almanah Nizonet (Ketubot), Erusah → Arusah (Sotah), HaMafelet Chitchah → HaMapelet Chatikhah (Niddah), HaRo'ah Ktem → HaRo'ah Ketem (Niddah), Keytzad Mishtattfin → Keytzad Mishtatfin (Eruvin), HaKol Chaiyavin → HaKol Chayavin (Chagigah)</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jerusalem Talmud (Yerushalmi) Reader</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>New <strong>Jerusalem Talmud reader</strong> covering all <strong>39 tractates</strong> across the four sedarim: Zeraim, Moed, Nashim, and Nezikin</li>
