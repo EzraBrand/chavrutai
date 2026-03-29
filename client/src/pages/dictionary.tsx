@@ -57,6 +57,7 @@ export default function Dictionary() {
     .dictionary-content span[dir="rtl"] {
       font-family: 'Assistant', -apple-system, BlinkMacSystemFont, sans-serif;
       font-weight: 500;
+      font-size: 1.1em;
     }
     .dictionary-content i {
       font-style: italic;
