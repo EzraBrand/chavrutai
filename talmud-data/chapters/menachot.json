@@ -1,7 +1,7 @@
 [
   {
     "number": 1,
-    "englishName": "Kol HaMinchot",
+    "englishName": "Kol HaMenachot",
     "hebrewName": "כל המנחות",
     "startFolio": 2,
     "startSide": "a",
@@ -10,7 +10,7 @@
   },
   {
     "number": 2,
-    "englishName": "HaKometz et HaMinchah",
+    "englishName": "HaKometz Et HaMinchah",
     "hebrewName": "הקומץ את המנחה",
     "startFolio": 13,
     "startSide": "a",
@@ -37,7 +37,7 @@
   },
   {
     "number": 5,
-    "englishName": "Kol HaMinchot Ba'ot Matzah",
+    "englishName": "Kol HaMenachot Ba'ot Matzah",
     "hebrewName": "כל המנחות באות מצה",
     "startFolio": 52,
     "startSide": "b",
@@ -55,7 +55,7 @@
   },
   {
     "number": 7,
-    "englishName": "Eilu Minchot Nikmatzot",
+    "englishName": "Eilu Menachot Nikmatzot",
     "hebrewName": "אלו מנחות נקמצות",
     "startFolio": 72,
     "startSide": "b",
@@ -100,7 +100,7 @@
   },
   {
     "number": 12,
-    "englishName": "HaMinchot VeHaNesachim",
+    "englishName": "HaMenachot VeHaNesachim",
     "hebrewName": "המנחות והנסכים",
     "startFolio": 100,
     "startSide": "b",
