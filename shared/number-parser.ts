@@ -8,7 +8,7 @@
  * broke compound numbers like "a hundred and twenty three" → "120 3".
  *
  * ## WHAT IT HANDLES
- * - Simple units/teens:   one→1, seventeen→17
+ * - Simple units/teens:   six→6, seventeen→17
  * - Tens:                 thirty→30, ninety→90
  * - Hyphenated compounds: twenty-three→23, one-hundred-and-five→105
  * - Hundreds:             three hundred→300, nine hundred and ninety-nine→999
