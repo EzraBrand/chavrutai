@@ -166,6 +166,13 @@ export function formatCardinal(n: number): string {
 // PUBLIC API
 // =============================================================================
 
+// Standalone words that should NOT be converted when they appear alone.
+// "one" is used as an impersonal pronoun ("does one recite", "one must") and
+// "two" reads naturally as prose ("recites two blessings") far more often than
+// as a numeric quantity that benefits from digit form. Both were absent from
+// the former static lookup table for the same reason.
+const STANDALONE_EXCLUSIONS = new Set(['one', 'two']);
+
 /**
  * Replace all English cardinal number-word sequences in `text` with their
  * digit equivalents. Sequences that cannot be parsed are left unchanged.
@@ -175,6 +182,10 @@ export function formatCardinal(n: number): string {
  */
 export function parseNumbers(text: string): string {
   return text.replace(NUMBER_SEQUENCE_PATTERN, (match) => {
+    // Skip standalone "one" / "two" — too ambiguous in prose.
+    const lower = match.toLowerCase().trim();
+    if (STANDALONE_EXCLUSIONS.has(lower)) return match;
+
     const value = tryParseCardinal(match);
     return value !== null ? formatCardinal(value) : match;
   });

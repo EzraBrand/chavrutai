@@ -482,6 +482,57 @@ describe('Known Bug Regression Tests', () => {
     });
   });
 
+  describe('Intentionally excluded ambiguous words', () => {
+    // These words are NOT converted — they are ambiguous in prose context.
+    // Ordinals "first/second/third/fifth/tenth" read better as words.
+    // "one" is often a pronoun ("does one recite", "one must").
+    // "two" reads more naturally in prose ("recites two blessings").
+    // Both "one" and "two" were absent from the original static lookup table.
+    it('does not convert standalone "first"', () => {
+      expect(replaceTerms('the first opinion')).toContain('first');
+    });
+    it('does not convert standalone "second"', () => {
+      expect(replaceTerms('the second opinion')).toContain('second');
+    });
+    it('does not convert standalone "third" (non-time context)', () => {
+      expect(replaceTerms('a third approach')).toContain('third');
+    });
+    it('does not convert standalone "fifth"', () => {
+      expect(replaceTerms('the fifth view')).toContain('fifth');
+    });
+    it('does not convert standalone "tenth"', () => {
+      expect(replaceTerms('the tenth position')).toContain('tenth');
+    });
+    it('does not convert standalone "one" — pronoun usage', () => {
+      expect(replaceTerms('does one recite a blessing')).toContain('one recite');
+    });
+    it('does not convert standalone "one" — "one must"', () => {
+      expect(replaceTerms('one must be careful')).toContain('one must');
+    });
+    it('does not convert standalone "two" — prose usage', () => {
+      expect(replaceTerms('recites two blessings')).toContain('two blessings');
+    });
+    it('does not convert standalone "two" — "these two"', () => {
+      expect(replaceTerms('these two opinions differ')).toContain('two opinions');
+    });
+    // But "one" and "two" as part of a larger number still convert:
+    it('still converts "one hundred" (one is not standalone)', () => {
+      expect(replaceTerms('one hundred')).toContain('100');
+    });
+    it('still converts "two thousand" (two is not standalone)', () => {
+      expect(replaceTerms('two thousand')).toContain('2,000');
+    });
+    it('still converts "one thousand" (one is not standalone)', () => {
+      expect(replaceTerms('one thousand')).toContain('1,000');
+    });
+    it('still converts "twenty-one" (one is not standalone)', () => {
+      expect(replaceTerms('twenty-one')).toContain('21');
+    });
+    it('still converts "twenty-two" (two is not standalone)', () => {
+      expect(replaceTerms('twenty-two')).toContain('22');
+    });
+  });
+
   describe('Bug #78: etc., splitting', () => {
     it('does not split etc. when followed by comma', () => {
       const text = 'apples, oranges, etc., and more.';
@@ -650,6 +701,33 @@ describe('Number Parser — parseNumbers (in-sentence replacement)', () => {
 
   it('handles empty string', () => {
     expect(parseNumbers('')).toBe('');
+  });
+
+  // Standalone exclusions — "one" and "two" left as prose words
+  it('leaves standalone "one" unchanged — pronoun usage', () => {
+    expect(parseNumbers('does one recite a blessing')).toBe('does one recite a blessing');
+  });
+  it('leaves standalone "one" unchanged — "one must"', () => {
+    expect(parseNumbers('one must be careful')).toBe('one must be careful');
+  });
+  it('leaves standalone "two" unchanged — prose usage', () => {
+    expect(parseNumbers('recites two blessings')).toBe('recites two blessings');
+  });
+  it('leaves standalone "two" unchanged — "these two"', () => {
+    expect(parseNumbers('these two opinions differ')).toBe('these two opinions differ');
+  });
+  // But "one"/"two" as part of a larger number phrase are still converted
+  it('still converts "one hundred" — one is not standalone', () => {
+    expect(parseNumbers('one hundred')).toBe('100');
+  });
+  it('still converts "two thousand" — two is not standalone', () => {
+    expect(parseNumbers('two thousand')).toBe('2,000');
+  });
+  it('still converts "twenty-one" — one is not standalone', () => {
+    expect(parseNumbers('twenty-one')).toBe('21');
+  });
+  it('still converts "twenty-two" — two is not standalone', () => {
+    expect(parseNumbers('twenty-two')).toBe('22');
   });
 
   it('is case-insensitive (all caps)', () => {
