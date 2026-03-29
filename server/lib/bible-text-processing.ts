@@ -3,6 +3,8 @@
  * Handles Hebrew cantillation splitting and English formatting for Bible texts
  */
 
+import { parseNumbers } from '../../shared/number-parser';
+
 /**
  * Split Hebrew verse by specific cantillation marks at word boundaries
  * CRITICAL: Split by these three marks only:
@@ -207,39 +209,33 @@ export function processBibleEnglish(text: string): string {
 
   // FINALLY: Replace any remaining renderings of the divine name with "YHWH"
   // IMPORTANT: Process longer phrases FIRST to avoid partial matches
-  return noHTML
-    .replace(/יהוה/g, "YHWH")  // Replace Hebrew Tetragrammaton
-    // Process multi-word divine name phrases BEFORE standalone "LORD/GOD"
+  const result = noHTML
+    .replace(/יהוה/g, "YHWH")
     .replace(/\bO Lord\b/g, "O YHWH")
     .replace(/\bO LORD\b/g, "O YHWH")
     .replace(/\bthe LORD\b/g, "YHWH")
     .replace(/\bThe LORD\b/g, "YHWH")
     .replace(/\bthe Lord\b/g, "YHWH")
     .replace(/\bThe Lord\b/g, "YHWH")
-    // Process "the ETERNAL" BEFORE standalone "ETERNAL" (JPS rendering)
     .replace(/\bthe ETERNAL\b/g, "YHWH")
     .replace(/\bThe ETERNAL\b/g, "YHWH")
-    // Now process standalone forms
-    .replace(/\bETERNAL\b/g, "YHWH")  // Replace ETERNAL (from JPS small caps rendering)
-    .replace(/\bLORD\b/g, "YHWH")  // Replace standalone LORD
-    .replace(/\bGOD\b/g, "YHWH")  // Replace GOD (from JPS small caps rendering)
-    // Number word conversions (with or without hyphen, as Koren uses the unhyphenated form)
-    .replace(/\btwenty[- ]five\b/gi, "25")
-    .replace(/\btwenty[- ]nine\b/gi, "29")
-    // Character transliteration fixes (Koren-specific special characters)
-    .replace(/Ż/g, "Tz")   // Ż (capital z with dot above) => Tz
-    .replace(/ż/g, "tz")   // ż (z with dot above) => tz
-    .replace(/ĥ/g, "ḥ")   // ĥ (h with circumflex) => ḥ (h with dot below)
-    .replace(/᾽/g, "'")   // Greek koronis => plain apostrophe
-    // ῾ (Greek dasia, U+1FFE): mid-word => apostrophe, beginning-of-word => remove
+    .replace(/\bETERNAL\b/g, "YHWH")
+    .replace(/\bLORD\b/g, "YHWH")
+    .replace(/\bGOD\b/g, "YHWH")
+    .replace(/\b(thousand|million|billion),\s+/gi, '$1 ')
+    .replace(/Ż/g, "Tz")
+    .replace(/ż/g, "tz")
+    .replace(/ĥ/g, "ḥ")
+    .replace(/᾽/g, "'")
     .replace(/(?<=[a-zA-Z])῾(?=[a-zA-Z])/g, "'")
     .replace(/(?<![a-zA-Z])῾(?=[a-zA-Z])/g, "")
-    // Archaic pronoun/verb modernization (case-preserving)
     .replace(/\b(T|t)hy\b/g, (_, c) => c === 'T' ? 'Your' : 'your')
     .replace(/\b(T|t)hou\b/g, (_, c) => c === 'T' ? 'You' : 'you')
     .replace(/\b(T|t)hee\b/g, (_, c) => c === 'T' ? 'You' : 'you')
     .replace(/\b(S|s)houldst\b/g, (_, c) => c === 'S' ? 'Should' : 'should')
     .replace(/\b(H|h)ast\b/g, (_, c) => c === 'H' ? 'Have' : 'have');
+
+  return parseNumbers(result);
 }
 
 /**
