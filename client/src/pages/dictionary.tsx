@@ -81,6 +81,7 @@ export default function Dictionary() {
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const initialLoadRef = useRef(false);
+  const suppressSuggestionsRef = useRef(false);
 
   useSEO({
     title: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic | ChavrutAI",
@@ -145,9 +146,12 @@ export default function Dictionary() {
   };
 
   const splitByPeriodAndLink = (text: string) => {
-    const pattern = /(\.\)\s*|\.\s+)(<a\s)/g;
-    const result = text.replace(pattern, (match, periodPart, linkStart) => {
-      return `${periodPart}<br/>${linkStart}`;
+    const pattern = /(\.\)\s*|\.\s+)(<a\s[^>]*href="([^"]*)"[^>]*>)/g;
+    const result = text.replace(pattern, (match, periodPart, linkTag, href) => {
+      if (href && href.includes('Jastrow')) {
+        return match;
+      }
+      return `${periodPart}<br/><span style="margin-right:4px">&#8226;</span>${linkTag}`;
     });
     return result;
   };
@@ -278,6 +282,7 @@ export default function Dictionary() {
     const letter = params.get('letter');
 
     if (q) {
+      suppressSuggestionsRef.current = true;
       setSearchQuery(q);
       handleSearch(q);
     } else if (letter) {
@@ -323,6 +328,10 @@ export default function Dictionary() {
     };
 
     const timeoutId = setTimeout(() => {
+      if (suppressSuggestionsRef.current) {
+        suppressSuggestionsRef.current = false;
+        return;
+      }
       if (searchQuery.trim()) {
         fetchSuggestions(searchQuery.trim());
       } else {
