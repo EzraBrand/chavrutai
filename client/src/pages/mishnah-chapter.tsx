@@ -381,7 +381,6 @@ export default function MishnahChapter() {
 
         <BreadcrumbNavigation
           items={[
-            { label: "Home", href: "/" },
             { label: "Mishnah", href: "/mishnah" },
             { label: tractateDisplayName, href: `/mishnah/${tractateSlug}` },
             { label: `Chapter ${chapterNum}` },

@@ -346,7 +346,6 @@ export default function YerushalmiChapter() {
 
         <BreadcrumbNavigation
           items={[
-            { label: "Home", href: "/" },
             { label: "Jerusalem Talmud", href: "/yerushalmi" },
             { label: tractateDisplayName, href: `/yerushalmi/${tractateSlug}` },
             { label: `Chapter ${chapterNum}` },

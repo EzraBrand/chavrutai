@@ -54,7 +54,6 @@ export default function YerushalmiContents() {
       <div className="max-w-4xl mx-auto px-4 py-4">
         <BreadcrumbNavigation
           items={[
-            { label: "Home", href: "/" },
             { label: "Jerusalem Talmud" },
           ]}
         />

@@ -72,7 +72,6 @@ export default function YerushalmiTractate() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <BreadcrumbNavigation
           items={[
-            { label: "Home", href: "/" },
             { label: "Jerusalem Talmud", href: "/yerushalmi" },
             { label: tractateDisplayName },
           ]}
