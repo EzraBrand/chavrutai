@@ -71,9 +71,10 @@ replit
 
 
 
-# All other markdown files (except public README.md)
+# All other markdown files (except README.md and agent skills)
 *.md
 !README.md
+!.agents/skills/**/*.md
 
 # Temporary and backup files
 *.tmp
