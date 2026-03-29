@@ -5,6 +5,60 @@
 
 import { parseNumbers } from '../../shared/number-parser';
 
+const TENS_MAP: Record<string, number> = {
+  ten: 10, eleven: 11, twelf: 12, thirteen: 13, fourteen: 14,
+  fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19,
+  twenty: 20, thirty: 30, forty: 40, fifty: 50,
+  sixty: 60, seventy: 70, eighty: 80, ninety: 90,
+};
+
+const ORDINAL_SUFFIX_MAP: Record<string, { value: number; suffix: string }> = {
+  first: { value: 1, suffix: 'st' },
+  second: { value: 2, suffix: 'nd' },
+  third: { value: 3, suffix: 'rd' },
+  fourth: { value: 4, suffix: 'th' },
+  fifth: { value: 5, suffix: 'th' },
+  sixth: { value: 6, suffix: 'th' },
+  seventh: { value: 7, suffix: 'th' },
+  eighth: { value: 8, suffix: 'th' },
+  ninth: { value: 9, suffix: 'th' },
+};
+
+const STANDALONE_ORDINAL_MAP: Record<string, string> = {
+  tenth: '10th', eleventh: '11th', twelfth: '12th',
+  thirteenth: '13th', fourteenth: '14th', fifteenth: '15th',
+  sixteenth: '16th', seventeenth: '17th', eighteenth: '18th',
+  nineteenth: '19th', twentieth: '20th', thirtieth: '30th',
+};
+
+const COMPOUND_ORDINAL_TENS = Object.keys(TENS_MAP).filter(t => TENS_MAP[t] >= 20).join('|');
+const COMPOUND_ORDINAL_UNITS = Object.keys(ORDINAL_SUFFIX_MAP).join('|');
+const STANDALONE_ORDINALS = Object.keys(STANDALONE_ORDINAL_MAP).join('|');
+
+const ORDINAL_PATTERN = new RegExp(
+  `\\b(?:(${COMPOUND_ORDINAL_TENS})[-\\s](${COMPOUND_ORDINAL_UNITS})|(${STANDALONE_ORDINALS}))\\b`,
+  'gi'
+);
+
+function convertOrdinals(text: string): string {
+  return text.replace(ORDINAL_PATTERN, (_, tens, unit, standalone) => {
+    if (standalone) {
+      return STANDALONE_ORDINAL_MAP[standalone.toLowerCase()] || standalone;
+    }
+    const tensVal = TENS_MAP[tens.toLowerCase()] || 0;
+    const unitInfo = ORDINAL_SUFFIX_MAP[unit.toLowerCase()];
+    if (!unitInfo) return _;
+    const num = tensVal + unitInfo.value;
+    const lastTwo = num % 100;
+    const lastOne = num % 10;
+    let suffix = 'th';
+    if (lastTwo !== 11 && lastOne === 1) suffix = 'st';
+    else if (lastTwo !== 12 && lastOne === 2) suffix = 'nd';
+    else if (lastTwo !== 13 && lastOne === 3) suffix = 'rd';
+    return `${num}${suffix}`;
+  });
+}
+
 /**
  * Split Hebrew verse by specific cantillation marks at word boundaries
  * CRITICAL: Split by these three marks only:
@@ -235,7 +289,7 @@ export function processBibleEnglish(text: string): string {
     .replace(/\b(S|s)houldst\b/g, (_, c) => c === 'S' ? 'Should' : 'should')
     .replace(/\b(H|h)ast\b/g, (_, c) => c === 'H' ? 'Have' : 'have');
 
-  return parseNumbers(result);
+  return parseNumbers(convertOrdinals(result));
 }
 
 /**
