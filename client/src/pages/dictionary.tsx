@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -80,6 +80,7 @@ export default function Dictionary() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const initialLoadRef = useRef(false);
 
   useSEO({
     title: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic | ChavrutAI",
@@ -143,6 +144,29 @@ export default function Dictionary() {
       .join('');
   };
 
+  const splitByPeriodAndLink = (text: string) => {
+    const pattern = /(\.\)\s*|\.\s+)(<a\s)/g;
+    const result = text.replace(pattern, (match, periodPart, linkStart) => {
+      return `${periodPart}<br/>${linkStart}`;
+    });
+    return result;
+  };
+
+  const convertSuperscriptLetters = (text: string) => {
+    const superscriptMap: Record<string, string> = {
+      'ᵃ': 'a', 'ᵇ': 'b', 'ᶜ': 'c', 'ᵈ': 'd', 'ᵉ': 'e',
+      'ᶠ': 'f', 'ᵍ': 'g', 'ʰ': 'h', 'ⁱ': 'i', 'ʲ': 'j',
+      'ᵏ': 'k', 'ˡ': 'l', 'ᵐ': 'm', 'ⁿ': 'n', 'ᵒ': 'o',
+      'ᵖ': 'p', 'ʳ': 'r', 'ˢ': 's', 'ᵗ': 't', 'ᵘ': 'u',
+      'ᵛ': 'v', 'ʷ': 'w', 'ˣ': 'x', 'ʸ': 'y', 'ᶻ': 'z'
+    };
+    let result = text;
+    for (const [superscript, normal] of Object.entries(superscriptMap)) {
+      result = result.split(superscript).join(normal);
+    }
+    return result;
+  };
+
   // Function to expand abbreviations using comprehensive Jastrow mappings
   // This function preserves HTML tags while expanding abbreviations
   const expandAbbreviations = (text: string) => {
@@ -181,42 +205,49 @@ export default function Dictionary() {
     return result;
   };
 
-  const handleSearch = async () => {
-    if (!searchQuery.trim()) return;
+  const updateURLParams = useCallback((params: { q?: string; letter?: string }) => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('q');
+    url.searchParams.delete('letter');
+    if (params.q) url.searchParams.set('q', params.q);
+    if (params.letter) url.searchParams.set('letter', params.letter);
+    const newPath = url.pathname + url.search;
+    window.history.replaceState(null, '', newPath);
+  }, []);
 
+  const handleSearch = useCallback(async (query?: string | unknown) => {
+    const q = typeof query === 'string' ? query : searchQuery;
+    if (!q.trim()) return;
     setIsLoading(true);
+    updateURLParams({ q: q.trim() });
     try {
-      console.log('Frontend: Making search request for:', searchQuery);
-      const response = await fetch(`/api/dictionary/search?query=${encodeURIComponent(searchQuery)}`);
+      const response = await fetch(`/api/dictionary/search?query=${encodeURIComponent(q)}`);
 
       if (!response.ok) {
         throw new Error(`Search failed: ${response.status}`);
       }
 
       const entries = await response.json();
-      console.log('Frontend: Search response:', entries);
 
-      // Validate entries structure
-      const validEntries = Array.isArray(entries) ? entries.filter(entry =>
+      const validEntries = Array.isArray(entries) ? entries.filter((entry: DictionaryEntry) =>
         entry && entry.headword && entry.content && Array.isArray(entry.content.senses)
       ) : [];
 
       setResults(validEntries);
-      setSelectedLetter(""); // Clear letter selection when searching
-      console.log('Frontend: Valid search results:', validEntries.length, 'entries');
+      setSelectedLetter("");
     } catch (error) {
       console.error('Frontend: Search error:', error);
       setResults([]);
     }
     setIsLoading(false);
-  };
+  }, [searchQuery, updateURLParams]);
 
-  const handleLetterClick = async (letter: string) => {
+  const handleLetterClick = useCallback(async (letter: string) => {
     setSelectedLetter(letter);
     setIsLoading(true);
+    updateURLParams({ letter });
 
     try {
-      console.log('Frontend: Making browse request for letter:', letter);
       const response = await fetch(`/api/dictionary/browse?letter=${encodeURIComponent(letter)}`);
 
       if (!response.ok) {
@@ -224,26 +255,39 @@ export default function Dictionary() {
       }
 
       const entries = await response.json();
-      console.log('Frontend: Browse response:', entries);
 
-      // Validate entries structure
-      const validEntries = Array.isArray(entries) ? entries.filter(entry =>
+      const validEntries = Array.isArray(entries) ? entries.filter((entry: DictionaryEntry) =>
         entry && entry.headword && entry.content && Array.isArray(entry.content.senses)
       ) : [];
 
       setResults(validEntries);
-      setSearchQuery(""); // Clear search when browsing
-      console.log('Frontend: Valid browse results:', validEntries.length, 'entries');
+      setSearchQuery("");
     } catch (error) {
       console.error('Frontend: Browse error:', error);
       setResults([]);
     }
     setIsLoading(false);
-  };
+  }, [updateURLParams]);
+
+  useEffect(() => {
+    if (initialLoadRef.current) return;
+    initialLoadRef.current = true;
+
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q');
+    const letter = params.get('letter');
+
+    if (q) {
+      setSearchQuery(q);
+      handleSearch(q);
+    } else if (letter) {
+      handleLetterClick(letter);
+    }
+  }, []);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      handleSearch(searchQuery);
       setShowSuggestions(false);
     } else if (e.key === 'Escape') {
       setShowSuggestions(false);
@@ -293,10 +337,7 @@ export default function Dictionary() {
   const handleSuggestionClick = (suggestion: AutosuggestSuggestion) => {
     setSearchQuery(suggestion.voweled);
     setShowSuggestions(false);
-    // Automatically trigger search when suggestion is selected
-    setTimeout(() => {
-      handleSearch();
-    }, 100);
+    handleSearch(suggestion.voweled);
   };
 
   // Handle clicks outside the suggestion dropdown
@@ -636,7 +677,7 @@ export default function Dictionary() {
                           <div 
                             key={senseIndex} 
                             className="mb-2 last:mb-0 dictionary-content" 
-                            dangerouslySetInnerHTML={{ __html: expandAbbreviations(splitIntoParagraphs(sense.definition)) }} 
+                            dangerouslySetInnerHTML={{ __html: expandAbbreviations(convertSuperscriptLetters(splitByPeriodAndLink(splitIntoParagraphs(sense.definition)))) }} 
                           />
                         ))}
                       </div>

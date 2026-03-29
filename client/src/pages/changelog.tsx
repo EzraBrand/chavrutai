@@ -72,6 +72,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary: Shareable URLs & Text Improvements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Dictionary searches and letter browsing now update the URL (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/dictionary?q=כתב</code>), so you can share or bookmark specific lookups</li>
+                <li>Long definitions now split into new lines where a period is followed by a hyperlinked reference (e.g. between "it). Bava" or "ten. Berakhot")</li>
+                <li>Superscript letters used in Yerushalmi citations (ᵃ, ᵇ, ᶜ, ᵈ) are now converted to standard-size letters for readability</li>
+                <li>Binyan (verb-form) abbreviations now display with full transliterations and colons (e.g. Af. becomes Af'el:, Pa. becomes Pa'el:)</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah & Yerushalmi: External Links (Al HaTorah, Wikisource)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li><strong>Mishnah reader</strong> now includes <strong>Al HaTorah</strong> and <strong>Hebrew Wikisource</strong> links at both the section level (next to each mishnah) and the page footer, in addition to the existing Sefaria links</li>
