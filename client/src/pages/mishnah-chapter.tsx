@@ -21,6 +21,7 @@ import {
 import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";
+import { getMishnahSectionLinks, getMishnahChapterLinks } from "@/lib/mishnah-external-links";
 
 interface MishnahTextData {
   tractate: string;
@@ -470,6 +471,19 @@ export default function MishnahChapter() {
                           Sefaria
                           <ExternalLinkIcon className="w-3 h-3" />
                         </a>
+                        {tractateDisplayName && getMishnahSectionLinks(tractateDisplayName, chapterNum, index + 1).map((link) => (
+                          <a
+                            key={link.name}
+                            href={link.url}
+                            target="_blank"
+                            rel="nofollow noopener noreferrer"
+                            className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
+                            title={link.description}
+                          >
+                            {link.name}
+                            <ExternalLinkIcon className="w-3 h-3" />
+                          </a>
+                        ))}
                       </div>
 
                       <div className={`text-display ${isShekalim ? '' : 'mishnah-text-display'} flex flex-col lg:flex-row gap-6`}>
@@ -537,21 +551,26 @@ export default function MishnahChapter() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-border" data-testid="external-links-footer">
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="text-lg font-semibold text-foreground">External Links:</span>
-            <a
-              href={`https://www.sefaria.org/${textData?.sefariaRef?.replace(/ /g, '_') || ''}`}
-              target="_blank"
-              rel="nofollow noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
-              title="View this chapter on Sefaria"
-            >
-              Sefaria
-              <ExternalLinkIcon className="w-3.5 h-3.5" />
-            </a>
+        {textData && tractateDisplayName && (
+          <div className="mt-8 pt-6 border-t border-border" data-testid="external-links-footer">
+            <div className="flex flex-wrap items-center gap-4">
+              <span className="text-lg font-semibold text-foreground">External Links:</span>
+              {getMishnahChapterLinks(tractateDisplayName, chapterNum, textData.sefariaRef).map((link) => (
+                <a
+                  key={link.name}
+                  href={link.url}
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+                  title={link.description}
+                >
+                  {link.name}
+                  <ExternalLinkIcon className="w-3.5 h-3.5" />
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <Footer />
       </main>

@@ -21,6 +21,7 @@ import {
 import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";
+import { getYerushalmiChapterLinks } from "@/lib/yerushalmi-external-links";
 
 interface YerushalmiTextData {
   tractate: string;
@@ -569,6 +570,27 @@ export default function YerushalmiChapter() {
             )}
           </div>
         </div>
+
+        {textData && tractateDisplayName && (
+          <div className="mt-8 pt-6 border-t border-border" data-testid="external-links-footer">
+            <div className="flex flex-wrap items-center gap-4">
+              <span className="text-lg font-semibold text-foreground">External Links:</span>
+              {getYerushalmiChapterLinks(tractateDisplayName, chapterNum, textData.sefariaRef).map((link) => (
+                <a
+                  key={link.name}
+                  href={link.url}
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+                  title={link.description}
+                >
+                  {link.name}
+                  <ExternalLinkIcon className="w-3.5 h-3.5" />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </main>
 
       <Footer />
