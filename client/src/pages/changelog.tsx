@@ -72,6 +72,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Dynamic Page Titles &amp; SEO Fix</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed a structural bug where page meta titles would fall back to the generic homepage title whenever query parameters were present (e.g. dictionary letter browsing, search queries)</li>
+                <li>Dictionary page now shows dynamic, context-aware titles — browsing letter ק shows "Jastrow Dictionary - Letter ק", searching shows the search term in the title</li>
+                <li>Prevented future regressions by refactoring the server-side SEO function to always parse the URL pathname separately from query parameters before matching routes</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Number Conversion: Algorithmic Parser</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Replaced a static lookup table of ~230 hard-coded number phrases with an algorithmic English cardinal number parser — fixing a bug where compound numbers like "a hundred and twenty three" were incorrectly split into "120 3" instead of "123"</li>

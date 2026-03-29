@@ -84,12 +84,26 @@ export default function Dictionary() {
   const initialLoadRef = useRef(false);
   const suppressSuggestionsRef = useRef(false);
 
+  const seoTitle = selectedLetter
+    ? `Jastrow Dictionary - Letter ${selectedLetter} | ChavrutAI`
+    : searchQuery
+      ? `"${searchQuery}" - Jastrow Dictionary | ChavrutAI`
+      : "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic | ChavrutAI";
+
+  const seoDescription = selectedLetter
+    ? `Browse Jastrow Dictionary entries starting with ${selectedLetter}. Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`
+    : searchQuery
+      ? `Jastrow Dictionary results for "${searchQuery}". Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`
+      : "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.";
+
   useSEO({
-    title: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic | ChavrutAI",
-    description: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.",
-    ogTitle: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic",
-    ogDescription: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic with modernized presentation and enhanced readability.",
-    canonical: `${window.location.origin}/dictionary`,
+    title: seoTitle,
+    description: seoDescription,
+    ogTitle: seoTitle.replace(' | ChavrutAI', ''),
+    ogDescription: seoDescription,
+    canonical: selectedLetter
+      ? `${window.location.origin}/dictionary?letter=${encodeURIComponent(selectedLetter)}`
+      : `${window.location.origin}/dictionary`,
     robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",

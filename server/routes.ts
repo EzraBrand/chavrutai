@@ -502,6 +502,9 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
 function generateServerSideMetaTags(url: string): { title: string; description: string; ogTitle: string; ogDescription: string; canonical: string; robots: string } {
   const baseUrl = process.env.NODE_ENV === 'production' ? 'https://chavrutai.com' : 'http://localhost:5000';
   
+  const urlObj = new URL(url, baseUrl);
+  const pathname = urlObj.pathname;
+  
   // Default fallback (current static meta)
   let seoData = {
     title: "Study Talmud Online - Free Digital Platform | ChavrutAI",
@@ -513,10 +516,10 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
   };
 
   // Route-specific SEO data (mirroring client-side generateSEOData)
-  if (url === '/' || url === '/talmud') {
+  if (pathname === '/' || pathname === '/talmud') {
     // Homepage/Talmud Contents - keep current data
-    seoData.canonical = `${baseUrl}${url === '/' ? '/' : '/talmud'}`;
-  } else if (url === '/about') {
+    seoData.canonical = `${baseUrl}${pathname === '/' ? '/' : '/talmud'}`;
+  } else if (pathname === '/about') {
     seoData = {
       title: "About ChavrutAI - Free Digital Talmud Learning Platform",
       description: "Discover how ChavrutAI makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
@@ -525,7 +528,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/about`,
       robots: "index, follow"
     };
-  } else if (url === '/suggested-pages') {
+  } else if (pathname === '/suggested-pages') {
     seoData = {
       title: "Famous Talmud Pages - Essential Teachings & Stories | ChavrutAI",
       description: "Start with the most famous Talmud pages including Hillel's wisdom, Hannah's prayer, and other essential teachings. Perfect introduction for new learners.",
@@ -534,7 +537,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/suggested-pages`,
       robots: "index, follow"
     };
-  } else if (url === '/biblical-index') {
+  } else if (pathname === '/biblical-index') {
     seoData = {
       title: "Biblical Citations in the Talmud - Complete Index | ChavrutAI",
       description: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud. Search Torah, Prophets, and Writings references with direct links to Talmudic passages.",
@@ -543,7 +546,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/biblical-index`,
       robots: "index, follow"
     };
-  } else if (url === '/blog-posts') {
+  } else if (pathname === '/blog-posts') {
     seoData = {
       title: '"Talmud & Tech" Blog Posts by Talmud Location | ChavrutAI',
       description: 'Blog posts analyzing Talmudic passages, organized by tractate and page location. Click on titles to go to the full articles at the "Talmud & Tech" Blog, or use location links to jump to the corresponding text in ChavrutAI.',
@@ -552,16 +555,40 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/blog-posts`,
       robots: "index, follow"
     };
-  } else if (url === '/dictionary') {
-    seoData = {
-      title: "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic | ChavrutAI",
-      description: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.",
-      ogTitle: "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic",
-      ogDescription: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic with modernized presentation and enhanced readability.",
-      canonical: `${baseUrl}/dictionary`,
-      robots: "index, follow"
-    };
-  } else if (url === '/term-index') {
+  } else if (pathname === '/dictionary') {
+    const letter = urlObj.searchParams.get('letter') || '';
+    const query = urlObj.searchParams.get('q') || '';
+    
+    if (letter) {
+      seoData = {
+        title: `Jastrow Dictionary - Letter ${letter} | ChavrutAI`,
+        description: `Browse Jastrow Dictionary entries starting with ${letter}. Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`,
+        ogTitle: `Jastrow Dictionary - Letter ${letter}`,
+        ogDescription: `Browse Jastrow Dictionary entries starting with ${letter}. Talmudic Hebrew and Aramaic with modernized presentation.`,
+        canonical: `${baseUrl}/dictionary?letter=${encodeURIComponent(letter)}`,
+        robots: "index, follow"
+      };
+    } else if (query) {
+      const safeQuery = escapeHtmlAttr(query);
+      seoData = {
+        title: `"${safeQuery}" - Jastrow Dictionary | ChavrutAI`,
+        description: `Jastrow Dictionary results for "${safeQuery}". Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`,
+        ogTitle: `"${safeQuery}" - Jastrow Dictionary`,
+        ogDescription: `Jastrow Dictionary results for "${safeQuery}". Talmudic Hebrew and Aramaic with modernized presentation.`,
+        canonical: `${baseUrl}/dictionary`,
+        robots: "index, follow"
+      };
+    } else {
+      seoData = {
+        title: "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic | ChavrutAI",
+        description: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.",
+        ogTitle: "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic",
+        ogDescription: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic with modernized presentation and enhanced readability.",
+        canonical: `${baseUrl}/dictionary`,
+        robots: "index, follow"
+      };
+    }
+  } else if (pathname === '/term-index') {
     seoData = {
       title: "Talmud Term Index - Names, Places & Key Terms | ChavrutAI",
       description: "Glossary of personal names, place names, and key terms in the Babylonian Talmud. Includes corpus counts, Wikipedia links, Hebrew terms, and biographical data.",
@@ -570,7 +597,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/term-index`,
       robots: "index, follow"
     };
-  } else if (url === '/bible') {
+  } else if (pathname === '/bible') {
     seoData = {
       title: "Bible (Tanach) - Hebrew & English | ChavrutAI",
       description: "Read the complete Hebrew Bible (Tanach) with Koren Jerusalem Bible English translation. Access all 24 books of the Torah, Nevi'im, and Ketuvim with parallel Hebrew-English text.",
@@ -579,9 +606,8 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/bible`,
       robots: "index, follow"
     };
-  } else if (url.match(/^\/bible\/[^/]+\/\d+$/)) {
-    // Individual Bible chapter pages like /bible/II_Kings/11
-    const urlParts = url.split('/');
+  } else if (pathname.match(/^\/bible\/[^/]+\/\d+$/)) {
+    const urlParts = pathname.split('/');
     const bookSlug = urlParts[2];
     const chapter = urlParts[3];
     const book = getBookBySlug(bookSlug);
@@ -594,9 +620,8 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/bible/${bookSlug}/${chapter}`,
       robots: "index, follow"
     };
-  } else if (url.match(/^\/bible\/[^/]+$/)) {
-    // Bible book index pages like /bible/Genesis
-    const bookSlug = url.split('/')[2];
+  } else if (pathname.match(/^\/bible\/[^/]+$/)) {
+    const bookSlug = pathname.split('/')[2];
     const book = getBookBySlug(bookSlug);
     const bookTitle = book ? book.name : bookSlug.replace(/_/g, ' ');
     seoData = {
@@ -607,7 +632,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/bible/${bookSlug}`,
       robots: "index, follow"
     };
-  } else if (url === '/sugya-viewer') {
+  } else if (pathname === '/sugya-viewer') {
     seoData = {
       title: "Sugya Viewer - Custom Talmud Range | ChavrutAI",
       description: "Read any continuous passage (sugya) across the Babylonian Talmud by selecting a custom range of folios. Ideal for in-depth study of extended discussions.",
@@ -616,7 +641,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/sugya-viewer`,
       robots: "index, follow"
     };
-  } else if (url === '/mishnah-map') {
+  } else if (pathname === '/mishnah-map') {
     seoData = {
       title: "Mishnah-Talmud Mapping | ChavrutAI",
       description: "Explore the relationship between Mishnah sections and their corresponding Talmudic discussions. Navigate from any Mishnah passage directly to the Gemara that analyzes it.",
@@ -625,7 +650,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/mishnah-map`,
       robots: "index, follow"
     };
-  } else if (url === '/sitemap') {
+  } else if (pathname === '/sitemap') {
     seoData = {
       title: "Site Map - ChavrutAI Talmud Navigation Guide",
       description: "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure. Find any page across 5,400+ folios in the Babylonian Talmud.",
@@ -634,7 +659,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/sitemap`,
       robots: "index, follow"
     };
-  } else if (url === '/contact') {
+  } else if (pathname === '/contact') {
     seoData = {
       title: "Contact | ChavrutAI",
       description: "Contact ChavrutAI with feedback, suggestions, and corrections. We appreciate all input to improve our digital Talmud study platform.",
@@ -643,7 +668,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/contact`,
       robots: "index, follow"
     };
-  } else if (url === '/privacy') {
+  } else if (pathname === '/privacy') {
     seoData = {
       title: "Privacy Policy - ChavrutAI Talmud Study Platform",
       description: "Privacy policy for ChavrutAI - learn how we handle your data when using our free Talmud study platform.",
@@ -652,7 +677,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/privacy`,
       robots: "index, follow"
     };
-  } else if (url === '/changelog') {
+  } else if (pathname === '/changelog') {
     seoData = {
       title: "Changelog - ChavrutAI",
       description: "Recent updates and improvements to ChavrutAI. Track new features, design enhancements, and user experience improvements for Talmud study.",
@@ -661,7 +686,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/changelog`,
       robots: "index, follow"
     };
-  } else if (url === '/mishnah') {
+  } else if (pathname === '/mishnah') {
     seoData = {
       title: "Mishnah - Hebrew & English | ChavrutAI",
       description: "Study the Mishnah online with bilingual Hebrew-English text. Browse 26 tractates not covered by the Babylonian Talmud, organized by Seder.",
@@ -670,8 +695,8 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/mishnah`,
       robots: "index, follow"
     };
-  } else if (url.match(/^\/mishnah\/[^/]+\/\d+$/)) {
-    const urlParts = url.split('/');
+  } else if (pathname.match(/^\/mishnah\/[^/]+\/\d+$/)) {
+    const urlParts = pathname.split('/');
     const tractateSlug = urlParts[2];
     const chapter = urlParts[3];
     const tractateInfo = getMishnahTractateInfo(tractateSlug);
@@ -684,8 +709,8 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/mishnah/${tractateSlug}/${chapter}`,
       robots: "index, follow"
     };
-  } else if (url.match(/^\/mishnah\/[^/]+$/)) {
-    const tractateSlug = url.split('/')[2];
+  } else if (pathname.match(/^\/mishnah\/[^/]+$/)) {
+    const tractateSlug = pathname.split('/')[2];
     const tractateInfo = getMishnahTractateInfo(tractateSlug);
     const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
     seoData = {
@@ -696,7 +721,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/mishnah/${tractateSlug}`,
       robots: "index, follow"
     };
-  } else if (url === '/yerushalmi') {
+  } else if (pathname === '/yerushalmi') {
     seoData = {
       title: "Jerusalem Talmud (Yerushalmi) - Hebrew & English | ChavrutAI",
       description: "Study the Jerusalem Talmud (Talmud Yerushalmi) online with bilingual Hebrew-English text. 39 tractates with the Guggenheimer English translation, organized by Seder.",
@@ -705,8 +730,8 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/yerushalmi`,
       robots: "index, follow"
     };
-  } else if (url.match(/^\/yerushalmi\/[^/]+\/\d+$/)) {
-    const urlParts = url.split('/');
+  } else if (pathname.match(/^\/yerushalmi\/[^/]+\/\d+$/)) {
+    const urlParts = pathname.split('/');
     const tractateSlug = urlParts[2];
     const chapter = urlParts[3];
     const tractateInfo = getYerushalmiTractateInfo(tractateSlug);
@@ -719,8 +744,8 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/yerushalmi/${tractateSlug}/${chapter}`,
       robots: "index, follow"
     };
-  } else if (url.match(/^\/yerushalmi\/[^/]+$/)) {
-    const tractateSlug = url.split('/')[2];
+  } else if (pathname.match(/^\/yerushalmi\/[^/]+$/)) {
+    const tractateSlug = pathname.split('/')[2];
     const tractateInfo = getYerushalmiTractateInfo(tractateSlug);
     const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
     seoData = {
@@ -731,9 +756,8 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/yerushalmi/${tractateSlug}`,
       robots: "index, follow"
     };
-  } else if (url.match(/^\/talmud\/[^/]+$/)) {
-    // Tractate pages like /talmud/berakhot
-    const tractate = url.split('/')[2];
+  } else if (pathname.match(/^\/talmud\/[^/]+$/)) {
+    const tractate = pathname.split('/')[2];
     const tractateTitle = normalizeDisplayTractateName(tractate);
     seoData = {
       title: `${tractateTitle} Talmud - Complete Chapter Guide | ChavrutAI`,
@@ -743,9 +767,8 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/talmud/${tractate}`,
       robots: "index, follow"
     };
-  } else if (url.match(/^\/talmud\/[^/]+\/\d+[ab]$/)) {
-    // Individual folio pages like /talmud/berakhot/2a
-    const urlParts = url.split('/');
+  } else if (pathname.match(/^\/talmud\/[^/]+\/\d+[ab]$/)) {
+    const urlParts = pathname.split('/');
     const tractate = urlParts[2];
     const folio = urlParts[3];
     const tractateTitle = normalizeDisplayTractateName(tractate);
@@ -759,9 +782,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/talmud/${tractate}/${folio}`,
       robots: "index, follow"
     };
-  } else if (url.startsWith('/search')) {
-    // Parse query params for richer titles
-    const urlObj = new URL(url, baseUrl);
+  } else if (pathname === '/search') {
     const query = urlObj.searchParams.get('q') || '';
     const type = urlObj.searchParams.get('type') || '';
     const safeQuery = escapeHtmlAttr(query);
