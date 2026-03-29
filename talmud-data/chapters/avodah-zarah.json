@@ -19,8 +19,8 @@
   },
   {
     "number": 3,
-    "englishName": "Kol HaTzelalim",
-    "hebrewName": "כל הצללים",
+    "englishName": "Kol HaTzlamim",
+    "hebrewName": "כל הצלמים",
     "startFolio": 40,
     "startSide": "b",
     "endFolio": 49,
@@ -28,8 +28,8 @@
   },
   {
     "number": 4,
-    "englishName": "R' Yishmael",
-    "hebrewName": "ר' ישמעאל",
+    "englishName": "Rabbi Yishmael",
+    "hebrewName": "רבי ישמעאל",
     "startFolio": 49,
     "startSide": "b",
     "endFolio": 62,
@@ -37,8 +37,8 @@
   },
   {
     "number": 5,
-    "englishName": "HaSokher",
-    "hebrewName": "השוכר",
+    "englishName": "HaSokher Et HaPo'el",
+    "hebrewName": "השוכר את הפועל",
     "startFolio": 62,
     "startSide": "a",
     "endFolio": 76,
