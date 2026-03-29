@@ -72,6 +72,17 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Number Conversion: Algorithmic Parser</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Replaced a static lookup table of ~230 hard-coded number phrases with an algorithmic English cardinal number parser — fixing a long-standing bug where compound numbers like "a hundred and twenty three" were incorrectly split into "120 3" instead of "123"</li>
+                <li>All compound forms now convert correctly, including hundreds + units ("seven hundred and forty five" → 745), census-style numbers ("two thousand three hundred and twenty two" → 2,322), and large numbers ("five thousand eight hundred and eighty-eight" → 5,888)</li>
+                <li>Biblical inversion patterns continue to work ("five and twenty" → 25, "forty and two thousand three hundred and sixty" → 42,360)</li>
+                <li>Standalone "one" and "two" are intentionally left unchanged — "one" is commonly used as a pronoun in rabbinic prose ("does one recite…"), and "two" reads more naturally as a word ("recites two blessings")</li>
+                <li>Fractions, ordinals, and special idioms handled by the lookup table (e.g. "three and one-third" → 3⅓, "the fifth month" → the 5th month) are fully protected and unaffected</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary: Shareable URLs & Text Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Dictionary searches and letter browsing now update the URL (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/dictionary?q=כתב</code>), so you can share or bookmark specific lookups</li>
