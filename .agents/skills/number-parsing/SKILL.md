@@ -28,7 +28,7 @@ The `convertOrdinals()` function (Bible-only, server-side) converts ordinal word
 
 Coverage:
 - Compound ordinals: "twenty-first" → "21st", "thirty-fifth" → "35th" (all tens 20-90 + all unit ordinals)
-- Standalone ordinals 10-30: "tenth" → "10th", "twentieth" → "20th", "thirtieth" → "30th"
+- Standalone ordinals 11-30: "eleventh" → "11th" through "nineteenth" → "19th", "twentieth" → "20th", "thirtieth" → "30th" (NOTE: "tenth" excluded — ambiguous with fraction 1/10th, especially due to עשרון)
 - Teens: "eleventh" → "11th" through "nineteenth" → "19th"
 
 Order of operations in `processBibleEnglish()`: ordinals → then cardinals.

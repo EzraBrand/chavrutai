@@ -25,7 +25,7 @@ const ORDINAL_SUFFIX_MAP: Record<string, { value: number; suffix: string }> = {
 };
 
 const STANDALONE_ORDINAL_MAP: Record<string, string> = {
-  tenth: '10th', eleventh: '11th', twelfth: '12th',
+  eleventh: '11th', twelfth: '12th',
   thirteenth: '13th', fourteenth: '14th', fifteenth: '15th',
   sixteenth: '16th', seventeenth: '17th', eighteenth: '18th',
   nineteenth: '19th', twentieth: '20th', thirtieth: '30th',
