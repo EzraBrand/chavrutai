@@ -101,7 +101,16 @@ Term replacement rules must not be so broad they match ordinal/prose contexts. T
 
 ## Testing
 
-After changes, verify:
-1. API output: `curl http://localhost:5000/api/bible/text?book=<Book>&chapter=<Ch>` and check `englishSegments`
-2. For Talmud: `curl http://localhost:5000/api/talmud/...` and check English text
-3. Check the rendered page in the browser to confirm client-side processing doesn't re-break things
+For simple term-replacement additions (adding entries to `term-replacements.json`), testing is usually unnecessary — just validate the JSON is well-formed:
+```bash
+python3 -c "import json; json.load(open('shared/data/term-replacements.json')); print('Valid JSON')"
+```
+Then restart the app. The change will take effect on the rendered page.
+
+Do NOT try to test via `curl` against API endpoints. There is no dedicated `/api/talmud/text` or similar JSON API that returns processed English text. Talmud/Mishnah/Yerushalmi English text processing (`replaceTerms`, `parseNumbers`) happens **client-side** in the browser, not on the server. The server fetches raw text from Sefaria and passes it through; the shared processing functions run in the frontend bundle.
+
+For Bible text, server-side processing does occur in `processBibleEnglish()`, but the API endpoint returns full HTML pages, not JSON — so curl-based testing is not straightforward either.
+
+If deeper verification is needed (e.g., for algorithmic parser changes or debugging), the best approach is:
+1. Check the rendered page in the browser at the relevant tractate/chapter
+2. Or write a quick inline test in the code_execution sandbox by importing the processing function
