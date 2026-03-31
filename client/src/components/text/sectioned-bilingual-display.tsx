@@ -548,28 +548,28 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               })()}
               
               <div className="text-display flex flex-col lg:flex-row gap-6">
-                {/* English Section (First on Mobile, Left Side on Desktop) */}
-                <div className="text-column space-y-3 lg:order-1">
-                  {section.englishHtml && (
-                    <div className="english-text text-foreground">
-                      <div 
-                        dangerouslySetInnerHTML={{ __html: section.englishHtml }}
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {/* Hebrew Section (Second on Mobile, Right Side on Desktop) */}
+                {/* Hebrew Section (First on Mobile/Stacked, Right Side on Desktop) */}
                 <div className="text-column space-y-3 lg:order-2">
                   {section.hebrewLines.length > 0 && (
                     <div className={`hebrew-text text-foreground ${getHebrewFontClass()}`}>
                       {section.hebrewLines.map((lineHtml, lineIndex) => (
-                        <p 
-                          key={lineIndex} 
+                        <p
+                          key={lineIndex}
                           className={`leading-relaxed ${lineIndex < section.hebrewLines.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
                           dangerouslySetInnerHTML={{ __html: lineHtml }}
                         />
                       ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* English Section (Second on Mobile/Stacked, Left Side on Desktop) */}
+                <div className="text-column space-y-3 lg:order-1">
+                  {section.englishHtml && (
+                    <div className="english-text text-foreground">
+                      <div
+                        dangerouslySetInnerHTML={{ __html: section.englishHtml }}
+                      />
                     </div>
                   )}
                 </div>
@@ -588,28 +588,28 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
             </div>
             
             <div className="text-display flex flex-col lg:flex-row gap-6 opacity-60">
-              {/* English Continuation (First on Mobile, Left Side on Desktop) */}
-              <div className="text-column space-y-3 lg:order-1">
-                {text.nextPageFirstSection.english.trim() && (
-                  <div className="english-text text-muted-foreground">
-                    <div 
-                      dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(text.nextPageFirstSection.english)) }}
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Hebrew Continuation (Second on Mobile, Right Side on Desktop) */}
+              {/* Hebrew Continuation (First on Mobile/Stacked, Right Side on Desktop) */}
               <div className="text-column space-y-3 lg:order-2">
                 {text.nextPageFirstSection.hebrew.trim() && (
                   <div className={`hebrew-text text-muted-foreground ${getHebrewFontClass()}`}>
                     {processHebrewText(text.nextPageFirstSection.hebrew).split('\n').filter(line => line.trim()).map((line, lineIndex, array) => (
-                      <p 
-                        key={lineIndex} 
+                      <p
+                        key={lineIndex}
                         className={`leading-relaxed ${lineIndex < array.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
                         dangerouslySetInnerHTML={{ __html: line.trim() }}
                       />
                     ))}
+                  </div>
+                )}
+              </div>
+
+              {/* English Continuation (Second on Mobile/Stacked, Left Side on Desktop) */}
+              <div className="text-column space-y-3 lg:order-1">
+                {text.nextPageFirstSection.english.trim() && (
+                  <div className="english-text text-muted-foreground">
+                    <div
+                      dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(text.nextPageFirstSection.english)) }}
+                    />
                   </div>
                 )}
               </div>

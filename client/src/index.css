@@ -183,12 +183,12 @@
   }
   
   .layout-side-by-side .text-display .text-column:first-child {
-    width: 65%;
+    width: 35%;
     padding: 0 0.75rem;
   }
-  
+
   .layout-side-by-side .text-display .text-column:last-child {
-    width: 35%;
+    width: 65%;
     padding: 0 0.75rem;
   }
   
@@ -212,12 +212,12 @@
     }
     
     .layout-side-by-side .text-display .text-column:first-child {
-      width: 65% !important;
+      width: 35% !important;
       padding: 0 0.5rem;
     }
-    
+
     .layout-side-by-side .text-display .text-column:last-child {
-      width: 35% !important;
+      width: 65% !important;
       padding: 0 0.5rem;
     }
 
