@@ -18,6 +18,10 @@ const MISHNAH_ALHATORAH_NAMES: Record<string, string> = {
   "Avodah Zarah": "Avodah_Zarah",
   "Maaser Sheni": "Maaser_Sheni",
   "Tevul Yom": "Tevul_Yom",
+  "Chullin": "Chulin",
+  "Eduyot": "Eiduyot",
+  "Kelim": "Keilim",
+  "Taharot": "Tahorot",
 };
 
 function getAlHaTorahTractateName(tractate: string): string {

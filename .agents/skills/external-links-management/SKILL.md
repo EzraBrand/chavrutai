@@ -63,7 +63,7 @@ External links connect each reader page to the corresponding content on third-pa
 Some external sites use different transliterations. Override mappings:
 
 - **Talmud Al HaTorah** (`EXTERNAL_TRACTATE_NAMES` in `external-links.ts`): Eruvin→Eiruvin, Rosh Hashanah→Rosh_HaShanah, Chullin→Chulin
-- **Mishnah Al HaTorah** (`MISHNAH_ALHATORAH_NAMES` in `mishnah-external-links.ts`): Eruvin→Eiruvin, Rosh Hashanah→Rosh_HaShanah, plus multi-word names need underscores (Maaser Sheni→Maaser_Sheni, etc.)
+- **Mishnah Al HaTorah** (`MISHNAH_ALHATORAH_NAMES` in `mishnah-external-links.ts`): Eruvin→Eiruvin, Rosh Hashanah→Rosh_HaShanah, Chullin→Chulin, Eduyot→Eiduyot, Kelim→Keilim, Taharot→Tahorot, plus multi-word names need underscores (Maaser Sheni→Maaser_Sheni, etc.)
 - **Bible Al HaTorah** (`ALHATORAH_BOOK_NAMES` in `bible-external-links.ts`): Full mapping of English→transliterated Hebrew names
 
 ## How to Add a New External Site

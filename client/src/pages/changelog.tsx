@@ -63,6 +63,23 @@ export default function Changelog() {
       {/* Changelog Content */}
       <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6 max-w-4xl">
         
+        {/* April 2026 */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+            April 2026
+          </h2>
+
+          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah: Al HaTorah External Link Fixes</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed incorrect Al HaTorah tractate names for 4 Mishnah tractates: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Taharot</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Tahorot</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Kelim</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Keilim</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Eduyot</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Eiduyot</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Chullin</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Chulin</code></li>
+                <li>Al HaTorah uses different transliterations than Sefaria for these tractates, causing "This page does not exist" errors</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* March 2026 */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
