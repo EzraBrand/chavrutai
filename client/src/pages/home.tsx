@@ -87,6 +87,20 @@ export default function Home() {
 
           <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
             <CardContent className="p-6 flex flex-col h-full">
+              <h2 className="text-xl font-semibold text-foreground mb-3">Mishneh Torah</h2>
+              <p className="text-muted-foreground mb-4 flex-1">
+                All 83 Hilchot of the Rambam's code of Jewish law with bilingual Hebrew-English text.
+              </p>
+              <Link href="/rambam">
+                <Button variant="default" className="w-full" data-testid="button-browse-rambam">
+                  Browse Mishneh Torah
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
+            <CardContent className="p-6 flex flex-col h-full">
               <h2 className="text-xl font-semibold text-foreground mb-3">Tanakh (Hebrew Bible)</h2>
               <p className="text-muted-foreground mb-4 flex-1">
                 Torah, Prophets, and Writings. Each book includes Hebrew text with English translation.

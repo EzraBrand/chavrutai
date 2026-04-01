@@ -211,6 +211,9 @@ export default function Sitemap() {
             <Link href="/yerushalmi" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               Jerusalem Talmud
             </Link>
+            <Link href="/rambam" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
+              Mishneh Torah (Rambam)
+            </Link>
             <Link href="/dictionary" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               Jastrow Dictionary
             </Link>

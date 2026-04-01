@@ -6,6 +6,8 @@ import { storage } from "./storage";
 import { insertTextSchema, searchRequestSchema, browseRequestSchema, autosuggestRequestSchema, textSearchRequestSchema, type SearchResult, type TextSearchResponse } from "@shared/schema";
 import { normalizeSefariaTractateName, normalizeDisplayTractateName, isValidTractate, getTractateSlug, normalizeMishnahTractateName, isValidMishnahTractate, getMishnahTractateInfo, MISHNAH_ONLY_TRACTATES } from "@shared/tractates";
 import { getYerushalmiTractateInfo, normalizeYerushalmiTractateName, YERUSHALMI_TRACTATES } from "@shared/yerushalmi-data";
+import { getRambamHilchotInfo, RAMBAM_BOOKS } from "@shared/rambam-data";
+import { generateRambamSitemap } from "./routes/sitemap-rambam";
 import { getBookBySlug } from "@shared/bible-books";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
@@ -367,6 +369,97 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
     };
   }
 
+  if (url === '/rambam') {
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": `${origin}/rambam`,
+          name: "Mishneh Torah (Rambam) — Hebrew & English",
+          description: "Study all 83 Hilchot of the Mishneh Torah with bilingual Hebrew-English text (Touger translation). 14 books covering all areas of Jewish law.",
+          url: `${origin}/rambam`,
+          breadcrumb: {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+              { "@type": "ListItem", position: 2, name: "Mishneh Torah", item: `${origin}/rambam` },
+            ],
+          },
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        organizationNode,
+      ],
+    };
+  }
+
+  const rambamHilchotMatch = url.match(/^\/rambam\/([^/]+)$/);
+  if (rambamHilchotMatch) {
+    const hilchotSlug = rambamHilchotMatch[1];
+    const info = getRambamHilchotInfo(hilchotSlug);
+    const hilchotName = info ? info.displayName : hilchotSlug.replace(/_/g, ' ');
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": `${origin}/rambam/${hilchotSlug}`,
+          name: `Hilchot ${hilchotName} — Mishneh Torah`,
+          description: `Study Hilchot ${hilchotName} chapter by chapter with bilingual Hebrew-English text (Touger translation).`,
+          url: `${origin}/rambam/${hilchotSlug}`,
+          isPartOf: { "@type": "WebSite", "@id": `${origin}/#website` },
+          publisher: { "@id": `${origin}/#organization` },
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+            { "@type": "ListItem", position: 2, name: "Mishneh Torah", item: `${origin}/rambam` },
+            { "@type": "ListItem", position: 3, name: hilchotName, item: `${origin}/rambam/${hilchotSlug}` },
+          ],
+        },
+        organizationNode,
+      ],
+    };
+  }
+
+  const rambamChapterMatch = url.match(/^\/rambam\/([^/]+)\/(\d+)$/);
+  if (rambamChapterMatch) {
+    const hilchotSlug = rambamChapterMatch[1];
+    const chapter = rambamChapterMatch[2];
+    const info = getRambamHilchotInfo(hilchotSlug);
+    const hilchotName = info ? info.displayName : hilchotSlug.replace(/_/g, ' ');
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": `${origin}/rambam/${hilchotSlug}/${chapter}`,
+          headline: `${hilchotName} Chapter ${chapter} — Mishneh Torah`,
+          description: `Study Hilchot ${hilchotName} Chapter ${chapter} with parallel Hebrew-English text (Touger translation).`,
+          url: `${origin}/rambam/${hilchotSlug}/${chapter}`,
+          author: { "@id": `${origin}/#organization` },
+          publisher: { "@id": `${origin}/#organization` },
+          isPartOf: {
+            "@type": "Book",
+            name: `Hilchot ${hilchotName} — Mishneh Torah`,
+            isPartOf: { "@type": "BookSeries", name: "Mishneh Torah" },
+          },
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+            { "@type": "ListItem", position: 2, name: "Mishneh Torah", item: `${origin}/rambam` },
+            { "@type": "ListItem", position: 3, name: hilchotName, item: `${origin}/rambam/${hilchotSlug}` },
+            { "@type": "ListItem", position: 4, name: `Chapter ${chapter}`, item: `${origin}/rambam/${hilchotSlug}/${chapter}` },
+          ],
+        },
+        organizationNode,
+      ],
+    };
+  }
+
   if (url === '/yerushalmi') {
     return {
       "@context": "https://schema.org",
@@ -721,6 +814,41 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/mishnah/${tractateSlug}`,
       robots: "index, follow"
     };
+  } else if (pathname === '/rambam') {
+    seoData = {
+      title: "Mishneh Torah (Rambam) - Complete Text | ChavrutAI",
+      description: "Study the Mishneh Torah (Rambam) online with bilingual Hebrew-English text. All 83 Hilchot across 14 books, with the Touger English translation via Sefaria.",
+      ogTitle: "Mishneh Torah (Rambam) - Complete Text | ChavrutAI",
+      ogDescription: "Study the Mishneh Torah (Rambam) with bilingual Hebrew-English text on ChavrutAI.",
+      canonical: `${baseUrl}/rambam`,
+      robots: "index, follow"
+    };
+  } else if (pathname.match(/^\/rambam\/[^/]+\/\d+$/)) {
+    const urlParts = pathname.split('/');
+    const hilchotSlug = urlParts[2];
+    const chapter = urlParts[3];
+    const info = getRambamHilchotInfo(hilchotSlug);
+    const hilchotName = info ? info.displayName : hilchotSlug.replace(/_/g, ' ');
+    seoData = {
+      title: `${hilchotName} Chapter ${chapter} - Mishneh Torah | ChavrutAI`,
+      description: `Study Hilchot ${hilchotName} Chapter ${chapter} with parallel Hebrew-English text (Touger translation). Free online on ChavrutAI.`,
+      ogTitle: `${hilchotName} Chapter ${chapter} - Mishneh Torah`,
+      ogDescription: `Read Hilchot ${hilchotName} Chapter ${chapter} with Hebrew-English text on ChavrutAI.`,
+      canonical: `${baseUrl}/rambam/${hilchotSlug}/${chapter}`,
+      robots: "index, follow"
+    };
+  } else if (pathname.match(/^\/rambam\/[^/]+$/)) {
+    const hilchotSlug = pathname.split('/')[2];
+    const info = getRambamHilchotInfo(hilchotSlug);
+    const hilchotName = info ? info.displayName : hilchotSlug.replace(/_/g, ' ');
+    seoData = {
+      title: `${hilchotName} - Mishneh Torah | ChavrutAI`,
+      description: `Study Hilchot ${hilchotName} chapter by chapter with bilingual Hebrew-English text (Touger translation). Free online on ChavrutAI.`,
+      ogTitle: `${hilchotName} - Mishneh Torah`,
+      ogDescription: `Study Hilchot ${hilchotName} with Hebrew-English text (Touger) on ChavrutAI.`,
+      canonical: `${baseUrl}/rambam/${hilchotSlug}`,
+      robots: "index, follow"
+    };
   } else if (pathname === '/yerushalmi') {
     seoData = {
       title: "Jerusalem Talmud (Yerushalmi) - Hebrew & English | ChavrutAI",
@@ -1035,6 +1163,51 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
       nav += `<a href="/bible/${safeBookPath}/${chapterNum + 1}">Chapter ${chapterNum + 1} &rarr;</a>`;
     }
     nav += `</nav>`;
+  } else if (urlPath === '/rambam') {
+    heading = 'Mishneh Torah (Rambam) — All Hilchot';
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Mishneh Torah</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    nav = '';
+    for (const book of RAMBAM_BOOKS) {
+      nav += `<h3>${escapeHtml(book.name)}</h3><ul>`;
+      for (const h of book.hilchot) {
+        nav += `<li><a href="/rambam/${safeSlug(h.slug)}">${escapeHtml(h.displayName)}</a> (${h.chapters} chapters)</li>`;
+      }
+      nav += `</ul>`;
+    }
+  } else if (urlPath.match(/^\/rambam\/[^/]+$/)) {
+    const hilchotSlug = urlPath.split('/')[2];
+    const info = getRambamHilchotInfo(hilchotSlug);
+    const hilchotTitle = info ? info.displayName : hilchotSlug.replace(/_/g, ' ');
+    const safeHilchot = safeSlug(hilchotSlug);
+    heading = `${hilchotTitle} — Mishneh Torah`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/rambam">Mishneh Torah</a> &rsaquo; ${escapeHtml(hilchotTitle)}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    if (info) {
+      nav = `<h3>Chapters</h3><ul>`;
+      for (let c = 1; c <= info.chapters; c++) {
+        nav += `<li><a href="/rambam/${safeHilchot}/${c}">${escapeHtml(hilchotTitle)} Chapter ${c}</a></li>`;
+      }
+      nav += `</ul>`;
+    }
+  } else if (urlPath.match(/^\/rambam\/[^/]+\/\d+$/)) {
+    const parts = urlPath.split('/');
+    const hilchotSlug = parts[2];
+    const chapter = parseInt(parts[3]);
+    const info = getRambamHilchotInfo(hilchotSlug);
+    const hilchotTitle = info ? info.displayName : hilchotSlug.replace(/_/g, ' ');
+    const safeHilchot = safeSlug(hilchotSlug);
+    heading = `${hilchotTitle} Chapter ${chapter} — Mishneh Torah`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/rambam">Mishneh Torah</a> &rsaquo; <a href="/rambam/${safeHilchot}">${escapeHtml(hilchotTitle)}</a> &rsaquo; Chapter ${chapter}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    nav = `<nav aria-label="Page navigation">`;
+    if (chapter > 1) {
+      nav += `<a href="/rambam/${safeHilchot}/${chapter - 1}">&larr; Chapter ${chapter - 1}</a> `;
+    }
+    if (info && chapter < info.chapters) {
+      nav += `<a href="/rambam/${safeHilchot}/${chapter + 1}">Chapter ${chapter + 1} &rarr;</a>`;
+    }
+    nav += `</nav>`;
   } else if (urlPath === '/yerushalmi') {
     heading = 'Jerusalem Talmud (Talmud Yerushalmi) — All Tractates';
     breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Jerusalem Talmud</nav>`;
@@ -1345,6 +1518,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/yerushalmi', servePageWithMeta);
   app.get('/yerushalmi/:tractate', servePageWithMeta);
   app.get('/yerushalmi/:tractate/:chapter', servePageWithMeta);
+  app.get('/rambam', servePageWithMeta);
+  app.get('/rambam/:hilchot', servePageWithMeta);
+  app.get('/rambam/:hilchot/:chapter', servePageWithMeta);
   app.get('/talmud/:tractate', servePageWithMeta);
   app.get('/talmud/:tractate/:folio', servePageWithMeta);
   
@@ -1577,6 +1753,122 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error in /api/mishnah:', error);
       res.status(500).json({ error: "Failed to fetch Mishnah text" });
+    }
+  });
+
+  // Rambam (Mishneh Torah) API Routes
+  const rambamInfoCache = new Map<string, { hilchot: string; chapters: number; halachotPerChapter: number[] }>();
+
+  app.get("/api/rambam/:hilchot/info", async (req, res) => {
+    try {
+      const { hilchot } = req.params;
+      const info = getRambamHilchotInfo(hilchot);
+      if (!info) {
+        res.status(404).json({ error: `Invalid Rambam Hilchot: ${hilchot}` });
+        return;
+      }
+
+      const cacheKey = info.slug;
+      if (rambamInfoCache.has(cacheKey)) {
+        res.json(rambamInfoCache.get(cacheKey));
+        return;
+      }
+
+      const sefariaKey = info.sefaria.replace(/ /g, '_').replace(/,/g, ',');
+      const response = await fetch(`https://www.sefaria.org/api/v3/texts/${sefariaKey}`);
+
+      if (!response.ok) {
+        const fallback = { hilchot: info.displayName, chapters: info.chapters, halachotPerChapter: [] };
+        res.json(fallback);
+        return;
+      }
+
+      const sefariaData = await response.json();
+      const halachotPerChapter: number[] = [];
+
+      interface SefariaVersion {
+        language?: string;
+        text?: unknown[];
+      }
+
+      const versions: SefariaVersion[] = Array.isArray(sefariaData.versions) ? sefariaData.versions : [];
+      const heVersion = versions.find((v) => v.language === 'he');
+      if (heVersion && Array.isArray(heVersion.text)) {
+        for (const chapter of heVersion.text) {
+          halachotPerChapter.push(Array.isArray(chapter) ? chapter.length : 0);
+        }
+      }
+
+      const result = {
+        hilchot: info.displayName,
+        chapters: info.chapters,
+        halachotPerChapter,
+      };
+
+      if (halachotPerChapter.length > 0) {
+        rambamInfoCache.set(cacheKey, result);
+      }
+
+      res.json(result);
+    } catch (error) {
+      console.error('Error in /api/rambam/:hilchot/info:', error);
+      res.status(500).json({ error: "Failed to get Hilchot info" });
+    }
+  });
+
+  app.get("/api/rambam/:hilchot/:chapter", async (req, res) => {
+    try {
+      const { hilchot, chapter } = req.params;
+
+      if (!/^\d+$/.test(chapter)) {
+        res.status(400).json({ error: "Invalid chapter number" });
+        return;
+      }
+
+      const chapterNum = parseInt(chapter, 10);
+      if (chapterNum < 1) {
+        res.status(400).json({ error: "Invalid chapter number" });
+        return;
+      }
+
+      const info = getRambamHilchotInfo(hilchot);
+      if (!info) {
+        res.status(404).json({ error: `Invalid Rambam Hilchot: ${hilchot}` });
+        return;
+      }
+
+      if (chapterNum > info.chapters) {
+        res.status(404).json({ error: `Chapter ${chapterNum} does not exist in ${info.displayName} (max: ${info.chapters})` });
+        return;
+      }
+
+      const sefariaKey = info.sefaria.replace(/ /g, '_').replace(/,/g, ',');
+      const sefariaRef = `${sefariaKey}.${chapterNum}`;
+      const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0`);
+
+      if (!response.ok) {
+        res.status(502).json({ error: "Failed to fetch from Sefaria" });
+        return;
+      }
+
+      const sefariaData = await response.json();
+      const hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
+      const englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+
+      const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
+
+      res.json({
+        hilchot: info.displayName,
+        chapter: chapterNum,
+        totalChapters: info.chapters,
+        hebrewSections: processedHebrewSections,
+        englishSections,
+        sefariaRef: info.sefaria + `.${chapterNum}`,
+        halachotCount: hebrewSections.length,
+      });
+    } catch (error) {
+      console.error('Error in /api/rambam/:hilchot/:chapter:', error);
+      res.status(500).json({ error: "Failed to fetch Rambam text" });
     }
   });
 
@@ -2217,6 +2509,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/sitemap-seder-tohorot.xml', generateSederSitemap('tohorot'));
   app.get('/sitemap-mishnah.xml', generateMishnahSitemap);
   app.get('/sitemap-yerushalmi.xml', generateYerushalmiSitemap);
+  app.get('/sitemap-rambam.xml', generateRambamSitemap);
 
   // Dictionary API Routes
   // Search dictionary entries

@@ -79,6 +79,12 @@ export function generateMainSitemap(req: Request, res: Response) {
     <lastmod>${currentDate}</lastmod>
   </url>
   <url>
+    <loc>${baseUrl}/rambam</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
     <loc>${baseUrl}/mishnah-map</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>

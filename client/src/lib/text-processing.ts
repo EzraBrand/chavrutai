@@ -220,6 +220,87 @@ export function processMishnahEnglishText(text: string): string {
 }
 
 /**
+ * Processes Rambam Hebrew text: removes nikud and normalizes whitespace.
+ * Starts identical to processMishnahHebrewText; Rambam-specific rules added as needed.
+ */
+export function processRambamHebrewText(text: string): string {
+  if (!text) return '';
+
+  let processed = removeNikud(text);
+
+  processed = processed
+    .replace(/אומרים,/g, 'אומרים:')
+    .replace(/אומר,/g, 'אומר:')
+    .replace(/אמרו לו,/g, 'אמרו לו:')
+    .replace(/(אמרו להם\s+[^,\n]+),/g, '$1:')
+    .replace(/אמרו להם,/g, 'אמרו להם:')
+    .replace(/אמר להם,/g, 'אמר להם:')
+    .replace(/אמר לו רבי ([^,\n]+),/g, 'אמר לו רבי $1:')
+    .replace(/אמר רבי ([^,\n]+),/g, 'אמר רבי $1:')
+    .replace(/אמר לו,/g, 'אמר לו:')
+    .replace(/(אמר\s+[^,\n]+),/g, '$1:')
+    .replace(/אמר,/g, 'אמר:')
+    .replace(/ואלו הן,/g, 'ואלו הן:')
+    .replace(/(אלו\s+[^.\n]+)\./g, '$1:')
+    .replace(/זה הכלל,/g, 'זה הכלל:')
+    .replace(/(איזהו\s+[^,\n]+),/g, '$1?')
+    .replace(/(ואיזו היא\s+[^,\n]+),/g, '$1?')
+    .replace(/(מה בין\s+[^.\n]+)\./g, '$1?')
+    .replace(/(כיצד\s+[^,.\n]+)[,.]/g, '$1?')
+    .replace(/כיצד\./g, 'כיצד?')
+    .replace(/כיצד,/g, 'כיצד?')
+    .replace(/במה דברים אמורים,/g, 'במה דברים אמורים?')
+    .replace(/אימתי,/g, 'אימתי?');
+
+  processed = processed
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
+
+  return processed;
+}
+
+/**
+ * Processes Rambam English text (Touger translation): strips HTML tags and splits into lines.
+ * NOTE: Footnote extraction (parseSectionFootnotes) must be called BEFORE this function
+ * so that the raw HTML with footnote markers is processed first.
+ * Starts identical to processMishnahEnglishText.
+ */
+export function processRambamEnglishText(text: string): string {
+  if (!text) return '';
+
+  let processed = text
+    .replace(/<[^>]*>/g, '')
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .trim();
+
+  processed = processed
+    .replace(/\bR\.\s/g, "R' ")
+    .replace(/\bi\.e\./g, 'i\x00e\x00')
+    .replace(/\be\.g\./g, 'e\x00g\x00')
+    .replace(/\bibid\./g, 'ibid\x00')
+    .replace(/\bb\.\s/g, 'b\x00 ')
+    .replace(/R'/g, 'R\x00')
+    .replace(/([.;:?!])(?![\]\)'])(?=[\[A-Z])/g, '$1\n')
+    .replace(/([.;:?!])(?![\]\)'])\s+(?!\))/g, '$1\n')
+    .replace(/R\x00/g, "R'")
+    .replace(/i\x00e\x00/g, 'i.e.')
+    .replace(/e\x00g\x00/g, 'e.g.')
+    .replace(/ibid\x00/g, 'ibid.')
+    .replace(/b\x00/g, 'b.');
+
+  processed = processed
+    .replace(/\n{3,}/g, '\n')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
+
+  return processed;
+}
+
+/**
  * Simpler processing for Bible English text - no auto-splitting
  * (Backend already handles verse splitting and HTML processing)
  */

@@ -3,6 +3,7 @@ Allow: /
 Allow: /talmud/
 Allow: /bible/
 Allow: /yerushalmi/
+Allow: /rambam/
 Allow: /about
 Allow: /suggested-pages
 Allow: /biblical-index
