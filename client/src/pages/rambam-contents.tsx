@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
@@ -6,6 +7,18 @@ import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigat
 import { RAMBAM_BOOKS } from "@shared/rambam-data";
 
 export default function RambamContents() {
+  // Scroll to the book anchor when navigating here from another page (e.g. breadcrumb links)
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const id = hash.slice(1);
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
   useSEO({
     title: "Mishneh Torah (Rambam) - Complete Text | ChavrutAI",
     description: "Study the Mishneh Torah (Rambam) online with bilingual Hebrew-English text. All 83 Hilchot across 14 books, with the Touger English translation via Sefaria.",
@@ -51,6 +64,21 @@ export default function RambamContents() {
             <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Sefaria</a>.{' '}
             Hebrew text: Mechon Mamre.
           </p>
+        </div>
+
+        <div className="mb-4">
+          <p className="text-center text-xs text-muted-foreground mb-2">Jump to Sefer:</p>
+          <div className="flex flex-wrap gap-2 justify-center py-2">
+            {RAMBAM_BOOKS.map((book) => (
+              <a
+                key={book.name}
+                href={`#${book.name.toLowerCase().replace(/\s+/g, '-')}`}
+                className="inline-flex items-center justify-center min-h-[2.25rem] px-3 py-1 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
+              >
+                {book.name.replace(/^Sefer\s+/, '')}
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="space-y-4">
