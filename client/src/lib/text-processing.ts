@@ -271,11 +271,21 @@ export function processRambamHebrewText(text: string): string {
 export function processRambamEnglishText(text: string): string {
   if (!text) return '';
 
-  let processed = text
+  // Protect <sup data-note-ref> elements before stripping other HTML
+  const protectedSups: string[] = [];
+  let processed = text.replace(/<sup[^>]*data-note-ref[^>]*>[\s\S]*?<\/sup>/g, (match) => {
+    protectedSups.push(match);
+    return `\x00RAMBAM_NOTE_${protectedSups.length - 1}\x00`;
+  });
+
+  processed = processed
     .replace(/<[^>]*>/g, '')
     .replace(/\r\n/g, '\n')
     .replace(/[ \t]+/g, ' ')
     .trim();
+
+  // Restore protected footnote sups
+  processed = processed.replace(/\x00RAMBAM_NOTE_(\d+)\x00/g, (_, i) => protectedSups[parseInt(i)]);
 
   processed = processed
     .replace(/\bR\.\s/g, "R' ")
