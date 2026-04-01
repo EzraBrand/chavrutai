@@ -271,37 +271,53 @@ export function processRambamHebrewText(text: string): string {
 export function processRambamEnglishText(text: string): string {
   if (!text) return '';
 
-  // Protect <sup data-note-ref> elements before stripping other HTML
+  // Step 1: Protect <sup data-note-ref> elements before stripping other HTML.
+  // These are restored AFTER sentence splitting so the splitting patterns can
+  // see the period that precedes each footnote marker.
   const protectedSups: string[] = [];
   let processed = text.replace(/<sup[^>]*data-note-ref[^>]*>[\s\S]*?<\/sup>/g, (match) => {
     protectedSups.push(match);
     return `\x00RAMBAM_NOTE_${protectedSups.length - 1}\x00`;
   });
 
+  // Step 2: Strip remaining HTML, normalize whitespace
   processed = processed
     .replace(/<[^>]*>/g, '')
     .replace(/\r\n/g, '\n')
     .replace(/[ \t]+/g, ' ')
     .trim();
 
-  // Restore protected footnote sups
-  processed = processed.replace(/\x00RAMBAM_NOTE_(\d+)\x00/g, (_, i) => protectedSups[parseInt(i)]);
-
+  // Step 3: Protect abbreviations so their periods don't trigger sentence splits
   processed = processed
     .replace(/\bR\.\s/g, "R' ")
     .replace(/\bi\.e\./g, 'i\x00e\x00')
     .replace(/\be\.g\./g, 'e\x00g\x00')
     .replace(/\bibid\./g, 'ibid\x00')
     .replace(/\bb\.\s/g, 'b\x00 ')
-    .replace(/R'/g, 'R\x00')
+    .replace(/R'/g, 'R\x00');
+
+  // Step 4: Sentence splitting — must run BEFORE sup restoration.
+  // Pattern A: period/etc. immediately followed by a sup placeholder (e.g. "build.¹ Below")
+  //   — consume trailing space so the next sentence starts cleanly on a new line.
+  processed = processed
+    .replace(/([.;:?!])(\x00RAMBAM_NOTE_\d+\x00)\s*/g, '$1$2\n')
+    // Pattern B: period/etc. directly followed by uppercase or [
     .replace(/([.;:?!])(?![\]\)'])(?=[\[A-Z])/g, '$1\n')
-    .replace(/([.;:?!])(?![\]\)'])\s+(?!\))/g, '$1\n')
+    // Pattern C: period/etc. followed by whitespace
+    .replace(/([.;:?!])(?![\]\)'])\s+(?!\))/g, '$1\n');
+
+  // Step 5: Restore abbreviations
+  processed = processed
     .replace(/R\x00/g, "R'")
     .replace(/i\x00e\x00/g, 'i.e.')
     .replace(/e\x00g\x00/g, 'e.g.')
     .replace(/ibid\x00/g, 'ibid.')
     .replace(/b\x00/g, 'b.');
 
+  // Step 6: Restore footnote sups — now they land after the newline that split their sentence
+  processed = processed.replace(/\x00RAMBAM_NOTE_(\d+)\x00/g, (_, i) => protectedSups[parseInt(i)]);
+
+  // Step 7: Final cleanup
   processed = processed
     .replace(/\n{3,}/g, '\n')
     .replace(/\n[ \t]+/g, '\n')
