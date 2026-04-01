@@ -74,14 +74,14 @@ export default function Changelog() {
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishneh Torah (Rambam) Reader</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added a full <strong>Mishneh Torah (Rambam) reader</strong> at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/rambam</code> — all 14 books and 83 Hilchot with bilingual Hebrew-English text (Touger translation via Sefaria)</li>
-                <li>Three-level navigation: contents page (all 83 Hilchot organized by book), chapter list, and chapter reader with halacha-by-halacha bilingual display</li>
+                <li>Added a full <strong>Mishneh Torah (Rambam) reader</strong> at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/rambam</code> — all 14 books and 83 Books ('Hilchot') with bilingual Hebrew-English text (Touger translation via Sefaria)</li>
+                <li>Three-level navigation: contents page (all 83 Books ('Hilchot') organized by book), chapter list, and chapter reader with halacha-by-halacha bilingual display</li>
                 <li>Footnotes from the Touger translation are extracted, displayed as numbered blue superscripts, and expandable inline — identical to the Yerushalmi reader's footnote UX</li>
                 <li>External links at halacha level: <strong>Sefaria</strong> and <strong>Al HaTorah</strong>; chapter-level footer links to Sefaria, Al HaTorah, and <strong>Hebrew Wikisource</strong></li>
                 <li>50-50 bilingual column layout matching the Mishnah reader; text columns flex-stretch to fill height with no empty space at the bottom</li>
                 <li>Traditional trailing colon (׃) at end of each halacha replaced with a period, matching Mishnah reader conventions</li>
                 <li>Full SEO coverage: unique meta titles, Open Graph tags, structured data, and server-side crawler content for all three route patterns</li>
-                <li>Sitemap at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sitemap-rambam.xml</code> covering all 83 Hilchot and their chapters; <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">robots.txt</code> updated with <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Allow: /rambam/</code></li>
+                <li>Sitemap at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sitemap-rambam.xml</code> covering all 83 Books ('Hilchot') and their chapters; <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">robots.txt</code> updated with <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Allow: /rambam/</code></li>
                 <li>Added to home page card grid, footer navigation, and sitemap page</li>
               </ul>
             </div>

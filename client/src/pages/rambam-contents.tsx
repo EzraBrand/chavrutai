@@ -55,7 +55,7 @@ export default function RambamContents() {
 
         <div className="space-y-4">
           {RAMBAM_BOOKS.map((book) => (
-            <div key={book.name} className="space-y-2">
+            <div key={book.name} id={book.name.toLowerCase().replace(/\s+/g, '-')} className="space-y-2">
               <div className="text-center border-b border-border pb-2">
                 <h3 className="text-xl font-semibold text-primary">{book.name}</h3>
                 <p className="text-base text-primary/70 font-hebrew">{book.hebrewName}</p>
