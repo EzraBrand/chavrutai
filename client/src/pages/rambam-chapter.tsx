@@ -217,7 +217,7 @@ export default function RambamChapter() {
               <HamburgerMenu onLocationChange={handleLocationChange} />
             </div>
 
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center gap-2 flex-shrink-0 min-w-[90px] justify-start">
               {hasNext && (
                 <Link href={`/rambam/${info.slug}/${chapterNum + 1}`}>
                   <Button variant="outline" size="sm" className="flex items-center gap-1 px-2 py-2">
@@ -230,7 +230,10 @@ export default function RambamChapter() {
 
             <div className="flex-1 flex items-center justify-center min-w-0">
               <div className="text-center">
-                <Link href={`/rambam/${info.slug}`} className="text-sm font-semibold text-primary hover:underline">
+                <Link
+                  href={`/rambam/${info.slug}`}
+                  className={`font-semibold text-primary hover:underline ${info.displayName.split(' ').length > 3 ? 'text-xs' : 'text-sm'}`}
+                >
                   {info.displayName}
                 </Link>
                 <div className="text-xs text-muted-foreground">
@@ -240,7 +243,7 @@ export default function RambamChapter() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center gap-2 flex-shrink-0 min-w-[90px] justify-end">
               {hasPrev && (
                 <Link href={`/rambam/${info.slug}/${chapterNum - 1}`}>
                   <Button variant="outline" size="sm" className="flex items-center gap-1 px-2 py-2">
