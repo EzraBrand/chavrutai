@@ -291,16 +291,6 @@ export default function RambamChapter() {
 
         {textData && !isLoading && (
           <div className="space-y-6">
-            <div className="flex items-center justify-center gap-2">
-              <p className="text-xs text-muted-foreground">Jump to Sefer:</p>
-              <a
-                href={`/rambam#${info.book.toLowerCase().replace(/\s+/g, '-')}`}
-                className="inline-flex items-center justify-center h-8 px-3 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
-              >
-                {info.book}
-              </a>
-            </div>
-
             {processedSections.length > 1 && (
               <>
                 <p className="text-center text-xs text-muted-foreground mb-1">Jump to halacha:</p>
