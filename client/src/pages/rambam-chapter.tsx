@@ -386,7 +386,7 @@ export default function RambamChapter() {
                           </p>
                         ) : (
                           <>
-                            <div className="text-display flex flex-col lg:flex-row gap-6">
+                            <div className="text-display rambam-text-display flex flex-col lg:flex-row gap-6">
                               <div className="text-column space-y-3 lg:order-1">
                                 {section.englishLines.length > 0 ? (
                                   <div className="english-text text-foreground space-y-1.5">

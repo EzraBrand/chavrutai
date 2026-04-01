@@ -256,6 +256,7 @@ export function processRambamHebrewText(text: string): string {
     .replace(/[ \t]+/g, ' ')
     .replace(/\n[ \t]+/g, '\n')
     .replace(/[ \t]+\n/g, '\n')
+    .replace(/:$/, '.')
     .trim();
 
   return processed;
@@ -295,6 +296,7 @@ export function processRambamEnglishText(text: string): string {
     .replace(/\n{3,}/g, '\n')
     .replace(/\n[ \t]+/g, '\n')
     .replace(/[ \t]+\n/g, '\n')
+    .replace(/:$/, '.')
     .trim();
 
   return processed;
