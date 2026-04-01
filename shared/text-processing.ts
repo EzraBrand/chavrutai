@@ -474,6 +474,12 @@ export function splitEnglishText(text: string): string {
     return placeholder;
   });
   
+  const punctTagQuoteProtections: string[] = [];
+  processedText = processedText.replace(/[.,;?!]((?:__HTML_TAG_\d+__)+)([""\u201C\u201D'\u2018\u2019])/g, (match) => {
+    punctTagQuoteProtections.push(match);
+    return `__PUNCT_TAG_QUOTE_${punctTagQuoteProtections.length - 1}__`;
+  });
+  
   // Handle triple-punctuation clusters FIRST
   processedText = processedText.replace(TRIPLE_PUNCT_PATTERN, (match) => match + '\n');
   
@@ -503,6 +509,10 @@ export function splitEnglishText(text: string): string {
     .replace(MULTI_NEWLINE_PATTERN, '\n')
     .replace(LEADING_TRAILING_WS_PATTERN, '')
     .replace(NEWLINE_LEADING_WS_PATTERN, '\n');
+  
+  punctTagQuoteProtections.forEach((original, index) => {
+    processedText = processedText.replace(`__PUNCT_TAG_QUOTE_${index}__`, original);
+  });
   
   // Restore HTML tags
   htmlPlaceholders.forEach((placeholder, index) => {

@@ -533,6 +533,27 @@ describe('Known Bug Regression Tests', () => {
     });
   });
 
+  describe('Bug: period-quote split with intervening HTML tags (Menachot 78b.6)', () => {
+    it('keeps ." together when </i> tag separates period from closing quote', () => {
+      const text = 'the word \u201C<i>al.</i>\u201D means something';
+      const result = splitEnglishText(text);
+      expect(result).not.toMatch(/al\.\n/);
+      expect(result).toContain('al.</i>\u201D');
+    });
+
+    it('keeps ." together when </b> tag separates period from closing quote', () => {
+      const text = 'said <b>word.</b>\u201D here';
+      const result = splitEnglishText(text);
+      expect(result).toContain('word.</b>\u201D');
+    });
+
+    it('keeps ." together with multiple adjacent closing tags', () => {
+      const text = 'the <b><i>word.</i></b>\u201D here';
+      const result = splitEnglishText(text);
+      expect(result).toContain('word.</i></b>\u201D');
+    });
+  });
+
   describe('Bug #78: etc., splitting', () => {
     it('does not split etc. when followed by comma', () => {
       const text = 'apples, oranges, etc., and more.';
