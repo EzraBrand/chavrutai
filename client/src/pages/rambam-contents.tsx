@@ -1,12 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import { RAMBAM_BOOKS } from "@shared/rambam-data";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 export default function RambamContents() {
+  const [prefaceOpen, setPrefaceOpen] = useState(false);
+
   // Scroll to the book anchor when navigating here from another page (e.g. breadcrumb links)
   useEffect(() => {
     const hash = window.location.hash;
@@ -56,14 +59,45 @@ export default function RambamContents() {
         <div className="text-center mb-4">
           <h1 className="text-3xl font-bold text-primary mb-1">Study Mishneh Torah Online</h1>
           <h2 className="text-xl text-primary/80 mb-2 font-hebrew">משנה תורה - Mishneh Torah</h2>
-          <p className="text-base text-muted-foreground">
-            All 83 Hilchot across 14 books, with bilingual Hebrew-English text
-          </p>
           <p className="text-xs text-muted-foreground mt-2">
             English translation by Rabbi Eliyahu Touger (Moznaim) via{' '}
-            <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Sefaria</a>.{' '}
-            Hebrew text: Mechon Mamre.
+            <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Sefaria</a>.
           </p>
+        </div>
+
+        <div className="mb-4 flex justify-center">
+          <div className="text-xs text-muted-foreground max-w-lg w-full">
+            <button
+              onClick={() => setPrefaceOpen(!prefaceOpen)}
+              className="flex items-center gap-1 hover:text-foreground transition-colors w-full text-left"
+            >
+              {prefaceOpen ? <ChevronDown className="w-3 h-3 flex-shrink-0" /> : <ChevronRight className="w-3 h-3 flex-shrink-0" />}
+              <span>Maimonides' prefatory material is not included here</span>
+            </button>
+            {prefaceOpen && (
+              <div className="mt-2 pl-4 space-y-1 text-muted-foreground">
+                <p>The introduction and lists of commandments can be found on Sefaria:</p>
+                <ul className="space-y-1 mt-1">
+                  <li>
+                    <a href="https://www.sefaria.org/Mishneh_Torah,_Transmission_of_the_Oral_Law" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Introduction (Hakdamah)</a>
+                    {' '}— the chain of Torah transmission from Sinai
+                  </li>
+                  <li>
+                    <a href="https://www.sefaria.org/Mishneh_Torah,_Overview_of_Mishneh_Torah_Contents" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Overview of Contents</a>
+                    {' '}— the mitzvot covered in each section
+                  </li>
+                  <li>
+                    <a href="https://www.sefaria.org/Mishneh_Torah,_Positive_Mitzvot" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">List of Positive Commandments</a>
+                    {' '}(248)
+                  </li>
+                  <li>
+                    <a href="https://www.sefaria.org/Mishneh_Torah,_Negative_Mitzvot" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">List of Negative Commandments</a>
+                    {' '}(365)
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="mb-4">
