@@ -84,6 +84,61 @@ Some external sites use different transliterations. Override mappings:
 5. Import and use in the page component — render section links inline and footer links at page bottom
 6. Add Hebrew name mappings to the shared data file if not already present
 
+## Auditing Al HaTorah Rambam URL Slugs
+
+Al HaTorah's Rambam site (`rambam.alhatorah.org`) is a client-side rendered SPA. This means:
+- All pages return HTTP 200 regardless of whether the hilchot name is valid or not.
+- The "This page does not exist" error only appears after JavaScript runs in a browser.
+- You **cannot** detect broken links by checking HTTP status codes or raw HTML content.
+
+### How to get the canonical hilchot name list
+
+Al HaTorah embeds its full book/hilchot name list in a small site-specific JS file. Fetch it and extract the Rambam array:
+
+```javascript
+const jsText = await (await fetch("https://rambam.alhatorah.org/site.dw.8.min.js")).text();
+// Find the Rambam array in window.MG.bookNames.Rambam
+const match = jsText.match(/Rambam:"([^"]+)"/);
+const canonicalNames = match[1].split(",");
+// canonicalNames is the authoritative list of display names in order
+// Convert to URL slugs: spaces → underscores (apostrophes are kept as-is; the browser URL-encodes them)
+const toSlug = (name) => name.replace(/ /g, '_');
+```
+
+The resulting list includes intro entries (e.g. "HaMadda Introduction", "Ahavah Introduction") which have no corresponding hilchot in our data — skip those when mapping. The remaining entries match the hilchot in `shared/rambam-data.ts` in order.
+
+### Comparing against stored values
+
+After extracting `canonicalNames` (filtered to actual hilchot, not intros), compare slug-by-slug against the `alHatorah` fields in `RAMBAM_BOOKS`:
+
+```javascript
+// canonicalHilchot = canonical names with intro lines removed, in order
+// ourValues = alHatorah field values from RAMBAM_BOOKS in order
+for (let i = 0; i < canonicalHilchot.length; i++) {
+  const canonical = toSlug(canonicalHilchot[i]);
+  const ours = ourValues[i];
+  if (canonical !== ours) console.log(`MISMATCH: expected ${canonical}, got ${ours}`);
+}
+```
+
+### URL format for Rambam
+
+```
+https://rambam.alhatorah.org/Full/{slug}/{chapter}.{halacha}
+```
+
+Where `{slug}` is the canonical display name with spaces replaced by underscores. Apostrophes (e.g. `Tume'at_Meit`) appear literally in the slug and are URL-encoded by the browser automatically.
+
+### Common mismatch patterns found (April 2026 audit)
+
+40 of 83 hilchot slugs were wrong. Recurring error types:
+- **Missing underscore in compound**: `veSeferTorah` → `veSefer_Torah`
+- **Spelling**: `Kriat` → `Keriat`, `Gerushin` → `Geirushin`, `Naara` → `Naarah`, `Maachalot` → `Maakhalot`, `Tumat` → `Tume'at`, `Gezelah` → `Gezeilah`, etc.
+- **Different root word**: `Kli` → `Kelei`, `Issurei_HaMizbeach` → `Isurei_Mizbeach`, `Avodah` → `Avodat`
+- **Shortened canonical form**: `Sanhedrin_veHaOnshin_haMesurin_lahem` → `Sanhedrin`, `Melakhim_uMilchamot` → `Melakhim`
+- **Double vs single letter**: `Mammon` → `Mamon`, `Bikkurim` → `Bikurim`, `Shemitah` → `Shemittah`, `Mattanah` → `Matanah`
+- **Missing apostrophes**: `Tumat_Okhalin` → `Tume'at_Okhelin`, `Sheelah_uFikkadon` → `She'eilah_uPikkadon`
+
 ## Shared Utility
 
 `numberToHebrewGematria(num)` in `client/src/lib/external-links.ts` converts integers to Hebrew gematria strings (e.g. 5→ה, 9→ט, 15→טו). Used by Wikisource links across all readers.
