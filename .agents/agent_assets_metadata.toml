@@ -24,3 +24,9 @@ id = "-Z7Ez8FJSGoYjxoJSDndB"
 uri = "file://docs/alhatorah-book-names.csv"
 type = "table"
 title = "Al HaTorah Book Names (site.dw.8.min.js)"
+
+[[outputs]]
+id = "rpEeSTWD0E0TKLpC4FZta"
+uri = "file://competitive-analysis.pdf"
+type = "pdf"
+title = "ChavrutAI Competitive Analysis Report"
