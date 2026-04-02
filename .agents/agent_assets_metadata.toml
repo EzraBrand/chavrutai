@@ -36,3 +36,9 @@ id = "3YY7tM-7BnXCFvHwjugxm"
 uri = "file://scripts/blogpost-longest-chapters.md"
 type = "text"
 title = "Blog Post: Longest & Shortest Chapters in Yerushalmi and Rambam"
+
+[[outputs]]
+id = "aNiRkKYGkWjTGWZ3425cG"
+uri = "file://scripts/wordcount-analysis.tar.gz"
+type = "unspecified"
+title = "Wordcount Analysis — Scripts, Results & Blog Post"
