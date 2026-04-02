@@ -313,8 +313,8 @@ export function processRambamEnglishText(text: string): string {
     .replace(/([.;:?!])(?![\]\)'])(?=[\[A-Z])/g, '$1\n')
     // Pattern C: period/etc. followed by whitespace (not followed by closing paren)
     .replace(/([.;:?!])(?![\]\)'])\s+(?!\))/g, '$1\n')
-    // Pattern D: split before a), b), c)... and i), ii), iii), iv)... list items
-    .replace(/([;:.])\s*([a-z]{1,4}\))/g, '$1\n$2');
+    // Pattern D: split before a), b), c)... and i), ii), iii), iv)... xxxviii)... list items
+    .replace(/([;:.])\s*([a-z]{1,7}\))/g, '$1\n$2');
 
   // Step 6: Restore abbreviations
   processed = processed
