@@ -84,7 +84,7 @@ Some external sites use different transliterations. Override mappings:
 5. Import and use in the page component — render section links inline and footer links at page bottom
 6. Add Hebrew name mappings to the shared data file if not already present
 
-## Auditing Al HaTorah Rambam URL Slugs
+## Case Study: Auditing Al HaTorah Rambam URL Slugs
 
 Al HaTorah's Rambam site (`rambam.alhatorah.org`) is a client-side rendered SPA. This means:
 - All pages return HTTP 200 regardless of whether the hilchot name is valid or not.
