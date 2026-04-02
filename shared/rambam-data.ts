@@ -82,7 +82,7 @@ export const RAMBAM_BOOKS: RambamBook[] = [
       { displayName: "Oaths", hebrewName: "שבועות", chapters: 12, book: "Sefer Haflaah", sefaria: "Mishneh Torah, Oaths", slug: "Oaths", alHatorah: "Shevuot", wikisourceHebrew: "שבועות" },
       { displayName: "Vows", hebrewName: "נדרים", chapters: 13, book: "Sefer Haflaah", sefaria: "Mishneh Torah, Vows", slug: "Vows", alHatorah: "Nedarim", wikisourceHebrew: "נדרים" },
       { displayName: "Nazariteship", hebrewName: "נזירות", chapters: 10, book: "Sefer Haflaah", sefaria: "Mishneh Torah, Nazariteship", slug: "Nazariteship", alHatorah: "Nezirut", wikisourceHebrew: "נזירות" },
-      { displayName: "Appraisals and Devoted Property", hebrewName: "ערכין וחרמין", chapters: 8, book: "Sefer Haflaah", sefaria: "Mishneh Torah, Appraisals and Devoted Property", slug: "Appraisals_and_Devoted_Property", alHatorah: "Arakhin_vaCharamim", wikisourceHebrew: "ערכין_וחרמין" },
+      { displayName: "Appraisals and Devoted Property", hebrewName: "ערכין וחרמין", chapters: 8, book: "Sefer Haflaah", sefaria: "Mishneh Torah, Appraisals and Devoted Property", slug: "Appraisals_and_Devoted_Property", alHatorah: "Arakhin_vaCharamim", wikisourceHebrew: "ערכים_וחרמין" },
     ],
   },
   {
@@ -104,12 +104,12 @@ export const RAMBAM_BOOKS: RambamBook[] = [
     hilchot: [
       { displayName: "The Chosen Temple", hebrewName: "בית הבחירה", chapters: 8, book: "Sefer Avodah", sefaria: "Mishneh Torah, The Chosen Temple", slug: "The_Chosen_Temple", alHatorah: "Beit_HaBechirah", wikisourceHebrew: "בית_הבחירה" },
       { displayName: "Vessels of the Sanctuary and Those Who Serve Therein", hebrewName: "כלי המקדש", chapters: 10, book: "Sefer Avodah", sefaria: "Mishneh Torah, Vessels of the Sanctuary and Those Who Serve Therein", slug: "Vessels_of_the_Sanctuary_and_Those_Who_Serve_Therein", alHatorah: "Kli_HaMikdash", wikisourceHebrew: "כלי_המקדש_והעובדין_בו" },
-      { displayName: "Admission into the Sanctuary", hebrewName: "ביאת המקדש", chapters: 9, book: "Sefer Avodah", sefaria: "Mishneh Torah, Admission into the Sanctuary", slug: "Admission_into_the_Sanctuary", alHatorah: "Biat_HaMikdash", wikisourceHebrew: "ביאת_המקדש" },
+      { displayName: "Admission into the Sanctuary", hebrewName: "ביאת המקדש", chapters: 9, book: "Sefer Avodah", sefaria: "Mishneh Torah, Admission into the Sanctuary", slug: "Admission_into_the_Sanctuary", alHatorah: "Biat_HaMikdash", wikisourceHebrew: "ביאת_מקדש" },
       { displayName: "Things Forbidden on the Altar", hebrewName: "איסורי המזבח", chapters: 7, book: "Sefer Avodah", sefaria: "Mishneh Torah, Things Forbidden on the Altar", slug: "Things_Forbidden_on_the_Altar", alHatorah: "Issurei_HaMizbeach", wikisourceHebrew: "איסורי_המזבח" },
       { displayName: "Sacrificial Procedure", hebrewName: "מעשה הקרבנות", chapters: 19, book: "Sefer Avodah", sefaria: "Mishneh Torah, Sacrificial Procedure", slug: "Sacrificial_Procedure", alHatorah: "Maaseh_HaKorbanot", wikisourceHebrew: "מעשה_הקרבנות" },
       { displayName: "Daily Offerings and Additional Offerings", hebrewName: "תמידים ומוספין", chapters: 10, book: "Sefer Avodah", sefaria: "Mishneh Torah, Daily Offerings and Additional Offerings", slug: "Daily_Offerings_and_Additional_Offerings", alHatorah: "Temidin_uMusafin", wikisourceHebrew: "תמידים_ומוספין" },
       { displayName: "Sacrifices Rendered Unfit", hebrewName: "פסולי המוקדשין", chapters: 19, book: "Sefer Avodah", sefaria: "Mishneh Torah, Sacrifices Rendered Unfit", slug: "Sacrifices_Rendered_Unfit", alHatorah: "Pesulei_HaMukdashin", wikisourceHebrew: "פסולי_המוקדשין" },
-      { displayName: "Service on the Day of Atonement", hebrewName: "עבודת יום הכיפורים", chapters: 5, book: "Sefer Avodah", sefaria: "Mishneh Torah, Service on the Day of Atonement", slug: "Service_on_the_Day_of_Atonement", alHatorah: "Avodah_Yom_HaKippurim", wikisourceHebrew: "עבודת_יום_הכיפורים" },
+      { displayName: "Service on the Day of Atonement", hebrewName: "עבודת יום הכיפורים", chapters: 5, book: "Sefer Avodah", sefaria: "Mishneh Torah, Service on the Day of Atonement", slug: "Service_on_the_Day_of_Atonement", alHatorah: "Avodah_Yom_HaKippurim", wikisourceHebrew: "עבודת_יום_הכפורים" },
       { displayName: "Trespass", hebrewName: "מעילה", chapters: 8, book: "Sefer Avodah", sefaria: "Mishneh Torah, Trespass", slug: "Trespass", alHatorah: "Meilah", wikisourceHebrew: "מעילה" },
     ],
   },
@@ -134,9 +134,9 @@ export const RAMBAM_BOOKS: RambamBook[] = [
       { displayName: "Defilement by Leprosy", hebrewName: "טומאת צרעת", chapters: 16, book: "Sefer Taharah", sefaria: "Mishneh Torah, Defilement by Leprosy", slug: "Defilement_by_Leprosy", alHatorah: "Tumat_Tzaraat", wikisourceHebrew: "טומאת_צרעת" },
       { displayName: "Those Who Defile Bed or Seat", hebrewName: "מטמאי משכב ומושב", chapters: 13, book: "Sefer Taharah", sefaria: "Mishneh Torah, Those Who Defile Bed or Seat", slug: "Those_Who_Defile_Bed_or_Seat", alHatorah: "Metamei_Mishkav_uMoshav", wikisourceHebrew: "מטמאי_משכב_ומושב" },
       { displayName: "Other Sources of Defilement", hebrewName: "שאר אבות הטומאה", chapters: 20, book: "Sefer Taharah", sefaria: "Mishneh Torah, Other Sources of Defilement", slug: "Other_Sources_of_Defilement", alHatorah: "Shear_Avot_haTumah", wikisourceHebrew: "שאר_אבות_הטומאות" },
-      { displayName: "Defilement of Foods", hebrewName: "טומאת אוכלים", chapters: 16, book: "Sefer Taharah", sefaria: "Mishneh Torah, Defilement of Foods", slug: "Defilement_of_Foods", alHatorah: "Tumat_Okhalin", wikisourceHebrew: "טומאת_אוכלין" },
+      { displayName: "Defilement of Foods", hebrewName: "טומאת אוכלים", chapters: 16, book: "Sefer Taharah", sefaria: "Mishneh Torah, Defilement of Foods", slug: "Defilement_of_Foods", alHatorah: "Tumat_Okhalin", wikisourceHebrew: "טומאת_אוכלים" },
       { displayName: "Vessels", hebrewName: "כלים", chapters: 28, book: "Sefer Taharah", sefaria: "Mishneh Torah, Vessels", slug: "Vessels", alHatorah: "Kelim", wikisourceHebrew: "כלים" },
-      { displayName: "Immersion Pools", hebrewName: "מקוואות", chapters: 11, book: "Sefer Taharah", sefaria: "Mishneh Torah, Immersion Pools", slug: "Immersion_Pools", alHatorah: "Mikvaot", wikisourceHebrew: "מקוואות" },
+      { displayName: "Immersion Pools", hebrewName: "מקוואות", chapters: 11, book: "Sefer Taharah", sefaria: "Mishneh Torah, Immersion Pools", slug: "Immersion_Pools", alHatorah: "Mikvaot", wikisourceHebrew: "מקואות" },
     ],
   },
   {
@@ -144,10 +144,10 @@ export const RAMBAM_BOOKS: RambamBook[] = [
     hebrewName: "ספר נזיקין",
     hilchot: [
       { displayName: "Damages to Property", hebrewName: "נזקי ממון", chapters: 14, book: "Sefer Nezikim", sefaria: "Mishneh Torah, Damages to Property", slug: "Damages_to_Property", alHatorah: "Nizkei_Mammon", wikisourceHebrew: "נזקי_ממון" },
-      { displayName: "Theft", hebrewName: "גנבה", chapters: 9, book: "Sefer Nezikim", sefaria: "Mishneh Torah, Theft", slug: "Theft", alHatorah: "Genevah", wikisourceHebrew: "גנבה" },
-      { displayName: "Robbery and Lost Property", hebrewName: "גזלה ואבדה", chapters: 18, book: "Sefer Nezikim", sefaria: "Mishneh Torah, Robbery and Lost Property", slug: "Robbery_and_Lost_Property", alHatorah: "Gezelah_vaAvedah", wikisourceHebrew: "גזלה_ואבדה" },
+      { displayName: "Theft", hebrewName: "גנבה", chapters: 9, book: "Sefer Nezikim", sefaria: "Mishneh Torah, Theft", slug: "Theft", alHatorah: "Genevah", wikisourceHebrew: "גניבה" },
+      { displayName: "Robbery and Lost Property", hebrewName: "גזלה ואבדה", chapters: 18, book: "Sefer Nezikim", sefaria: "Mishneh Torah, Robbery and Lost Property", slug: "Robbery_and_Lost_Property", alHatorah: "Gezelah_vaAvedah", wikisourceHebrew: "גזילה_ואבידה" },
       { displayName: "One Who Injures a Person or Property", hebrewName: "חובל ומזיק", chapters: 8, book: "Sefer Nezikim", sefaria: "Mishneh Torah, One Who Injures a Person or Property", slug: "One_Who_Injures_a_Person_or_Property", alHatorah: "Chovel_uMazik", wikisourceHebrew: "חובל_ומזיק" },
-      { displayName: "Murderer and the Preservation of Life", hebrewName: "רוצח ושמירת הנפש", chapters: 13, book: "Sefer Nezikim", sefaria: "Mishneh Torah, Murderer and the Preservation of Life", slug: "Murderer_and_the_Preservation_of_Life", alHatorah: "Rotzeach_uShmirat_HaNefesh", wikisourceHebrew: "רוצח_ושמירת_הנפש" },
+      { displayName: "Murderer and the Preservation of Life", hebrewName: "רוצח ושמירת הנפש", chapters: 13, book: "Sefer Nezikim", sefaria: "Mishneh Torah, Murderer and the Preservation of Life", slug: "Murderer_and_the_Preservation_of_Life", alHatorah: "Rotzeach_uShmirat_HaNefesh", wikisourceHebrew: "רוצח_ושמירת_נפש" },
     ],
   },
   {
@@ -176,7 +176,7 @@ export const RAMBAM_BOOKS: RambamBook[] = [
     name: "Sefer Shoftim",
     hebrewName: "ספר שופטים",
     hilchot: [
-      { displayName: "The Sanhedrin and the Penalties within Their Jurisdiction", hebrewName: "סנהדרין והעונשין המסורין להם", chapters: 26, book: "Sefer Shoftim", sefaria: "Mishneh Torah, The Sanhedrin and the Penalties within Their Jurisdiction", slug: "The_Sanhedrin_and_the_Penalties_within_Their_Jurisdiction", alHatorah: "Sanhedrin_veHaOnshin_haMesurin_lahem", wikisourceHebrew: "סנהדרין_והעונשין_המסורים_להם" },
+      { displayName: "The Sanhedrin and the Penalties within Their Jurisdiction", hebrewName: "סנהדרין והעונשין המסורין להם", chapters: 26, book: "Sefer Shoftim", sefaria: "Mishneh Torah, The Sanhedrin and the Penalties within Their Jurisdiction", slug: "The_Sanhedrin_and_the_Penalties_within_Their_Jurisdiction", alHatorah: "Sanhedrin_veHaOnshin_haMesurin_lahem", wikisourceHebrew: "סנהדרין_והעונשין_המסורין_להם" },
       { displayName: "Testimony", hebrewName: "עדות", chapters: 22, book: "Sefer Shoftim", sefaria: "Mishneh Torah, Testimony", slug: "Testimony", alHatorah: "Edut", wikisourceHebrew: "עדות" },
       { displayName: "Rebels", hebrewName: "ממרים", chapters: 7, book: "Sefer Shoftim", sefaria: "Mishneh Torah, Rebels", slug: "Rebels", alHatorah: "Mamrim", wikisourceHebrew: "ממרים" },
       { displayName: "Mourning", hebrewName: "אבל", chapters: 14, book: "Sefer Shoftim", sefaria: "Mishneh Torah, Mourning", slug: "Mourning", alHatorah: "Avel", wikisourceHebrew: "אבל" },
