@@ -38,7 +38,7 @@ export default function Home() {
             Study Classical Jewish Texts
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Explore the Babylonian Talmud and Hebrew Bible with bilingual Hebrew-English text
+            Explore the Babylonian Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh with bilingual Hebrew-English text
           </p>
         </section>
 
