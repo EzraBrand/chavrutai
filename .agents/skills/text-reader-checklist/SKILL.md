@@ -75,7 +75,26 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
 - Bible: `bible-chapter.tsx`, `bible-contents.tsx`, `bible-book.tsx`
 - Mishnah: `mishnah-chapter.tsx`, `mishnah-contents.tsx`, `mishnah-tractate.tsx`
 
-## 5. SEO: Client-Side (`client/src/hooks/use-seo.ts`)
+## 5. Copy-Paste Handler (`client/src/pages/<corpus>-chapter.tsx`)
+
+- [ ] **Clean copy handler** — Add a `useEffect` that attaches a `copy` event listener to the text container (`.bg-card.rounded-lg.shadow-sm.border.border-border.p-6`):
+  - Clones the selected range into a temporary container
+  - Removes external link arrow glyphs (`↗`) from text nodes
+  - Removes section header UI (elements matching `[data-testid^="link-sefaria-section-"]` and their parents)
+  - Removes section badge header rows (`.bg-secondary.text-secondary-foreground` badges and their `.flex.items-center.justify-center` ancestor)
+  - Reorders bilingual columns so Hebrew precedes English (swap `.lg\:order-1` / `.lg\:order-2` in `.text-display` containers)
+  - Strips formatting to an allowlist of tags (`strong`, `b`, `i`, `em`, `p`, `div`, `br`, `span`, `a`, `sup`, `sub`, `small`)
+  - Preserves `direction: rtl` and `font-weight: bold` for Hebrew text
+  - Sets both `text/html` and `text/plain` on `clipboardData`, then calls `preventDefault()`
+  - Cleans up the listener on unmount; depends on `[textData]`
+
+**Existing examples:**
+- Mishnah: `mishnah-chapter.tsx` (standalone `handleCopy` in useEffect)
+- Talmud: `sectioned-bilingual-display.tsx` (shared component)
+- Rambam: `rambam-chapter.tsx` (standalone `handleCopy` in useEffect)
+- Yerushalmi: `yerushalmi-chapter.tsx` (standalone `handleCopy` in useEffect)
+
+## 6. SEO: Client-Side (`client/src/hooks/use-seo.ts`)
 
 - [ ] **useSEO hook** — Each page component calls `useSEO()` with:
   - `title`: Unique per page, 50-60 chars, primary keyword near beginning, brand at end
@@ -87,7 +106,7 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
   - `structuredData`: Client-side JSON-LD (Article, CollectionPage, or Book)
 - [ ] **generateSEOData helper** — Add corpus-specific functions to `generateSEOData` object in `use-seo.ts`
 
-## 6. SEO: Server-Side Meta Tags (`server/routes.ts`)
+## 7. SEO: Server-Side Meta Tags (`server/routes.ts`)
 
 - [ ] **`generateServerSideMetaTags()`** — Add route matchers for:
   - `/<corpus>` — Index page meta
@@ -96,7 +115,7 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
 
 **Pattern:** Each branch sets `title`, `description`, `ogTitle`, `ogDescription`, `canonical`, `robots`.
 
-## 7. SEO: Server-Side Structured Data (`server/routes.ts`)
+## 8. SEO: Server-Side Structured Data (`server/routes.ts`)
 
 - [ ] **`generateServerSideStructuredData()`** — Add JSON-LD for:
   - Index page: `CollectionPage` + `BreadcrumbList` + `Organization`
@@ -105,7 +124,7 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
 
 **Pattern:** All use `@graph` format with shared `organizationNode`. Breadcrumbs follow: Home > Corpus > Tractate > Chapter.
 
-## 8. SEO: Crawler Content (`server/routes.ts`)
+## 9. SEO: Crawler Content (`server/routes.ts`)
 
 - [ ] **`generateCrawlerBodyContent()`** — Add route matchers that generate:
   - H1 heading with tractate/chapter name
@@ -117,7 +136,7 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
 
 **Why:** Crawlers receive this pre-rendered HTML instead of the SPA shell, ensuring content is indexed without JavaScript execution.
 
-## 9. Sitemaps (`server/routes/`)
+## 10. Sitemaps (`server/routes/`)
 
 - [ ] **Create `sitemap-<corpus>.ts`** — Generates XML sitemap with:
   - Index page URL (priority 0.8)
@@ -128,7 +147,7 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
 - [ ] **Register route in `server/routes.ts`** — `app.get('/sitemap-<corpus>.xml', generate<Corpus>Sitemap)`
 - [ ] **Add index page to `sitemap-main.ts`** — Add `/<corpus>` to the main sitemap
 
-## 10. URL Normalization & Redirects (`server/routes.ts`)
+## 11. URL Normalization & Redirects (`server/routes.ts`)
 
 - [ ] **Canonical URL format** — Decide on slug format (underscores vs hyphens, casing)
 - [ ] **Normalization middleware** — Add to the URL normalization block in `registerRoutes()`:
@@ -137,24 +156,24 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
   - Handle URL-encoded spaces
   - Lowercase/uppercase normalization if needed
 
-## 11. Storage & Caching (`server/storage.ts`)
+## 12. Storage & Caching (`server/storage.ts`)
 
 - [ ] **Storage interface** — Verify `IStorage.getText()` can handle the new corpus, or add a dedicated method
 - [ ] **Cache key format** — Ensure the cache key distinguishes corpus (e.g., `work` parameter)
 - [ ] **Client-side prefetching** — Add to `client/src/hooks/use-prefetch.ts` to preload adjacent pages
 
-## 12. robots.txt (`client/public/robots.txt`)
+## 13. robots.txt (`client/public/robots.txt`)
 
 - [ ] **Add `Allow: /<corpus>/`** directive
 
-## 13. Navigation & Footer
+## 14. Navigation & Footer
 
 - [ ] **Homepage** — Add the new corpus as a section on the home page
 - [ ] **Navigation** — Add to the site navigation/header
 - [ ] **Footer** — Add to the footer links
 - [ ] **HTML sitemap** (`client/src/pages/sitemap.tsx`) — Add the new corpus section
 
-## 14. Search Integration (if applicable)
+## 15. Search Integration (if applicable)
 
 - [ ] **Search endpoint** — Extend `/api/search` or add corpus-specific search
 - [ ] **Search page** — Add corpus as a filter option on the search page
