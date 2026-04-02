@@ -69,6 +69,12 @@ export function generateSitemapIndex(req: Request, res: Response) {
     <loc>${baseUrl}/sitemap-yerushalmi.xml</loc>
     <lastmod>${currentDate}</lastmod>
   </sitemap>
+  
+  <!-- Mishneh Torah (Rambam) - 83 Hilchot across 14 books -->
+  <sitemap>
+    <loc>${baseUrl}/sitemap-rambam.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>
 </sitemapindex>`;
 
   res.set('Content-Type', 'application/xml');

@@ -70,6 +70,32 @@ export default function Changelog() {
           </h2>
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Home Page: Updated Subtitle & Card Layout</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Updated subtitle to reflect all five available works: <em>Babylonian Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh</em> — replacing the previous text that only mentioned Talmud and Hebrew Bible</li>
+                <li>Redesigned the text selection section with a featured layout: Babylonian Talmud displayed as a prominent full-height card on the left, with the remaining four works in a 2×2 grid on the right</li>
+                <li>Card order in the grid: Tanakh and Mishnah (top row), Jerusalem Talmud and Mishneh Torah (bottom row)</li>
+                <li>Mishneh Torah description updated from "83 Hilchot" to "83 Books" for clarity</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishneh Torah (Rambam) Reader</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added a full <strong>Mishneh Torah (Rambam) reader</strong> at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/rambam</code> — all 14 books and 83 Books ('Hilchot') with bilingual Hebrew-English text (Touger translation via Sefaria)</li>
+                <li>Three-level navigation: contents page (all 83 Books ('Hilchot') organized by book), chapter list, and chapter reader with halacha-by-halacha bilingual display</li>
+                <li>Footnotes from the Touger translation are extracted, displayed as numbered blue superscripts, and expandable inline — identical to the Yerushalmi reader's footnote UX</li>
+                <li>External links at halacha level: <strong>Sefaria</strong> and <strong>Al HaTorah</strong>; chapter-level footer links to Sefaria, Al HaTorah, and <strong>Hebrew Wikisource</strong></li>
+                <li>50-50 bilingual column layout matching the Mishnah reader; text columns flex-stretch to fill height with no empty space at the bottom</li>
+                <li>Traditional trailing colon (׃) at end of each halacha replaced with a period, matching Mishnah reader conventions</li>
+                <li>Full SEO coverage: unique meta titles, Open Graph tags, structured data, and server-side crawler content for all three route patterns</li>
+                <li>Sitemap at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sitemap-rambam.xml</code> covering all 83 Books ('Hilchot') and their chapters; <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">robots.txt</code> updated with <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Allow: /rambam/</code></li>
+                <li>Added to home page card grid, footer navigation, and sitemap page</li>
+              </ul>
+            </div>
+
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah: Al HaTorah External Link Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">

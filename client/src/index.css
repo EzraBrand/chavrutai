@@ -192,15 +192,17 @@
     padding: 0 0.75rem;
   }
   
-  /* Bible and Mishnah 50/50 layout */
+  /* Bible, Mishnah and Rambam 50/50 layout */
   .layout-side-by-side .bible-text-display .text-column:first-child,
-  .layout-side-by-side .mishnah-text-display .text-column:first-child {
+  .layout-side-by-side .mishnah-text-display .text-column:first-child,
+  .layout-side-by-side .rambam-text-display .text-column:first-child {
     width: 50%;
     padding: 0 0.75rem;
   }
   
   .layout-side-by-side .bible-text-display .text-column:last-child,
-  .layout-side-by-side .mishnah-text-display .text-column:last-child {
+  .layout-side-by-side .mishnah-text-display .text-column:last-child,
+  .layout-side-by-side .rambam-text-display .text-column:last-child {
     width: 50%;
     padding: 0 0.75rem;
   }
@@ -221,15 +223,17 @@
       padding: 0 0.5rem;
     }
 
-    /* Bible and Mishnah 50/50 on mobile */
+    /* Bible, Mishnah and Rambam 50/50 on mobile */
     .layout-side-by-side .bible-text-display .text-column:first-child,
-    .layout-side-by-side .mishnah-text-display .text-column:first-child {
+    .layout-side-by-side .mishnah-text-display .text-column:first-child,
+    .layout-side-by-side .rambam-text-display .text-column:first-child {
       width: 50% !important;
       padding: 0 0.5rem;
     }
     
     .layout-side-by-side .bible-text-display .text-column:last-child,
-    .layout-side-by-side .mishnah-text-display .text-column:last-child {
+    .layout-side-by-side .mishnah-text-display .text-column:last-child,
+    .layout-side-by-side .rambam-text-display .text-column:last-child {
       width: 50% !important;
       padding: 0 0.5rem;
     }
@@ -369,6 +373,23 @@
   }
 
   .layout-side-by-side .mishnah-text-display .english-text > div {
+    flex-grow: 1;
+  }
+
+  /* Rambam-specific: both columns stretch to match the taller one */
+  .layout-side-by-side .rambam-text-display .text-column > .hebrew-text,
+  .layout-side-by-side .rambam-text-display .text-column > .english-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .layout-side-by-side .rambam-text-display .hebrew-text p {
+    flex-grow: 1;
+  }
+
+  .layout-side-by-side .rambam-text-display .english-text > div {
     flex-grow: 1;
   }
 

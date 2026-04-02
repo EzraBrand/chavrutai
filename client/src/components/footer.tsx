@@ -118,6 +118,13 @@ export function Footer() {
                 Jerusalem Talmud (Yerushalmi)
               </Link>
               <Link 
+                href="/rambam"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-rambam"
+              >
+                Mishneh Torah (Rambam)
+              </Link>
+              <Link 
                 href="/mishnah-map"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-mishnah-map"

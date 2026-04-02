@@ -38,66 +38,87 @@ export default function Home() {
             Study Classical Jewish Texts
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Explore the Babylonian Talmud and Hebrew Bible with bilingual Hebrew-English text
+            Explore the Babylonian Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh with bilingual Hebrew-English text
           </p>
         </section>
 
-        <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10" data-testid="primary-texts-section">
-          <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
-            <CardContent className="p-6 flex flex-col h-full">
-              <h2 className="text-xl font-semibold text-foreground mb-3">Babylonian Talmud</h2>
-              <p className="text-muted-foreground mb-4 flex-1">
-                All 37 tractates with over 5,400 pages. Navigate by Seder, tractate, chapter, or individual page.
-              </p>
-              <Link href="/talmud">
-                <Button variant="default" className="w-full" data-testid="button-browse-talmud">
-                  Browse Talmud
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+        <section className="flex flex-col md:flex-row gap-6 mb-10" data-testid="primary-texts-section">
+          {/* Featured: Babylonian Talmud */}
+          <div className="md:w-[38%] flex-shrink-0">
+            <Card className="hover:shadow-lg transition-shadow duration-200 h-full bg-primary text-primary-foreground border-primary">
+              <CardContent className="p-7 flex flex-col h-full">
+                <span className="text-xs font-semibold uppercase tracking-wider opacity-70 mb-3">Featured</span>
+                <h2 className="text-2xl font-bold mb-4 leading-tight">Babylonian Talmud</h2>
+                <p className="text-sm opacity-80 mb-6 flex-1 leading-relaxed">
+                  All 37 tractates with over 5,400 pages. Navigate by Seder, tractate, chapter, or individual folio page with full bilingual Hebrew-English text.
+                </p>
+                <Link href="/talmud">
+                  <Button variant="secondary" className="w-full font-semibold" data-testid="button-browse-talmud">
+                    Browse Talmud
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
 
-          <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
-            <CardContent className="p-6 flex flex-col h-full">
-              <h2 className="text-xl font-semibold text-foreground mb-3">Mishnah</h2>
-              <p className="text-muted-foreground mb-4 flex-1">
-                26 tractates not in the Babylonian Talmud. Bilingual Hebrew-English text organized by Seder.
-              </p>
-              <Link href="/mishnah">
-                <Button variant="default" className="w-full" data-testid="button-browse-mishnah">
-                  Browse Mishnah
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+          {/* 2×2 grid: Tanakh, Mishnah / Yerushalmi, Rambam */}
+          <div className="flex-1 grid grid-cols-2 gap-4">
+            <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
+              <CardContent className="p-5 flex flex-col h-full">
+                <h2 className="text-base font-semibold text-foreground mb-2 leading-tight">Tanakh (Hebrew Bible)</h2>
+                <p className="text-muted-foreground text-sm mb-4 flex-1 leading-relaxed">
+                  Torah, Prophets, and Writings. Each book includes Hebrew text with English translation.
+                </p>
+                <Link href="/bible">
+                  <Button variant="default" size="sm" className="w-full" data-testid="button-browse-tanakh">
+                    Browse Tanakh
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
 
-          <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
-            <CardContent className="p-6 flex flex-col h-full">
-              <h2 className="text-xl font-semibold text-foreground mb-3">Jerusalem Talmud</h2>
-              <p className="text-muted-foreground mb-4 flex-1">
-                39 tractates with bilingual Hebrew-English text organized by Seder.
-              </p>
-              <Link href="/yerushalmi">
-                <Button variant="default" className="w-full" data-testid="button-browse-yerushalmi">
-                  Browse Yerushalmi
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+            <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
+              <CardContent className="p-5 flex flex-col h-full">
+                <h2 className="text-base font-semibold text-foreground mb-2 leading-tight">Mishnah</h2>
+                <p className="text-muted-foreground text-sm mb-4 flex-1 leading-relaxed">
+                  All 63 tractates organized by the six Sedarim with bilingual Hebrew-English text.
+                </p>
+                <Link href="/mishnah">
+                  <Button variant="default" size="sm" className="w-full" data-testid="button-browse-mishnah">
+                    Browse Mishnah
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
 
-          <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
-            <CardContent className="p-6 flex flex-col h-full">
-              <h2 className="text-xl font-semibold text-foreground mb-3">Tanakh (Hebrew Bible)</h2>
-              <p className="text-muted-foreground mb-4 flex-1">
-                Torah, Prophets, and Writings. Each book includes Hebrew text with English translation.
-              </p>
-              <Link href="/bible">
-                <Button variant="default" className="w-full" data-testid="button-browse-tanakh">
-                  Browse Tanakh
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+            <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
+              <CardContent className="p-5 flex flex-col h-full">
+                <h2 className="text-base font-semibold text-foreground mb-2 leading-tight">Jerusalem Talmud</h2>
+                <p className="text-muted-foreground text-sm mb-4 flex-1 leading-relaxed">
+                  39 tractates with bilingual Hebrew-English text organized by Seder.
+                </p>
+                <Link href="/yerushalmi">
+                  <Button variant="default" size="sm" className="w-full" data-testid="button-browse-yerushalmi">
+                    Browse Yerushalmi
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
+              <CardContent className="p-5 flex flex-col h-full">
+                <h2 className="text-base font-semibold text-foreground mb-2 leading-tight">Mishneh Torah</h2>
+                <p className="text-muted-foreground text-sm mb-4 flex-1 leading-relaxed">
+                  All 83 Books of the Rambam's code of Jewish law with bilingual Hebrew-English text.
+                </p>
+                <Link href="/rambam">
+                  <Button variant="default" size="sm" className="w-full" data-testid="button-browse-rambam">
+                    Browse Mishneh Torah
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
         </section>
 
         <section className="grid md:grid-cols-3 gap-4 mb-10" data-testid="quick-actions-section">

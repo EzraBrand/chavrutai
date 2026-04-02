@@ -18,3 +18,9 @@ id = "xyyPTuFHtSbgwUFPEPp_N"
 uri = "file://analysis/README.md"
 type = "text"
 title = "Greek & Latin Loanword Extraction — Abstract & Documentation"
+
+[[outputs]]
+id = "-Z7Ez8FJSGoYjxoJSDndB"
+uri = "file://docs/alhatorah-book-names.csv"
+type = "table"
+title = "Al HaTorah Book Names (site.dw.8.min.js)"

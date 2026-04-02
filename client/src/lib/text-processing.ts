@@ -220,6 +220,128 @@ export function processMishnahEnglishText(text: string): string {
 }
 
 /**
+ * Processes Rambam Hebrew text: removes nikud and normalizes whitespace.
+ * Starts identical to processMishnahHebrewText; Rambam-specific rules added as needed.
+ */
+export function processRambamHebrewText(text: string): string {
+  if (!text) return '';
+
+  let processed = removeNikud(text);
+
+  processed = processed
+    .replace(/אומרים,/g, 'אומרים:')
+    .replace(/אומר,/g, 'אומר:')
+    .replace(/אמרו לו,/g, 'אמרו לו:')
+    .replace(/(אמרו להם\s+[^,\n]+),/g, '$1:')
+    .replace(/אמרו להם,/g, 'אמרו להם:')
+    .replace(/אמר להם,/g, 'אמר להם:')
+    .replace(/אמר לו רבי ([^,\n]+),/g, 'אמר לו רבי $1:')
+    .replace(/אמר רבי ([^,\n]+),/g, 'אמר רבי $1:')
+    .replace(/אמר לו,/g, 'אמר לו:')
+    .replace(/(אמר\s+[^,\n]+),/g, '$1:')
+    .replace(/אמר,/g, 'אמר:')
+    .replace(/ואלו הן,/g, 'ואלו הן:')
+    .replace(/(אלו\s+[^.\n]+)\./g, '$1:')
+    .replace(/זה הכלל,/g, 'זה הכלל:')
+    .replace(/(איזהו\s+[^,\n]+),/g, '$1?')
+    .replace(/(ואיזו היא\s+[^,\n]+),/g, '$1?')
+    .replace(/(מה בין\s+[^.\n]+)\./g, '$1?')
+    .replace(/(כיצד\s+[^,.\n]+)[,.]/g, '$1?')
+    .replace(/כיצד\./g, 'כיצד?')
+    .replace(/כיצד,/g, 'כיצד?')
+    .replace(/במה דברים אמורים,/g, 'במה דברים אמורים?')
+    .replace(/אימתי,/g, 'אימתי?');
+
+  processed = processed
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/:$/, '.')
+    .trim();
+
+  return processed;
+}
+
+/**
+ * Processes Rambam English text (Touger translation): strips HTML tags and splits into lines.
+ * NOTE: Footnote extraction (parseSectionFootnotes) must be called BEFORE this function
+ * so that the raw HTML with footnote markers is processed first.
+ * Starts identical to processMishnahEnglishText.
+ */
+export function processRambamEnglishText(text: string): string {
+  if (!text) return '';
+
+  // Step 1: Protect <sup data-note-ref> elements — restored AFTER sentence splitting
+  // so splitting patterns can see the period that precedes each footnote marker.
+  const protectedSups: string[] = [];
+  let processed = text.replace(/<sup[^>]*data-note-ref[^>]*>[\s\S]*?<\/sup>/g, (match) => {
+    protectedSups.push(match);
+    return `\x00RAMBAM_NOTE_${protectedSups.length - 1}\x00`;
+  });
+
+  // Step 2: Protect <em>/<i> italic content — normalize both to <em> so italics display.
+  // Restored AFTER all splitting/cleanup so HTML doesn't interfere with text patterns.
+  const protectedItalics: string[] = [];
+  processed = processed.replace(/<(?:em|i)>([\s\S]*?)<\/(?:em|i)>/gi, (_, content) => {
+    protectedItalics.push(`<em>${content}</em>`);
+    return `\x00RAMBAM_ITALIC_${protectedItalics.length - 1}\x00`;
+  });
+
+  // Step 3: Strip remaining HTML (other tags like <b>, <span>, etc.), normalize whitespace
+  processed = processed
+    .replace(/<[^>]*>/g, '')
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .trim();
+
+  // Step 4: Protect abbreviations so their periods don't trigger sentence splits
+  processed = processed
+    .replace(/\bR\.\s/g, "R' ")
+    .replace(/\bi\.e\./g, 'i\x00e\x00')
+    .replace(/\be\.g\./g, 'e\x00g\x00')
+    .replace(/\bibid\./g, 'ibid\x00')
+    .replace(/\bb\.\s/g, 'b\x00 ')
+    .replace(/R'/g, 'R\x00');
+
+  // Step 5: Sentence splitting — must run BEFORE sup/italic restoration.
+  // Pattern A: period/etc. immediately followed by a sup placeholder (e.g. "build.¹ Below")
+  processed = processed
+    .replace(/([.;:?!])(\x00RAMBAM_NOTE_\d+\x00)\s*/g, '$1$2\n')
+    // Pattern A2: period/etc. followed by italic placeholder — same logic
+    .replace(/([.;:?!])(\x00RAMBAM_ITALIC_\d+\x00)\s*/g, '$1$2\n')
+    // Pattern B: period/etc. directly followed by uppercase or [
+    .replace(/([.;:?!])(?![\]\)'])(?=[\[A-Z])/g, '$1\n')
+    // Pattern C: period/etc. followed by whitespace (not followed by closing paren)
+    .replace(/([.;:?!])(?![\]\)'])\s+(?!\))/g, '$1\n')
+    // Pattern D: split before a), b), c)... list items — handles both spaced and unspaced
+    .replace(/([;:.])\s*([a-z]\))/g, '$1\n$2');
+
+  // Step 6: Restore abbreviations
+  processed = processed
+    .replace(/R\x00/g, "R'")
+    .replace(/i\x00e\x00/g, 'i.e.')
+    .replace(/e\x00g\x00/g, 'e.g.')
+    .replace(/ibid\x00/g, 'ibid.')
+    .replace(/b\x00/g, 'b.');
+
+  // Step 7: Restore footnote sups — land after the newline that split their sentence
+  processed = processed.replace(/\x00RAMBAM_NOTE_(\d+)\x00/g, (_, i) => protectedSups[parseInt(i)]);
+
+  // Step 8: Restore italic placeholders
+  processed = processed.replace(/\x00RAMBAM_ITALIC_(\d+)\x00/g, (_, i) => protectedItalics[parseInt(i)]);
+
+  // Step 9: Final cleanup
+  processed = processed
+    .replace(/\n{3,}/g, '\n')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/:$/, '.')
+    .trim();
+
+  return processed;
+}
+
+/**
  * Simpler processing for Bible English text - no auto-splitting
  * (Backend already handles verse splitting and HTML processing)
  */
