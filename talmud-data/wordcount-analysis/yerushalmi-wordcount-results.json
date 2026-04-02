@@ -1,0 +1,1839 @@
+{
+  "totalWords": 812342,
+  "totalChapters": 297,
+  "totalSections": 12252,
+  "avgWordsPerChapter": 2735,
+  "top20Chapters": [
+    {
+      "tractate": "Kiddushin",
+      "chapter": 1,
+      "wordCount": 12834
+    },
+    {
+      "tractate": "Megillah",
+      "chapter": 1,
+      "wordCount": 10445
+    },
+    {
+      "tractate": "Moed Katan",
+      "chapter": 3,
+      "wordCount": 7986
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 10,
+      "wordCount": 7973
+    },
+    {
+      "tractate": "Taanit",
+      "chapter": 4,
+      "wordCount": 7921
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 1,
+      "wordCount": 7175
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 7,
+      "wordCount": 6820
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 9,
+      "wordCount": 6466
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 7,
+      "wordCount": 6361
+    },
+    {
+      "tractate": "Avodah Zarah",
+      "chapter": 2,
+      "wordCount": 6291
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 1,
+      "wordCount": 6201
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 1,
+      "wordCount": 6103
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 2,
+      "wordCount": 5929
+    },
+    {
+      "tractate": "Peah",
+      "chapter": 1,
+      "wordCount": 5677
+    },
+    {
+      "tractate": "Kiddushin",
+      "chapter": 3,
+      "wordCount": 5633
+    },
+    {
+      "tractate": "Chagigah",
+      "chapter": 2,
+      "wordCount": 5600
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 7,
+      "wordCount": 5591
+    },
+    {
+      "tractate": "Horayot",
+      "chapter": 3,
+      "wordCount": 5521
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 4,
+      "wordCount": 5423
+    },
+    {
+      "tractate": "Rosh Hashanah",
+      "chapter": 1,
+      "wordCount": 5299
+    }
+  ],
+  "top20Sections": [
+    {
+      "tractate": "Chagigah",
+      "chapter": 2,
+      "sectionIndex": 10,
+      "wordCount": 817
+    },
+    {
+      "tractate": "Taanit",
+      "chapter": 4,
+      "sectionIndex": 52,
+      "wordCount": 540
+    },
+    {
+      "tractate": "Chagigah",
+      "chapter": 2,
+      "sectionIndex": 23,
+      "wordCount": 535
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 6,
+      "sectionIndex": 22,
+      "wordCount": 468
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 10,
+      "sectionIndex": 46,
+      "wordCount": 424
+    },
+    {
+      "tractate": "Kiddushin",
+      "chapter": 4,
+      "sectionIndex": 7,
+      "wordCount": 411
+    },
+    {
+      "tractate": "Rosh Hashanah",
+      "chapter": 1,
+      "sectionIndex": 2,
+      "wordCount": 408
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 10,
+      "sectionIndex": 31,
+      "wordCount": 393
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 6,
+      "sectionIndex": 38,
+      "wordCount": 370
+    },
+    {
+      "tractate": "Taanit",
+      "chapter": 4,
+      "sectionIndex": 16,
+      "wordCount": 363
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 4,
+      "sectionIndex": 33,
+      "wordCount": 361
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 19,
+      "sectionIndex": 23,
+      "wordCount": 356
+    },
+    {
+      "tractate": "Avodah Zarah",
+      "chapter": 1,
+      "sectionIndex": 3,
+      "wordCount": 355
+    },
+    {
+      "tractate": "Chagigah",
+      "chapter": 1,
+      "sectionIndex": 24,
+      "wordCount": 354
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 6,
+      "sectionIndex": 25,
+      "wordCount": 353
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 2,
+      "sectionIndex": 11,
+      "wordCount": 352
+    },
+    {
+      "tractate": "Nazir",
+      "chapter": 2,
+      "sectionIndex": 33,
+      "wordCount": 350
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 13,
+      "sectionIndex": 23,
+      "wordCount": 349
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 7,
+      "sectionIndex": 54,
+      "wordCount": 344
+    },
+    {
+      "tractate": "Rosh Hashanah",
+      "chapter": 1,
+      "sectionIndex": 27,
+      "wordCount": 344
+    }
+  ],
+  "bottom20Sections": [
+    {
+      "tractate": "Pesachim",
+      "chapter": 3,
+      "sectionIndex": 6,
+      "wordCount": 3
+    },
+    {
+      "tractate": "Yoma",
+      "chapter": 8,
+      "sectionIndex": 12,
+      "wordCount": 3
+    },
+    {
+      "tractate": "Chagigah",
+      "chapter": 1,
+      "sectionIndex": 13,
+      "wordCount": 3
+    },
+    {
+      "tractate": "Chagigah",
+      "chapter": 1,
+      "sectionIndex": 14,
+      "wordCount": 3
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 3,
+      "sectionIndex": 45,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Kilayim",
+      "chapter": 2,
+      "sectionIndex": 28,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 2,
+      "sectionIndex": 29,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Bikkurim",
+      "chapter": 3,
+      "sectionIndex": 6,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 2,
+      "sectionIndex": 5,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 2,
+      "sectionIndex": 6,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Yoma",
+      "chapter": 6,
+      "sectionIndex": 43,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Sotah",
+      "chapter": 9,
+      "sectionIndex": 78,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 1,
+      "sectionIndex": 23,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 3,
+      "sectionIndex": 59,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Shevuot",
+      "chapter": 4,
+      "sectionIndex": 14,
+      "wordCount": 4
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 4,
+      "sectionIndex": 26,
+      "wordCount": 5
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 9,
+      "sectionIndex": 21,
+      "wordCount": 5
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 2,
+      "sectionIndex": 30,
+      "wordCount": 5
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 5,
+      "sectionIndex": 7,
+      "wordCount": 5
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 5,
+      "sectionIndex": 9,
+      "wordCount": 5
+    }
+  ],
+  "allChapters": [
+    {
+      "tractate": "Kiddushin",
+      "chapter": 1,
+      "wordCount": 12834
+    },
+    {
+      "tractate": "Megillah",
+      "chapter": 1,
+      "wordCount": 10445
+    },
+    {
+      "tractate": "Moed Katan",
+      "chapter": 3,
+      "wordCount": 7986
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 10,
+      "wordCount": 7973
+    },
+    {
+      "tractate": "Taanit",
+      "chapter": 4,
+      "wordCount": 7921
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 1,
+      "wordCount": 7175
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 7,
+      "wordCount": 6820
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 9,
+      "wordCount": 6466
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 7,
+      "wordCount": 6361
+    },
+    {
+      "tractate": "Avodah Zarah",
+      "chapter": 2,
+      "wordCount": 6291
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 1,
+      "wordCount": 6201
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 1,
+      "wordCount": 6103
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 2,
+      "wordCount": 5929
+    },
+    {
+      "tractate": "Peah",
+      "chapter": 1,
+      "wordCount": 5677
+    },
+    {
+      "tractate": "Kiddushin",
+      "chapter": 3,
+      "wordCount": 5633
+    },
+    {
+      "tractate": "Chagigah",
+      "chapter": 2,
+      "wordCount": 5600
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 7,
+      "wordCount": 5591
+    },
+    {
+      "tractate": "Horayot",
+      "chapter": 3,
+      "wordCount": 5521
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 4,
+      "wordCount": 5423
+    },
+    {
+      "tractate": "Rosh Hashanah",
+      "chapter": 1,
+      "wordCount": 5299
+    },
+    {
+      "tractate": "Eruvin",
+      "chapter": 1,
+      "wordCount": 5280
+    },
+    {
+      "tractate": "Kiddushin",
+      "chapter": 4,
+      "wordCount": 5118
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 8,
+      "wordCount": 4901
+    },
+    {
+      "tractate": "Sotah",
+      "chapter": 9,
+      "wordCount": 4858
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 8,
+      "wordCount": 4840
+    },
+    {
+      "tractate": "Sotah",
+      "chapter": 1,
+      "wordCount": 4728
+    },
+    {
+      "tractate": "Taanit",
+      "chapter": 2,
+      "wordCount": 4561
+    },
+    {
+      "tractate": "Nazir",
+      "chapter": 6,
+      "wordCount": 4470
+    },
+    {
+      "tractate": "Kiddushin",
+      "chapter": 2,
+      "wordCount": 4451
+    },
+    {
+      "tractate": "Taanit",
+      "chapter": 1,
+      "wordCount": 4399
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 4,
+      "wordCount": 4399
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 4,
+      "wordCount": 4321
+    },
+    {
+      "tractate": "Avodah Zarah",
+      "chapter": 3,
+      "wordCount": 4318
+    },
+    {
+      "tractate": "Avodah Zarah",
+      "chapter": 1,
+      "wordCount": 4290
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 2,
+      "wordCount": 4283
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 1,
+      "wordCount": 4261
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 1,
+      "wordCount": 4256
+    },
+    {
+      "tractate": "Gittin",
+      "chapter": 5,
+      "wordCount": 4199
+    },
+    {
+      "tractate": "Yoma",
+      "chapter": 1,
+      "wordCount": 4150
+    },
+    {
+      "tractate": "Beitzah",
+      "chapter": 1,
+      "wordCount": 4144
+    },
+    {
+      "tractate": "Chagigah",
+      "chapter": 3,
+      "wordCount": 4095
+    },
+    {
+      "tractate": "Maaser Sheni",
+      "chapter": 5,
+      "wordCount": 4086
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 3,
+      "wordCount": 4058
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 6,
+      "wordCount": 4011
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 5,
+      "wordCount": 4005
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 1,
+      "wordCount": 3965
+    },
+    {
+      "tractate": "Megillah",
+      "chapter": 4,
+      "wordCount": 3879
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 3,
+      "wordCount": 3832
+    },
+    {
+      "tractate": "Chagigah",
+      "chapter": 1,
+      "wordCount": 3821
+    },
+    {
+      "tractate": "Challah",
+      "chapter": 1,
+      "wordCount": 3819
+    },
+    {
+      "tractate": "Yoma",
+      "chapter": 5,
+      "wordCount": 3789
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 3,
+      "wordCount": 3771
+    },
+    {
+      "tractate": "Yoma",
+      "chapter": 3,
+      "wordCount": 3634
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 5,
+      "wordCount": 3619
+    },
+    {
+      "tractate": "Sukkah",
+      "chapter": 1,
+      "wordCount": 3603
+    },
+    {
+      "tractate": "Nazir",
+      "chapter": 7,
+      "wordCount": 3598
+    },
+    {
+      "tractate": "Eruvin",
+      "chapter": 3,
+      "wordCount": 3588
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 10,
+      "wordCount": 3570
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 1,
+      "wordCount": 3546
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 5,
+      "wordCount": 3541
+    },
+    {
+      "tractate": "Shevuot",
+      "chapter": 1,
+      "wordCount": 3524
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 6,
+      "wordCount": 3522
+    },
+    {
+      "tractate": "Orlah",
+      "chapter": 2,
+      "wordCount": 3519
+    },
+    {
+      "tractate": "Kilayim",
+      "chapter": 9,
+      "wordCount": 3492
+    },
+    {
+      "tractate": "Maaser Sheni",
+      "chapter": 4,
+      "wordCount": 3443
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 2,
+      "wordCount": 3433
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 3,
+      "wordCount": 3417
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 6,
+      "wordCount": 3412
+    },
+    {
+      "tractate": "Yoma",
+      "chapter": 8,
+      "wordCount": 3380
+    },
+    {
+      "tractate": "Orlah",
+      "chapter": 1,
+      "wordCount": 3374
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 2,
+      "wordCount": 3366
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 13,
+      "wordCount": 3352
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 9,
+      "wordCount": 3329
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 2,
+      "wordCount": 3310
+    },
+    {
+      "tractate": "Gittin",
+      "chapter": 1,
+      "wordCount": 3292
+    },
+    {
+      "tractate": "Moed Katan",
+      "chapter": 1,
+      "wordCount": 3289
+    },
+    {
+      "tractate": "Shekalim",
+      "chapter": 6,
+      "wordCount": 3258
+    },
+    {
+      "tractate": "Shevuot",
+      "chapter": 3,
+      "wordCount": 3223
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 4,
+      "wordCount": 3219
+    },
+    {
+      "tractate": "Gittin",
+      "chapter": 4,
+      "wordCount": 3204
+    },
+    {
+      "tractate": "Sotah",
+      "chapter": 8,
+      "wordCount": 3202
+    },
+    {
+      "tractate": "Demai",
+      "chapter": 6,
+      "wordCount": 3161
+    },
+    {
+      "tractate": "Avodah Zarah",
+      "chapter": 4,
+      "wordCount": 3115
+    },
+    {
+      "tractate": "Eruvin",
+      "chapter": 6,
+      "wordCount": 3112
+    },
+    {
+      "tractate": "Sotah",
+      "chapter": 3,
+      "wordCount": 3100
+    },
+    {
+      "tractate": "Sotah",
+      "chapter": 5,
+      "wordCount": 3091
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 2,
+      "wordCount": 3050
+    },
+    {
+      "tractate": "Eruvin",
+      "chapter": 5,
+      "wordCount": 3031
+    },
+    {
+      "tractate": "Avodah Zarah",
+      "chapter": 5,
+      "wordCount": 3029
+    },
+    {
+      "tractate": "Bikkurim",
+      "chapter": 1,
+      "wordCount": 2984
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 6,
+      "wordCount": 2978
+    },
+    {
+      "tractate": "Taanit",
+      "chapter": 3,
+      "wordCount": 2977
+    },
+    {
+      "tractate": "Eruvin",
+      "chapter": 10,
+      "wordCount": 2970
+    },
+    {
+      "tractate": "Niddah",
+      "chapter": 1,
+      "wordCount": 2962
+    },
+    {
+      "tractate": "Horayot",
+      "chapter": 1,
+      "wordCount": 2953
+    },
+    {
+      "tractate": "Megillah",
+      "chapter": 3,
+      "wordCount": 2940
+    },
+    {
+      "tractate": "Sotah",
+      "chapter": 7,
+      "wordCount": 2913
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 3,
+      "wordCount": 2880
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 8,
+      "wordCount": 2858
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 15,
+      "wordCount": 2841
+    },
+    {
+      "tractate": "Sukkah",
+      "chapter": 5,
+      "wordCount": 2839
+    },
+    {
+      "tractate": "Kilayim",
+      "chapter": 2,
+      "wordCount": 2826
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 8,
+      "wordCount": 2800
+    },
+    {
+      "tractate": "Demai",
+      "chapter": 1,
+      "wordCount": 2796
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 13,
+      "wordCount": 2784
+    },
+    {
+      "tractate": "Maasrot",
+      "chapter": 1,
+      "wordCount": 2780
+    },
+    {
+      "tractate": "Shevuot",
+      "chapter": 4,
+      "wordCount": 2778
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 6,
+      "wordCount": 2776
+    },
+    {
+      "tractate": "Bava Metzia",
+      "chapter": 5,
+      "wordCount": 2746
+    },
+    {
+      "tractate": "Gittin",
+      "chapter": 9,
+      "wordCount": 2738
+    },
+    {
+      "tractate": "Bava Batra",
+      "chapter": 8,
+      "wordCount": 2721
+    },
+    {
+      "tractate": "Demai",
+      "chapter": 2,
+      "wordCount": 2682
+    },
+    {
+      "tractate": "Sotah",
+      "chapter": 2,
+      "wordCount": 2679
+    },
+    {
+      "tractate": "Peah",
+      "chapter": 7,
+      "wordCount": 2670
+    },
+    {
+      "tractate": "Sukkah",
+      "chapter": 3,
+      "wordCount": 2670
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 12,
+      "wordCount": 2660
+    },
+    {
+      "tractate": "Rosh Hashanah",
+      "chapter": 2,
+      "wordCount": 2644
+    },
+    {
+      "tractate": "Yoma",
+      "chapter": 2,
+      "wordCount": 2640
+    },
+    {
+      "tractate": "Shekalim",
+      "chapter": 5,
+      "wordCount": 2639
+    },
+    {
+      "tractate": "Shevuot",
+      "chapter": 6,
+      "wordCount": 2635
+    },
+    {
+      "tractate": "Challah",
+      "chapter": 4,
+      "wordCount": 2614
+    },
+    {
+      "tractate": "Berakhot",
+      "chapter": 7,
+      "wordCount": 2577
+    },
+    {
+      "tractate": "Yoma",
+      "chapter": 6,
+      "wordCount": 2575
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 6,
+      "wordCount": 2574
+    },
+    {
+      "tractate": "Maasrot",
+      "chapter": 3,
+      "wordCount": 2568
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 11,
+      "wordCount": 2561
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 4,
+      "wordCount": 2560
+    },
+    {
+      "tractate": "Maaser Sheni",
+      "chapter": 1,
+      "wordCount": 2557
+    },
+    {
+      "tractate": "Maaser Sheni",
+      "chapter": 3,
+      "wordCount": 2551
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 11,
+      "wordCount": 2546
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 3,
+      "wordCount": 2544
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 11,
+      "wordCount": 2534
+    },
+    {
+      "tractate": "Maasrot",
+      "chapter": 2,
+      "wordCount": 2532
+    },
+    {
+      "tractate": "Bikkurim",
+      "chapter": 2,
+      "wordCount": 2527
+    },
+    {
+      "tractate": "Gittin",
+      "chapter": 3,
+      "wordCount": 2525
+    },
+    {
+      "tractate": "Gittin",
+      "chapter": 7,
+      "wordCount": 2524
+    },
+    {
+      "tractate": "Challah",
+      "chapter": 3,
+      "wordCount": 2510
+    },
+    {
+      "tractate": "Shekalim",
+      "chapter": 4,
+      "wordCount": 2507
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 7,
+      "wordCount": 2506
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 9,
+      "wordCount": 2495
+    },
+    {
+      "tractate": "Gittin",
+      "chapter": 8,
+      "wordCount": 2487
+    },
+    {
+      "tractate": "Shevuot",
+      "chapter": 7,
+      "wordCount": 2455
+    },
+    {
+      "tractate": "Yoma",
+      "chapter": 4,
+      "wordCount": 2451
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 2,
+      "wordCount": 2440
+    },
+    {
+      "tractate": "Peah",
+      "chapter": 8,
+      "wordCount": 2438
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 12,
+      "wordCount": 2434
+    },
+    {
+      "tractate": "Orlah",
+      "chapter": 3,
+      "wordCount": 2424
+    },
+    {
+      "tractate": "Nazir",
+      "chapter": 2,
+      "wordCount": 2423
+    },
+    {
+      "tractate": "Beitzah",
+      "chapter": 2,
+      "wordCount": 2422
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 10,
+      "wordCount": 2406
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 8,
+      "wordCount": 2404
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 19,
+      "wordCount": 2404
+    },
+    {
+      "tractate": "Bava Kamma",
+      "chapter": 3,
+      "wordCount": 2379
+    },
+    {
+      "tractate": "Bava Metzia",
+      "chapter": 2,
+      "wordCount": 2360
+    },
+    {
+      "tractate": "Niddah",
+      "chapter": 3,
+      "wordCount": 2354
+    },
+    {
+      "tractate": "Nazir",
+      "chapter": 9,
+      "wordCount": 2335
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 2,
+      "wordCount": 2318
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 10,
+      "wordCount": 2313
+    },
+    {
+      "tractate": "Peah",
+      "chapter": 3,
+      "wordCount": 2311
+    },
+    {
+      "tractate": "Shevuot",
+      "chapter": 8,
+      "wordCount": 2310
+    },
+    {
+      "tractate": "Kilayim",
+      "chapter": 1,
+      "wordCount": 2307
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 16,
+      "wordCount": 2307
+    },
+    {
+      "tractate": "Pesachim",
+      "chapter": 3,
+      "wordCount": 2305
+    },
+    {
+      "tractate": "Nazir",
+      "chapter": 5,
+      "wordCount": 2303
+    },
+    {
+      "tractate": "Shekalim",
+      "chapter": 1,
+      "wordCount": 2300
+    },
+    {
+      "tractate": "Demai",
+      "chapter": 5,
+      "wordCount": 2283
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 4,
+      "wordCount": 2276
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 9,
+      "wordCount": 2270
+    },
+    {
+      "tractate": "Gittin",
+      "chapter": 6,
+      "wordCount": 2268
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 11,
+      "wordCount": 2265
+    },
+    {
+      "tractate": "Makkot",
+      "chapter": 2,
+      "wordCount": 2264
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 9,
+      "wordCount": 2246
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 9,
+      "wordCount": 2245
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 7,
+      "wordCount": 2242
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 14,
+      "wordCount": 2235
+    },
+    {
+      "tractate": "Bava Batra",
+      "chapter": 3,
+      "wordCount": 2229
+    },
+    {
+      "tractate": "Shekalim",
+      "chapter": 2,
+      "wordCount": 2226
+    },
+    {
+      "tractate": "Bava Kamma",
+      "chapter": 4,
+      "wordCount": 2220
+    },
+    {
+      "tractate": "Megillah",
+      "chapter": 2,
+      "wordCount": 2202
+    },
+    {
+      "tractate": "Sukkah",
+      "chapter": 4,
+      "wordCount": 2193
+    },
+    {
+      "tractate": "Peah",
+      "chapter": 6,
+      "wordCount": 2191
+    },
+    {
+      "tractate": "Rosh Hashanah",
+      "chapter": 4,
+      "wordCount": 2181
+    },
+    {
+      "tractate": "Rosh Hashanah",
+      "chapter": 3,
+      "wordCount": 2160
+    },
+    {
+      "tractate": "Demai",
+      "chapter": 7,
+      "wordCount": 2153
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 6,
+      "wordCount": 2148
+    },
+    {
+      "tractate": "Maaser Sheni",
+      "chapter": 2,
+      "wordCount": 2144
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 11,
+      "wordCount": 2131
+    },
+    {
+      "tractate": "Nazir",
+      "chapter": 4,
+      "wordCount": 2127
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 8,
+      "wordCount": 2120
+    },
+    {
+      "tractate": "Beitzah",
+      "chapter": 5,
+      "wordCount": 2118
+    },
+    {
+      "tractate": "Nazir",
+      "chapter": 1,
+      "wordCount": 2093
+    },
+    {
+      "tractate": "Shevuot",
+      "chapter": 5,
+      "wordCount": 2090
+    },
+    {
+      "tractate": "Niddah",
+      "chapter": 2,
+      "wordCount": 2090
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 7,
+      "wordCount": 2074
+    },
+    {
+      "tractate": "Challah",
+      "chapter": 2,
+      "wordCount": 2071
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 1,
+      "wordCount": 2068
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 10,
+      "wordCount": 2067
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 8,
+      "wordCount": 2050
+    },
+    {
+      "tractate": "Bava Batra",
+      "chapter": 9,
+      "wordCount": 2050
+    },
+    {
+      "tractate": "Eruvin",
+      "chapter": 7,
+      "wordCount": 2043
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 8,
+      "wordCount": 2036
+    },
+    {
+      "tractate": "Bikkurim",
+      "chapter": 3,
+      "wordCount": 2027
+    },
+    {
+      "tractate": "Bava Metzia",
+      "chapter": 4,
+      "wordCount": 2003
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 16,
+      "wordCount": 1994
+    },
+    {
+      "tractate": "Kilayim",
+      "chapter": 4,
+      "wordCount": 1992
+    },
+    {
+      "tractate": "Kilayim",
+      "chapter": 3,
+      "wordCount": 1985
+    },
+    {
+      "tractate": "Nazir",
+      "chapter": 3,
+      "wordCount": 1978
+    },
+    {
+      "tractate": "Maasrot",
+      "chapter": 5,
+      "wordCount": 1969
+    },
+    {
+      "tractate": "Peah",
+      "chapter": 4,
+      "wordCount": 1961
+    },
+    {
+      "tractate": "Eruvin",
+      "chapter": 2,
+      "wordCount": 1947
+    },
+    {
+      "tractate": "Sukkah",
+      "chapter": 2,
+      "wordCount": 1940
+    },
+    {
+      "tractate": "Demai",
+      "chapter": 3,
+      "wordCount": 1934
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 4,
+      "wordCount": 1931
+    },
+    {
+      "tractate": "Makkot",
+      "chapter": 1,
+      "wordCount": 1925
+    },
+    {
+      "tractate": "Gittin",
+      "chapter": 2,
+      "wordCount": 1900
+    },
+    {
+      "tractate": "Kilayim",
+      "chapter": 8,
+      "wordCount": 1867
+    },
+    {
+      "tractate": "Bava Batra",
+      "chapter": 10,
+      "wordCount": 1866
+    },
+    {
+      "tractate": "Bava Kamma",
+      "chapter": 9,
+      "wordCount": 1858
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 5,
+      "wordCount": 1853
+    },
+    {
+      "tractate": "Eruvin",
+      "chapter": 8,
+      "wordCount": 1847
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 10,
+      "wordCount": 1823
+    },
+    {
+      "tractate": "Bava Batra",
+      "chapter": 2,
+      "wordCount": 1816
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 9,
+      "wordCount": 1809
+    },
+    {
+      "tractate": "Horayot",
+      "chapter": 2,
+      "wordCount": 1800
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 5,
+      "wordCount": 1779
+    },
+    {
+      "tractate": "Eruvin",
+      "chapter": 4,
+      "wordCount": 1776
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 4,
+      "wordCount": 1760
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 5,
+      "wordCount": 1752
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 3,
+      "wordCount": 1744
+    },
+    {
+      "tractate": "Shekalim",
+      "chapter": 3,
+      "wordCount": 1741
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 3,
+      "wordCount": 1740
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 7,
+      "wordCount": 1733
+    },
+    {
+      "tractate": "Peah",
+      "chapter": 2,
+      "wordCount": 1719
+    },
+    {
+      "tractate": "Sanhedrin",
+      "chapter": 5,
+      "wordCount": 1711
+    },
+    {
+      "tractate": "Bava Kamma",
+      "chapter": 1,
+      "wordCount": 1697
+    },
+    {
+      "tractate": "Nazir",
+      "chapter": 8,
+      "wordCount": 1687
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 8,
+      "wordCount": 1678
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 6,
+      "wordCount": 1676
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 12,
+      "wordCount": 1668
+    },
+    {
+      "tractate": "Kilayim",
+      "chapter": 6,
+      "wordCount": 1665
+    },
+    {
+      "tractate": "Peah",
+      "chapter": 5,
+      "wordCount": 1651
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 11,
+      "wordCount": 1648
+    },
+    {
+      "tractate": "Yoma",
+      "chapter": 7,
+      "wordCount": 1613
+    },
+    {
+      "tractate": "Sheviit",
+      "chapter": 1,
+      "wordCount": 1609
+    },
+    {
+      "tractate": "Kilayim",
+      "chapter": 5,
+      "wordCount": 1604
+    },
+    {
+      "tractate": "Demai",
+      "chapter": 4,
+      "wordCount": 1591
+    },
+    {
+      "tractate": "Bava Kamma",
+      "chapter": 8,
+      "wordCount": 1577
+    },
+    {
+      "tractate": "Beitzah",
+      "chapter": 3,
+      "wordCount": 1548
+    },
+    {
+      "tractate": "Bava Metzia",
+      "chapter": 1,
+      "wordCount": 1518
+    },
+    {
+      "tractate": "Shekalim",
+      "chapter": 7,
+      "wordCount": 1510
+    },
+    {
+      "tractate": "Shevuot",
+      "chapter": 2,
+      "wordCount": 1498
+    },
+    {
+      "tractate": "Bava Kamma",
+      "chapter": 2,
+      "wordCount": 1493
+    },
+    {
+      "tractate": "Bava Kamma",
+      "chapter": 6,
+      "wordCount": 1488
+    },
+    {
+      "tractate": "Bava Metzia",
+      "chapter": 9,
+      "wordCount": 1456
+    },
+    {
+      "tractate": "Bava Kamma",
+      "chapter": 5,
+      "wordCount": 1448
+    },
+    {
+      "tractate": "Beitzah",
+      "chapter": 4,
+      "wordCount": 1445
+    },
+    {
+      "tractate": "Ketubot",
+      "chapter": 10,
+      "wordCount": 1431
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 9,
+      "wordCount": 1407
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 17,
+      "wordCount": 1394
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 5,
+      "wordCount": 1375
+    },
+    {
+      "tractate": "Bava Batra",
+      "chapter": 5,
+      "wordCount": 1372
+    },
+    {
+      "tractate": "Bava Metzia",
+      "chapter": 3,
+      "wordCount": 1362
+    },
+    {
+      "tractate": "Bava Kamma",
+      "chapter": 10,
+      "wordCount": 1361
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 6,
+      "wordCount": 1354
+    },
+    {
+      "tractate": "Bava Batra",
+      "chapter": 4,
+      "wordCount": 1334
+    },
+    {
+      "tractate": "Maasrot",
+      "chapter": 4,
+      "wordCount": 1323
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 4,
+      "wordCount": 1318
+    },
+    {
+      "tractate": "Kilayim",
+      "chapter": 7,
+      "wordCount": 1310
+    },
+    {
+      "tractate": "Bava Kamma",
+      "chapter": 7,
+      "wordCount": 1284
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 10,
+      "wordCount": 1270
+    },
+    {
+      "tractate": "Shekalim",
+      "chapter": 8,
+      "wordCount": 1242
+    },
+    {
+      "tractate": "Eruvin",
+      "chapter": 9,
+      "wordCount": 1240
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 5,
+      "wordCount": 1229
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 7,
+      "wordCount": 1198
+    },
+    {
+      "tractate": "Moed Katan",
+      "chapter": 2,
+      "wordCount": 1177
+    },
+    {
+      "tractate": "Sotah",
+      "chapter": 4,
+      "wordCount": 1140
+    },
+    {
+      "tractate": "Bava Metzia",
+      "chapter": 6,
+      "wordCount": 1136
+    },
+    {
+      "tractate": "Nedarim",
+      "chapter": 2,
+      "wordCount": 1129
+    },
+    {
+      "tractate": "Terumot",
+      "chapter": 9,
+      "wordCount": 1116
+    },
+    {
+      "tractate": "Sotah",
+      "chapter": 6,
+      "wordCount": 1110
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 13,
+      "wordCount": 1046
+    },
+    {
+      "tractate": "Bava Metzia",
+      "chapter": 7,
+      "wordCount": 1044
+    },
+    {
+      "tractate": "Bava Batra",
+      "chapter": 6,
+      "wordCount": 1019
+    },
+    {
+      "tractate": "Bava Metzia",
+      "chapter": 8,
+      "wordCount": 991
+    },
+    {
+      "tractate": "Bava Metzia",
+      "chapter": 10,
+      "wordCount": 989
+    },
+    {
+      "tractate": "Bava Batra",
+      "chapter": 1,
+      "wordCount": 979
+    },
+    {
+      "tractate": "Makkot",
+      "chapter": 3,
+      "wordCount": 948
+    },
+    {
+      "tractate": "Yevamot",
+      "chapter": 14,
+      "wordCount": 899
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 20,
+      "wordCount": 852
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 15,
+      "wordCount": 839
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 18,
+      "wordCount": 802
+    },
+    {
+      "tractate": "Bava Batra",
+      "chapter": 7,
+      "wordCount": 529
+    },
+    {
+      "tractate": "Niddah",
+      "chapter": 4,
+      "wordCount": 306
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 22,
+      "wordCount": 241
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 23,
+      "wordCount": 237
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 24,
+      "wordCount": 178
+    },
+    {
+      "tractate": "Shabbat",
+      "chapter": 21,
+      "wordCount": 123
+    }
+  ]
+}

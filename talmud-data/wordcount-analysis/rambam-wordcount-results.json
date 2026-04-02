@@ -1,0 +1,6420 @@
+{
+  "totalWords": 764522,
+  "totalChapters": 1001,
+  "totalSections": 15070,
+  "avgWordsPerChapter": 764,
+  "top20Chapters": [
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 8,
+      "wordCount": 3104
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 17,
+      "wordCount": 2109
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 9,
+      "wordCount": 2097
+    },
+    {
+      "hilchot": "Levirate Marriage and Release",
+      "book": "Sefer Nashim",
+      "chapter": 4,
+      "wordCount": 1990
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 9,
+      "wordCount": 1968
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 21,
+      "wordCount": 1901
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 17,
+      "wordCount": 1784
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 16,
+      "wordCount": 1643
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 22,
+      "wordCount": 1637
+    },
+    {
+      "hilchot": "Levirate Marriage and Release",
+      "book": "Sefer Nashim",
+      "chapter": 6,
+      "wordCount": 1577
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 13,
+      "wordCount": 1574
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 22,
+      "wordCount": 1562
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 16,
+      "wordCount": 1554
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 9,
+      "wordCount": 1553
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 8,
+      "wordCount": 1511
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 23,
+      "wordCount": 1508
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 15,
+      "wordCount": 1498
+    },
+    {
+      "hilchot": "Human Dispositions",
+      "book": "Sefer Madda",
+      "chapter": 4,
+      "wordCount": 1492
+    },
+    {
+      "hilchot": "Eruvin",
+      "book": "Sefer Zemanim",
+      "chapter": 4,
+      "wordCount": 1476
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 21,
+      "wordCount": 1472
+    }
+  ],
+  "top20Sections": [
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 8,
+      "sectionIndex": 4,
+      "wordCount": 2911
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 19,
+      "sectionIndex": 4,
+      "wordCount": 949
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 12,
+      "sectionIndex": 2,
+      "wordCount": 601
+    },
+    {
+      "hilchot": "Service on the Day of Atonement",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "sectionIndex": 1,
+      "wordCount": 521
+    },
+    {
+      "hilchot": "Rebels",
+      "book": "Sefer Shoftim",
+      "chapter": 4,
+      "sectionIndex": 2,
+      "wordCount": 486
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 9,
+      "sectionIndex": 1,
+      "wordCount": 461
+    },
+    {
+      "hilchot": "Service on the Day of Atonement",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "sectionIndex": 2,
+      "wordCount": 428
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 1,
+      "sectionIndex": 3,
+      "wordCount": 404
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 16,
+      "sectionIndex": 10,
+      "wordCount": 392
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 12,
+      "sectionIndex": 3,
+      "wordCount": 383
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 17,
+      "sectionIndex": 10,
+      "wordCount": 378
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 3,
+      "sectionIndex": 2,
+      "wordCount": 377
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 9,
+      "sectionIndex": 4,
+      "wordCount": 370
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 1,
+      "sectionIndex": 4,
+      "wordCount": 353
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 6,
+      "sectionIndex": 5,
+      "wordCount": 347
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 10,
+      "sectionIndex": 4,
+      "wordCount": 338
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 10,
+      "sectionIndex": 9,
+      "wordCount": 331
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 12,
+      "sectionIndex": 1,
+      "wordCount": 325
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 9,
+      "sectionIndex": 4,
+      "wordCount": 319
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 5,
+      "sectionIndex": 1,
+      "wordCount": 318
+    }
+  ],
+  "bottom20Sections": [
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 10,
+      "sectionIndex": 12,
+      "wordCount": 3
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 5,
+      "sectionIndex": 5,
+      "wordCount": 3
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 5,
+      "sectionIndex": 6,
+      "wordCount": 3
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 15,
+      "sectionIndex": 12,
+      "wordCount": 4
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 10,
+      "sectionIndex": 14,
+      "wordCount": 5
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 9,
+      "sectionIndex": 12,
+      "wordCount": 5
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 18,
+      "sectionIndex": 18,
+      "wordCount": 5
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 6,
+      "sectionIndex": 1,
+      "wordCount": 5
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 12,
+      "sectionIndex": 2,
+      "wordCount": 5
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 10,
+      "sectionIndex": 7,
+      "wordCount": 6
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 2,
+      "sectionIndex": 11,
+      "wordCount": 6
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 4,
+      "sectionIndex": 6,
+      "wordCount": 6
+    },
+    {
+      "hilchot": "Appraisals and Devoted Property",
+      "book": "Sefer Haflaah",
+      "chapter": 4,
+      "sectionIndex": 11,
+      "wordCount": 6
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 10,
+      "sectionIndex": 12,
+      "wordCount": 6
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 2,
+      "sectionIndex": 18,
+      "wordCount": 6
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 13,
+      "sectionIndex": 5,
+      "wordCount": 6
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 10,
+      "sectionIndex": 4,
+      "wordCount": 6
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 4,
+      "sectionIndex": 14,
+      "wordCount": 6
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 6,
+      "sectionIndex": 14,
+      "wordCount": 6
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 5,
+      "sectionIndex": 8,
+      "wordCount": 6
+    }
+  ],
+  "allChapters": [
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 8,
+      "wordCount": 3104
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 17,
+      "wordCount": 2109
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 9,
+      "wordCount": 2097
+    },
+    {
+      "hilchot": "Levirate Marriage and Release",
+      "book": "Sefer Nashim",
+      "chapter": 4,
+      "wordCount": 1990
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 9,
+      "wordCount": 1968
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 21,
+      "wordCount": 1901
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 17,
+      "wordCount": 1784
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 16,
+      "wordCount": 1643
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 22,
+      "wordCount": 1637
+    },
+    {
+      "hilchot": "Levirate Marriage and Release",
+      "book": "Sefer Nashim",
+      "chapter": 6,
+      "wordCount": 1577
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 13,
+      "wordCount": 1574
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 22,
+      "wordCount": 1562
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 16,
+      "wordCount": 1554
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 9,
+      "wordCount": 1553
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 8,
+      "wordCount": 1511
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 23,
+      "wordCount": 1508
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 15,
+      "wordCount": 1498
+    },
+    {
+      "hilchot": "Human Dispositions",
+      "book": "Sefer Madda",
+      "chapter": 4,
+      "wordCount": 1492
+    },
+    {
+      "hilchot": "Eruvin",
+      "book": "Sefer Zemanim",
+      "chapter": 4,
+      "wordCount": 1476
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 21,
+      "wordCount": 1472
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 19,
+      "wordCount": 1459
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 2,
+      "wordCount": 1457
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 10,
+      "wordCount": 1447
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 18,
+      "wordCount": 1443
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 15,
+      "wordCount": 1439
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 17,
+      "wordCount": 1433
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 7,
+      "wordCount": 1428
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 6,
+      "wordCount": 1412
+    },
+    {
+      "hilchot": "Levirate Marriage and Release",
+      "book": "Sefer Nashim",
+      "chapter": 5,
+      "wordCount": 1410
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 1,
+      "wordCount": 1405
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 18,
+      "wordCount": 1385
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 24,
+      "wordCount": 1381
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 4,
+      "wordCount": 1376
+    },
+    {
+      "hilchot": "Leavened and Unleavened Bread",
+      "book": "Sefer Zemanim",
+      "chapter": 9,
+      "wordCount": 1370
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 6,
+      "wordCount": 1366
+    },
+    {
+      "hilchot": "Eruvin",
+      "book": "Sefer Zemanim",
+      "chapter": 3,
+      "wordCount": 1359
+    },
+    {
+      "hilchot": "Rest on a Holiday",
+      "book": "Sefer Zemanim",
+      "chapter": 6,
+      "wordCount": 1352
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 5,
+      "wordCount": 1352
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 25,
+      "wordCount": 1350
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 1,
+      "wordCount": 1350
+    },
+    {
+      "hilchot": "Eruvin",
+      "book": "Sefer Zemanim",
+      "chapter": 1,
+      "wordCount": 1340
+    },
+    {
+      "hilchot": "Rest on a Holiday",
+      "book": "Sefer Zemanim",
+      "chapter": 1,
+      "wordCount": 1340
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 5,
+      "wordCount": 1337
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 29,
+      "wordCount": 1334
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 3,
+      "wordCount": 1334
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 7,
+      "wordCount": 1334
+    },
+    {
+      "hilchot": "Eruvin",
+      "book": "Sefer Zemanim",
+      "chapter": 6,
+      "wordCount": 1330
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 13,
+      "wordCount": 1321
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 10,
+      "wordCount": 1320
+    },
+    {
+      "hilchot": "Shofar, Sukkah and Lulav",
+      "book": "Sefer Zemanim",
+      "chapter": 5,
+      "wordCount": 1306
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 14,
+      "wordCount": 1296
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 11,
+      "wordCount": 1296
+    },
+    {
+      "hilchot": "Rest on a Holiday",
+      "book": "Sefer Zemanim",
+      "chapter": 7,
+      "wordCount": 1284
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 4,
+      "wordCount": 1277
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 13,
+      "wordCount": 1267
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 26,
+      "wordCount": 1265
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 1,
+      "wordCount": 1264
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 16,
+      "wordCount": 1263
+    },
+    {
+      "hilchot": "Rest on a Holiday",
+      "book": "Sefer Zemanim",
+      "chapter": 4,
+      "wordCount": 1261
+    },
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 4,
+      "wordCount": 1259
+    },
+    {
+      "hilchot": "Human Dispositions",
+      "book": "Sefer Madda",
+      "chapter": 5,
+      "wordCount": 1257
+    },
+    {
+      "hilchot": "Appraisals and Devoted Property",
+      "book": "Sefer Haflaah",
+      "chapter": 6,
+      "wordCount": 1253
+    },
+    {
+      "hilchot": "Shofar, Sukkah and Lulav",
+      "book": "Sefer Zemanim",
+      "chapter": 7,
+      "wordCount": 1250
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 10,
+      "wordCount": 1246
+    },
+    {
+      "hilchot": "Diverse Species",
+      "book": "Sefer Zeraim",
+      "chapter": 10,
+      "wordCount": 1242
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 14,
+      "wordCount": 1239
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 19,
+      "wordCount": 1232
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 12,
+      "wordCount": 1231
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 15,
+      "wordCount": 1230
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 10,
+      "wordCount": 1226
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 7,
+      "wordCount": 1223
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 12,
+      "wordCount": 1216
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 3,
+      "wordCount": 1212
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 17,
+      "wordCount": 1206
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 5,
+      "wordCount": 1204
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 1,
+      "wordCount": 1202
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 18,
+      "wordCount": 1192
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 3,
+      "wordCount": 1189
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 4,
+      "wordCount": 1187
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 9,
+      "wordCount": 1187
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 2,
+      "wordCount": 1185
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 2,
+      "wordCount": 1183
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 27,
+      "wordCount": 1179
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 12,
+      "wordCount": 1171
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 11,
+      "wordCount": 1161
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 5,
+      "wordCount": 1155
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 7,
+      "wordCount": 1152
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 2,
+      "wordCount": 1151
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 16,
+      "wordCount": 1150
+    },
+    {
+      "hilchot": "Eruvin",
+      "book": "Sefer Zemanim",
+      "chapter": 5,
+      "wordCount": 1149
+    },
+    {
+      "hilchot": "Foundations of the Torah",
+      "book": "Sefer Madda",
+      "chapter": 4,
+      "wordCount": 1147
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 10,
+      "wordCount": 1147
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 10,
+      "wordCount": 1142
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 11,
+      "wordCount": 1139
+    },
+    {
+      "hilchot": "Leavened and Unleavened Bread",
+      "book": "Sefer Zemanim",
+      "chapter": 5,
+      "wordCount": 1136
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 13,
+      "wordCount": 1132
+    },
+    {
+      "hilchot": "Levirate Marriage and Release",
+      "book": "Sefer Nashim",
+      "chapter": 1,
+      "wordCount": 1132
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 10,
+      "wordCount": 1129
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 2,
+      "wordCount": 1129
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 18,
+      "wordCount": 1127
+    },
+    {
+      "hilchot": "Appraisals and Devoted Property",
+      "book": "Sefer Haflaah",
+      "chapter": 4,
+      "wordCount": 1126
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 12,
+      "wordCount": 1118
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 9,
+      "wordCount": 1115
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 4,
+      "wordCount": 1106
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 6,
+      "wordCount": 1105
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 10,
+      "wordCount": 1099
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 12,
+      "wordCount": 1097
+    },
+    {
+      "hilchot": "Woman Suspected of Infidelity",
+      "book": "Sefer Nashim",
+      "chapter": 3,
+      "wordCount": 1095
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 5,
+      "wordCount": 1094
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 1,
+      "wordCount": 1093
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 7,
+      "wordCount": 1090
+    },
+    {
+      "hilchot": "Rest on a Holiday",
+      "book": "Sefer Zemanim",
+      "chapter": 8,
+      "wordCount": 1086
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 6,
+      "wordCount": 1086
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 4,
+      "wordCount": 1086
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 1,
+      "wordCount": 1085
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 11,
+      "wordCount": 1078
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 13,
+      "wordCount": 1076
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 3,
+      "wordCount": 1072
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 13,
+      "wordCount": 1069
+    },
+    {
+      "hilchot": "Levirate Marriage and Release",
+      "book": "Sefer Nashim",
+      "chapter": 2,
+      "wordCount": 1059
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 12,
+      "wordCount": 1059
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 1,
+      "wordCount": 1052
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 1,
+      "wordCount": 1052
+    },
+    {
+      "hilchot": "Admission into the Sanctuary",
+      "book": "Sefer Avodah",
+      "chapter": 8,
+      "wordCount": 1044
+    },
+    {
+      "hilchot": "Levirate Marriage and Release",
+      "book": "Sefer Nashim",
+      "chapter": 7,
+      "wordCount": 1042
+    },
+    {
+      "hilchot": "Appraisals and Devoted Property",
+      "book": "Sefer Haflaah",
+      "chapter": 7,
+      "wordCount": 1041
+    },
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 1,
+      "wordCount": 1040
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 11,
+      "wordCount": 1040
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 23,
+      "wordCount": 1038
+    },
+    {
+      "hilchot": "Diverse Species",
+      "book": "Sefer Zeraim",
+      "chapter": 7,
+      "wordCount": 1035
+    },
+    {
+      "hilchot": "Foundations of the Torah",
+      "book": "Sefer Madda",
+      "chapter": 5,
+      "wordCount": 1031
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 13,
+      "wordCount": 1027
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 9,
+      "wordCount": 1021
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 3,
+      "wordCount": 1021
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 6,
+      "wordCount": 1021
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 11,
+      "wordCount": 1017
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 21,
+      "wordCount": 1013
+    },
+    {
+      "hilchot": "Slaves",
+      "book": "Sefer Kinyan",
+      "chapter": 3,
+      "wordCount": 1013
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 19,
+      "wordCount": 1011
+    },
+    {
+      "hilchot": "Rest on a Holiday",
+      "book": "Sefer Zemanim",
+      "chapter": 5,
+      "wordCount": 1009
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 9,
+      "wordCount": 1009
+    },
+    {
+      "hilchot": "Fasts",
+      "book": "Sefer Zemanim",
+      "chapter": 5,
+      "wordCount": 1008
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 12,
+      "wordCount": 1005
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 3,
+      "wordCount": 1005
+    },
+    {
+      "hilchot": "Eruvin",
+      "book": "Sefer Zemanim",
+      "chapter": 2,
+      "wordCount": 1003
+    },
+    {
+      "hilchot": "The Chosen Temple",
+      "book": "Sefer Avodah",
+      "chapter": 7,
+      "wordCount": 1003
+    },
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 3,
+      "wordCount": 1002
+    },
+    {
+      "hilchot": "Leavened and Unleavened Bread",
+      "book": "Sefer Zemanim",
+      "chapter": 2,
+      "wordCount": 1002
+    },
+    {
+      "hilchot": "Reading the Shema",
+      "book": "Sefer Ahavah",
+      "chapter": 3,
+      "wordCount": 994
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 4,
+      "wordCount": 994
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 11,
+      "wordCount": 991
+    },
+    {
+      "hilchot": "Nazariteship",
+      "book": "Sefer Haflaah",
+      "chapter": 5,
+      "wordCount": 991
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 12,
+      "wordCount": 985
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 6,
+      "wordCount": 985
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 2,
+      "wordCount": 982
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 4,
+      "wordCount": 981
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 19,
+      "wordCount": 980
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 3,
+      "wordCount": 980
+    },
+    {
+      "hilchot": "Nazariteship",
+      "book": "Sefer Haflaah",
+      "chapter": 2,
+      "wordCount": 979
+    },
+    {
+      "hilchot": "Torah Study",
+      "book": "Sefer Madda",
+      "chapter": 6,
+      "wordCount": 974
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 8,
+      "wordCount": 974
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 11,
+      "wordCount": 973
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 6,
+      "wordCount": 971
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 14,
+      "wordCount": 971
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 9,
+      "wordCount": 970
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 27,
+      "wordCount": 968
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 11,
+      "wordCount": 968
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 2,
+      "wordCount": 968
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 5,
+      "wordCount": 966
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 5,
+      "wordCount": 965
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 8,
+      "wordCount": 964
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 3,
+      "wordCount": 964
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 12,
+      "wordCount": 964
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 6,
+      "wordCount": 963
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "wordCount": 961
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 1,
+      "wordCount": 959
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 12,
+      "wordCount": 959
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 3,
+      "wordCount": 958
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 20,
+      "wordCount": 957
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 9,
+      "wordCount": 957
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 12,
+      "wordCount": 953
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 9,
+      "wordCount": 951
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 11,
+      "wordCount": 950
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 14,
+      "wordCount": 950
+    },
+    {
+      "hilchot": "Service on the Day of Atonement",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "wordCount": 949
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 8,
+      "wordCount": 945
+    },
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 7,
+      "wordCount": 945
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 18,
+      "wordCount": 945
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 3,
+      "wordCount": 944
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 20,
+      "wordCount": 943
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 11,
+      "wordCount": 942
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 11,
+      "wordCount": 942
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 5,
+      "wordCount": 940
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 8,
+      "wordCount": 940
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 1,
+      "wordCount": 939
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 11,
+      "wordCount": 939
+    },
+    {
+      "hilchot": "The Chosen Temple",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "wordCount": 938
+    },
+    {
+      "hilchot": "Admission into the Sanctuary",
+      "book": "Sefer Avodah",
+      "chapter": 3,
+      "wordCount": 937
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 7,
+      "wordCount": 936
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 8,
+      "wordCount": 935
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 8,
+      "wordCount": 934
+    },
+    {
+      "hilchot": "Rest on a Holiday",
+      "book": "Sefer Zemanim",
+      "chapter": 2,
+      "wordCount": 933
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 6,
+      "wordCount": 933
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 15,
+      "wordCount": 932
+    },
+    {
+      "hilchot": "Firstlings",
+      "book": "Sefer Korbanot",
+      "chapter": 1,
+      "wordCount": 932
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 14,
+      "wordCount": 931
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 16,
+      "wordCount": 931
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 6,
+      "wordCount": 930
+    },
+    {
+      "hilchot": "Circumcision",
+      "book": "Sefer Ahavah",
+      "chapter": 1,
+      "wordCount": 930
+    },
+    {
+      "hilchot": "Diverse Species",
+      "book": "Sefer Zeraim",
+      "chapter": 5,
+      "wordCount": 930
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 16,
+      "wordCount": 930
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 28,
+      "wordCount": 929
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 4,
+      "wordCount": 926
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 11,
+      "wordCount": 924
+    },
+    {
+      "hilchot": "Appraisals and Devoted Property",
+      "book": "Sefer Haflaah",
+      "chapter": 8,
+      "wordCount": 920
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 9,
+      "wordCount": 917
+    },
+    {
+      "hilchot": "Slaves",
+      "book": "Sefer Kinyan",
+      "chapter": 8,
+      "wordCount": 917
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 23,
+      "wordCount": 916
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 10,
+      "wordCount": 915
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 1,
+      "wordCount": 915
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 3,
+      "wordCount": 913
+    },
+    {
+      "hilchot": "Vessels of the Sanctuary and Those Who Serve Therein",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "wordCount": 910
+    },
+    {
+      "hilchot": "Human Dispositions",
+      "book": "Sefer Madda",
+      "chapter": 6,
+      "wordCount": 909
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 13,
+      "wordCount": 909
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 4,
+      "wordCount": 908
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 19,
+      "wordCount": 908
+    },
+    {
+      "hilchot": "Diverse Species",
+      "book": "Sefer Zeraim",
+      "chapter": 3,
+      "wordCount": 906
+    },
+    {
+      "hilchot": "Offerings for Those with Incomplete Atonement",
+      "book": "Sefer Korbanot",
+      "chapter": 1,
+      "wordCount": 905
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 6,
+      "wordCount": 904
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 2,
+      "wordCount": 903
+    },
+    {
+      "hilchot": "Leavened and Unleavened Bread",
+      "book": "Sefer Zemanim",
+      "chapter": 8,
+      "wordCount": 902
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 15,
+      "wordCount": 902
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 10,
+      "wordCount": 901
+    },
+    {
+      "hilchot": "Nazariteship",
+      "book": "Sefer Haflaah",
+      "chapter": 7,
+      "wordCount": 901
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 2,
+      "wordCount": 901
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 2,
+      "wordCount": 900
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 9,
+      "wordCount": 900
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 8,
+      "wordCount": 900
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 6,
+      "wordCount": 900
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 2,
+      "wordCount": 898
+    },
+    {
+      "hilchot": "Nazariteship",
+      "book": "Sefer Haflaah",
+      "chapter": 3,
+      "wordCount": 898
+    },
+    {
+      "hilchot": "Torah Study",
+      "book": "Sefer Madda",
+      "chapter": 5,
+      "wordCount": 897
+    },
+    {
+      "hilchot": "Shofar, Sukkah and Lulav",
+      "book": "Sefer Zemanim",
+      "chapter": 8,
+      "wordCount": 896
+    },
+    {
+      "hilchot": "Vessels of the Sanctuary and Those Who Serve Therein",
+      "book": "Sefer Avodah",
+      "chapter": 7,
+      "wordCount": 896
+    },
+    {
+      "hilchot": "Service on the Day of Atonement",
+      "book": "Sefer Avodah",
+      "chapter": 3,
+      "wordCount": 896
+    },
+    {
+      "hilchot": "One Who Injures a Person or Property",
+      "book": "Sefer Nezikim",
+      "chapter": 7,
+      "wordCount": 895
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 24,
+      "wordCount": 894
+    },
+    {
+      "hilchot": "Eruvin",
+      "book": "Sefer Zemanim",
+      "chapter": 8,
+      "wordCount": 893
+    },
+    {
+      "hilchot": "Levirate Marriage and Release",
+      "book": "Sefer Nashim",
+      "chapter": 3,
+      "wordCount": 893
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 11,
+      "wordCount": 891
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 21,
+      "wordCount": 890
+    },
+    {
+      "hilchot": "Torah Study",
+      "book": "Sefer Madda",
+      "chapter": 3,
+      "wordCount": 888
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 7,
+      "wordCount": 888
+    },
+    {
+      "hilchot": "Nazariteship",
+      "book": "Sefer Haflaah",
+      "chapter": 10,
+      "wordCount": 888
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 8,
+      "wordCount": 888
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 6,
+      "wordCount": 886
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 12,
+      "wordCount": 886
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 7,
+      "wordCount": 886
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 9,
+      "wordCount": 885
+    },
+    {
+      "hilchot": "Nazariteship",
+      "book": "Sefer Haflaah",
+      "chapter": 6,
+      "wordCount": 884
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 6,
+      "wordCount": 884
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 22,
+      "wordCount": 884
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 3,
+      "wordCount": 883
+    },
+    {
+      "hilchot": "The Chosen Temple",
+      "book": "Sefer Avodah",
+      "chapter": 1,
+      "wordCount": 881
+    },
+    {
+      "hilchot": "Things Forbidden on the Altar",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "wordCount": 879
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 5,
+      "wordCount": 878
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 12,
+      "wordCount": 878
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 24,
+      "wordCount": 878
+    },
+    {
+      "hilchot": "Fasts",
+      "book": "Sefer Zemanim",
+      "chapter": 1,
+      "wordCount": 876
+    },
+    {
+      "hilchot": "Scroll of Esther and Hanukkah",
+      "book": "Sefer Zemanim",
+      "chapter": 2,
+      "wordCount": 876
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 4,
+      "wordCount": 876
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 12,
+      "wordCount": 873
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 22,
+      "wordCount": 873
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 2,
+      "wordCount": 873
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 3,
+      "wordCount": 873
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 3,
+      "wordCount": 872
+    },
+    {
+      "hilchot": "Appraisals and Devoted Property",
+      "book": "Sefer Haflaah",
+      "chapter": 5,
+      "wordCount": 870
+    },
+    {
+      "hilchot": "Admission into the Sanctuary",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "wordCount": 867
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 6,
+      "wordCount": 866
+    },
+    {
+      "hilchot": "Foundations of the Torah",
+      "book": "Sefer Madda",
+      "chapter": 7,
+      "wordCount": 864
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 15,
+      "wordCount": 863
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 11,
+      "wordCount": 862
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 12,
+      "wordCount": 859
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 4,
+      "wordCount": 856
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 1,
+      "wordCount": 854
+    },
+    {
+      "hilchot": "Scroll of Esther and Hanukkah",
+      "book": "Sefer Zemanim",
+      "chapter": 3,
+      "wordCount": 852
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 6,
+      "wordCount": 850
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 6,
+      "wordCount": 850
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 13,
+      "wordCount": 848
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 12,
+      "wordCount": 847
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 14,
+      "wordCount": 846
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 8,
+      "wordCount": 846
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 5,
+      "wordCount": 846
+    },
+    {
+      "hilchot": "Woman Suspected of Infidelity",
+      "book": "Sefer Nashim",
+      "chapter": 4,
+      "wordCount": 845
+    },
+    {
+      "hilchot": "One Who Injures a Person or Property",
+      "book": "Sefer Nezikim",
+      "chapter": 4,
+      "wordCount": 845
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 2,
+      "wordCount": 843
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 3,
+      "wordCount": 843
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 25,
+      "wordCount": 842
+    },
+    {
+      "hilchot": "Festival Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 2,
+      "wordCount": 841
+    },
+    {
+      "hilchot": "Woman Suspected of Infidelity",
+      "book": "Sefer Nashim",
+      "chapter": 2,
+      "wordCount": 840
+    },
+    {
+      "hilchot": "Foundations of the Torah",
+      "book": "Sefer Madda",
+      "chapter": 1,
+      "wordCount": 839
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 8,
+      "wordCount": 839
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 15,
+      "wordCount": 838
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 22,
+      "wordCount": 838
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 5,
+      "wordCount": 838
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 5,
+      "wordCount": 837
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 2,
+      "wordCount": 837
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 2,
+      "wordCount": 836
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 14,
+      "wordCount": 835
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 15,
+      "wordCount": 833
+    },
+    {
+      "hilchot": "One Who Injures a Person or Property",
+      "book": "Sefer Nezikim",
+      "chapter": 2,
+      "wordCount": 833
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 2,
+      "wordCount": 833
+    },
+    {
+      "hilchot": "Rest on a Holiday",
+      "book": "Sefer Zemanim",
+      "chapter": 3,
+      "wordCount": 830
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 5,
+      "wordCount": 830
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 12,
+      "wordCount": 830
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 8,
+      "wordCount": 829
+    },
+    {
+      "hilchot": "Nazariteship",
+      "book": "Sefer Haflaah",
+      "chapter": 9,
+      "wordCount": 828
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 9,
+      "wordCount": 828
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 5,
+      "wordCount": 828
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 5,
+      "wordCount": 827
+    },
+    {
+      "hilchot": "Appraisals and Devoted Property",
+      "book": "Sefer Haflaah",
+      "chapter": 3,
+      "wordCount": 827
+    },
+    {
+      "hilchot": "Slaves",
+      "book": "Sefer Kinyan",
+      "chapter": 4,
+      "wordCount": 827
+    },
+    {
+      "hilchot": "Appraisals and Devoted Property",
+      "book": "Sefer Haflaah",
+      "chapter": 1,
+      "wordCount": 825
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 5,
+      "wordCount": 823
+    },
+    {
+      "hilchot": "Substitution",
+      "book": "Sefer Korbanot",
+      "chapter": 1,
+      "wordCount": 822
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 14,
+      "wordCount": 822
+    },
+    {
+      "hilchot": "Shofar, Sukkah and Lulav",
+      "book": "Sefer Zemanim",
+      "chapter": 3,
+      "wordCount": 821
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 11,
+      "wordCount": 820
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 1,
+      "wordCount": 820
+    },
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 9,
+      "wordCount": 818
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 13,
+      "wordCount": 818
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 2,
+      "wordCount": 818
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 4,
+      "wordCount": 817
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 9,
+      "wordCount": 816
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 1,
+      "wordCount": 816
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 6,
+      "wordCount": 816
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 21,
+      "wordCount": 815
+    },
+    {
+      "hilchot": "Foundations of the Torah",
+      "book": "Sefer Madda",
+      "chapter": 2,
+      "wordCount": 813
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 8,
+      "wordCount": 812
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 5,
+      "wordCount": 812
+    },
+    {
+      "hilchot": "Fringes",
+      "book": "Sefer Ahavah",
+      "chapter": 1,
+      "wordCount": 811
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 13,
+      "wordCount": 810
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 10,
+      "wordCount": 809
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 14,
+      "wordCount": 809
+    },
+    {
+      "hilchot": "Borrowing and Deposit",
+      "book": "Sefer Mishpatim",
+      "chapter": 5,
+      "wordCount": 809
+    },
+    {
+      "hilchot": "Nazariteship",
+      "book": "Sefer Haflaah",
+      "chapter": 8,
+      "wordCount": 808
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 7,
+      "wordCount": 808
+    },
+    {
+      "hilchot": "Service on the Day of Atonement",
+      "book": "Sefer Avodah",
+      "chapter": 5,
+      "wordCount": 808
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 4,
+      "wordCount": 806
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 8,
+      "wordCount": 804
+    },
+    {
+      "hilchot": "Forbidden Foods",
+      "book": "Sefer Kedushah",
+      "chapter": 14,
+      "wordCount": 804
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 1,
+      "wordCount": 804
+    },
+    {
+      "hilchot": "Woman Suspected of Infidelity",
+      "book": "Sefer Nashim",
+      "chapter": 1,
+      "wordCount": 803
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 8,
+      "wordCount": 803
+    },
+    {
+      "hilchot": "One Who Injures a Person or Property",
+      "book": "Sefer Nezikim",
+      "chapter": 1,
+      "wordCount": 803
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 11,
+      "wordCount": 802
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 17,
+      "wordCount": 801
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 4,
+      "wordCount": 801
+    },
+    {
+      "hilchot": "Divorce",
+      "book": "Sefer Nashim",
+      "chapter": 5,
+      "wordCount": 800
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 7,
+      "wordCount": 800
+    },
+    {
+      "hilchot": "Human Dispositions",
+      "book": "Sefer Madda",
+      "chapter": 2,
+      "wordCount": 798
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 14,
+      "wordCount": 798
+    },
+    {
+      "hilchot": "Firstlings",
+      "book": "Sefer Korbanot",
+      "chapter": 4,
+      "wordCount": 798
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 11,
+      "wordCount": 797
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 9,
+      "wordCount": 797
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 13,
+      "wordCount": 796
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 3,
+      "wordCount": 795
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 5,
+      "wordCount": 794
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 9,
+      "wordCount": 794
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 18,
+      "wordCount": 794
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 9,
+      "wordCount": 792
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 30,
+      "wordCount": 790
+    },
+    {
+      "hilchot": "Sheqel Dues",
+      "book": "Sefer Zemanim",
+      "chapter": 3,
+      "wordCount": 790
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 9,
+      "wordCount": 790
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 12,
+      "wordCount": 789
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 15,
+      "wordCount": 789
+    },
+    {
+      "hilchot": "Shofar, Sukkah and Lulav",
+      "book": "Sefer Zemanim",
+      "chapter": 4,
+      "wordCount": 788
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 13,
+      "wordCount": 788
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 11,
+      "wordCount": 788
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 17,
+      "wordCount": 787
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 11,
+      "wordCount": 786
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 12,
+      "wordCount": 786
+    },
+    {
+      "hilchot": "Substitution",
+      "book": "Sefer Korbanot",
+      "chapter": 4,
+      "wordCount": 785
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 18,
+      "wordCount": 784
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 1,
+      "wordCount": 784
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 3,
+      "wordCount": 782
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 1,
+      "wordCount": 781
+    },
+    {
+      "hilchot": "Vessels of the Sanctuary and Those Who Serve Therein",
+      "book": "Sefer Avodah",
+      "chapter": 1,
+      "wordCount": 780
+    },
+    {
+      "hilchot": "Fasts",
+      "book": "Sefer Zemanim",
+      "chapter": 4,
+      "wordCount": 779
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 4,
+      "wordCount": 779
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 4,
+      "wordCount": 779
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 19,
+      "wordCount": 778
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 6,
+      "wordCount": 778
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 12,
+      "wordCount": 778
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 6,
+      "wordCount": 777
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 3,
+      "wordCount": 777
+    },
+    {
+      "hilchot": "Rebels",
+      "book": "Sefer Shoftim",
+      "chapter": 7,
+      "wordCount": 777
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 15,
+      "wordCount": 776
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 24,
+      "wordCount": 775
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 6,
+      "wordCount": 774
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 2,
+      "wordCount": 772
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 10,
+      "wordCount": 771
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 5,
+      "wordCount": 771
+    },
+    {
+      "hilchot": "Things Forbidden on the Altar",
+      "book": "Sefer Avodah",
+      "chapter": 2,
+      "wordCount": 769
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 6,
+      "wordCount": 769
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 6,
+      "wordCount": 768
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 10,
+      "wordCount": 767
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 1,
+      "wordCount": 766
+    },
+    {
+      "hilchot": "Levirate Marriage and Release",
+      "book": "Sefer Nashim",
+      "chapter": 8,
+      "wordCount": 763
+    },
+    {
+      "hilchot": "Slaves",
+      "book": "Sefer Kinyan",
+      "chapter": 2,
+      "wordCount": 763
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 9,
+      "wordCount": 763
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 2,
+      "wordCount": 762
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 5,
+      "wordCount": 762
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 7,
+      "wordCount": 761
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 3,
+      "wordCount": 761
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 14,
+      "wordCount": 760
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 21,
+      "wordCount": 760
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 20,
+      "wordCount": 757
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 5,
+      "wordCount": 756
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 1,
+      "wordCount": 755
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 8,
+      "wordCount": 755
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 5,
+      "wordCount": 755
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 9,
+      "wordCount": 754
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 11,
+      "wordCount": 754
+    },
+    {
+      "hilchot": "Firstlings",
+      "book": "Sefer Korbanot",
+      "chapter": 2,
+      "wordCount": 753
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 3,
+      "wordCount": 752
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 29,
+      "wordCount": 751
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 11,
+      "wordCount": 751
+    },
+    {
+      "hilchot": "Fasts",
+      "book": "Sefer Zemanim",
+      "chapter": 2,
+      "wordCount": 750
+    },
+    {
+      "hilchot": "Trespass",
+      "book": "Sefer Avodah",
+      "chapter": 6,
+      "wordCount": 749
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 2,
+      "wordCount": 749
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 15,
+      "wordCount": 748
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 6,
+      "wordCount": 748
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 6,
+      "wordCount": 747
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 7,
+      "wordCount": 747
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 9,
+      "wordCount": 746
+    },
+    {
+      "hilchot": "Offerings for Those with Incomplete Atonement",
+      "book": "Sefer Korbanot",
+      "chapter": 2,
+      "wordCount": 745
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 16,
+      "wordCount": 743
+    },
+    {
+      "hilchot": "Theft",
+      "book": "Sefer Nezikim",
+      "chapter": 3,
+      "wordCount": 743
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 5,
+      "wordCount": 743
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 5,
+      "wordCount": 743
+    },
+    {
+      "hilchot": "Virgin Maiden",
+      "book": "Sefer Nashim",
+      "chapter": 2,
+      "wordCount": 742
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 6,
+      "wordCount": 742
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 4,
+      "wordCount": 741
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 1,
+      "wordCount": 741
+    },
+    {
+      "hilchot": "Slaves",
+      "book": "Sefer Kinyan",
+      "chapter": 1,
+      "wordCount": 741
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 1,
+      "wordCount": 740
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 16,
+      "wordCount": 740
+    },
+    {
+      "hilchot": "Slaves",
+      "book": "Sefer Kinyan",
+      "chapter": 5,
+      "wordCount": 739
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 2,
+      "wordCount": 738
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 3,
+      "wordCount": 738
+    },
+    {
+      "hilchot": "Shofar, Sukkah and Lulav",
+      "book": "Sefer Zemanim",
+      "chapter": 6,
+      "wordCount": 737
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 7,
+      "wordCount": 737
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 10,
+      "wordCount": 737
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 4,
+      "wordCount": 737
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 4,
+      "wordCount": 737
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 3,
+      "wordCount": 736
+    },
+    {
+      "hilchot": "Reading the Shema",
+      "book": "Sefer Ahavah",
+      "chapter": 2,
+      "wordCount": 736
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 5,
+      "wordCount": 736
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 5,
+      "wordCount": 736
+    },
+    {
+      "hilchot": "One Who Injures a Person or Property",
+      "book": "Sefer Nezikim",
+      "chapter": 6,
+      "wordCount": 736
+    },
+    {
+      "hilchot": "Leavened and Unleavened Bread",
+      "book": "Sefer Zemanim",
+      "chapter": 7,
+      "wordCount": 734
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 2,
+      "wordCount": 734
+    },
+    {
+      "hilchot": "Scroll of Esther and Hanukkah",
+      "book": "Sefer Zemanim",
+      "chapter": 1,
+      "wordCount": 733
+    },
+    {
+      "hilchot": "Admission into the Sanctuary",
+      "book": "Sefer Avodah",
+      "chapter": 1,
+      "wordCount": 733
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 2,
+      "wordCount": 732
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 7,
+      "wordCount": 730
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "wordCount": 730
+    },
+    {
+      "hilchot": "Theft",
+      "book": "Sefer Nezikim",
+      "chapter": 1,
+      "wordCount": 729
+    },
+    {
+      "hilchot": "Fringes",
+      "book": "Sefer Ahavah",
+      "chapter": 3,
+      "wordCount": 728
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 14,
+      "wordCount": 728
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 13,
+      "wordCount": 727
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 14,
+      "wordCount": 727
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 13,
+      "wordCount": 727
+    },
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 10,
+      "wordCount": 726
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 1,
+      "wordCount": 726
+    },
+    {
+      "hilchot": "Firstlings",
+      "book": "Sefer Korbanot",
+      "chapter": 8,
+      "wordCount": 724
+    },
+    {
+      "hilchot": "Nazariteship",
+      "book": "Sefer Haflaah",
+      "chapter": 4,
+      "wordCount": 723
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 8,
+      "wordCount": 723
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 8,
+      "wordCount": 723
+    },
+    {
+      "hilchot": "Things Forbidden on the Altar",
+      "book": "Sefer Avodah",
+      "chapter": 3,
+      "wordCount": 721
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 8,
+      "wordCount": 721
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 11,
+      "wordCount": 721
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 4,
+      "wordCount": 720
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 1,
+      "wordCount": 720
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 5,
+      "wordCount": 720
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 9,
+      "wordCount": 720
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 4,
+      "wordCount": 720
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 22,
+      "wordCount": 719
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 3,
+      "wordCount": 719
+    },
+    {
+      "hilchot": "Torah Study",
+      "book": "Sefer Madda",
+      "chapter": 1,
+      "wordCount": 718
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 2,
+      "wordCount": 718
+    },
+    {
+      "hilchot": "Admission into the Sanctuary",
+      "book": "Sefer Avodah",
+      "chapter": 5,
+      "wordCount": 718
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 9,
+      "wordCount": 718
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 8,
+      "wordCount": 715
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 3,
+      "wordCount": 715
+    },
+    {
+      "hilchot": "Diverse Species",
+      "book": "Sefer Zeraim",
+      "chapter": 4,
+      "wordCount": 714
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 20,
+      "wordCount": 714
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 9,
+      "wordCount": 714
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 10,
+      "wordCount": 714
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 12,
+      "wordCount": 713
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 19,
+      "wordCount": 712
+    },
+    {
+      "hilchot": "Virgin Maiden",
+      "book": "Sefer Nashim",
+      "chapter": 1,
+      "wordCount": 710
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 10,
+      "wordCount": 710
+    },
+    {
+      "hilchot": "Rebels",
+      "book": "Sefer Shoftim",
+      "chapter": 6,
+      "wordCount": 708
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 10,
+      "wordCount": 707
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 10,
+      "wordCount": 706
+    },
+    {
+      "hilchot": "The Chosen Temple",
+      "book": "Sefer Avodah",
+      "chapter": 2,
+      "wordCount": 706
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 7,
+      "wordCount": 706
+    },
+    {
+      "hilchot": "Foundations of the Torah",
+      "book": "Sefer Madda",
+      "chapter": 3,
+      "wordCount": 705
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 10,
+      "wordCount": 705
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 1,
+      "wordCount": 705
+    },
+    {
+      "hilchot": "Borrowing and Deposit",
+      "book": "Sefer Mishpatim",
+      "chapter": 4,
+      "wordCount": 704
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 6,
+      "wordCount": 703
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 3,
+      "wordCount": 702
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 17,
+      "wordCount": 702
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 28,
+      "wordCount": 702
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 11,
+      "wordCount": 701
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 15,
+      "wordCount": 701
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 10,
+      "wordCount": 699
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 19,
+      "wordCount": 699
+    },
+    {
+      "hilchot": "Nazariteship",
+      "book": "Sefer Haflaah",
+      "chapter": 1,
+      "wordCount": 698
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 1,
+      "wordCount": 698
+    },
+    {
+      "hilchot": "The Chosen Temple",
+      "book": "Sefer Avodah",
+      "chapter": 5,
+      "wordCount": 698
+    },
+    {
+      "hilchot": "Service on the Day of Atonement",
+      "book": "Sefer Avodah",
+      "chapter": 2,
+      "wordCount": 698
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 7,
+      "wordCount": 697
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 13,
+      "wordCount": 697
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 24,
+      "wordCount": 697
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 25,
+      "wordCount": 697
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 15,
+      "wordCount": 696
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 3,
+      "wordCount": 696
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 4,
+      "wordCount": 695
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 1,
+      "wordCount": 694
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 4,
+      "wordCount": 693
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 2,
+      "wordCount": 692
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 9,
+      "wordCount": 692
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 9,
+      "wordCount": 692
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 2,
+      "wordCount": 692
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 14,
+      "wordCount": 692
+    },
+    {
+      "hilchot": "Eruvin",
+      "book": "Sefer Zemanim",
+      "chapter": 7,
+      "wordCount": 690
+    },
+    {
+      "hilchot": "Vessels of the Sanctuary and Those Who Serve Therein",
+      "book": "Sefer Avodah",
+      "chapter": 5,
+      "wordCount": 690
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 2,
+      "wordCount": 690
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 7,
+      "wordCount": 689
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 2,
+      "wordCount": 689
+    },
+    {
+      "hilchot": "One Who Injures a Person or Property",
+      "book": "Sefer Nezikim",
+      "chapter": 8,
+      "wordCount": 687
+    },
+    {
+      "hilchot": "Theft",
+      "book": "Sefer Nezikim",
+      "chapter": 2,
+      "wordCount": 686
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 4,
+      "wordCount": 686
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 5,
+      "wordCount": 686
+    },
+    {
+      "hilchot": "Rebels",
+      "book": "Sefer Shoftim",
+      "chapter": 4,
+      "wordCount": 686
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 11,
+      "wordCount": 684
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 26,
+      "wordCount": 684
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 1,
+      "wordCount": 684
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 8,
+      "wordCount": 682
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 20,
+      "wordCount": 682
+    },
+    {
+      "hilchot": "Human Dispositions",
+      "book": "Sefer Madda",
+      "chapter": 1,
+      "wordCount": 680
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 1,
+      "wordCount": 680
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 13,
+      "wordCount": 680
+    },
+    {
+      "hilchot": "Admission into the Sanctuary",
+      "book": "Sefer Avodah",
+      "chapter": 9,
+      "wordCount": 679
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 7,
+      "wordCount": 679
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 11,
+      "wordCount": 679
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 13,
+      "wordCount": 677
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 11,
+      "wordCount": 677
+    },
+    {
+      "hilchot": "Vessels of the Sanctuary and Those Who Serve Therein",
+      "book": "Sefer Avodah",
+      "chapter": 8,
+      "wordCount": 676
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 4,
+      "wordCount": 676
+    },
+    {
+      "hilchot": "Torah Study",
+      "book": "Sefer Madda",
+      "chapter": 4,
+      "wordCount": 675
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 13,
+      "wordCount": 675
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 10,
+      "wordCount": 675
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 10,
+      "wordCount": 675
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 9,
+      "wordCount": 675
+    },
+    {
+      "hilchot": "Reading the Shema",
+      "book": "Sefer Ahavah",
+      "chapter": 1,
+      "wordCount": 673
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 1,
+      "wordCount": 672
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 9,
+      "wordCount": 672
+    },
+    {
+      "hilchot": "Vessels of the Sanctuary and Those Who Serve Therein",
+      "book": "Sefer Avodah",
+      "chapter": 10,
+      "wordCount": 671
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 2,
+      "wordCount": 670
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 11,
+      "wordCount": 669
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 1,
+      "wordCount": 669
+    },
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 6,
+      "wordCount": 668
+    },
+    {
+      "hilchot": "Sheqel Dues",
+      "book": "Sefer Zemanim",
+      "chapter": 2,
+      "wordCount": 668
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 16,
+      "wordCount": 668
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 2,
+      "wordCount": 668
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 2,
+      "wordCount": 667
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 2,
+      "wordCount": 666
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 3,
+      "wordCount": 666
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 8,
+      "wordCount": 666
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 1,
+      "wordCount": 665
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 5,
+      "wordCount": 665
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 9,
+      "wordCount": 665
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 1,
+      "wordCount": 664
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 15,
+      "wordCount": 664
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 6,
+      "wordCount": 664
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 11,
+      "wordCount": 664
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 4,
+      "wordCount": 663
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 7,
+      "wordCount": 663
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 2,
+      "wordCount": 663
+    },
+    {
+      "hilchot": "The Chosen Temple",
+      "book": "Sefer Avodah",
+      "chapter": 6,
+      "wordCount": 662
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 19,
+      "wordCount": 662
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 8,
+      "wordCount": 662
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 15,
+      "wordCount": 662
+    },
+    {
+      "hilchot": "Things Forbidden on the Altar",
+      "book": "Sefer Avodah",
+      "chapter": 1,
+      "wordCount": 661
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 5,
+      "wordCount": 661
+    },
+    {
+      "hilchot": "Leavened and Unleavened Bread",
+      "book": "Sefer Zemanim",
+      "chapter": 6,
+      "wordCount": 659
+    },
+    {
+      "hilchot": "Trespass",
+      "book": "Sefer Avodah",
+      "chapter": 7,
+      "wordCount": 659
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 10,
+      "wordCount": 659
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 13,
+      "wordCount": 658
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 6,
+      "wordCount": 658
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 14,
+      "wordCount": 658
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 21,
+      "wordCount": 658
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 6,
+      "wordCount": 657
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 11,
+      "wordCount": 657
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 8,
+      "wordCount": 656
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 6,
+      "wordCount": 656
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 10,
+      "wordCount": 655
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 3,
+      "wordCount": 655
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 6,
+      "wordCount": 655
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 5,
+      "wordCount": 654
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 16,
+      "wordCount": 654
+    },
+    {
+      "hilchot": "Service on the Day of Atonement",
+      "book": "Sefer Avodah",
+      "chapter": 1,
+      "wordCount": 653
+    },
+    {
+      "hilchot": "Trespass",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "wordCount": 653
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 8,
+      "wordCount": 653
+    },
+    {
+      "hilchot": "Borrowing and Deposit",
+      "book": "Sefer Mishpatim",
+      "chapter": 1,
+      "wordCount": 653
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 3,
+      "wordCount": 652
+    },
+    {
+      "hilchot": "Diverse Species",
+      "book": "Sefer Zeraim",
+      "chapter": 2,
+      "wordCount": 651
+    },
+    {
+      "hilchot": "Rebels",
+      "book": "Sefer Shoftim",
+      "chapter": 2,
+      "wordCount": 651
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 8,
+      "wordCount": 650
+    },
+    {
+      "hilchot": "Vessels of the Sanctuary and Those Who Serve Therein",
+      "book": "Sefer Avodah",
+      "chapter": 9,
+      "wordCount": 649
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 3,
+      "wordCount": 649
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 8,
+      "wordCount": 648
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 18,
+      "wordCount": 647
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 6,
+      "wordCount": 647
+    },
+    {
+      "hilchot": "The Chosen Temple",
+      "book": "Sefer Avodah",
+      "chapter": 3,
+      "wordCount": 646
+    },
+    {
+      "hilchot": "Admission into the Sanctuary",
+      "book": "Sefer Avodah",
+      "chapter": 7,
+      "wordCount": 646
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 5,
+      "wordCount": 646
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 23,
+      "wordCount": 645
+    },
+    {
+      "hilchot": "Diverse Species",
+      "book": "Sefer Zeraim",
+      "chapter": 6,
+      "wordCount": 643
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 9,
+      "wordCount": 643
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 1,
+      "wordCount": 642
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 8,
+      "wordCount": 641
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 20,
+      "wordCount": 641
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 11,
+      "wordCount": 641
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 8,
+      "wordCount": 639
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 25,
+      "wordCount": 639
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 3,
+      "wordCount": 638
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 5,
+      "wordCount": 638
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 16,
+      "wordCount": 638
+    },
+    {
+      "hilchot": "Foundations of the Torah",
+      "book": "Sefer Madda",
+      "chapter": 10,
+      "wordCount": 637
+    },
+    {
+      "hilchot": "Trespass",
+      "book": "Sefer Avodah",
+      "chapter": 3,
+      "wordCount": 637
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 12,
+      "wordCount": 637
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 7,
+      "wordCount": 637
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 13,
+      "wordCount": 636
+    },
+    {
+      "hilchot": "Trespass",
+      "book": "Sefer Avodah",
+      "chapter": 5,
+      "wordCount": 636
+    },
+    {
+      "hilchot": "Firstlings",
+      "book": "Sefer Korbanot",
+      "chapter": 6,
+      "wordCount": 636
+    },
+    {
+      "hilchot": "Theft",
+      "book": "Sefer Nezikim",
+      "chapter": 5,
+      "wordCount": 636
+    },
+    {
+      "hilchot": "Human Dispositions",
+      "book": "Sefer Madda",
+      "chapter": 7,
+      "wordCount": 635
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 4,
+      "wordCount": 635
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 3,
+      "wordCount": 634
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 2,
+      "wordCount": 633
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 3,
+      "wordCount": 632
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 3,
+      "wordCount": 632
+    },
+    {
+      "hilchot": "Leavened and Unleavened Bread",
+      "book": "Sefer Zemanim",
+      "chapter": 3,
+      "wordCount": 631
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 6,
+      "wordCount": 630
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 2,
+      "wordCount": 628
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 18,
+      "wordCount": 628
+    },
+    {
+      "hilchot": "Diverse Species",
+      "book": "Sefer Zeraim",
+      "chapter": 8,
+      "wordCount": 627
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 3,
+      "wordCount": 627
+    },
+    {
+      "hilchot": "Trespass",
+      "book": "Sefer Avodah",
+      "chapter": 1,
+      "wordCount": 626
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 10,
+      "wordCount": 626
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 12,
+      "wordCount": 625
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 16,
+      "wordCount": 625
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 12,
+      "wordCount": 625
+    },
+    {
+      "hilchot": "Rebels",
+      "book": "Sefer Shoftim",
+      "chapter": 5,
+      "wordCount": 625
+    },
+    {
+      "hilchot": "Scroll of Esther and Hanukkah",
+      "book": "Sefer Zemanim",
+      "chapter": 4,
+      "wordCount": 624
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 5,
+      "wordCount": 624
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 7,
+      "wordCount": 622
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 14,
+      "wordCount": 621
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 2,
+      "wordCount": 621
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 9,
+      "wordCount": 620
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 13,
+      "wordCount": 618
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 13,
+      "wordCount": 615
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 2,
+      "wordCount": 615
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 12,
+      "wordCount": 614
+    },
+    {
+      "hilchot": "Firstlings",
+      "book": "Sefer Korbanot",
+      "chapter": 3,
+      "wordCount": 614
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 9,
+      "wordCount": 614
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 3,
+      "wordCount": 614
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 1,
+      "wordCount": 614
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 1,
+      "wordCount": 614
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 17,
+      "wordCount": 613
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 21,
+      "wordCount": 613
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 9,
+      "wordCount": 612
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 3,
+      "wordCount": 612
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 10,
+      "wordCount": 612
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 8,
+      "wordCount": 612
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 10,
+      "wordCount": 612
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 7,
+      "wordCount": 611
+    },
+    {
+      "hilchot": "One Who Injures a Person or Property",
+      "book": "Sefer Nezikim",
+      "chapter": 5,
+      "wordCount": 611
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 3,
+      "wordCount": 611
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 7,
+      "wordCount": 611
+    },
+    {
+      "hilchot": "Virgin Maiden",
+      "book": "Sefer Nashim",
+      "chapter": 3,
+      "wordCount": 610
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 12,
+      "wordCount": 610
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 6,
+      "wordCount": 609
+    },
+    {
+      "hilchot": "Gifts to the Poor",
+      "book": "Sefer Zeraim",
+      "chapter": 7,
+      "wordCount": 608
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 2,
+      "wordCount": 608
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 13,
+      "wordCount": 608
+    },
+    {
+      "hilchot": "Diverse Species",
+      "book": "Sefer Zeraim",
+      "chapter": 9,
+      "wordCount": 607
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 1,
+      "wordCount": 607
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 9,
+      "wordCount": 607
+    },
+    {
+      "hilchot": "Leavened and Unleavened Bread",
+      "book": "Sefer Zemanim",
+      "chapter": 4,
+      "wordCount": 606
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 9,
+      "wordCount": 606
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 11,
+      "wordCount": 606
+    },
+    {
+      "hilchot": "Theft",
+      "book": "Sefer Nezikim",
+      "chapter": 4,
+      "wordCount": 605
+    },
+    {
+      "hilchot": "Borrowing and Deposit",
+      "book": "Sefer Mishpatim",
+      "chapter": 6,
+      "wordCount": 605
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 4,
+      "wordCount": 604
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 12,
+      "wordCount": 604
+    },
+    {
+      "hilchot": "Theft",
+      "book": "Sefer Nezikim",
+      "chapter": 9,
+      "wordCount": 603
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 6,
+      "wordCount": 603
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 10,
+      "wordCount": 603
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 7,
+      "wordCount": 602
+    },
+    {
+      "hilchot": "Vessels of the Sanctuary and Those Who Serve Therein",
+      "book": "Sefer Avodah",
+      "chapter": 3,
+      "wordCount": 602
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 3,
+      "wordCount": 602
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 22,
+      "wordCount": 602
+    },
+    {
+      "hilchot": "Trespass",
+      "book": "Sefer Avodah",
+      "chapter": 2,
+      "wordCount": 601
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 20,
+      "wordCount": 601
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 9,
+      "wordCount": 601
+    },
+    {
+      "hilchot": "Festival Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 1,
+      "wordCount": 600
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 1,
+      "wordCount": 600
+    },
+    {
+      "hilchot": "Theft",
+      "book": "Sefer Nezikim",
+      "chapter": 8,
+      "wordCount": 600
+    },
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 2,
+      "wordCount": 599
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 7,
+      "wordCount": 599
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 9,
+      "wordCount": 599
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 8,
+      "wordCount": 598
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 1,
+      "wordCount": 597
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 13,
+      "wordCount": 597
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 4,
+      "wordCount": 596
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 12,
+      "wordCount": 592
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 12,
+      "wordCount": 591
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 17,
+      "wordCount": 591
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 1,
+      "wordCount": 590
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 10,
+      "wordCount": 589
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 12,
+      "wordCount": 589
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 4,
+      "wordCount": 589
+    },
+    {
+      "hilchot": "Rebels",
+      "book": "Sefer Shoftim",
+      "chapter": 3,
+      "wordCount": 589
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 8,
+      "wordCount": 588
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 7,
+      "wordCount": 588
+    },
+    {
+      "hilchot": "Torah Study",
+      "book": "Sefer Madda",
+      "chapter": 7,
+      "wordCount": 587
+    },
+    {
+      "hilchot": "Things Forbidden on the Altar",
+      "book": "Sefer Avodah",
+      "chapter": 7,
+      "wordCount": 587
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 11,
+      "wordCount": 587
+    },
+    {
+      "hilchot": "Tefillin, Mezuzah and the Torah Scroll",
+      "book": "Sefer Ahavah",
+      "chapter": 5,
+      "wordCount": 586
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 12,
+      "wordCount": 586
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 8,
+      "wordCount": 585
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 24,
+      "wordCount": 585
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 5,
+      "wordCount": 585
+    },
+    {
+      "hilchot": "Borrowing and Deposit",
+      "book": "Sefer Mishpatim",
+      "chapter": 7,
+      "wordCount": 585
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 7,
+      "wordCount": 584
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 17,
+      "wordCount": 584
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 24,
+      "wordCount": 584
+    },
+    {
+      "hilchot": "Agents and Partners",
+      "book": "Sefer Kinyan",
+      "chapter": 4,
+      "wordCount": 584
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 7,
+      "wordCount": 582
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 10,
+      "wordCount": 582
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 16,
+      "wordCount": 582
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 20,
+      "wordCount": 581
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 7,
+      "wordCount": 581
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 8,
+      "wordCount": 581
+    },
+    {
+      "hilchot": "Trespass",
+      "book": "Sefer Avodah",
+      "chapter": 8,
+      "wordCount": 580
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 9,
+      "wordCount": 579
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 8,
+      "wordCount": 579
+    },
+    {
+      "hilchot": "Things Forbidden on the Altar",
+      "book": "Sefer Avodah",
+      "chapter": 5,
+      "wordCount": 575
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 15,
+      "wordCount": 575
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 12,
+      "wordCount": 575
+    },
+    {
+      "hilchot": "Vows",
+      "book": "Sefer Haflaah",
+      "chapter": 4,
+      "wordCount": 574
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 23,
+      "wordCount": 574
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 12,
+      "wordCount": 574
+    },
+    {
+      "hilchot": "Sheqel Dues",
+      "book": "Sefer Zemanim",
+      "chapter": 4,
+      "wordCount": 572
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 6,
+      "wordCount": 571
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 5,
+      "wordCount": 571
+    },
+    {
+      "hilchot": "Foundations of the Torah",
+      "book": "Sefer Madda",
+      "chapter": 9,
+      "wordCount": 570
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 7,
+      "wordCount": 569
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 14,
+      "wordCount": 568
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 10,
+      "wordCount": 568
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 13,
+      "wordCount": 568
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 5,
+      "wordCount": 567
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 18,
+      "wordCount": 567
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 2,
+      "wordCount": 566
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 7,
+      "wordCount": 565
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 20,
+      "wordCount": 565
+    },
+    {
+      "hilchot": "Fasts",
+      "book": "Sefer Zemanim",
+      "chapter": 3,
+      "wordCount": 564
+    },
+    {
+      "hilchot": "Things Forbidden on the Altar",
+      "book": "Sefer Avodah",
+      "chapter": 6,
+      "wordCount": 564
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 25,
+      "wordCount": 564
+    },
+    {
+      "hilchot": "Vessels of the Sanctuary and Those Who Serve Therein",
+      "book": "Sefer Avodah",
+      "chapter": 2,
+      "wordCount": 562
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 1,
+      "wordCount": 562
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 8,
+      "wordCount": 562
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 1,
+      "wordCount": 561
+    },
+    {
+      "hilchot": "Slaves",
+      "book": "Sefer Kinyan",
+      "chapter": 9,
+      "wordCount": 561
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 4,
+      "wordCount": 559
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 7,
+      "wordCount": 558
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 18,
+      "wordCount": 558
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 12,
+      "wordCount": 557
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 15,
+      "wordCount": 556
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 6,
+      "wordCount": 554
+    },
+    {
+      "hilchot": "Rest on the Tenth of Tishrei",
+      "book": "Sefer Zemanim",
+      "chapter": 2,
+      "wordCount": 552
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 25,
+      "wordCount": 552
+    },
+    {
+      "hilchot": "Circumcision",
+      "book": "Sefer Ahavah",
+      "chapter": 2,
+      "wordCount": 550
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 19,
+      "wordCount": 550
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 12,
+      "wordCount": 550
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 18,
+      "wordCount": 550
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 3,
+      "wordCount": 549
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 17,
+      "wordCount": 549
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 1,
+      "wordCount": 549
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 6,
+      "wordCount": 548
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 5,
+      "wordCount": 548
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 5,
+      "wordCount": 547
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 4,
+      "wordCount": 545
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 16,
+      "wordCount": 544
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 27,
+      "wordCount": 544
+    },
+    {
+      "hilchot": "Theft",
+      "book": "Sefer Nezikim",
+      "chapter": 7,
+      "wordCount": 544
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 19,
+      "wordCount": 544
+    },
+    {
+      "hilchot": "Admission into the Sanctuary",
+      "book": "Sefer Avodah",
+      "chapter": 2,
+      "wordCount": 540
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 6,
+      "wordCount": 540
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 9,
+      "wordCount": 539
+    },
+    {
+      "hilchot": "Firstlings",
+      "book": "Sefer Korbanot",
+      "chapter": 5,
+      "wordCount": 537
+    },
+    {
+      "hilchot": "Robbery and Lost Property",
+      "book": "Sefer Nezikim",
+      "chapter": 16,
+      "wordCount": 537
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 10,
+      "wordCount": 537
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 14,
+      "wordCount": 537
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 10,
+      "wordCount": 535
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 5,
+      "wordCount": 535
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 11,
+      "wordCount": 533
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 4,
+      "wordCount": 533
+    },
+    {
+      "hilchot": "One Who Injures a Person or Property",
+      "book": "Sefer Nezikim",
+      "chapter": 3,
+      "wordCount": 532
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 6,
+      "wordCount": 532
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 23,
+      "wordCount": 532
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 25,
+      "wordCount": 531
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 7,
+      "wordCount": 531
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 14,
+      "wordCount": 529
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 14,
+      "wordCount": 528
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 16,
+      "wordCount": 528
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 13,
+      "wordCount": 527
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 4,
+      "wordCount": 526
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 26,
+      "wordCount": 526
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 4,
+      "wordCount": 526
+    },
+    {
+      "hilchot": "Circumcision",
+      "book": "Sefer Ahavah",
+      "chapter": 3,
+      "wordCount": 525
+    },
+    {
+      "hilchot": "Foundations of the Torah",
+      "book": "Sefer Madda",
+      "chapter": 8,
+      "wordCount": 524
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 6,
+      "wordCount": 523
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 22,
+      "wordCount": 523
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 16,
+      "wordCount": 523
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 21,
+      "wordCount": 521
+    },
+    {
+      "hilchot": "Leavened and Unleavened Bread",
+      "book": "Sefer Zemanim",
+      "chapter": 1,
+      "wordCount": 520
+    },
+    {
+      "hilchot": "Human Dispositions",
+      "book": "Sefer Madda",
+      "chapter": 3,
+      "wordCount": 519
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 1,
+      "wordCount": 519
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 7,
+      "wordCount": 519
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 4,
+      "wordCount": 519
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 6,
+      "wordCount": 519
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 13,
+      "wordCount": 519
+    },
+    {
+      "hilchot": "First Fruits and other Gifts to Priests Outside the Sanctuary",
+      "book": "Sefer Zeraim",
+      "chapter": 8,
+      "wordCount": 518
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 15,
+      "wordCount": 518
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 11,
+      "wordCount": 516
+    },
+    {
+      "hilchot": "Slaves",
+      "book": "Sefer Kinyan",
+      "chapter": 6,
+      "wordCount": 516
+    },
+    {
+      "hilchot": "Appraisals and Devoted Property",
+      "book": "Sefer Haflaah",
+      "chapter": 2,
+      "wordCount": 513
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 6,
+      "wordCount": 513
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 26,
+      "wordCount": 512
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 18,
+      "wordCount": 512
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 1,
+      "wordCount": 511
+    },
+    {
+      "hilchot": "Forbidden Intercourse",
+      "book": "Sefer Kedushah",
+      "chapter": 16,
+      "wordCount": 510
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 23,
+      "wordCount": 510
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 11,
+      "wordCount": 510
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 8,
+      "wordCount": 509
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 10,
+      "wordCount": 508
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 7,
+      "wordCount": 507
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 7,
+      "wordCount": 507
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 8,
+      "wordCount": 507
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 7,
+      "wordCount": 505
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 20,
+      "wordCount": 505
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 2,
+      "wordCount": 503
+    },
+    {
+      "hilchot": "Foundations of the Torah",
+      "book": "Sefer Madda",
+      "chapter": 6,
+      "wordCount": 502
+    },
+    {
+      "hilchot": "Shofar, Sukkah and Lulav",
+      "book": "Sefer Zemanim",
+      "chapter": 2,
+      "wordCount": 499
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 14,
+      "wordCount": 499
+    },
+    {
+      "hilchot": "Defilement by Leprosy",
+      "book": "Sefer Taharah",
+      "chapter": 2,
+      "wordCount": 498
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 11,
+      "wordCount": 498
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 4,
+      "wordCount": 498
+    },
+    {
+      "hilchot": "Daily Offerings and Additional Offerings",
+      "book": "Sefer Avodah",
+      "chapter": 1,
+      "wordCount": 497
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 15,
+      "wordCount": 497
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 8,
+      "wordCount": 497
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 13,
+      "wordCount": 496
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 2,
+      "wordCount": 495
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 18,
+      "wordCount": 495
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 7,
+      "wordCount": 495
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 9,
+      "wordCount": 495
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 10,
+      "wordCount": 493
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 2,
+      "wordCount": 492
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 10,
+      "wordCount": 491
+    },
+    {
+      "hilchot": "Borrowing and Deposit",
+      "book": "Sefer Mishpatim",
+      "chapter": 2,
+      "wordCount": 490
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 2,
+      "wordCount": 489
+    },
+    {
+      "hilchot": "Repentance",
+      "book": "Sefer Madda",
+      "chapter": 10,
+      "wordCount": 488
+    },
+    {
+      "hilchot": "Red Heifer",
+      "book": "Sefer Taharah",
+      "chapter": 2,
+      "wordCount": 488
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 27,
+      "wordCount": 488
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 8,
+      "wordCount": 484
+    },
+    {
+      "hilchot": "Admission into the Sanctuary",
+      "book": "Sefer Avodah",
+      "chapter": 6,
+      "wordCount": 484
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 15,
+      "wordCount": 484
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 4,
+      "wordCount": 484
+    },
+    {
+      "hilchot": "Borrowing and Deposit",
+      "book": "Sefer Mishpatim",
+      "chapter": 8,
+      "wordCount": 484
+    },
+    {
+      "hilchot": "Marriage",
+      "book": "Sefer Nashim",
+      "chapter": 8,
+      "wordCount": 483
+    },
+    {
+      "hilchot": "Firstlings",
+      "book": "Sefer Korbanot",
+      "chapter": 7,
+      "wordCount": 482
+    },
+    {
+      "hilchot": "Immersion Pools",
+      "book": "Sefer Taharah",
+      "chapter": 7,
+      "wordCount": 482
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 13,
+      "wordCount": 482
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 11,
+      "wordCount": 482
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 12,
+      "wordCount": 481
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 7,
+      "wordCount": 480
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 13,
+      "wordCount": 480
+    },
+    {
+      "hilchot": "Slaves",
+      "book": "Sefer Kinyan",
+      "chapter": 7,
+      "wordCount": 478
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 14,
+      "wordCount": 477
+    },
+    {
+      "hilchot": "Rebels",
+      "book": "Sefer Shoftim",
+      "chapter": 1,
+      "wordCount": 477
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 3,
+      "wordCount": 475
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 7,
+      "wordCount": 474
+    },
+    {
+      "hilchot": "Creditor and Debtor",
+      "book": "Sefer Mishpatim",
+      "chapter": 10,
+      "wordCount": 469
+    },
+    {
+      "hilchot": "Offerings for Unintentional Transgressions",
+      "book": "Sefer Korbanot",
+      "chapter": 12,
+      "wordCount": 468
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 4,
+      "wordCount": 468
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 3,
+      "wordCount": 468
+    },
+    {
+      "hilchot": "Second Tithes and Fourth Year's Fruit",
+      "book": "Sefer Zeraim",
+      "chapter": 5,
+      "wordCount": 467
+    },
+    {
+      "hilchot": "Defilement of Foods",
+      "book": "Sefer Taharah",
+      "chapter": 14,
+      "wordCount": 467
+    },
+    {
+      "hilchot": "Ownerless Property and Gifts",
+      "book": "Sefer Kinyan",
+      "chapter": 5,
+      "wordCount": 467
+    },
+    {
+      "hilchot": "Damages to Property",
+      "book": "Sefer Nezikim",
+      "chapter": 11,
+      "wordCount": 466
+    },
+    {
+      "hilchot": "Paschal Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 5,
+      "wordCount": 465
+    },
+    {
+      "hilchot": "Ritual Slaughter",
+      "book": "Sefer Kedushah",
+      "chapter": 5,
+      "wordCount": 464
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 26,
+      "wordCount": 464
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 5,
+      "wordCount": 463
+    },
+    {
+      "hilchot": "Foreign Worship and Customs of the Nations",
+      "book": "Sefer Madda",
+      "chapter": 10,
+      "wordCount": 462
+    },
+    {
+      "hilchot": "Shofar, Sukkah and Lulav",
+      "book": "Sefer Zemanim",
+      "chapter": 1,
+      "wordCount": 459
+    },
+    {
+      "hilchot": "Rest on the Tenth of Tishrei",
+      "book": "Sefer Zemanim",
+      "chapter": 3,
+      "wordCount": 458
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 6,
+      "wordCount": 458
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 17,
+      "wordCount": 456
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 3,
+      "wordCount": 455
+    },
+    {
+      "hilchot": "Rest on the Tenth of Tishrei",
+      "book": "Sefer Zemanim",
+      "chapter": 1,
+      "wordCount": 454
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 4,
+      "wordCount": 451
+    },
+    {
+      "hilchot": "Festival Offering",
+      "book": "Sefer Korbanot",
+      "chapter": 3,
+      "wordCount": 451
+    },
+    {
+      "hilchot": "Blessings",
+      "book": "Sefer Ahavah",
+      "chapter": 9,
+      "wordCount": 449
+    },
+    {
+      "hilchot": "Kings and Wars",
+      "book": "Sefer Shoftim",
+      "chapter": 4,
+      "wordCount": 449
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 12,
+      "wordCount": 448
+    },
+    {
+      "hilchot": "Sheqel Dues",
+      "book": "Sefer Zemanim",
+      "chapter": 1,
+      "wordCount": 446
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 10,
+      "wordCount": 446
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 9,
+      "wordCount": 445
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 7,
+      "wordCount": 444
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 7,
+      "wordCount": 443
+    },
+    {
+      "hilchot": "The Chosen Temple",
+      "book": "Sefer Avodah",
+      "chapter": 8,
+      "wordCount": 443
+    },
+    {
+      "hilchot": "Offerings for Those with Incomplete Atonement",
+      "book": "Sefer Korbanot",
+      "chapter": 5,
+      "wordCount": 442
+    },
+    {
+      "hilchot": "Prayer and the Priestly Blessing",
+      "book": "Sefer Ahavah",
+      "chapter": 3,
+      "wordCount": 441
+    },
+    {
+      "hilchot": "Hiring",
+      "book": "Sefer Mishpatim",
+      "chapter": 13,
+      "wordCount": 441
+    },
+    {
+      "hilchot": "Reading the Shema",
+      "book": "Sefer Ahavah",
+      "chapter": 4,
+      "wordCount": 440
+    },
+    {
+      "hilchot": "Fringes",
+      "book": "Sefer Ahavah",
+      "chapter": 2,
+      "wordCount": 440
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 13,
+      "wordCount": 440
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 4,
+      "wordCount": 438
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 6,
+      "wordCount": 438
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 2,
+      "wordCount": 438
+    },
+    {
+      "hilchot": "Heave Offerings",
+      "book": "Sefer Zeraim",
+      "chapter": 9,
+      "wordCount": 435
+    },
+    {
+      "hilchot": "Oaths",
+      "book": "Sefer Haflaah",
+      "chapter": 3,
+      "wordCount": 432
+    },
+    {
+      "hilchot": "Vessels of the Sanctuary and Those Who Serve Therein",
+      "book": "Sefer Avodah",
+      "chapter": 6,
+      "wordCount": 432
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 6,
+      "wordCount": 432
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 3,
+      "wordCount": 431
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 8,
+      "wordCount": 431
+    },
+    {
+      "hilchot": "Neighbors",
+      "book": "Sefer Kinyan",
+      "chapter": 14,
+      "wordCount": 431
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 10,
+      "wordCount": 430
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 10,
+      "wordCount": 428
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 1,
+      "wordCount": 427
+    },
+    {
+      "hilchot": "Sabbatical Year and the Jubilee",
+      "book": "Sefer Zeraim",
+      "chapter": 3,
+      "wordCount": 426
+    },
+    {
+      "hilchot": "Substitution",
+      "book": "Sefer Korbanot",
+      "chapter": 3,
+      "wordCount": 426
+    },
+    {
+      "hilchot": "Plaintiff and Defendant",
+      "book": "Sefer Mishpatim",
+      "chapter": 10,
+      "wordCount": 423
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 11,
+      "wordCount": 418
+    },
+    {
+      "hilchot": "Offerings for Those with Incomplete Atonement",
+      "book": "Sefer Korbanot",
+      "chapter": 3,
+      "wordCount": 418
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 17,
+      "wordCount": 418
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 1,
+      "wordCount": 417
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 5,
+      "wordCount": 416
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 19,
+      "wordCount": 416
+    },
+    {
+      "hilchot": "Borrowing and Deposit",
+      "book": "Sefer Mishpatim",
+      "chapter": 3,
+      "wordCount": 415
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 8,
+      "wordCount": 403
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 10,
+      "wordCount": 399
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 11,
+      "wordCount": 399
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 17,
+      "wordCount": 395
+    },
+    {
+      "hilchot": "Diverse Species",
+      "book": "Sefer Zeraim",
+      "chapter": 1,
+      "wordCount": 389
+    },
+    {
+      "hilchot": "Sacrificial Procedure",
+      "book": "Sefer Avodah",
+      "chapter": 15,
+      "wordCount": 389
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 7,
+      "wordCount": 386
+    },
+    {
+      "hilchot": "Offerings for Those with Incomplete Atonement",
+      "book": "Sefer Korbanot",
+      "chapter": 4,
+      "wordCount": 385
+    },
+    {
+      "hilchot": "Defilement by a Corpse",
+      "book": "Sefer Taharah",
+      "chapter": 14,
+      "wordCount": 379
+    },
+    {
+      "hilchot": "Murderer and the Preservation of Life",
+      "book": "Sefer Nezikim",
+      "chapter": 10,
+      "wordCount": 379
+    },
+    {
+      "hilchot": "Sacrifices Rendered Unfit",
+      "book": "Sefer Avodah",
+      "chapter": 7,
+      "wordCount": 373
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 17,
+      "wordCount": 373
+    },
+    {
+      "hilchot": "Mourning",
+      "book": "Sefer Shoftim",
+      "chapter": 7,
+      "wordCount": 372
+    },
+    {
+      "hilchot": "Sanctification of the New Month",
+      "book": "Sefer Zemanim",
+      "chapter": 10,
+      "wordCount": 369
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 8,
+      "wordCount": 366
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 22,
+      "wordCount": 362
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 9,
+      "wordCount": 355
+    },
+    {
+      "hilchot": "Substitution",
+      "book": "Sefer Korbanot",
+      "chapter": 2,
+      "wordCount": 350
+    },
+    {
+      "hilchot": "Vessels",
+      "book": "Sefer Taharah",
+      "chapter": 28,
+      "wordCount": 347
+    },
+    {
+      "hilchot": "Sabbath",
+      "book": "Sefer Zemanim",
+      "chapter": 4,
+      "wordCount": 346
+    },
+    {
+      "hilchot": "Sales",
+      "book": "Sefer Kinyan",
+      "chapter": 30,
+      "wordCount": 344
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 15,
+      "wordCount": 343
+    },
+    {
+      "hilchot": "Testimony",
+      "book": "Sefer Shoftim",
+      "chapter": 2,
+      "wordCount": 341
+    },
+    {
+      "hilchot": "Those Who Defile Bed or Seat",
+      "book": "Sefer Taharah",
+      "chapter": 9,
+      "wordCount": 335
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 8,
+      "wordCount": 335
+    },
+    {
+      "hilchot": "Theft",
+      "book": "Sefer Nezikim",
+      "chapter": 6,
+      "wordCount": 332
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 10,
+      "wordCount": 331
+    },
+    {
+      "hilchot": "Torah Study",
+      "book": "Sefer Madda",
+      "chapter": 2,
+      "wordCount": 323
+    },
+    {
+      "hilchot": "Other Sources of Defilement",
+      "book": "Sefer Taharah",
+      "chapter": 19,
+      "wordCount": 314
+    },
+    {
+      "hilchot": "The Sanhedrin and the Penalties within Their Jurisdiction",
+      "book": "Sefer Shoftim",
+      "chapter": 9,
+      "wordCount": 296
+    },
+    {
+      "hilchot": "Tithes",
+      "book": "Sefer Zeraim",
+      "chapter": 14,
+      "wordCount": 281
+    },
+    {
+      "hilchot": "Inheritances",
+      "book": "Sefer Mishpatim",
+      "chapter": 8,
+      "wordCount": 263
+    }
+  ]
+}
