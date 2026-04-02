@@ -72,6 +72,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Home Page: Updated Subtitle & Card Layout</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Updated subtitle to reflect all five available works: <em>Babylonian Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh</em> — replacing the previous text that only mentioned Talmud and Hebrew Bible</li>
+                <li>Redesigned the text selection section with a featured layout: Babylonian Talmud displayed as a prominent full-height card on the left, with the remaining four works in a 2×2 grid on the right</li>
+                <li>Card order in the grid: Tanakh and Mishnah (top row), Jerusalem Talmud and Mishneh Torah (bottom row)</li>
+                <li>Mishneh Torah description updated from "83 Hilchot" to "83 Books" for clarity</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishneh Torah (Rambam) Reader</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added a full <strong>Mishneh Torah (Rambam) reader</strong> at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/rambam</code> — all 14 books and 83 Books ('Hilchot') with bilingual Hebrew-English text (Touger translation via Sefaria)</li>
