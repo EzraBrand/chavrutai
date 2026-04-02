@@ -237,6 +237,10 @@ export default function RambamChapter() {
         if (headerRow) headerRow.remove();
       });
 
+      tempDiv.querySelectorAll('.mt-4.pt-3.border-t').forEach(el => el.remove());
+
+      tempDiv.querySelectorAll('sup[data-note-ref]').forEach(el => el.remove());
+
       const textDisplays = tempDiv.querySelectorAll('.text-display');
       textDisplays.forEach(display => {
         const englishCol = display.querySelector('.lg\\:order-1');

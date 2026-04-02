@@ -324,6 +324,16 @@ export default function YerushalmiChapter() {
         if (headerRow) headerRow.remove();
       });
 
+      const halakhahDividers = tempDiv.querySelectorAll('.tracking-wide.uppercase');
+      halakhahDividers.forEach(divider => {
+        const row = divider.closest('.flex.items-center.gap-3');
+        if (row) row.remove();
+      });
+
+      tempDiv.querySelectorAll('.mt-4.pt-3.border-t').forEach(el => el.remove());
+
+      tempDiv.querySelectorAll('sup[data-note-ref]').forEach(el => el.remove());
+
       const textDisplays = tempDiv.querySelectorAll('.text-display');
       textDisplays.forEach(display => {
         const englishCol = display.querySelector('.lg\\:order-1');
