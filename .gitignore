@@ -97,3 +97,6 @@ analysis/
 
 # Mockup and prototype artifacts
 artifacts/scripts/blogpost-longest-chapters.md
+
+# PDF files
+*.pdf
