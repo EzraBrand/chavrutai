@@ -30,3 +30,9 @@ id = "rpEeSTWD0E0TKLpC4FZta"
 uri = "file://competitive-analysis.pdf"
 type = "pdf"
 title = "ChavrutAI Competitive Analysis Report"
+
+[[outputs]]
+id = "3YY7tM-7BnXCFvHwjugxm"
+uri = "file://scripts/blogpost-longest-chapters.md"
+type = "text"
+title = "Blog Post: Longest Chapters in Yerushalmi and Rambam"
