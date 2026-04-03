@@ -75,8 +75,8 @@ export default function Changelog() {
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishneh Torah: Introduction (Hakdamah)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added Maimonides' Introduction (Transmission of the Oral Law) as a fully integrated text in the Rambam reader</li>
-                <li>Appears as its own section at the top of the Mishneh Torah contents page, before Sefer Madda</li>
-                <li>45 paragraphs of bilingual Hebrew-English text covering the chain of Torah transmission from Sinai</li>
+                <li>Added List of Positive Commandments (248 mitzvot) and List of Negative Commandments (365 mitzvot)</li>
+                <li>All three appear in a new "Introduction" section at the top of the Mishneh Torah contents page, before Sefer Madda</li>
               </ul>
             </div>
 

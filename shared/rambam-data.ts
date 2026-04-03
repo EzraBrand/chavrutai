@@ -22,6 +22,32 @@ export const RAMBAM_INTRODUCTION: RambamHilchot = {
   isFlat: true,
 };
 
+export const RAMBAM_PREFATORY: RambamHilchot[] = [
+  RAMBAM_INTRODUCTION,
+  {
+    displayName: "Positive Mitzvot",
+    hebrewName: "מצוות עשה",
+    chapters: 1,
+    book: "Introduction",
+    sefaria: "Mishneh Torah, Positive Mitzvot",
+    slug: "Positive_Mitzvot",
+    alHatorah: null,
+    wikisourceHebrew: "",
+    isFlat: true,
+  },
+  {
+    displayName: "Negative Mitzvot",
+    hebrewName: "מצוות לא תעשה",
+    chapters: 1,
+    book: "Introduction",
+    sefaria: "Mishneh Torah, Negative Mitzvot",
+    slug: "Negative_Mitzvot",
+    alHatorah: null,
+    wikisourceHebrew: "",
+    isFlat: true,
+  },
+];
+
 export interface RambamBook {
   name: string;
   hebrewName: string;
@@ -199,7 +225,9 @@ export const RAMBAM_BOOKS: RambamBook[] = [
 ];
 
 const _slugToHilchot = new Map<string, RambamHilchot>();
-_slugToHilchot.set(RAMBAM_INTRODUCTION.slug.toLowerCase(), RAMBAM_INTRODUCTION);
+for (const prefatory of RAMBAM_PREFATORY) {
+  _slugToHilchot.set(prefatory.slug.toLowerCase(), prefatory);
+}
 for (const book of RAMBAM_BOOKS) {
   for (const h of book.hilchot) {
     _slugToHilchot.set(h.slug.toLowerCase(), h);

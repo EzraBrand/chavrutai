@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
-import { RAMBAM_BOOKS, RAMBAM_INTRODUCTION } from "@shared/rambam-data";
+import { RAMBAM_BOOKS, RAMBAM_PREFATORY } from "@shared/rambam-data";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
 export default function RambamContents() {
@@ -76,21 +76,7 @@ export default function RambamContents() {
             </button>
             {prefaceOpen && (
               <div className="mt-2 pl-4 space-y-1 text-muted-foreground">
-                <p>Some prefatory material can be found on Sefaria:</p>
-                <ul className="space-y-1 mt-1">
-                  <li>
-                    <a href="https://www.sefaria.org/Mishneh_Torah,_Overview_of_Mishneh_Torah_Contents" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Overview of Contents</a>
-                    {' '}— the mitzvot covered in each section
-                  </li>
-                  <li>
-                    <a href="https://www.sefaria.org/Mishneh_Torah,_Positive_Mitzvot" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">List of Positive Commandments</a>
-                    {' '}(248)
-                  </li>
-                  <li>
-                    <a href="https://www.sefaria.org/Mishneh_Torah,_Negative_Mitzvot" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">List of Negative Commandments</a>
-                    {' '}(365)
-                  </li>
-                </ul>
+                <p>The <a href="https://www.sefaria.org/Mishneh_Torah,_Overview_of_Mishneh_Torah_Contents" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Overview of Contents</a> (the mitzvot covered in each section) can be found on Sefaria.</p>
               </div>
             )}
           </div>
@@ -118,19 +104,18 @@ export default function RambamContents() {
               <p className="text-base text-primary/70 font-hebrew">הקדמה</p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-              <Link href={`/rambam/${RAMBAM_INTRODUCTION.slug}/1`}>
-                <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">
-                  <div className="p-3">
-                    <div className="text-primary font-medium text-sm leading-snug">{RAMBAM_INTRODUCTION.displayName}</div>
-                    <div className="text-sm text-primary/70 font-hebrew mt-0.5">
-                      {RAMBAM_INTRODUCTION.hebrewName}
+              {RAMBAM_PREFATORY.map((item) => (
+                <Link key={item.slug} href={`/rambam/${item.slug}/1`}>
+                  <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">
+                    <div className="p-3">
+                      <div className="text-primary font-medium text-sm leading-snug">{item.displayName}</div>
+                      <div className="text-sm text-primary/70 font-hebrew mt-0.5">
+                        {item.hebrewName}
+                      </div>
                     </div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      The chain of Torah transmission from Sinai
-                    </div>
-                  </div>
-                </Card>
-              </Link>
+                  </Card>
+                </Link>
+              ))}
             </div>
           </div>
 

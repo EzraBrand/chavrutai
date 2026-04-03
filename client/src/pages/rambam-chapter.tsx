@@ -355,6 +355,8 @@ export default function RambamChapter() {
   const hasPrev = chapterNum > 1;
   const hasNext = chapterNum < info.chapters;
   const isIntroduction = !!info.isFlat;
+  const isMitzvotList = info.slug.includes('Mitzvot');
+  const sectionLabel = isMitzvotList ? 'Mitzvah' : isIntroduction ? 'Paragraph' : 'Halacha';
 
   const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
 
@@ -448,14 +450,14 @@ export default function RambamChapter() {
           <div className="space-y-6">
             {processedSections.length > 1 && (
               <>
-                <p className="text-center text-xs text-muted-foreground mb-1">Jump to {isIntroduction ? 'paragraph' : 'halacha'}:</p>
+                <p className="text-center text-xs text-muted-foreground mb-1">Jump to {sectionLabel.toLowerCase()}:</p>
                 <div className="flex flex-wrap gap-2 justify-center py-3">
                   {processedSections.map((_, i) => (
                     <a
                       key={i + 1}
                       href={`#${i + 1}`}
                       className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
-                      title={`Go to ${isIntroduction ? 'Paragraph' : 'Halacha'} ${i + 1}`}
+                      title={`Go to ${sectionLabel} ${i + 1}`}
                     >
                       {i + 1}
                     </a>
@@ -497,12 +499,12 @@ export default function RambamChapter() {
                       >
                         <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
                           <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
-                            {isIntroduction ? 'Paragraph' : 'Halacha'} {index + 1}
+                            {sectionLabel} {index + 1}
                           </span>
                           <button
                             onClick={() => copySectionUrl(index + 1)}
                             className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
-                            title={`Copy link to ${isIntroduction ? 'Paragraph' : 'Halacha'} ${index + 1}`}
+                            title={`Copy link to ${sectionLabel} ${index + 1}`}
                           >
                             {copiedSection === index + 1 ? (
                               <>
@@ -519,7 +521,7 @@ export default function RambamChapter() {
                             target="_blank"
                             rel="nofollow noopener noreferrer"
                             className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
-                            title={`View ${isIntroduction ? 'Paragraph' : 'Halacha'} ${index + 1} on Sefaria`}
+                            title={`View ${sectionLabel} ${index + 1} on Sefaria`}
                           >
                             Sefaria
                             <ExternalLinkIcon className="w-3 h-3" />
