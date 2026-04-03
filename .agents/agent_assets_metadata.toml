@@ -42,3 +42,9 @@ id = "aNiRkKYGkWjTGWZ3425cG"
 uri = "file://scripts/wordcount-analysis.tar.gz"
 type = "unspecified"
 title = "Wordcount Analysis — Scripts, Results & Blog Post"
+
+[[outputs]]
+id = "MNyNTK1DX67pnmjwvnn9B"
+uri = "file://docs/text-processing-refactor-brainstorm.md"
+type = "text"
+title = "Text Processing Refactor — Research & Ideas"
