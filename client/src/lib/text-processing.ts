@@ -229,9 +229,13 @@ export function processRambamHebrewText(text: string): string {
   let processed = removeNikud(text);
 
   processed = processed
+    .replace(/כיצד\./g, 'כיצד?');
+
+  processed = processed
     .replace(/[ \t]+/g, ' ')
     .replace(/\n[ \t]+/g, '\n')
     .replace(/[ \t]+\n/g, '\n')
+    .replace(/:$/, '.')
     .trim();
 
   return processed;
