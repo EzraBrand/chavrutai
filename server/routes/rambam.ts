@@ -114,6 +114,10 @@ export function createRambamRouter(): Router {
           .replace(/<b>to the Mishneh Torah<\/b>/, '');
       }
 
+      if (info.isFlat && englishSections.length > hebrewSections.length) {
+        englishSections.length = hebrewSections.length;
+      }
+
       const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
 
       res.json({
