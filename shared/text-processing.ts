@@ -222,6 +222,13 @@ export function splitHebrewText(text: string): string {
     protectedClusters.push(match);
     return `___PROTECTED_${protectedClusters.length - 1}___`;
   });
+
+  // STEP 3d: Protect parenthetical verse citations from being split at commas
+  // e.g. "(שמות כד, יב)" or "(דברים יג, א)" should stay on one line
+  processedText = processedText.replace(/\([^)]{2,40}\)/g, (match) => {
+    protectedClusters.push(match);
+    return `___PROTECTED_${protectedClusters.length - 1}___`;
+  });
   
   // STEP 4: Split after unwrapped Mishnah/Gemara markers
   // These are the markers without HTML wrapping

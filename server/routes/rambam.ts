@@ -109,7 +109,9 @@ export function createRambamRouter(): Router {
       const englishSections: string[] = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
 
       if (info.isFlat && englishSections.length > 0) {
-        englishSections[0] = englishSections[0].replace(/<b>The Rambam's Introduction<\/b>/, '');
+        englishSections[0] = englishSections[0]
+          .replace(/<b>The Rambam's Introduction<\/b>/, '')
+          .replace(/<b>to the Mishneh Torah<\/b>/, '');
       }
 
       const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
