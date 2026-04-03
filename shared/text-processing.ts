@@ -81,7 +81,7 @@ const EXCLAIM_NOT_QUESTION_PATTERN = /(?<!\?)\!(?!״)/g;
 
 // English processing patterns
 const RABBI_VOCATIVE_PATTERN = /\bRabbi,/g;
-const RABBI_GENERAL_PATTERN = /\bRabbi(?![!s])/g;
+const RABBI_GENERAL_PATTERN = /\bRabbi(?![!\w])/g;
 const BARAITA_REDUNDANT_PATTERN = /(A baraita states)(<\/(?:b|strong)>)?\s+in a(?:\s+|(?:\s*<(?:i|em)>))baraita(?:<\/(?:i|em)>)?/gi;
 const SON_OF_PATTERN = /,\s*(?:the\s+)?(?:son of|father-in-law of|father of|brother of)\s+[^,;:.]+,?/gi;
 const MISHNA_GEMARA_ENG_PATTERN = /<strong[^>]*>(MISHNA|GEMARA):<\/strong>/gi;
@@ -320,7 +320,7 @@ export function processHebrewTextCore(text: string): string {
  * 
  * ## SPECIAL CASES
  * - "Rabbi," (vocative with comma) → "Rabbi!" (exclamation for direct address)
- * - "Rabbis" (plural) is preserved, not replaced
+ * - "Rabbis", "Rabbinic", etc. (any word starting with Rabbi) are preserved, not replaced
  * - Punctuation-terminated terms: "Master of the Universe," includes the comma
  * 
  * @param text - English text to process
@@ -359,7 +359,7 @@ export function replaceTerms(text: string): string {
   // STEP 1: Handle Rabbi special cases first (complex logic, not in combined pattern)
   // "Rabbi," (vocative) → "Rabbi!" to mark direct address
   processedText = processedText.replace(RABBI_VOCATIVE_PATTERN, 'Rabbi!');
-  // "Rabbi X" → "R' X" but NOT "Rabbis" (negative lookahead for 's')
+  // "Rabbi X" → "R' X" but NOT "Rabbis", "Rabbinic", etc. (negative lookahead for word chars)
   processedText = processedText.replace(RABBI_GENERAL_PATTERN, "R'");
   
   // STEP 2: Single-pass replacement for all terms from JSON config
