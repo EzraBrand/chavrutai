@@ -106,7 +106,11 @@ export function createRambamRouter(): Router {
 
       const sefariaData = await response.json();
       const hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
-      const englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+      const englishSections: string[] = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+
+      if (info.isFlat && englishSections.length > 0) {
+        englishSections[0] = englishSections[0].replace(/<b>The Rambam's Introduction<\/b>/, '');
+      }
 
       const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
 

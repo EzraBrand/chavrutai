@@ -214,6 +214,14 @@ export function splitHebrewText(text: string): string {
     protectedClusters.push(match);
     return `___PROTECTED_${protectedClusters.length - 1}___`;
   });
+
+  // STEP 3c: Protect spaced ellipses (". . ." or ". . . .") from being split
+  // Rambam introduction uses ". . ." inside quoted verses; without protection
+  // each dot+space becomes a separate line
+  processedText = processedText.replace(/(?:\.\s){2,}\./g, (match) => {
+    protectedClusters.push(match);
+    return `___PROTECTED_${protectedClusters.length - 1}___`;
+  });
   
   // STEP 4: Split after unwrapped Mishnah/Gemara markers
   // These are the markers without HTML wrapping

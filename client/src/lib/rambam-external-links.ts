@@ -23,15 +23,17 @@ export function getRambamSectionLinks(hilchotSlug: string, chapter: number, hala
     });
   }
 
-  const hebrewChapter = numberToHebrewGematria(chapter);
-  const hebrewHalacha = numberToHebrewGematria(halacha);
-  const wikisourcePage = `רמב"ם_הלכות_${info.wikisourceHebrew}_${hebrewChapter}_${hebrewHalacha}`;
-  links.push({
-    name: 'Wikisource',
-    url: `https://he.wikisource.org/wiki/${encodeURIComponent(wikisourcePage)}`,
-    type: 'section',
-    description: `Hebrew Wikisource – ${info.displayName} ${chapter}:${halacha}`,
-  });
+  if (!info.isFlat) {
+    const hebrewChapter = numberToHebrewGematria(chapter);
+    const hebrewHalacha = numberToHebrewGematria(halacha);
+    const wikisourcePage = `רמב"ם_הלכות_${info.wikisourceHebrew}_${hebrewChapter}_${hebrewHalacha}`;
+    links.push({
+      name: 'Wikisource',
+      url: `https://he.wikisource.org/wiki/${encodeURIComponent(wikisourcePage)}`,
+      type: 'section',
+      description: `Hebrew Wikisource – ${info.displayName} ${chapter}:${halacha}`,
+    });
+  }
 
   return links;
 }
@@ -59,14 +61,16 @@ export function getRambamChapterLinks(hilchotSlug: string, chapter: number): Ram
     });
   }
 
-  const hebrewChapter = numberToHebrewGematria(chapter);
-  const wikisourcePage = `רמב"ם_הלכות_${info.wikisourceHebrew}_${hebrewChapter}`;
-  links.push({
-    name: 'Wikisource',
-    url: `https://he.wikisource.org/wiki/${encodeURIComponent(wikisourcePage)}`,
-    type: 'chapter',
-    description: 'View this chapter on Hebrew Wikisource',
-  });
+  if (!info.isFlat) {
+    const hebrewChapter = numberToHebrewGematria(chapter);
+    const wikisourcePage = `רמב"ם_הלכות_${info.wikisourceHebrew}_${hebrewChapter}`;
+    links.push({
+      name: 'Wikisource',
+      url: `https://he.wikisource.org/wiki/${encodeURIComponent(wikisourcePage)}`,
+      type: 'chapter',
+      description: 'View this chapter on Hebrew Wikisource',
+    });
+  }
 
   return links;
 }
