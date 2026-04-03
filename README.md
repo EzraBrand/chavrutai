@@ -136,7 +136,19 @@ client/src/
 client/public/
   data/chapters/    — JSON files for 37 tractates (chapter/outline data)
 server/
-  routes.ts         — API endpoints (talmud, bible, dictionary, blog, sitemap)
+  routes.ts         — slim orchestrator: imports and mounts all route modules
+  routes/           — domain-focused route modules:
+    seo.ts          — crawler detection, meta tags, structured data
+    talmud.ts       — Talmud text, tractates, chapters
+    mishnah.ts      — Mishnah tractates, info, chapter text
+    yerushalmi.ts   — Yerushalmi tractates, info, chapter text
+    rambam.ts       — Rambam info, chapter text
+    bible.ts        — Bible books, chapters, text
+    dictionary.ts   — dictionary search, browse, autosuggest
+    chat.ts         — AI chat streaming
+    search.ts       — full-text search
+    feed.ts         — RSS feeds, Daf Yomi
+    sitemap-*.ts    — XML sitemap generators
   storage.ts        — storage interface + in-memory implementation
 shared/
   schema.ts         — Drizzle DB schema + Zod insert schemas

@@ -72,6 +72,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Backend: Route Module Refactoring</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Refactored the server routing layer from a single 3,000-line file into 10 focused, domain-specific modules for improved maintainability</li>
+                <li>Organized routes by domain: Talmud, Mishnah, Yerushalmi, Rambam, Bible, Dictionary, Chat, Search, Feed, and SEO/Crawler</li>
+                <li>No changes to any API endpoints or functionality — purely an internal code quality improvement</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Home Page: Updated Subtitle & Card Layout</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Updated subtitle to reflect all five available works: <em>Babylonian Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh</em> — replacing the previous text that only mentioned Talmud and Hebrew Bible</li>
