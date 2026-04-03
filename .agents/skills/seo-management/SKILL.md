@@ -8,7 +8,7 @@ description: Add, modify, or audit SEO meta titles, descriptions, Open Graph tag
 ChavrutAI is a server-side-rendered SPA. SEO data lives in **two places that must stay in sync**:
 
 1. **Client-side** — `useSEO()` hook in each page component (updates `document.title` and meta tags after React hydrates)
-2. **Server-side** — `generateServerSideMetaTags()` in `server/routes.ts` (injects meta into HTML for crawlers before JS loads)
+2. **Server-side** — `generateServerSideMetaTags()` in `server/routes/seo.ts` (injects meta into HTML for crawlers before JS loads)
 
 Both systems must produce identical titles, descriptions, and OG tags for the same URL. If they diverge, crawlers see one thing and users see another.
 
@@ -19,10 +19,10 @@ Both systems must produce identical titles, descriptions, and OG tags for the sa
 | File | Purpose |
 |------|---------|
 | `client/src/hooks/use-seo.ts` | `useSEO()` hook + `generateSEOData` helpers for common page types |
-| `server/routes.ts` | `generateServerSideMetaTags()` — server-side meta for crawlers |
-| `server/routes.ts` | `generateServerSideStructuredData()` — JSON-LD for crawlers |
-| `server/routes.ts` | `generateCrawlerBodyContent()` — visible HTML body for crawlers |
-| `server/routes.ts` | `servePageWithMeta()` — middleware that reads template, injects meta |
+| `server/routes/seo.ts` | `generateServerSideMetaTags()` — server-side meta for crawlers |
+| `server/routes/seo.ts` | `generateServerSideStructuredData()` — JSON-LD for crawlers |
+| `server/routes/seo.ts` | `generateCrawlerBodyContent()` — visible HTML body for crawlers |
+| `server/routes/seo.ts` | `servePageWithMeta()` — middleware that reads template, injects meta |
 | `client/index.html` | Static fallback meta (homepage defaults) |
 
 ### How it works
@@ -67,7 +67,7 @@ export default function MyPage() {
 
 ### Step 2: Server-side meta in `generateServerSideMetaTags()`
 
-Add a new `else if` branch in `server/routes.ts`:
+Add a new `else if` branch in `server/routes/seo.ts`:
 
 ```ts
 } else if (pathname === '/my-page') {

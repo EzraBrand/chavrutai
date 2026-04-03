@@ -19,7 +19,7 @@ The Jastrow Dictionary is a modernized web presentation of Marcus Jastrow's *Dic
 |---|---|
 | `client/src/pages/dictionary.tsx` | Main UI component, text processing (abbreviation expansion, paragraph splitting, copy handler) |
 | `client/src/data/jastrow-mappings.json` | Abbreviation → full-name mapping dictionary (tractates, books, grammatical terms, etc.) |
-| `server/routes.ts` (lines ~2200–2248) | Three API endpoints: `/api/dictionary/search`, `/api/dictionary/browse`, `/api/dictionary/autosuggest` |
+| `server/routes/dictionary.ts` | Three API endpoints: `/api/dictionary/search`, `/api/dictionary/browse`, `/api/dictionary/autosuggest` |
 | `server/storage.ts` (class `SefariaAPI`, lines ~129–464) | Backend logic: `searchEntries()`, `browseByLetter()`, `getAutosuggest()`, `flattenSenses()`, `transformHyperlinks()` |
 | `shared/schema.ts` | Zod schemas: `dictionaryEntrySchema`, `searchRequestSchema`, `browseRequestSchema`, `autosuggestRequestSchema` |
 

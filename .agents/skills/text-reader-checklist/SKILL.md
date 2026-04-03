@@ -28,7 +28,7 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
 - Bible: `shared/bible-books.ts` (TORAH_BOOKS, NEVIIM_BOOKS, KETUVIM_BOOKS, getBookBySlug)
 - Mishnah: `shared/tractates.ts` (MISHNAH_ONLY_TRACTATES, MISHNAH_URL_MAP, getMishnahTractateSlug)
 
-## 2. API Endpoints (`server/routes.ts`)
+## 2. API Endpoints (`server/routes/<corpus>.ts`)
 
 - [ ] **Text fetch endpoint** — `GET /api/<corpus>/:tractate/:chapter` (or similar):
   1. Check local storage/cache (`storage.getText`)
@@ -106,7 +106,7 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
   - `structuredData`: Client-side JSON-LD (Article, CollectionPage, or Book)
 - [ ] **generateSEOData helper** — Add corpus-specific functions to `generateSEOData` object in `use-seo.ts`
 
-## 7. SEO: Server-Side Meta Tags (`server/routes.ts`)
+## 7. SEO: Server-Side Meta Tags (`server/routes/seo.ts`)
 
 - [ ] **`generateServerSideMetaTags()`** — Add route matchers for:
   - `/<corpus>` — Index page meta
@@ -115,7 +115,7 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
 
 **Pattern:** Each branch sets `title`, `description`, `ogTitle`, `ogDescription`, `canonical`, `robots`.
 
-## 8. SEO: Server-Side Structured Data (`server/routes.ts`)
+## 8. SEO: Server-Side Structured Data (`server/routes/seo.ts`)
 
 - [ ] **`generateServerSideStructuredData()`** — Add JSON-LD for:
   - Index page: `CollectionPage` + `BreadcrumbList` + `Organization`
@@ -124,7 +124,7 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
 
 **Pattern:** All use `@graph` format with shared `organizationNode`. Breadcrumbs follow: Home > Corpus > Tractate > Chapter.
 
-## 9. SEO: Crawler Content (`server/routes.ts`)
+## 9. SEO: Crawler Content (`server/routes/seo.ts`)
 
 - [ ] **`generateCrawlerBodyContent()`** — Add route matchers that generate:
   - H1 heading with tractate/chapter name
@@ -147,7 +147,7 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
 - [ ] **Register route in `server/routes.ts`** — `app.get('/sitemap-<corpus>.xml', generate<Corpus>Sitemap)`
 - [ ] **Add index page to `sitemap-main.ts`** — Add `/<corpus>` to the main sitemap
 
-## 11. URL Normalization & Redirects (`server/routes.ts`)
+## 11. URL Normalization & Redirects (`server/routes.ts` orchestrator)
 
 - [ ] **Canonical URL format** — Decide on slug format (underscores vs hyphens, casing)
 - [ ] **Normalization middleware** — Add to the URL normalization block in `registerRoutes()`:
@@ -183,11 +183,11 @@ When adding a new primary text reader to ChavrutAI, every layer below must be im
 | Layer | New Files | Modified Files |
 |-------|-----------|----------------|
 | Shared data | `shared/<corpus>-data.ts` | `shared/tractates.ts` (if extending) |
-| API | — | `server/routes.ts` |
+| API | `server/routes/<corpus>.ts` | `server/routes.ts` (orchestrator) |
 | Client routes | — | `client/src/App.tsx` |
 | Pages | `client/src/pages/<corpus>-*.tsx` (3 files) | — |
 | SEO client | — | `client/src/hooks/use-seo.ts` |
-| SEO server | — | `server/routes.ts` (3 functions) |
+| SEO server | — | `server/routes/seo.ts` (3 functions) |
 | Sitemap | `server/routes/sitemap-<corpus>.ts` | `server/routes/sitemap-index.ts`, `server/routes/sitemap-main.ts`, `server/routes.ts` |
 | robots.txt | — | `client/public/robots.txt` |
 | Navigation | — | `client/src/pages/home.tsx`, `client/src/components/footer.tsx`, `client/src/pages/sitemap.tsx` |
