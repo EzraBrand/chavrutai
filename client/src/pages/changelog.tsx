@@ -72,6 +72,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishneh Torah: Introduction (Hakdamah)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added Maimonides' Introduction (Transmission of the Oral Law) as a fully integrated text in the Rambam reader</li>
+                <li>Appears as its own section at the top of the Mishneh Torah contents page, before Sefer Madda</li>
+                <li>45 paragraphs of bilingual Hebrew-English text covering the chain of Torah transmission from Sinai</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Backend: Route Module Refactoring</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Refactored the server routing layer from a single 3,000-line file into 10 focused, domain-specific modules for improved maintainability</li>

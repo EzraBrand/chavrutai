@@ -83,12 +83,17 @@ export default function RambamChapter() {
   const isStrictChapter = chapter ? /^\d+$/.test(chapter) : false;
   const isInvalidChapter = !isStrictChapter || (info && (isNaN(chapterNum) || chapterNum < 1 || chapterNum > info.chapters));
 
+  const isIntroSEO = info?.isFlat;
   useSEO({
     title: info && !isNaN(chapterNum)
-      ? `${info.displayName} Chapter ${chapterNum} - Mishneh Torah | ChavrutAI`
+      ? isIntroSEO
+        ? `${info.displayName} - Mishneh Torah | ChavrutAI`
+        : `${info.displayName} Chapter ${chapterNum} - Mishneh Torah | ChavrutAI`
       : "Mishneh Torah | ChavrutAI",
     description: info && !isNaN(chapterNum)
-      ? `Study Hilchot ${info.displayName} Chapter ${chapterNum} with parallel Hebrew-English text (Touger translation). Free on ChavrutAI.`
+      ? isIntroSEO
+        ? `Read Maimonides' Introduction (Hakdamah) to the Mishneh Torah — the chain of Torah transmission from Sinai. Bilingual Hebrew-English text on ChavrutAI.`
+        : `Study Hilchot ${info.displayName} Chapter ${chapterNum} with parallel Hebrew-English text (Touger translation). Free on ChavrutAI.`
       : "Study the Mishneh Torah with Hebrew-English text on ChavrutAI.",
     canonical: info && !isNaN(chapterNum)
       ? `${window.location.origin}/rambam/${info.slug}/${chapterNum}`
@@ -349,6 +354,7 @@ export default function RambamChapter() {
 
   const hasPrev = chapterNum > 1;
   const hasNext = chapterNum < info.chapters;
+  const isIntroduction = !!info.isFlat;
 
   const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
 
@@ -375,14 +381,16 @@ export default function RambamChapter() {
             <div className="flex-1 flex items-center justify-center min-w-0">
               <div className="text-center">
                 <Link
-                  href={`/rambam/${info.slug}`}
+                  href={isIntroduction ? `/rambam` : `/rambam/${info.slug}`}
                   className={`font-semibold text-primary hover:underline ${info.displayName.split(' ').length > 3 ? 'text-xs' : 'text-sm'}`}
                 >
                   {info.displayName}
                 </Link>
-                <div className="text-xs text-muted-foreground">
-                  Chapter {chapterNum} of {info.chapters}
-                </div>
+                {!isIntroduction && (
+                  <div className="text-xs text-muted-foreground">
+                    Chapter {chapterNum} of {info.chapters}
+                  </div>
+                )}
                 <div className="text-xs text-muted-foreground/70">Mishneh Torah</div>
               </div>
             </div>
@@ -402,10 +410,13 @@ export default function RambamChapter() {
       </header>
 
       <main className={`max-w-4xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont} layout-${preferences.layout}`}>
-        <h1 className="sr-only">Mishneh Torah {info.displayName} Chapter {chapterNum}</h1>
+        <h1 className="sr-only">Mishneh Torah {info.displayName}{isIntroduction ? '' : ` Chapter ${chapterNum}`}</h1>
 
         <BreadcrumbNavigation
-          items={[
+          items={isIntroduction ? [
+            { label: "Mishneh Torah", href: "/rambam" },
+            { label: info.displayName },
+          ] : [
             { label: "Mishneh Torah", href: "/rambam" },
             { label: info.book, href: `/rambam#${info.book.toLowerCase().replace(/\s+/g, '-')}` },
             { label: info.displayName, href: `/rambam/${info.slug}` },
@@ -437,14 +448,14 @@ export default function RambamChapter() {
           <div className="space-y-6">
             {processedSections.length > 1 && (
               <>
-                <p className="text-center text-xs text-muted-foreground mb-1">Jump to halacha:</p>
+                <p className="text-center text-xs text-muted-foreground mb-1">Jump to {isIntroduction ? 'paragraph' : 'halacha'}:</p>
                 <div className="flex flex-wrap gap-2 justify-center py-3">
                   {processedSections.map((_, i) => (
                     <a
                       key={i + 1}
                       href={`#${i + 1}`}
                       className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
-                      title={`Go to Halacha ${i + 1}`}
+                      title={`Go to ${isIntroduction ? 'Paragraph' : 'Halacha'} ${i + 1}`}
                     >
                       {i + 1}
                     </a>
@@ -486,12 +497,12 @@ export default function RambamChapter() {
                       >
                         <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
                           <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
-                            Halacha {index + 1}
+                            {isIntroduction ? 'Paragraph' : 'Halacha'} {index + 1}
                           </span>
                           <button
                             onClick={() => copySectionUrl(index + 1)}
                             className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-1 transition-colors"
-                            title={`Copy link to Halacha ${index + 1}`}
+                            title={`Copy link to ${isIntroduction ? 'Paragraph' : 'Halacha'} ${index + 1}`}
                           >
                             {copiedSection === index + 1 ? (
                               <>
@@ -508,7 +519,7 @@ export default function RambamChapter() {
                             target="_blank"
                             rel="nofollow noopener noreferrer"
                             className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
-                            title={`View Halacha ${index + 1} on Sefaria`}
+                            title={`View ${isIntroduction ? 'Paragraph' : 'Halacha'} ${index + 1} on Sefaria`}
                           >
                             Sefaria
                             <ExternalLinkIcon className="w-3 h-3" />

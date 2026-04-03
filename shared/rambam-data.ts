@@ -7,7 +7,20 @@ export interface RambamHilchot {
   slug: string;
   alHatorah: string | null;
   wikisourceHebrew: string;
+  isFlat?: boolean;
 }
+
+export const RAMBAM_INTRODUCTION: RambamHilchot = {
+  displayName: "Transmission of the Oral Law",
+  hebrewName: "מסירת תורה שבעל פה",
+  chapters: 1,
+  book: "Introduction",
+  sefaria: "Mishneh Torah, Transmission of the Oral Law",
+  slug: "Transmission_of_the_Oral_Law",
+  alHatorah: null,
+  wikisourceHebrew: "הקדמה_למשנה_תורה",
+  isFlat: true,
+};
 
 export interface RambamBook {
   name: string;
@@ -186,6 +199,7 @@ export const RAMBAM_BOOKS: RambamBook[] = [
 ];
 
 const _slugToHilchot = new Map<string, RambamHilchot>();
+_slugToHilchot.set(RAMBAM_INTRODUCTION.slug.toLowerCase(), RAMBAM_INTRODUCTION);
 for (const book of RAMBAM_BOOKS) {
   for (const h of book.hilchot) {
     _slugToHilchot.set(h.slug.toLowerCase(), h);

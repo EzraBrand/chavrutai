@@ -1,4 +1,5 @@
-import { useRoute, Link } from "wouter";
+import { useEffect } from "react";
+import { useRoute, Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,13 @@ export default function RambamTractate() {
   const [match, params] = useRoute("/rambam/:hilchot");
   const hilchotParam = params?.hilchot || "";
   const info = getRambamHilchotInfo(hilchotParam);
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (info?.isFlat) {
+      setLocation(`/rambam/${info.slug}/1`, { replace: true });
+    }
+  }, [info]);
 
   const { data: infoData, isLoading: isInfoLoading } = useQuery<RambamInfoData>({
     queryKey: ['/api/rambam', hilchotParam, 'info'],

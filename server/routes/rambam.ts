@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getRambamHilchotInfo } from "@shared/rambam-data";
+import { getRambamHilchotInfo, RAMBAM_INTRODUCTION } from "@shared/rambam-data";
 import { processHebrewTextCore as processHebrewText } from "@shared/text-processing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
@@ -43,8 +43,12 @@ export function createRambamRouter(): Router {
       const versions: SefariaVersion[] = Array.isArray(sefariaData.versions) ? sefariaData.versions : [];
       const heVersion = versions.find((v) => v.language === 'he');
       if (heVersion && Array.isArray(heVersion.text)) {
-        for (const chapter of heVersion.text) {
-          halachotPerChapter.push(Array.isArray(chapter) ? chapter.length : 0);
+        if (info.isFlat) {
+          halachotPerChapter.push(heVersion.text.length);
+        } else {
+          for (const chapter of heVersion.text) {
+            halachotPerChapter.push(Array.isArray(chapter) ? chapter.length : 0);
+          }
         }
       }
 
@@ -92,7 +96,7 @@ export function createRambamRouter(): Router {
       }
 
       const sefariaKey = info.sefaria.replace(/ /g, '_').replace(/,/g, ',');
-      const sefariaRef = `${sefariaKey}.${chapterNum}`;
+      const sefariaRef = info.isFlat ? sefariaKey : `${sefariaKey}.${chapterNum}`;
       const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0`);
 
       if (!response.ok) {
@@ -112,7 +116,7 @@ export function createRambamRouter(): Router {
         totalChapters: info.chapters,
         hebrewSections: processedHebrewSections,
         englishSections,
-        sefariaRef: info.sefaria + `.${chapterNum}`,
+        sefariaRef: info.isFlat ? info.sefaria : info.sefaria + `.${chapterNum}`,
         halachotCount: hebrewSections.length,
       });
     } catch (error) {
