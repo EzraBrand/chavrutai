@@ -229,34 +229,9 @@ export function processRambamHebrewText(text: string): string {
   let processed = removeNikud(text);
 
   processed = processed
-    .replace(/אומרים,/g, 'אומרים:')
-    .replace(/אומר,/g, 'אומר:')
-    .replace(/אמרו לו,/g, 'אמרו לו:')
-    .replace(/(אמרו להם\s+[^,\n]+),/g, '$1:')
-    .replace(/אמרו להם,/g, 'אמרו להם:')
-    .replace(/אמר להם,/g, 'אמר להם:')
-    .replace(/אמר לו רבי ([^,\n]+),/g, 'אמר לו רבי $1:')
-    .replace(/אמר רבי ([^,\n]+),/g, 'אמר רבי $1:')
-    .replace(/אמר לו,/g, 'אמר לו:')
-    .replace(/(אמר\s+[^,\n]+),/g, '$1:')
-    .replace(/אמר,/g, 'אמר:')
-    .replace(/ואלו הן,/g, 'ואלו הן:')
-    .replace(/(אלו\s+[^.\n]+)\./g, '$1:')
-    .replace(/זה הכלל,/g, 'זה הכלל:')
-    .replace(/(איזהו\s+[^,\n]+),/g, '$1?')
-    .replace(/(ואיזו היא\s+[^,\n]+),/g, '$1?')
-    .replace(/(מה בין\s+[^.\n]+)\./g, '$1?')
-    .replace(/(כיצד\s+[^,.\n]+)[,.]/g, '$1?')
-    .replace(/כיצד\./g, 'כיצד?')
-    .replace(/כיצד,/g, 'כיצד?')
-    .replace(/במה דברים אמורים,/g, 'במה דברים אמורים?')
-    .replace(/אימתי,/g, 'אימתי?');
-
-  processed = processed
     .replace(/[ \t]+/g, ' ')
     .replace(/\n[ \t]+/g, '\n')
     .replace(/[ \t]+\n/g, '\n')
-    .replace(/:$/, '.')
     .trim();
 
   return processed;
